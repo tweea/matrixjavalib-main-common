@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="male">男性</entry>
+	<entry key="female">女性</entry>
+
+	<entry key="yes">是</entry>
+	<entry key="no">否</entry>
+
+	<entry key="message">一双{0}</entry>
+</properties>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="gbk"?>
+<transport length="50">
+	<senders>
+		<target name="SysA" protocol="WMQ">
+			<properties name="hostname" value="192.168.1.234" />
+			<properties name="port" value="1414" />
+			<properties name="queueManagerName" value="TEST" />
+			<properties name="queueName" value="TEST" />
+			<properties name="ccsid" value="1208" />
+			<properties name="channelName" value="SVRCONN" />
+		</target>
+		<target name="SysB" protocol="TLQ">
+			<properties name="hostname" value="192.168.1.234" />
+			<properties name="port" value="10003" />
+			<properties name="QCU" value="QCU1" />
+			<properties name="queueName" value="lq1" />
+		</target>
+		<target name="SysC" protocol="HTTP">
+			<properties name="url" value="192.168.1.234" />
+		</target>
+		<target name="TransferrerFactoryTest" protocol="Test">
+			<properties name="hostname" value="192.168.1.234" />
+		</target>
+		<target name="NetworkSendWorkerTest" protocol="NetworkSendWorkerTest">
+			<properties name="hostname" value="192.168.1.234" />
+		</target>
+	</senders>
+	<receivers>
+		<receiver name="WMQ" protocol="WMQ">
+			<properties name="hostname" value="192.168.1.234" />
+			<properties name="port" value="1414" />
+			<properties name="queueManagerName" value="TEST" />
+			<properties name="queueName" value="TEST" />
+			<properties name="ccsid" value="1208" />
+			<properties name="channelName" value="SVRCONN" />
+		</receiver>
+		<receiver name="TLQ" protocol="TLQ">
+			<properties name="hostname" value="192.168.1.234" />
+			<properties name="port" value="10003" />
+			<properties name="QCU" value="QCU1" />
+			<properties name="queueName" value="sq1" />
+		</receiver>
+		<receiver name="HTTP" protocol="HTTP">
+			<properties name="sizeThreshold" value="4096" />
+			<properties name="tmpdir" value="10003" />
+			<properties name="maxSize" value="800000000" />
+		</receiver>
+		<receiver name="Test" protocol="Test">
+			<properties name="hostname" value="192.168.1.234" />
+			<properties name="port" value="10003" />
+			<properties name="QCU" value="QCU1" />
+			<properties name="queueName" value="sq1" />
+		</receiver>
+	</receivers>
+	<protocols>
+		<protocol name="WMQ">
+			<send factory="com.foobar.wmq.MQTransferrerFactory" />
+			<daemon factory="com.foobar.daemon.ThreadReceiveDaemon" />
+			<receive factory="com.foobar.wmq.MQTransferrerFactory" />
+		</protocol>
+		<protocol name="TLQ">
+			<send factory="MQ" />
+			<daemon factory="com.foobar.daemon.DummyReceiveDaemon" />
+			<receive factory="MQ" />
+		</protocol>
+		<protocol name="HTTP">
+			<send factory="com.foobar.http.HttpTransferrerFactory" />
+			<daemon factory="com.foobar.daemon.DummyReceiveDaemon" />
+			<receive factory="com.foobar.http.HttpTransferrerFactory" />
+		</protocol>
+		<protocol name="NetworkSendWorkerTest">
+			<send factory="com.foobar.MyTransferrerFactory" />
+			<daemon factory="com.foobar.daemon.DummyReceiveDaemon" />
+			<receive factory="com.foobar.MyTransferrerFactory" />
+		</protocol>
+		<protocol name="Test">
+			<send factory="com.foobar.MyTransferrerFactory" />
+			<daemon factory="com.foobar.daemon.DummyReceiveDaemon" />
+			<receive factory="com.foobar.MyTransferrerFactory" />
+		</protocol>
+	</protocols>
+</transport>

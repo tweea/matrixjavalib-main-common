@@ -1,0 +1,10 @@
+/*
+ * $Id: package-info.java 346 2012-03-11 13:24:56Z tweea $
+ * Copyright(C) 2008 Matrix
+ * All right reserved.
+ */
+/**
+ * Helper utilities for the java.io API.
+ */
+package net.matrix.io;
+
