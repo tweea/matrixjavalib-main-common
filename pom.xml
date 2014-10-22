@@ -146,12 +146,12 @@
 
 	<!-- 构建环境 -->
 	<issueManagement>
-		<system>Google Code</system>
-		<url>http://code.google.com/p/matrixjavalib/issues/list</url>
+		<system>GitHub</system>
+		<url>https://github.com/tweea/matrixjavalib-main-common/issues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:svn:http://matrixjavalib.googlecode.com/svn/main/trunk/lib-common</connection>
-		<developerConnection>scm:svn:https://matrixjavalib.googlecode.com/svn/main/trunk/lib-common</developerConnection>
-		<url>http://code.google.com/p/matrixjavalib/source/browse/main/trunk/lib-common</url>
+		<connection>scm:git:https://github.com/tweea/matrixjavalib-main-common.git</connection>
+		<developerConnection>scm:git:https://github.com/tweea/matrixjavalib-main-common.git</developerConnection>
+		<url>https://github.com/tweea/matrixjavalib-main-common</url>
 	</scm>
 </project>
