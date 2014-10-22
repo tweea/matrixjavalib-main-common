@@ -1,5 +1,4 @@
 /*
- * $Id: DelimitedStringTest.java 682 2013-09-04 08:07:49Z tweea@263.net $
  * Copyright(C) 2011 matrix
  * All right reserved.
  */

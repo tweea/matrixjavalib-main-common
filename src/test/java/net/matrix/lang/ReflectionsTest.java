@@ -1,5 +1,4 @@
 /*
- * $Id: ReflectionsTest.java 801 2013-12-26 06:28:45Z tweea@263.net $
  * Copyright(C) 2011 Matrix
  * All right reserved.
  */

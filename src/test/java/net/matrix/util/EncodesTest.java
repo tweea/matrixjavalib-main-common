@@ -1,5 +1,4 @@
 /*
- * $Id: EncodesTest.java 686 2013-09-04 09:01:06Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

@@ -1,5 +1,4 @@
 /*
- * $Id: AuthorizationException.java 424 2012-06-07 06:37:56Z tweea $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

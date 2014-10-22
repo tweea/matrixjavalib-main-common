@@ -1,5 +1,4 @@
 /*
- * $Id: ThreadsTest.java 336 2012-03-11 04:01:56Z tweea $
  * Copyright(C) 2011 Matrix
  * All right reserved.
  */

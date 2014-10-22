@@ -1,5 +1,4 @@
 /*
- * $Id: Encodes.java 942 2014-04-16 14:51:01Z tweea@263.net $
  * Copyright(C) 2011 Matrix
  * All right reserved.
  */

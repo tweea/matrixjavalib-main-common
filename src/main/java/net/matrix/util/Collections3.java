@@ -1,5 +1,4 @@
 /*
- * $Id: Collections3.java 550 2013-03-06 08:32:21Z tweea $
  * Copyright(C) 2011 Matrix
  * All right reserved.
  */

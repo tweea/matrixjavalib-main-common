@@ -1,5 +1,4 @@
 /*
- * $Id: TreeSource.java 681 2013-09-04 07:24:10Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

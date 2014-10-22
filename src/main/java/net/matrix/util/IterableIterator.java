@@ -1,5 +1,4 @@
 /*
- * $Id: IterableIterator.java 664 2013-08-30 09:24:05Z tweea@263.net $
  * Copyright(C) 2011 Matrix
  * All right reserved.
  */

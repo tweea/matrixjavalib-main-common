@@ -1,5 +1,4 @@
 /*
- * $Id: Threads.java 883 2014-01-22 07:55:37Z tweea@263.net $
  * Copyright(C) 2011 Matrix
  * All right reserved.
  */

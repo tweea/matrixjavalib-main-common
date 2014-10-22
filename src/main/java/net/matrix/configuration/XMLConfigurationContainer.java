@@ -1,5 +1,4 @@
 /*
- * $Id: XMLConfigurationContainer.java 886 2014-01-22 08:31:03Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

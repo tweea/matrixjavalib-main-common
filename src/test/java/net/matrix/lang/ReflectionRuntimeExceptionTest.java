@@ -1,5 +1,4 @@
 /*
- * $Id: ReflectionRuntimeExceptionTest.java 582 2013-03-08 02:52:38Z tweea $
  * 版权所有 2013 Matrix。
  * 保留所有权利。
  */

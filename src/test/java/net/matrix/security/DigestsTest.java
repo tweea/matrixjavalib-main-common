@@ -1,5 +1,4 @@
 /*
- * $Id: DigestsTest.java 373 2012-04-25 06:28:51Z tweea $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

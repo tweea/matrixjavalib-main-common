@@ -1,5 +1,4 @@
 /*
- * $Id: LocalesTest.java 556 2013-03-06 09:25:08Z tweea $
  * 版权所有 2013 Matrix。
  * 保留所有权利。
  */

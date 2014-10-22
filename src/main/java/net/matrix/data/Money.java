@@ -1,5 +1,4 @@
 /*
- * $Id: Money.java 881 2014-01-22 06:01:36Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

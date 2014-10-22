@@ -1,5 +1,4 @@
 /*
- * $Id: Objects2.java 683 2013-09-04 08:19:39Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

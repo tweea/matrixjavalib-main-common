@@ -1,5 +1,4 @@
 /*
- * $Id: Strings2.java 684 2013-09-04 08:31:20Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

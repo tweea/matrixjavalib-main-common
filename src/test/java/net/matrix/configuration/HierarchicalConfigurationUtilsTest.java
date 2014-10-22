@@ -1,5 +1,4 @@
 /*
- * $Id: HierarchicalConfigurationUtilsTest.java 680 2013-09-04 06:36:26Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

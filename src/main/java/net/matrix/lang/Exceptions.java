@@ -1,5 +1,4 @@
 /*
- * $Id: Exceptions.java 942 2014-04-16 14:51:01Z tweea@263.net $
  * 版权所有 2013 Matrix。
  * 保留所有权利。
  */

@@ -1,5 +1,4 @@
 /*
- * $Id: ImpossibleException.java 556 2013-03-06 09:25:08Z tweea $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

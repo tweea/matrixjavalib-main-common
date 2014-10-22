@@ -1,5 +1,4 @@
 /*
- * $Id: MessageFormats.java 685 2013-09-04 08:53:35Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

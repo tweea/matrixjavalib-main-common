@@ -1,5 +1,4 @@
 /*
- * $Id: ConfigurationReloadingListener.java 541 2013-03-05 07:00:06Z tweea $
  * Copyright(C) 2009 matrix
  * All right reserved.
  */

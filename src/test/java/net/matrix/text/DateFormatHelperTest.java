@@ -1,5 +1,4 @@
 /*
- * $Id: DateFormatHelperTest.java 349 2012-03-11 16:22:44Z tweea $
  * Copyright(C) 2011 matrix
  * All right reserved.
  */

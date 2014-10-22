@@ -1,5 +1,4 @@
 /*
- * $Id: DefaultTree.java 885 2014-01-22 08:26:42Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

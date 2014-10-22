@@ -1,5 +1,4 @@
 /*
- * $Id: Tree.java 345 2012-03-11 12:02:25Z tweea $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

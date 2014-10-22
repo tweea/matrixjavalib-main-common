@@ -1,5 +1,4 @@
 /*
- * $Id: Objects2Test.java 683 2013-09-04 08:19:39Z tweea@263.net $
  * 版权所有 2013 Matrix。
  * 保留所有权利。
  */

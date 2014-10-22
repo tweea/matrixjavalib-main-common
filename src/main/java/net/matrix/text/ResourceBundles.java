@@ -1,5 +1,4 @@
 /*
- * $Id: ResourceBundles.java 961 2014-04-17 07:33:59Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

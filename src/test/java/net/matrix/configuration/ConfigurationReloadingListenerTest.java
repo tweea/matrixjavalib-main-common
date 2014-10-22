@@ -1,5 +1,4 @@
 /*
- * $Id: ConfigurationReloadingListenerTest.java 680 2013-09-04 06:36:26Z tweea@263.net $
  * Copyright(C) 2009 matrix
  * All right reserved.
  */

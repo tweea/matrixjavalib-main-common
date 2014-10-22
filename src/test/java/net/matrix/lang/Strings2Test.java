@@ -1,5 +1,4 @@
 /*
- * $Id: Strings2Test.java 684 2013-09-04 08:31:20Z tweea@263.net $
  * 版权所有 2013 Matrix。
  * 保留所有权利。
  */
