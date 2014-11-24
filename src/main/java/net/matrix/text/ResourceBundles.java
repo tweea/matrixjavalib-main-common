@@ -98,31 +98,35 @@ public final class ResourceBundles {
 			if ("xml".equals(format)) {
 				String bundleName = toBundleName(baseName, locale);
 				String resourceName = toResourceName(bundleName, format);
-				InputStream stream = null;
-				if (reload) {
-					URL url = loader.getResource(resourceName);
-					if (url != null) {
-						URLConnection connection = url.openConnection();
-						if (connection != null) {
-							// Disable caches to get fresh data for
-							// reloading.
-							connection.setUseCaches(false);
-							stream = connection.getInputStream();
-						}
-					}
-				} else {
-					stream = loader.getResourceAsStream(resourceName);
-				}
-				if (stream != null) {
-					BufferedInputStream bis = new BufferedInputStream(stream);
-					try {
+				try (InputStream is = getResourceAsStream(loader, reload, resourceName)) {
+					if (is != null) {
+						BufferedInputStream bis = new BufferedInputStream(is);
 						bundle = new XMLResourceBundle(bis);
-					} finally {
-						bis.close();
 					}
 				}
 			}
 			return bundle;
+		}
+
+		private InputStream getResourceAsStream(final ClassLoader loader, final boolean reload, final String resourceName)
+			throws IOException {
+			if (reload) {
+				URL url = loader.getResource(resourceName);
+				if (url == null) {
+					return null;
+				}
+
+				URLConnection connection = url.openConnection();
+				if (connection == null) {
+					return null;
+				}
+
+				// Disable caches to get fresh data for reloading.
+				connection.setUseCaches(false);
+				return connection.getInputStream();
+			} else {
+				return loader.getResourceAsStream(resourceName);
+			}
 		}
 	}
 
