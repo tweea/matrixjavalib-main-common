@@ -13,7 +13,7 @@ public final class Locales {
 	/**
 	 * 保存当前设定区域。
 	 */
-	private static ThreadLocal<Locale> currentHolder = new ThreadLocal<Locale>();
+	private static ThreadLocal<Locale> currentHolder = new ThreadLocal<>();
 
 	/**
 	 * 阻止实例化。

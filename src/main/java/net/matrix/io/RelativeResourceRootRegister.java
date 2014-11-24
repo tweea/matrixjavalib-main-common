@@ -34,7 +34,7 @@ public class RelativeResourceRootRegister {
 	 * 构造空的根注册。
 	 */
 	public RelativeResourceRootRegister() {
-		roots = new HashMap<String, Resource>();
+		roots = new HashMap<>();
 	}
 
 	/**

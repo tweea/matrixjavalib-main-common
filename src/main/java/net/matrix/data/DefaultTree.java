@@ -180,7 +180,7 @@ public class DefaultTree<ID, DATA>
 
 	@Override
 	public DefaultTree<ID, DATA> appendChildNode(final ID nodeId, final DATA nodeData) {
-		return new DefaultTree<ID, DATA>(this, nodeId, nodeData);
+		return new DefaultTree<>(this, nodeId, nodeData);
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class DefaultTree<ID, DATA>
 		if (node == null) {
 			return;
 		}
-		for (Key childKey : new HashSet<Key>(node.getChildNodes().keySet())) {
+		for (Key childKey : new HashSet<>(node.getChildNodes().keySet())) {
 			node.removeChildNode(childKey);
 		}
 		keyMap.remove(node.id);
@@ -383,7 +383,7 @@ public class DefaultTree<ID, DATA>
 	public static <ID, DATA> DefaultTree<ID, DATA> generate(final TreeSource<ID, DATA> source) {
 		ID rootId = source.getRootId();
 		DATA rootData = source.getItem(rootId);
-		DefaultTree<ID, DATA> tree = new DefaultTree<ID, DATA>(rootId, rootData);
+		DefaultTree<ID, DATA> tree = new DefaultTree<>(rootId, rootData);
 		generateSubNode(source, tree);
 		return tree;
 	}
@@ -409,7 +409,7 @@ public class DefaultTree<ID, DATA>
 			DATA item = source.getItem(id);
 			node.appendChildNode(id, item);
 		}
-		for (DefaultTree<ID, DATA> subNode : new ArrayList<DefaultTree<ID, DATA>>(node.getChildNodes().values())) {
+		for (DefaultTree<ID, DATA> subNode : new ArrayList<>(node.getChildNodes().values())) {
 			generateSubNode(source, subNode);
 		}
 	}

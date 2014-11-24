@@ -45,7 +45,7 @@ public final class HierarchicalConfigurationUtils {
 	 * @return {@code java.util.Map} 对象
 	 */
 	public static Map<String, String> parseParameter(final HierarchicalConfiguration config, final String subKey, final String nameKey, final String valueKey) {
-		Map<String, String> parameters = new HashMap<String, String>();
+		Map<String, String> parameters = new HashMap<>();
 		for (HierarchicalConfiguration subConfig : config.configurationsAt(subKey)) {
 			String name = subConfig.getString(nameKey);
 			String value = subConfig.getString(valueKey);
@@ -89,8 +89,8 @@ public final class HierarchicalConfigurationUtils {
 	 * @return {@code java.util.Map} 对象
 	 */
 	public static Map<String, String> parseAttributes(final HierarchicalConfiguration config) {
-		Map<String, String> parameters = new HashMap<String, String>();
-		for (String key : new IterableIterator<String>(config.getKeys())) {
+		Map<String, String> parameters = new HashMap<>();
+		for (String key : new IterableIterator<>(config.getKeys())) {
 			String value = config.getString(key);
 			parameters.put(key, value);
 		}
@@ -109,7 +109,7 @@ public final class HierarchicalConfigurationUtils {
 	 * @return 所有配置对象的名字列表
 	 */
 	public static List<String> listAllNames(final HierarchicalConfiguration config, final String subKey, final String nameKey) {
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 		for (HierarchicalConfiguration subConfig : config.configurationsAt(subKey)) {
 			String name = subConfig.getString(nameKey);
 			names.add(name);

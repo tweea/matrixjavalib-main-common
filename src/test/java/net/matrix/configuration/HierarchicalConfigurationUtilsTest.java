@@ -54,7 +54,7 @@ public class HierarchicalConfigurationUtilsTest {
 	@Test
 	public void listAllNames() {
 		List<String> names = HierarchicalConfigurationUtils.listAllNames(config.configurationAt("receivers.receiver(0)"), "properties", "[@name]");
-		List<String> testNames = new ArrayList<String>();
+		List<String> testNames = new ArrayList<>();
 		testNames.add("hostname");
 		testNames.add("port");
 		testNames.add("queueManagerName");

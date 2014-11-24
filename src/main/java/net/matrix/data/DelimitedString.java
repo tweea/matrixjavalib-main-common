@@ -37,7 +37,7 @@ public class DelimitedString
 	 */
 	public DelimitedString() {
 		this.delimiter = DEFAULT_DELIMITER;
-		this.content = new ArrayList<String>();
+		this.content = new ArrayList<>();
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class DelimitedString
 	 */
 	public DelimitedString(final String value, final String delimiter) {
 		this.delimiter = delimiter;
-		this.content = new ArrayList<String>();
+		this.content = new ArrayList<>();
 		String[] array = value.split(delimiter, -1);
 		for (String item : array) {
 			content.add(StringUtils.trim(item));
@@ -87,7 +87,7 @@ public class DelimitedString
 	 */
 	public DelimitedString(final String[] values, final String delimiter) {
 		this.delimiter = delimiter;
-		this.content = new ArrayList<String>();
+		this.content = new ArrayList<>();
 		for (String item : values) {
 			content.add(StringUtils.trim(item));
 		}
@@ -113,7 +113,7 @@ public class DelimitedString
 	 */
 	public DelimitedString(final List<String> list, final String delimiter) {
 		this.delimiter = delimiter;
-		this.content = new ArrayList<String>();
+		this.content = new ArrayList<>();
 		for (String item : list) {
 			content.add(StringUtils.trim(item));
 		}
