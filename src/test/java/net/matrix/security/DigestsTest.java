@@ -25,7 +25,7 @@ public class DigestsTest {
 	@Test
 	public void digestFile()
 		throws IOException {
-		Resource resource = new ClassPathResource("/log4j.properties");
+		Resource resource = new ClassPathResource("/log4j2-test.xml");
 		Digests.md5(resource.getInputStream());
 		Digests.sha1(resource.getInputStream());
 	}
