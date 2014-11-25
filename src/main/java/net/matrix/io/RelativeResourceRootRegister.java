@@ -153,12 +153,14 @@ public class RelativeResourceRootRegister {
 	 *            旧文件
 	 */
 	private void deleteOldFile(final File file) {
-		if (file.exists()) {
-			LOG.debug("删除旧文件：{}", file);
-			boolean success = file.delete();
-			if (!success) {
-				LOG.warn("删除文件失败：{}", file);
-			}
+		if (!file.exists()) {
+			return;
+		}
+
+		LOG.debug("删除旧文件：{}", file);
+		boolean success = file.delete();
+		if (!success) {
+			LOG.warn("删除文件失败：{}", file);
 		}
 	}
 }
