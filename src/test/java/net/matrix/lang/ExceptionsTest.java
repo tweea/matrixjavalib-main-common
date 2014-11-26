@@ -6,7 +6,7 @@ package net.matrix.lang;
 
 import java.io.IOException;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class ExceptionsTest {
@@ -14,10 +14,10 @@ public class ExceptionsTest {
 	public void unchecked() {
 		Exception exception = new Exception("my exception");
 		RuntimeException runtimeException = Exceptions.unchecked(exception);
-		Assert.assertEquals(exception, runtimeException.getCause());
+		Assertions.assertThat(runtimeException.getCause()).isSameAs(exception);
 
 		RuntimeException runtimeException2 = Exceptions.unchecked(runtimeException);
-		Assert.assertEquals(runtimeException, runtimeException2);
+		Assertions.assertThat(runtimeException2).isSameAs(runtimeException);
 	}
 
 	@Test
@@ -26,9 +26,9 @@ public class ExceptionsTest {
 		IllegalStateException illegalStateException = new IllegalStateException(ioexception);
 		RuntimeException runtimeException = new RuntimeException(illegalStateException);
 
-		Assert.assertTrue(Exceptions.isCausedBy(runtimeException, IOException.class));
-		Assert.assertTrue(Exceptions.isCausedBy(runtimeException, IllegalStateException.class, IOException.class));
-		Assert.assertTrue(Exceptions.isCausedBy(runtimeException, Exception.class));
-		Assert.assertFalse(Exceptions.isCausedBy(runtimeException, IllegalAccessException.class));
+		Assertions.assertThat(Exceptions.isCausedBy(runtimeException, IOException.class)).isTrue();
+		Assertions.assertThat(Exceptions.isCausedBy(runtimeException, IllegalStateException.class, IOException.class)).isTrue();
+		Assertions.assertThat(Exceptions.isCausedBy(runtimeException, Exception.class)).isTrue();
+		Assertions.assertThat(Exceptions.isCausedBy(runtimeException, IllegalAccessException.class)).isFalse();
 	}
 }

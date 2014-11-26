@@ -7,7 +7,7 @@ package net.matrix.text;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class ResourceBundlesTest {
@@ -15,26 +15,26 @@ public class ResourceBundlesTest {
 	public void testGetBundle() {
 		Locales.current(Locale.CHINA);
 		ResourceBundle bundle = ResourceBundles.getBundle("global");
-		Assert.assertEquals("男性", bundle.getString("male"));
+		Assertions.assertThat(bundle.getString("male")).isEqualTo("男性");
 	}
 
 	@Test
 	public void testGetBundle_locale() {
 		ResourceBundle bundle = ResourceBundles.getBundle("global", Locale.US);
-		Assert.assertEquals("爷们", bundle.getString("male"));
+		Assertions.assertThat(bundle.getString("male")).isEqualTo("爷们");
 	}
 
 	@Test
 	public void testGetBundle_fallback() {
 		ResourceBundle bundle = ResourceBundles.getBundle("fallback");
-		Assert.assertEquals("male", bundle.getString("male"));
+		Assertions.assertThat(bundle.getString("male")).isEqualTo("male");
 	}
 
 	@Test
 	public void testGetProperty() {
 		ResourceBundle bundle = ResourceBundles.getBundle("global", Locale.US);
-		Assert.assertEquals("爷们", ResourceBundles.getProperty(bundle, "male"));
-		Assert.assertEquals("yes", ResourceBundles.getProperty(bundle, "yes"));
-		Assert.assertEquals("OK", ResourceBundles.getProperty(bundle, "OK"));
+		Assertions.assertThat(ResourceBundles.getProperty(bundle, "male")).isEqualTo("爷们");
+		Assertions.assertThat(ResourceBundles.getProperty(bundle, "yes")).isEqualTo("yes");
+		Assertions.assertThat(ResourceBundles.getProperty(bundle, "OK")).isEqualTo("OK");
 	}
 }

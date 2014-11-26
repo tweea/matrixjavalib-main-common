@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -34,7 +34,7 @@ public class RelativeResourceRootRegisterTest {
 	public void registerRoot() {
 		RelativeResourceRootRegister register = new RelativeResourceRootRegister();
 		register.registerRoot("test", new ClassPathResource(""));
-		Assert.assertNotNull(register.getRoot("test"));
+		Assertions.assertThat(register.getRoot("test")).isNotNull();
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class RelativeResourceRootRegisterTest {
 		throws IOException {
 		RelativeResourceRootRegister register = new RelativeResourceRootRegister();
 		register.registerRoot("test", new ClassPathResource(""));
-		Assert.assertTrue(register.getResource(new RelativeResource("test", "bar.xml")).getFile().exists());
+		Assertions.assertThat(register.getResource(new RelativeResource("test", "bar.xml")).getFile()).exists();
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -58,9 +58,9 @@ public class RelativeResourceRootRegisterTest {
 		RelativeResource src = new RelativeResource("test1", "getNewFile.txt");
 		File srcFile = classRegister.getResource(src).getFile();
 		srcFile.createNewFile();
-		Assert.assertTrue(srcFile.exists());
+		Assertions.assertThat(srcFile).exists();
 		srcFile = classRegister.getNewFile(src);
-		Assert.assertFalse(srcFile.exists());
+		Assertions.assertThat(srcFile).doesNotExist();
 	}
 
 	@Test
@@ -72,8 +72,8 @@ public class RelativeResourceRootRegisterTest {
 		File destFile = classRegister.getResource(dest).getFile();
 		srcFile.createNewFile();
 		classRegister.moveFile(src, dest);
-		Assert.assertFalse(srcFile.exists());
-		Assert.assertTrue(destFile.exists());
+		Assertions.assertThat(srcFile).doesNotExist();
+		Assertions.assertThat(destFile).exists();
 		destFile.delete();
 	}
 
@@ -87,8 +87,8 @@ public class RelativeResourceRootRegisterTest {
 		srcFile.createNewFile();
 		destFile.createNewFile();
 		classRegister.moveFile(src, dest);
-		Assert.assertFalse(srcFile.exists());
-		Assert.assertTrue(destFile.exists());
+		Assertions.assertThat(srcFile).doesNotExist();
+		Assertions.assertThat(destFile).exists();
 		destFile.delete();
 	}
 
@@ -103,8 +103,8 @@ public class RelativeResourceRootRegisterTest {
 		String test = "Test!\nThis is a test!!\n测试！";
 		FileUtils.writeStringToFile(srcFile, test);
 		classRegister.copyFile(src, dest);
-		Assert.assertTrue(destFile.exists());
-		Assert.assertEquals(test, FileUtils.readFileToString(destFile));
+		Assertions.assertThat(destFile).exists();
+		Assertions.assertThat(destFile).hasContent(test);
 		srcFile.delete();
 		destFile.delete();
 	}

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import net.matrix.data.Tree.Key;
@@ -17,9 +17,9 @@ public class DefaultTreeTest {
 	@Test
 	public void testDefaultTreeIDDATA() {
 		Tree<String, String> tree = new DefaultTree<>("root", "test");
-		Assert.assertEquals(new DefaultTree.DefaultKey(), tree.getKey());
-		Assert.assertEquals("root", tree.getId());
-		Assert.assertEquals("test", tree.getData());
+		Assertions.assertThat(tree.getKey()).isEqualTo(new DefaultTree.DefaultKey());
+		Assertions.assertThat(tree.getId()).isEqualTo("root");
+		Assertions.assertThat(tree.getData()).isEqualTo("test");
 	}
 
 	@Test
@@ -31,21 +31,21 @@ public class DefaultTreeTest {
 		Tree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
 		Tree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
 
-		Assert.assertEquals(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 0), node1.getKey());
-		Assert.assertEquals("node1", node1.getId());
-		Assert.assertEquals("test1", node1.getData());
-		Assert.assertEquals(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 1), node2.getKey());
-		Assert.assertEquals("node2", node2.getId());
-		Assert.assertEquals("test2", node2.getData());
-		Assert.assertEquals(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 0), 0), leaf1.getKey());
-		Assert.assertEquals("leaf1", leaf1.getId());
-		Assert.assertEquals("value1", leaf1.getData());
-		Assert.assertEquals(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 1), 0), leaf2.getKey());
-		Assert.assertEquals("leaf2", leaf2.getId());
-		Assert.assertEquals("value2", leaf2.getData());
-		Assert.assertEquals(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 1), 1), leaf3.getKey());
-		Assert.assertEquals("leaf3", leaf3.getId());
-		Assert.assertEquals("value3", leaf3.getData());
+		Assertions.assertThat(node1.getKey()).isEqualTo(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 0));
+		Assertions.assertThat(node1.getId()).isEqualTo("node1");
+		Assertions.assertThat(node1.getData()).isEqualTo("test1");
+		Assertions.assertThat(node2.getKey()).isEqualTo(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 1));
+		Assertions.assertThat(node2.getId()).isEqualTo("node2");
+		Assertions.assertThat(node2.getData()).isEqualTo("test2");
+		Assertions.assertThat(leaf1.getKey()).isEqualTo(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 0), 0));
+		Assertions.assertThat(leaf1.getId()).isEqualTo("leaf1");
+		Assertions.assertThat(leaf1.getData()).isEqualTo("value1");
+		Assertions.assertThat(leaf2.getKey()).isEqualTo(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 1), 0));
+		Assertions.assertThat(leaf2.getId()).isEqualTo("leaf2");
+		Assertions.assertThat(leaf2.getData()).isEqualTo("value2");
+		Assertions.assertThat(leaf3.getKey()).isEqualTo(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(new DefaultTree.DefaultKey(), 1), 1));
+		Assertions.assertThat(leaf3.getId()).isEqualTo("leaf3");
+		Assertions.assertThat(leaf3.getData()).isEqualTo("value3");
 	}
 
 	@Test
@@ -57,12 +57,12 @@ public class DefaultTreeTest {
 		Tree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
 		Tree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
 
-		Assert.assertEquals(tree.getKey(), tree.findKey("root"));
-		Assert.assertEquals(node1.getKey(), tree.findKey("node1"));
-		Assert.assertEquals(node2.getKey(), tree.findKey("node2"));
-		Assert.assertEquals(leaf1.getKey(), tree.findKey("leaf1"));
-		Assert.assertEquals(leaf2.getKey(), tree.findKey("leaf2"));
-		Assert.assertEquals(leaf3.getKey(), tree.findKey("leaf3"));
+		Assertions.assertThat(tree.findKey("root")).isEqualTo(tree.getKey());
+		Assertions.assertThat(tree.findKey("node1")).isEqualTo(node1.getKey());
+		Assertions.assertThat(tree.findKey("node2")).isEqualTo(node2.getKey());
+		Assertions.assertThat(tree.findKey("leaf1")).isEqualTo(leaf1.getKey());
+		Assertions.assertThat(tree.findKey("leaf2")).isEqualTo(leaf2.getKey());
+		Assertions.assertThat(tree.findKey("leaf3")).isEqualTo(leaf3.getKey());
 	}
 
 	@Test
@@ -74,12 +74,12 @@ public class DefaultTreeTest {
 		Tree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
 		Tree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
 
-		Assert.assertNull(tree.getParent());
-		Assert.assertEquals(tree, node1.getParent());
-		Assert.assertEquals(tree, node2.getParent());
-		Assert.assertEquals(node1, leaf1.getParent());
-		Assert.assertEquals(node2, leaf2.getParent());
-		Assert.assertEquals(node2, leaf3.getParent());
+		Assertions.assertThat(tree.getParent()).isNull();
+		Assertions.assertThat(node1.getParent()).isEqualTo(tree);
+		Assertions.assertThat(node2.getParent()).isEqualTo(tree);
+		Assertions.assertThat(leaf1.getParent()).isEqualTo(node1);
+		Assertions.assertThat(leaf2.getParent()).isEqualTo(node2);
+		Assertions.assertThat(leaf3.getParent()).isEqualTo(node2);
 	}
 
 	@Test
@@ -87,18 +87,18 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
 		DefaultTree<String, String> node1 = new DefaultTree<>(tree, "node1", "test1");
 		DefaultTree<String, String> node2 = new DefaultTree<>(tree, "node2", "test1");
-		Tree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
-		Tree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
-		Tree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
+		DefaultTree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
+		DefaultTree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
+		DefaultTree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
 
 		SortedMap<Key, DefaultTree<String, String>> allNodes = tree.getAllNodes();
-		Assert.assertEquals(6, allNodes.size());
-		Assert.assertTrue(allNodes.containsValue(tree));
-		Assert.assertTrue(allNodes.containsValue(node1));
-		Assert.assertTrue(allNodes.containsValue(node2));
-		Assert.assertTrue(allNodes.containsValue(leaf1));
-		Assert.assertTrue(allNodes.containsValue(leaf2));
-		Assert.assertTrue(allNodes.containsValue(leaf3));
+		Assertions.assertThat(allNodes).hasSize(6);
+		Assertions.assertThat(allNodes).containsValue(tree);
+		Assertions.assertThat(allNodes).containsValue(node1);
+		Assertions.assertThat(allNodes).containsValue(node2);
+		Assertions.assertThat(allNodes).containsValue(leaf1);
+		Assertions.assertThat(allNodes).containsValue(leaf2);
+		Assertions.assertThat(allNodes).containsValue(leaf3);
 	}
 
 	@Test
@@ -106,26 +106,26 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
 		DefaultTree<String, String> node1 = new DefaultTree<>(tree, "node1", "test1");
 		DefaultTree<String, String> node2 = new DefaultTree<>(tree, "node2", "test1");
-		Tree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
-		Tree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
-		Tree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
+		DefaultTree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
+		DefaultTree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
+		DefaultTree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
 
-		SortedMap<Key, ? extends Tree<String, String>> childNodes = tree.getChildNodes();
-		Assert.assertEquals(2, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(node1));
-		Assert.assertTrue(childNodes.containsValue(node2));
+		SortedMap<Key, DefaultTree<String, String>> childNodes = tree.getChildNodes();
+		Assertions.assertThat(childNodes).hasSize(2);
+		Assertions.assertThat(childNodes).containsValue(node1);
+		Assertions.assertThat(childNodes).containsValue(node2);
 
 		childNodes = node1.getChildNodes();
-		Assert.assertEquals(1, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(leaf1));
+		Assertions.assertThat(childNodes).hasSize(1);
+		Assertions.assertThat(childNodes).containsValue(leaf1);
 
 		childNodes = node2.getChildNodes();
-		Assert.assertEquals(2, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(leaf2));
-		Assert.assertTrue(childNodes.containsValue(leaf3));
+		Assertions.assertThat(childNodes).hasSize(2);
+		Assertions.assertThat(childNodes).containsValue(leaf2);
+		Assertions.assertThat(childNodes).containsValue(leaf3);
 
 		childNodes = leaf1.getChildNodes();
-		Assert.assertEquals(0, childNodes.size());
+		Assertions.assertThat(childNodes).isEmpty();
 	}
 
 	@Test
@@ -133,16 +133,16 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
 		DefaultTree<String, String> node1 = new DefaultTree<>(tree, "node1", "test1");
 		DefaultTree<String, String> node2 = new DefaultTree<>(tree, "node2", "test1");
-		Tree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
-		Tree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
-		Tree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
+		DefaultTree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
+		DefaultTree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
+		DefaultTree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
 
-		Assert.assertEquals(tree, tree.getNode("root"));
-		Assert.assertEquals(node1, tree.getNode("node1"));
-		Assert.assertEquals(node2, tree.getNode("node2"));
-		Assert.assertEquals(leaf1, tree.getNode("leaf1"));
-		Assert.assertEquals(leaf2, tree.getNode("leaf2"));
-		Assert.assertEquals(leaf3, tree.getNode("leaf3"));
+		Assertions.assertThat(tree.getNode("root")).isEqualTo(tree);
+		Assertions.assertThat(tree.getNode("node1")).isEqualTo(node1);
+		Assertions.assertThat(tree.getNode("node2")).isEqualTo(node2);
+		Assertions.assertThat(tree.getNode("leaf1")).isEqualTo(leaf1);
+		Assertions.assertThat(tree.getNode("leaf2")).isEqualTo(leaf2);
+		Assertions.assertThat(tree.getNode("leaf3")).isEqualTo(leaf3);
 	}
 
 	@Test
@@ -150,28 +150,28 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
 		DefaultTree<String, String> node1 = new DefaultTree<>(tree, "node1", "test1");
 		DefaultTree<String, String> node2 = new DefaultTree<>(tree, "node2", "test1");
-		Tree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
-		Tree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
-		Tree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
+		DefaultTree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
+		DefaultTree<String, String> leaf2 = new DefaultTree<>(node2, "leaf2", "value2");
+		DefaultTree<String, String> leaf3 = new DefaultTree<>(node2, "leaf3", "value3");
 
-		Assert.assertNull(tree.getChildNode("root"));
-		Assert.assertEquals(node1, tree.getChildNode("node1"));
-		Assert.assertEquals(node2, tree.getChildNode("node2"));
-		Assert.assertNull(tree.getChildNode("leaf1"));
-		Assert.assertNull(tree.getChildNode("leaf2"));
+		Assertions.assertThat(tree.getChildNode("root")).isNull();
+		Assertions.assertThat(tree.getChildNode("node1")).isEqualTo(node1);
+		Assertions.assertThat(tree.getChildNode("node2")).isEqualTo(node2);
+		Assertions.assertThat(tree.getChildNode("leaf1")).isNull();
+		Assertions.assertThat(tree.getChildNode("leaf2")).isNull();
 
-		Assert.assertNull(node1.getChildNode("root"));
-		Assert.assertNull(node1.getChildNode("leaf2"));
-		Assert.assertEquals(leaf1, node1.getChildNode("leaf1"));
+		Assertions.assertThat(node1.getChildNode("root")).isNull();
+		Assertions.assertThat(node1.getChildNode("leaf2")).isNull();
+		Assertions.assertThat(node1.getChildNode("leaf1")).isEqualTo(leaf1);
 
-		Assert.assertNull(node2.getChildNode("root"));
-		Assert.assertNull(node2.getChildNode("leaf1"));
-		Assert.assertEquals(leaf2, node2.getChildNode("leaf2"));
-		Assert.assertEquals(leaf3, node2.getChildNode("leaf3"));
+		Assertions.assertThat(node2.getChildNode("root")).isNull();
+		Assertions.assertThat(node2.getChildNode("leaf1")).isNull();
+		Assertions.assertThat(node2.getChildNode("leaf2")).isEqualTo(leaf2);
+		Assertions.assertThat(node2.getChildNode("leaf3")).isEqualTo(leaf3);
 
-		Assert.assertNull(leaf1.getChildNode("root"));
-		Assert.assertNull(leaf1.getChildNode("node1"));
-		Assert.assertNull(leaf1.getChildNode("leaf2"));
+		Assertions.assertThat(leaf1.getChildNode("root")).isNull();
+		Assertions.assertThat(leaf1.getChildNode("node1")).isNull();
+		Assertions.assertThat(leaf1.getChildNode("leaf2")).isNull();
 	}
 
 	@Test
@@ -183,22 +183,22 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> leaf2 = node2.appendChildNode("leaf2", "value3");
 		DefaultTree<String, String> leaf3 = node2.appendChildNode("leaf3", "value3");
 
-		SortedMap<Key, ? extends Tree<String, String>> childNodes = tree.getChildNodes();
-		Assert.assertEquals(2, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(node1));
-		Assert.assertTrue(childNodes.containsValue(node2));
+		SortedMap<Key, DefaultTree<String, String>> childNodes = tree.getChildNodes();
+		Assertions.assertThat(childNodes).hasSize(2);
+		Assertions.assertThat(childNodes).containsValue(node1);
+		Assertions.assertThat(childNodes).containsValue(node2);
 
 		childNodes = node1.getChildNodes();
-		Assert.assertEquals(1, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(leaf1));
+		Assertions.assertThat(childNodes).hasSize(1);
+		Assertions.assertThat(childNodes).containsValue(leaf1);
 
 		childNodes = node2.getChildNodes();
-		Assert.assertEquals(2, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(leaf2));
-		Assert.assertTrue(childNodes.containsValue(leaf3));
+		Assertions.assertThat(childNodes).hasSize(2);
+		Assertions.assertThat(childNodes).containsValue(leaf2);
+		Assertions.assertThat(childNodes).containsValue(leaf3);
 
 		childNodes = leaf1.getChildNodes();
-		Assert.assertEquals(0, childNodes.size());
+		Assertions.assertThat(childNodes).isEmpty();
 	}
 
 	@Test
@@ -210,25 +210,25 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> leaf2 = node2.appendChildNode("leaf2", "value3");
 		DefaultTree<String, String> leaf3 = node2.appendChildNode("leaf3", "value3");
 
-		SortedMap<Key, ? extends Tree<String, String>> childNodes = node1.getChildNodes();
-		Assert.assertEquals(6, tree.getAllNodes().size());
-		Assert.assertEquals(1, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(leaf1));
+		SortedMap<Key, DefaultTree<String, String>> childNodes = node1.getChildNodes();
+		Assertions.assertThat(tree.getAllNodes()).hasSize(6);
+		Assertions.assertThat(childNodes).hasSize(1);
+		Assertions.assertThat(childNodes).containsValue(leaf1);
 		node1.removeChildNode("leaf1");
-		Assert.assertEquals(5, tree.getAllNodes().size());
-		Assert.assertEquals(0, childNodes.size());
-		Assert.assertFalse(childNodes.containsValue(leaf1));
+		Assertions.assertThat(tree.getAllNodes()).hasSize(5);
+		Assertions.assertThat(childNodes).isEmpty();
+		Assertions.assertThat(childNodes).doesNotContainValue(leaf1);
 
 		childNodes = tree.getChildNodes();
-		Assert.assertEquals(5, tree.getAllNodes().size());
-		Assert.assertEquals(2, childNodes.size());
-		Assert.assertTrue(childNodes.containsValue(node2));
+		Assertions.assertThat(tree.getAllNodes()).hasSize(5);
+		Assertions.assertThat(childNodes).hasSize(2);
+		Assertions.assertThat(childNodes).containsValue(node2);
 		tree.removeChildNode("node2");
-		Assert.assertEquals(2, tree.getAllNodes().size());
-		Assert.assertEquals(1, childNodes.size());
-		Assert.assertFalse(childNodes.containsValue(node2));
-		Assert.assertFalse(tree.getAllNodes().containsValue(leaf2));
-		Assert.assertFalse(tree.getAllNodes().containsValue(leaf3));
+		Assertions.assertThat(tree.getAllNodes()).hasSize(2);
+		Assertions.assertThat(childNodes).hasSize(1);
+		Assertions.assertThat(childNodes).doesNotContainValue(node2);
+		Assertions.assertThat(tree.getAllNodes()).doesNotContainValue(leaf2);
+		Assertions.assertThat(tree.getAllNodes()).doesNotContainValue(leaf3);
 	}
 
 	@Test
@@ -240,12 +240,12 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> leaf2 = node2.appendChildNode("leaf2", "value3");
 		DefaultTree<String, String> leaf3 = node2.appendChildNode("leaf3", "value3");
 
-		Assert.assertTrue(tree.isRoot());
-		Assert.assertFalse(node1.isRoot());
-		Assert.assertFalse(node2.isRoot());
-		Assert.assertFalse(leaf1.isRoot());
-		Assert.assertFalse(leaf2.isRoot());
-		Assert.assertFalse(leaf3.isRoot());
+		Assertions.assertThat(tree.isRoot()).isTrue();
+		Assertions.assertThat(node1.isRoot()).isFalse();
+		Assertions.assertThat(node2.isRoot()).isFalse();
+		Assertions.assertThat(leaf1.isRoot()).isFalse();
+		Assertions.assertThat(leaf2.isRoot()).isFalse();
+		Assertions.assertThat(leaf3.isRoot()).isFalse();
 	}
 
 	@Test
@@ -257,12 +257,12 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> leaf2 = node2.appendChildNode("leaf2", "value3");
 		DefaultTree<String, String> leaf3 = node2.appendChildNode("leaf3", "value3");
 
-		Assert.assertFalse(tree.isLeaf());
-		Assert.assertFalse(node1.isLeaf());
-		Assert.assertFalse(node2.isLeaf());
-		Assert.assertTrue(leaf1.isLeaf());
-		Assert.assertTrue(leaf2.isLeaf());
-		Assert.assertTrue(leaf3.isLeaf());
+		Assertions.assertThat(tree.isLeaf()).isFalse();
+		Assertions.assertThat(node1.isLeaf()).isFalse();
+		Assertions.assertThat(node2.isLeaf()).isFalse();
+		Assertions.assertThat(leaf1.isLeaf()).isTrue();
+		Assertions.assertThat(leaf2.isLeaf()).isTrue();
+		Assertions.assertThat(leaf3.isLeaf()).isTrue();
 	}
 
 	private static class TestSource
@@ -298,12 +298,12 @@ public class DefaultTreeTest {
 		DefaultTree<String, String> tree = DefaultTree.generate(new TestSource());
 
 		SortedMap<Key, DefaultTree<String, String>> allNodes = tree.getAllNodes();
-		Assert.assertEquals(6, allNodes.size());
-		Assert.assertTrue(allNodes.containsValue(tree));
-		Assert.assertEquals("node1", tree.getNode("node1").getId());
-		Assert.assertEquals("node2", tree.getNode("node2").getId());
-		Assert.assertEquals("leaf1", tree.getNode("leaf1").getId());
-		Assert.assertEquals("leaf2", tree.getNode("leaf2").getId());
-		Assert.assertEquals("leaf3", tree.getNode("leaf3").getId());
+		Assertions.assertThat(allNodes).hasSize(6);
+		Assertions.assertThat(allNodes).containsValue(tree);
+		Assertions.assertThat(tree.getNode("node1").getId()).isEqualTo("node1");
+		Assertions.assertThat(tree.getNode("node2").getId()).isEqualTo("node2");
+		Assertions.assertThat(tree.getNode("leaf1").getId()).isEqualTo("leaf1");
+		Assertions.assertThat(tree.getNode("leaf2").getId()).isEqualTo("leaf2");
+		Assertions.assertThat(tree.getNode("leaf3").getId()).isEqualTo("leaf3");
 	}
 }

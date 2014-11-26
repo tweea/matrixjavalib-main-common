@@ -6,7 +6,7 @@ package net.matrix.configuration;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
@@ -14,9 +14,9 @@ public class XMLConfigurationContainerTest {
 	@Test
 	public void testXMLConfigurationContainer() {
 		ReloadableConfigurationContainer<XMLConfiguration> container = new XMLConfigurationContainer();
-		Assert.assertNotNull(container.getConfig());
-		Assert.assertTrue(container.getConfig().isEmpty());
-		Assert.assertFalse(container.getConfig().isDelimiterParsingDisabled());
+		Assertions.assertThat(container.getConfig()).isNotNull();
+		Assertions.assertThat(container.getConfig().isEmpty()).isTrue();
+		Assertions.assertThat(container.getConfig().isDelimiterParsingDisabled()).isFalse();
 	}
 
 	@Test
@@ -24,7 +24,7 @@ public class XMLConfigurationContainerTest {
 		throws ConfigurationException {
 		ReloadableConfigurationContainer<XMLConfiguration> container = new XMLConfigurationContainer();
 		container.load(new ClassPathResource("bar.xml"));
-		Assert.assertEquals(50, container.getConfig().getInt("[@length]"));
+		Assertions.assertThat(container.getConfig().getInt("[@length]")).isEqualTo(50);
 	}
 
 	@Test
@@ -32,7 +32,7 @@ public class XMLConfigurationContainerTest {
 		throws ConfigurationException {
 		ReloadableConfigurationContainer<XMLConfiguration> container = new XMLConfigurationContainer();
 		container.load(new ClassPathResource("digesterRules.xml"));
-		Assert.assertEquals("configuration/properties", container.getConfig().getString("pattern(0)[@value]"));
+		Assertions.assertThat(container.getConfig().getString("pattern(0)[@value]")).isEqualTo("configuration/properties");
 	}
 
 	@Test(expected = ConfigurationException.class)

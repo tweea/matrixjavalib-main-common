@@ -9,8 +9,8 @@ import org.apache.commons.configuration.AbstractFileConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.event.ConfigurationEvent;
 import org.apache.commons.configuration.event.ConfigurationListener;
-import org.fest.reflect.core.Reflection;
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.Test;
 import org.springframework.core.io.Resource;
 
@@ -19,34 +19,34 @@ public class ConfigurationReloadingListenerTest {
 	public void testConfigurationReloadingListener() {
 		TestContainer container = new TestContainer();
 		ConfigurationListener listener = new ConfigurationReloadingListener(container);
-		Assert.assertSame(container, Reflection.field("container").ofType(ReloadableConfigurationContainer.class).in(listener).get());
+		Assertions.assertThat(FieldSupport.instance().fieldValue("container", ReloadableConfigurationContainer.class, listener)).isSameAs(container);
 	}
 
 	@Test
 	public void testConfigurationChanged() {
 		TestContainer container = new TestContainer();
 		ConfigurationListener listener = new ConfigurationReloadingListener(container);
-		Assert.assertFalse(container.isReloaded());
+		Assertions.assertThat(container.isReloaded()).isFalse();
 		listener.configurationChanged(new ConfigurationEvent(this, AbstractFileConfiguration.EVENT_RELOAD, null, null, false));
-		Assert.assertTrue(container.isReloaded());
+		Assertions.assertThat(container.isReloaded()).isTrue();
 	}
 
 	@Test
 	public void testConfigurationChangedBeforeEvent() {
 		TestContainer container = new TestContainer();
 		ConfigurationListener listener = new ConfigurationReloadingListener(container);
-		Assert.assertFalse(container.isReloaded());
+		Assertions.assertThat(container.isReloaded()).isFalse();
 		listener.configurationChanged(new ConfigurationEvent(this, AbstractFileConfiguration.EVENT_RELOAD, null, null, true));
-		Assert.assertFalse(container.isReloaded());
+		Assertions.assertThat(container.isReloaded()).isFalse();
 	}
 
 	@Test
 	public void testConfigurationChangedOtherEvent() {
 		TestContainer container = new TestContainer();
 		ConfigurationListener listener = new ConfigurationReloadingListener(container);
-		Assert.assertFalse(container.isReloaded());
+		Assertions.assertThat(container.isReloaded()).isFalse();
 		listener.configurationChanged(new ConfigurationEvent(this, AbstractConfiguration.EVENT_CLEAR, null, null, false));
-		Assert.assertFalse(container.isReloaded());
+		Assertions.assertThat(container.isReloaded()).isFalse();
 	}
 
 	private class TestContainer

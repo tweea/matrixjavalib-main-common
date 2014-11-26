@@ -4,20 +4,20 @@
  */
 package net.matrix.lang;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class Objects2Test {
 	@Test
 	public void testIsNull() {
-		Assert.assertEquals("A", Objects2.isNull("A", "B"));
-		Assert.assertEquals("B", Objects2.isNull(null, "B"));
+		Assertions.assertThat(Objects2.isNull("A", "B")).isEqualTo("A");
+		Assertions.assertThat(Objects2.isNull(null, "B")).isEqualTo("B");
 	}
 
 	@Test
 	public void testNullIf() {
-		Assert.assertNull(Objects2.nullIf(null, null));
-		Assert.assertNull(Objects2.nullIf("A", "A"));
-		Assert.assertEquals("A", Objects2.nullIf("A", "B"));
+		Assertions.assertThat(Objects2.nullIf(null, null)).isNull();
+		Assertions.assertThat(Objects2.nullIf("A", "A")).isNull();
+		Assertions.assertThat(Objects2.nullIf("A", "B")).isEqualTo("A");
 	}
 }

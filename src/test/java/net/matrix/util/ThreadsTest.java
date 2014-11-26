@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +25,14 @@ public class ThreadsTest {
 		Runnable task = new Task(logger, 500, 0);
 		pool.execute(task);
 		Threads.gracefulShutdown(pool, 1000, 1000, TimeUnit.MILLISECONDS);
-		Assert.assertTrue(pool.isTerminated());
+		Assertions.assertThat(pool.isTerminated()).isTrue();
 
 		// time not enough to shutdown,call shutdownNow
 		pool = Executors.newSingleThreadExecutor();
 		task = new Task(logger, 1000, 0);
 		pool.execute(task);
 		Threads.gracefulShutdown(pool, 500, 1000, TimeUnit.MILLISECONDS);
-		Assert.assertTrue(pool.isTerminated());
+		Assertions.assertThat(pool.isTerminated()).isTrue();
 
 		// self thread interrupt while calling gracefulShutdown
 		final ExecutorService self = Executors.newSingleThreadExecutor();
@@ -41,7 +41,6 @@ public class ThreadsTest {
 
 		final CountDownLatch lock = new CountDownLatch(1);
 		Thread thread = new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				lock.countDown();
@@ -63,7 +62,7 @@ public class ThreadsTest {
 		Runnable task = new Task(logger, 1000, 0);
 		pool.execute(task);
 		Threads.normalShutdown(pool, 500, TimeUnit.MILLISECONDS);
-		Assert.assertTrue(pool.isTerminated());
+		Assertions.assertThat(pool.isTerminated()).isTrue();
 	}
 
 	static class Task
@@ -82,7 +81,6 @@ public class ThreadsTest {
 
 		@Override
 		public void run() {
-			System.out.println("start task");
 			if (runTime > 0) {
 				long start = System.currentTimeMillis();
 				while (System.currentTimeMillis() - start < runTime) {

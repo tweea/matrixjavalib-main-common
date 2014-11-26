@@ -7,29 +7,29 @@ package net.matrix.data;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class DelimitedStringTest {
 	@Test
 	public void testCommaSeparatedStringList() {
 		List<String> list = new DelimitedString();
-		Assert.assertEquals(0, list.size());
-		Assert.assertEquals("", list.toString());
+		Assertions.assertThat(list).isEmpty();
+		Assertions.assertThat(list.toString()).isEmpty();
 	}
 
 	@Test
 	public void testCommaSeparatedStringListString() {
 		List<String> list = new DelimitedString("a,bc,d");
-		Assert.assertEquals(3, list.size());
-		Assert.assertEquals("a,bc,d", list.toString());
+		Assertions.assertThat(list).hasSize(3);
+		Assertions.assertThat(list.toString()).isEqualTo("a,bc,d");
 	}
 
 	@Test
 	public void testCommaSeparatedStringListString_withDelimiter() {
 		List<String> list = new DelimitedString("a=bc=d", "=");
-		Assert.assertEquals(3, list.size());
-		Assert.assertEquals("a=bc=d", list.toString());
+		Assertions.assertThat(list).hasSize(3);
+		Assertions.assertThat(list.toString()).isEqualTo("a=bc=d");
 	}
 
 	@Test
@@ -37,8 +37,8 @@ public class DelimitedStringTest {
 		List<String> list = new DelimitedString(new String[] {
 			"a", "bc", "d"
 		});
-		Assert.assertEquals(3, list.size());
-		Assert.assertEquals("a,bc,d", list.toString());
+		Assertions.assertThat(list).hasSize(3);
+		Assertions.assertThat(list.toString()).isEqualTo("a,bc,d");
 	}
 
 	@Test
@@ -46,28 +46,28 @@ public class DelimitedStringTest {
 		List<String> list = new DelimitedString(new String[] {
 			"a", "bc", "d"
 		}, "+");
-		Assert.assertEquals(3, list.size());
-		Assert.assertEquals("a+bc+d", list.toString());
+		Assertions.assertThat(list).hasSize(3);
+		Assertions.assertThat(list.toString()).isEqualTo("a+bc+d");
 	}
 
 	@Test
 	public void testCommaSeparatedStringListListOfString() {
 		List<String> list = new DelimitedString(Arrays.asList("a", "bc", "d"));
-		Assert.assertEquals(3, list.size());
-		Assert.assertEquals("a,bc,d", list.toString());
+		Assertions.assertThat(list).hasSize(3);
+		Assertions.assertThat(list.toString()).isEqualTo("a,bc,d");
 	}
 
 	@Test
 	public void testCommaSeparatedStringListListOfString_withDelimiter() {
 		List<String> list = new DelimitedString(Arrays.asList("a", "bc", "d"), "-");
-		Assert.assertEquals(3, list.size());
-		Assert.assertEquals("a-bc-d", list.toString());
+		Assertions.assertThat(list).hasSize(3);
+		Assertions.assertThat(list.toString()).isEqualTo("a-bc-d");
 	}
 
 	@Test
 	public void testSubList() {
 		List<String> list = new DelimitedString(Arrays.asList("a", "bc", "d"), "-").subList(0, 2);
-		Assert.assertEquals(2, list.size());
-		Assert.assertEquals("a-bc", list.toString());
+		Assertions.assertThat(list).hasSize(2);
+		Assertions.assertThat(list.toString()).isEqualTo("a-bc");
 	}
 }

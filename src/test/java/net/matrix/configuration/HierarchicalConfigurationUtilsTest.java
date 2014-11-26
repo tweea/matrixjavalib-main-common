@@ -4,14 +4,13 @@
  */
 package net.matrix.configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,7 +27,7 @@ public class HierarchicalConfigurationUtilsTest {
 	public void parseParameter() {
 		Map<String, String> parameter = HierarchicalConfigurationUtils.parseParameter(config.configurationAt("senders.target(0)"), "properties", "[@name]",
 			"[@value]");
-		Assert.assertEquals("192.168.1.234", parameter.get("hostname"));
+		Assertions.assertThat(parameter).containsEntry("hostname", "192.168.1.234");
 	}
 
 	@Test
@@ -41,35 +40,28 @@ public class HierarchicalConfigurationUtilsTest {
 		parameter.remove("queueName");
 		HierarchicalConfigurationUtils.updateParameter(config.configurationAt("senders.target(0)"), "properties", "[@name]", "[@value]", parameter);
 		parameter = HierarchicalConfigurationUtils.parseParameter(config.configurationAt("senders.target(0)"), "properties", "[@name]", "[@value]");
-		Assert.assertEquals("192.168.1.1", parameter.get("hostname"));
-		Assert.assertNull(parameter.get("port"));
+		Assertions.assertThat(parameter).containsEntry("hostname", "192.168.1.1");
+		Assertions.assertThat(parameter).doesNotContainKey("port");
 	}
 
 	@Test
 	public void parseAttributes() {
 		Map<String, String> parameter = HierarchicalConfigurationUtils.parseAttributes(config.configurationAt("senders.target(2).properties(0)"));
-		Assert.assertEquals("url", parameter.get("[@name]"));
+		Assertions.assertThat(parameter).containsEntry("[@name]", "url");
 	}
 
 	@Test
 	public void listAllNames() {
 		List<String> names = HierarchicalConfigurationUtils.listAllNames(config.configurationAt("receivers.receiver(0)"), "properties", "[@name]");
-		List<String> testNames = new ArrayList<>();
-		testNames.add("hostname");
-		testNames.add("port");
-		testNames.add("queueManagerName");
-		testNames.add("queueName");
-		testNames.add("ccsid");
-		testNames.add("channelName");
-		Assert.assertEquals(6, names.size());
-		Assert.assertEquals(testNames, names);
+		Assertions.assertThat(names).hasSize(6);
+		Assertions.assertThat(names).containsExactly("hostname", "port", "queueManagerName", "queueName", "ccsid", "channelName");
 	}
 
 	@Test
 	public void findForName()
 		throws ConfigurationException {
 		HierarchicalConfiguration subconfig = HierarchicalConfigurationUtils.findForName(config.configurationAt("senders"), "target", "[@name]", "SysA");
-		Assert.assertEquals("WMQ", subconfig.getString("[@protocol]"));
+		Assertions.assertThat(subconfig.getString("[@protocol]")).isEqualTo("WMQ");
 	}
 
 	@Test(expected = ConfigurationException.class)

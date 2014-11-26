@@ -4,12 +4,12 @@
  */
 package net.matrix.lang;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class Strings2Test {
 	@Test
 	public void testReplaceAllBetweenDelimiter() {
-		Assert.assertEquals("abc<Good>xyz", Strings2.replaceAllBetweenDelimiter("abc<Bad>xyz", "<", ">", "Bad", "Good"));
+		Assertions.assertThat(Strings2.replaceAllBetweenDelimiter("abc<Bad>xyz", "<", ">", "Bad", "Good")).isEqualTo("abc<Good>xyz");
 	}
 }

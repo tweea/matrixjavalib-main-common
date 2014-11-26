@@ -4,22 +4,22 @@
  */
 package net.matrix.util;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class CalendarsTest {
 	@Test
 	public void isValidDate() {
-		Assert.assertTrue(Calendars.isValidDate(2011, 10, 1));
-		Assert.assertFalse(Calendars.isValidDate(2011, 13, 1));
-		Assert.assertFalse(Calendars.isValidDate(2011, 2, 31));
+		Assertions.assertThat(Calendars.isValidDate(2011, 10, 1)).isTrue();
+		Assertions.assertThat(Calendars.isValidDate(2011, 13, 1)).isFalse();
+		Assertions.assertThat(Calendars.isValidDate(2011, 2, 31)).isFalse();
 	}
 
 	@Test
 	public void isLeapYear() {
-		Assert.assertTrue(Calendars.isLeapYear(2012));
-		Assert.assertTrue(Calendars.isLeapYear(2000));
-		Assert.assertFalse(Calendars.isLeapYear(2011));
-		Assert.assertFalse(Calendars.isLeapYear(2100));
+		Assertions.assertThat(Calendars.isLeapYear(2012)).isTrue();
+		Assertions.assertThat(Calendars.isLeapYear(2000)).isTrue();
+		Assertions.assertThat(Calendars.isLeapYear(2011)).isFalse();
+		Assertions.assertThat(Calendars.isLeapYear(2100)).isFalse();
 	}
 }

@@ -6,7 +6,7 @@ package net.matrix.lang;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class ReflectionRuntimeExceptionTest {
@@ -14,12 +14,12 @@ public class ReflectionRuntimeExceptionTest {
 	public void testReflectionRuntimeExceptionThrowable() {
 		Exception cause = new Exception();
 		ReflectionRuntimeException exception = new ReflectionRuntimeException(cause);
-		Assert.assertSame(cause, exception.getCause());
+		Assertions.assertThat(exception.getCause()).isSameAs(cause);
 
 		Exception target = new Exception();
 		cause = new InvocationTargetException(target);
 		exception = new ReflectionRuntimeException(cause);
-		Assert.assertSame(target, exception.getCause());
+		Assertions.assertThat(exception.getCause()).isSameAs(target);
 	}
 
 	@Test
@@ -27,12 +27,12 @@ public class ReflectionRuntimeExceptionTest {
 		Exception cause = new Exception();
 		ReflectionRuntimeException exception = new ReflectionRuntimeException();
 		exception.initCause(cause);
-		Assert.assertSame(cause, exception.getCause());
+		Assertions.assertThat(exception.getCause()).isSameAs(cause);
 
 		Exception target = new Exception();
 		cause = new InvocationTargetException(target);
 		exception = new ReflectionRuntimeException();
 		exception.initCause(cause);
-		Assert.assertSame(target, exception.getCause());
+		Assertions.assertThat(exception.getCause()).isSameAs(target);
 	}
 }

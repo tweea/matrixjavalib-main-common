@@ -7,7 +7,7 @@ package net.matrix.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class Collecitons3Test {
@@ -22,7 +22,7 @@ public class Collecitons3Test {
 		list.add(bean1);
 		list.add(bean2);
 
-		Assert.assertEquals("1,2", Collections3.extractToString(list, "id", ","));
+		Assertions.assertThat(Collections3.extractToString(list, "id", ",")).isEqualTo("1,2");
 	}
 
 	@Test
@@ -35,9 +35,9 @@ public class Collecitons3Test {
 		List list = new ArrayList();
 		list.add(bean1);
 		list.add(bean2);
-		List<String> result = Collections3.extractToList(list, "id");
-		Assert.assertEquals(2, result.size());
-		Assert.assertEquals(1, result.get(0));
+		List<Integer> result = Collections3.extractToList(list, "id");
+		Assertions.assertThat(result).hasSize(2);
+		Assertions.assertThat(result).containsExactly(1, 2);
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class Collecitons3Test {
 		list.add("aa");
 		list.add("bb");
 		String result = Collections3.convertToString(list, "<li>", "</li>");
-		Assert.assertEquals("<li>aa</li><li>bb</li>", result);
+		Assertions.assertThat(result).isEqualTo("<li>aa</li><li>bb</li>");
 	}
 
 	public static class TestBean3 {

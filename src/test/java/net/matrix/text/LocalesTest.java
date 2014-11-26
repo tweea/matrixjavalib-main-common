@@ -6,18 +6,18 @@ package net.matrix.text;
 
 import java.util.Locale;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class LocalesTest {
 	@Test
 	public void testCurrent() {
-		Assert.assertEquals(Locale.getDefault(), Locales.current());
+		Assertions.assertThat(Locales.current()).isEqualTo(Locale.getDefault());
 
 		Locales.current(Locale.CHINA);
-		Assert.assertEquals(Locale.CHINA, Locales.current());
+		Assertions.assertThat(Locales.current()).isEqualTo(Locale.CHINA);
 
 		Locales.current(Locale.getDefault());
-		Assert.assertEquals(Locale.getDefault(), Locales.current());
+		Assertions.assertThat(Locales.current()).isEqualTo(Locale.getDefault());
 	}
 }
