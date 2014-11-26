@@ -18,7 +18,6 @@ public class DigestsTest {
 
 		byte[] salt = Digests.generateSalt(8);
 		Digests.sha1(input.getBytes(), salt);
-
 		Digests.sha1(input.getBytes(), salt, 1024);
 	}
 
