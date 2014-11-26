@@ -4,6 +4,8 @@
  */
 package net.matrix.io;
 
+import java.util.Objects;
+
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -72,11 +74,7 @@ public class RelativeResource {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((path == null) ? 0 : path.hashCode());
-		result = prime * result + ((root == null) ? 0 : root.hashCode());
-		return result;
+		return Objects.hash(path, root);
 	}
 
 	@Override

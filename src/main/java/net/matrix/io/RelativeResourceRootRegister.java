@@ -113,10 +113,10 @@ public class RelativeResourceRootRegister {
 		}
 		LOG.debug("搬移文件从 {} 到 {}", src, dest);
 		File srcFile = getResource(src).getFile();
-		File destFile = getResource(dest).getFile();
 		if (!srcFile.exists()) {
 			throw new FileNotFoundException(srcFile.getAbsolutePath());
 		}
+		File destFile = getResource(dest).getFile();
 		deleteOldFile(destFile);
 		FileUtils.moveFile(srcFile, destFile);
 	}
@@ -138,10 +138,10 @@ public class RelativeResourceRootRegister {
 		}
 		LOG.debug("复制文件从 {} 到 {}", src, dest);
 		File srcFile = getResource(src).getFile();
-		File destFile = getResource(dest).getFile();
 		if (!srcFile.exists()) {
 			throw new FileNotFoundException(srcFile.getAbsolutePath());
 		}
+		File destFile = getResource(dest).getFile();
 		deleteOldFile(destFile);
 		FileUtils.copyFile(srcFile, destFile);
 	}

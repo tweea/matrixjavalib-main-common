@@ -19,7 +19,7 @@ public class RelativeResourceRootRegisterTest {
 	private static RelativeResourceRootRegister classRegister;
 
 	@BeforeClass
-	public static void setUp()
+	public static void beforeClass()
 		throws IOException {
 		classRegister = new RelativeResourceRootRegister();
 		Resource test1 = new FileSystemResource("target/test1/");

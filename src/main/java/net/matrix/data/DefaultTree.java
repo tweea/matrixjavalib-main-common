@@ -220,8 +220,13 @@ public class DefaultTree<ID, DATA>
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString()).append("[id=").append(id);
 		sb.append(",key=").append(key);
-		sb.append(",parent=").append(parent == null ? "null" : parent.getKey());
-		sb.append(",data=").append(data).append(",subnodes=").append(getChildNodes().values()).append("]");
+		sb.append(",parent=");
+		if (parent == null) {
+			sb.append("null");
+		} else {
+			sb.append(parent.getKey());
+		}
+		sb.append(",data=").append(data).append(",subnodes=").append(getChildNodes().values()).append(']');
 		return sb.toString();
 	}
 

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 
@@ -88,7 +89,7 @@ public final class HierarchicalConfigurationUtils {
 	 *            配置对象
 	 * @return {@code java.util.Map} 对象
 	 */
-	public static Map<String, String> parseAttributes(final HierarchicalConfiguration config) {
+	public static Map<String, String> parseAttributes(final Configuration config) {
 		Map<String, String> parameters = new HashMap<>();
 		for (String key : new IterableIterator<>(config.getKeys())) {
 			String value = config.getString(key);
