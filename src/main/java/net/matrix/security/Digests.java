@@ -19,12 +19,12 @@ public final class Digests {
 	/**
 	 * SHA-1 算法名。
 	 */
-	private static final String SHA1 = "SHA-1";
+	private static final String SHA1_NAME = "SHA-1";
 
 	/**
 	 * MD5 算法名。
 	 */
-	private static final String MD5 = "MD5";
+	private static final String MD5_NAME = "MD5";
 
 	/**
 	 * 内部随机量。
@@ -45,7 +45,7 @@ public final class Digests {
 	 * @return 散列码
 	 */
 	public static byte[] sha1(final byte[] input) {
-		return digest(input, SHA1, null, 1);
+		return digest(input, SHA1_NAME, null, 1);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class Digests {
 	 * @return 散列码
 	 */
 	public static byte[] sha1(final byte[] input, final byte[] salt) {
-		return digest(input, SHA1, salt, 1);
+		return digest(input, SHA1_NAME, salt, 1);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public final class Digests {
 	 * @return 散列码
 	 */
 	public static byte[] sha1(final byte[] input, final byte[] salt, final int iterations) {
-		return digest(input, SHA1, salt, iterations);
+		return digest(input, SHA1_NAME, salt, iterations);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public final class Digests {
 	 */
 	public static byte[] md5(final InputStream input)
 		throws IOException {
-		return digest(input, MD5);
+		return digest(input, MD5_NAME);
 	}
 
 	/**
@@ -147,7 +147,7 @@ public final class Digests {
 	 */
 	public static byte[] sha1(final InputStream input)
 		throws IOException {
-		return digest(input, SHA1);
+		return digest(input, SHA1_NAME);
 	}
 
 	/**

@@ -26,17 +26,17 @@ public final class Cryptos {
 	/**
 	 * AES 算法名。
 	 */
-	private static final String AES = "AES";
+	private static final String AES_NAME = "AES";
 
 	/**
 	 * 带随机向量 AES 算法名。
 	 */
-	private static final String AES_CBC = "AES/CBC/PKCS5Padding";
+	private static final String AES_CBC_NAME = "AES/CBC/PKCS5Padding";
 
 	/**
 	 * HMAC-SHA1 算法名。
 	 */
-	private static final String HMACSHA1 = "HmacSHA1";
+	private static final String HMACSHA1_NAME = "HmacSHA1";
 
 	// RFC2401
 	/**
@@ -80,8 +80,8 @@ public final class Cryptos {
 	public static byte[] hmacSha1(final byte[] input, final byte[] key)
 		throws GeneralSecurityException {
 		try {
-			SecretKey secretKey = new SecretKeySpec(key, HMACSHA1);
-			Mac mac = Mac.getInstance(HMACSHA1);
+			SecretKey secretKey = new SecretKeySpec(key, HMACSHA1_NAME);
+			Mac mac = Mac.getInstance(HMACSHA1_NAME);
 			mac.init(secretKey);
 			return mac.doFinal(input);
 		} catch (NoSuchAlgorithmException e) {
@@ -116,7 +116,7 @@ public final class Cryptos {
 	 */
 	public static byte[] generateHmacSha1Key() {
 		try {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance(HMACSHA1);
+			KeyGenerator keyGenerator = KeyGenerator.getInstance(HMACSHA1_NAME);
 			keyGenerator.init(DEFAULT_HMACSHA1_KEYSIZE);
 			SecretKey secretKey = keyGenerator.generateKey();
 			return secretKey.getEncoded();
@@ -210,8 +210,8 @@ public final class Cryptos {
 	private static byte[] aes(final byte[] input, final byte[] key, final int mode)
 		throws GeneralSecurityException {
 		try {
-			SecretKey secretKey = new SecretKeySpec(key, AES);
-			Cipher cipher = Cipher.getInstance(AES);
+			SecretKey secretKey = new SecretKeySpec(key, AES_NAME);
+			Cipher cipher = Cipher.getInstance(AES_NAME);
 			cipher.init(mode, secretKey);
 			return cipher.doFinal(input);
 		} catch (NoSuchAlgorithmException e) {
@@ -239,9 +239,9 @@ public final class Cryptos {
 	private static byte[] aes(final byte[] input, final byte[] key, final byte[] iv, final int mode)
 		throws GeneralSecurityException {
 		try {
-			SecretKey secretKey = new SecretKeySpec(key, AES);
+			SecretKey secretKey = new SecretKeySpec(key, AES_NAME);
 			IvParameterSpec ivSpec = new IvParameterSpec(iv);
-			Cipher cipher = Cipher.getInstance(AES_CBC);
+			Cipher cipher = Cipher.getInstance(AES_CBC_NAME);
 			cipher.init(mode, secretKey, ivSpec);
 			return cipher.doFinal(input);
 		} catch (NoSuchAlgorithmException e) {
@@ -269,7 +269,7 @@ public final class Cryptos {
 	 */
 	public static byte[] generateAesKey(final int keysize) {
 		try {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
+			KeyGenerator keyGenerator = KeyGenerator.getInstance(AES_NAME);
 			keyGenerator.init(keysize);
 			SecretKey secretKey = keyGenerator.generateKey();
 			return secretKey.getEncoded();
