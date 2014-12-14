@@ -45,11 +45,7 @@ public final class Collections3 {
 			for (Object obj : collection) {
 				map.put(PropertyUtils.getProperty(obj, keyPropertyName), PropertyUtils.getProperty(obj, valuePropertyName));
 			}
-		} catch (InvocationTargetException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (NoSuchMethodException e) {
+		} catch (ReflectiveOperationException e) {
 			throw new ReflectionRuntimeException(e);
 		}
 
@@ -72,11 +68,7 @@ public final class Collections3 {
 			for (Object obj : collection) {
 				list.add(PropertyUtils.getProperty(obj, propertyName));
 			}
-		} catch (InvocationTargetException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (NoSuchMethodException e) {
+		} catch (ReflectiveOperationException e) {
 			throw new ReflectionRuntimeException(e);
 		}
 

@@ -151,11 +151,7 @@ public final class Reflections {
 
 		try {
 			return (T) method.invoke(target, parameterValues);
-		} catch (IllegalAccessException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (IllegalArgumentException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (InvocationTargetException e) {
+		} catch (ReflectiveOperationException e) {
 			throw new ReflectionRuntimeException(e);
 		}
 	}
@@ -183,11 +179,7 @@ public final class Reflections {
 
 		try {
 			return (T) method.invoke(target, parameterValues);
-		} catch (IllegalAccessException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (IllegalArgumentException e) {
-			throw new ReflectionRuntimeException(e);
-		} catch (InvocationTargetException e) {
+		} catch (ReflectiveOperationException e) {
 			throw new ReflectionRuntimeException(e);
 		}
 	}
