@@ -367,7 +367,7 @@ public class DefaultTree<ID, DATA>
 				if (parent == null) {
 					string = Integer.toString(index);
 				} else {
-					string = parent.toString() + "," + index;
+					string = parent + "," + index;
 				}
 			}
 			return string;
