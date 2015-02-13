@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>net.sf.matrixjavalib</groupId>
 		<artifactId>genesis7</artifactId>
-		<version>34</version>
+		<version>35</version>
 	</parent>
 	<dependencies>
 		<!-- compile -->
