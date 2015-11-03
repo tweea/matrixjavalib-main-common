@@ -6,8 +6,12 @@ package net.matrix.lang;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReflectionsTest {
+	private static final Logger LOG = LoggerFactory.getLogger(ReflectionsTest.class);
+
 	@Test
 	public void getAndSetFieldValue() {
 		TestBean bean = new TestBean();
@@ -29,12 +33,14 @@ public class ReflectionsTest {
 			Reflections.getFieldValue(bean, "notExist");
 			Assertions.fail("should throw exception here");
 		} catch (IllegalArgumentException e) {
+			LOG.trace("", e);
 		}
 
 		try {
 			Reflections.setFieldValue(bean, "notExist", 2);
 			Assertions.fail("should throw exception here");
 		} catch (IllegalArgumentException e) {
+			LOG.trace("", e);
 		}
 	}
 
@@ -73,6 +79,7 @@ public class ReflectionsTest {
 			});
 			Assertions.fail("should throw exception here");
 		} catch (IllegalArgumentException e) {
+			LOG.trace("", e);
 		}
 
 		// 参数类型错
@@ -84,6 +91,7 @@ public class ReflectionsTest {
 			});
 			Assertions.fail("should throw exception here");
 		} catch (RuntimeException e) {
+			LOG.trace("", e);
 		}
 
 		// 函数名错
@@ -93,6 +101,7 @@ public class ReflectionsTest {
 			});
 			Assertions.fail("should throw exception here");
 		} catch (IllegalArgumentException e) {
+			LOG.trace("", e);
 		}
 	}
 

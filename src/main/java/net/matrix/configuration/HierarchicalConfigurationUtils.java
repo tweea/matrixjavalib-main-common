@@ -135,7 +135,7 @@ public final class HierarchicalConfigurationUtils {
 	 */
 	public static HierarchicalConfiguration findForName(final HierarchicalConfiguration config, final String subKey, final String nameKey,
 		final String nameValue)
-		throws ConfigurationException {
+			throws ConfigurationException {
 		for (HierarchicalConfiguration subConfig : config.configurationsAt(subKey)) {
 			String name = subConfig.getString(nameKey);
 			if (name.equals(nameValue)) {

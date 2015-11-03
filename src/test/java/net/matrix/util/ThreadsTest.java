@@ -90,7 +90,7 @@ public class ThreadsTest {
 			try {
 				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
-				logger.warn("InterruptedException");
+				logger.warn("InterruptedException", e);
 			}
 		}
 	}

@@ -19,7 +19,7 @@ public class ConfigurationReloadingListenerTest {
 	public void testConfigurationReloadingListener() {
 		TestContainer container = new TestContainer();
 		ConfigurationListener listener = new ConfigurationReloadingListener(container);
-		Assertions.assertThat(FieldSupport.instance().fieldValue("container", ReloadableConfigurationContainer.class, listener)).isSameAs(container);
+		Assertions.assertThat(FieldSupport.extraction().fieldValue("container", ReloadableConfigurationContainer.class, listener)).isSameAs(container);
 	}
 
 	@Test
