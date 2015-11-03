@@ -6,6 +6,9 @@ package net.matrix.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,5 +74,45 @@ public final class Calendars {
 	 */
 	public static boolean isLeapYear(final int year) {
 		return buildDate(year, 1, 1).year().isLeap();
+	}
+
+	/**
+	 * 创建 DateTime 对象，参数为 null 时返回 null。
+	 */
+	public static DateTime newDateTime(Object instant) {
+		if (instant == null) {
+			return null;
+		}
+		return new DateTime(instant);
+	}
+
+	/**
+	 * 创建 LocalDate 对象，参数为 null 时返回 null。
+	 */
+	public static LocalDate newLocalDate(Object instant) {
+		if (instant == null) {
+			return null;
+		}
+		return new LocalDate(instant);
+	}
+
+	/**
+	 * 创建 LocalTime 对象，参数为 null 时返回 null。
+	 */
+	public static LocalTime newLocalTime(Object instant) {
+		if (instant == null) {
+			return null;
+		}
+		return new LocalTime(instant);
+	}
+
+	/**
+	 * 创建 LocalDateTime 对象，参数为 null 时返回 null。
+	 */
+	public static LocalDateTime newLocalDateTime(Object instant) {
+		if (instant == null) {
+			return null;
+		}
+		return new LocalDateTime(instant);
 	}
 }
