@@ -89,7 +89,7 @@ public final class Reflections {
 		Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
 
 		if (field == null) {
-			throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + "]");
+			throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
 		}
 
 		T result = null;
@@ -115,7 +115,7 @@ public final class Reflections {
 		Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
 
 		if (field == null) {
-			throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + "]");
+			throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
 		}
 
 		try {
@@ -145,7 +145,7 @@ public final class Reflections {
 	public static <T> T invokeMethod(final Object target, final String name, final Class<?>[] parameterTypes, final Object[] parameterValues) {
 		Method method = getAccessibleMethod(target, name, parameterTypes);
 		if (method == null) {
-			throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + "]");
+			throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + ']');
 		}
 
 		try {
@@ -173,7 +173,7 @@ public final class Reflections {
 	public static <T> T invokeMethodByName(final Object target, final String name, final Object[] parameterValues) {
 		Method method = getAccessibleMethodByName(target, name);
 		if (method == null) {
-			throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + "]");
+			throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + ']');
 		}
 
 		try {
@@ -289,7 +289,10 @@ public final class Reflections {
 	 * 通过反射，获得 Class 定义中声明的泛型参数的类型，注意泛型必须定义在父类处。
 	 * 如无法找到，返回 Object.class。
 	 * eg.
-	 * public UserDao extends HibernateDao<User>
+	 * 
+	 * <pre>
+	 * public UserDao extends HibernateDao&lt;User>
+	 * </pre>
 	 * 
 	 * @param clazz
 	 *            The class to introspect
@@ -305,7 +308,10 @@ public final class Reflections {
 	 * 通过反射，获得 Class 定义中声明的父类的泛型参数的类型。
 	 * 如无法找到，返回 Object.class。
 	 * 如：
-	 * public UserDao extends HibernateDao<User, Long>
+	 * 
+	 * <pre>
+	 * public UserDao extends HibernateDao&lt;User, Long>
+	 * </pre>
 	 * 
 	 * @param clazz
 	 *            clazz The class to introspect

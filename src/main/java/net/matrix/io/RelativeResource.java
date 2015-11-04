@@ -69,7 +69,7 @@ public class RelativeResource {
 
 	@Override
 	public String toString() {
-		return "RelativeResource[" + root + '/' + path + "]";
+		return "RelativeResource[" + root + '/' + path + ']';
 	}
 
 	@Override

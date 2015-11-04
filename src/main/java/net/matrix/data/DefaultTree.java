@@ -336,15 +336,15 @@ public class DefaultTree<ID, DATA>
 
 		@Override
 		public boolean equals(final Object obj) {
-			if (obj instanceof Key) {
-				Key ok = (Key) obj;
-				if (level != ok.getLevel()) {
+			if (obj instanceof DefaultKey) {
+				DefaultKey ok = (DefaultKey) obj;
+				if (level != ok.level) {
 					return false;
 				}
-				if (level != 0 && !parent.equals(ok.getParent())) {
+				if (level != 0 && !parent.equals(ok.parent)) {
 					return false;
 				}
-				return index == ok.getIndex();
+				return index == ok.index;
 			}
 			return false;
 		}
@@ -367,7 +367,7 @@ public class DefaultTree<ID, DATA>
 				if (parent == null) {
 					string = Integer.toString(index);
 				} else {
-					string = parent + "," + index;
+					string = parent.toString() + ',' + index;
 				}
 			}
 			return string;
