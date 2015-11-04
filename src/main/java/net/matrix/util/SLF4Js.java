@@ -1,5 +1,5 @@
 /*
- * Copyright(C) 2011 Matrix
+ * Copyright(C) 2015 Matrix
  * All right reserved.
  */
 package net.matrix.util;
@@ -20,9 +20,11 @@ public final class SLF4Js {
 	 * 将 java.util.logging 的日志代理到 SLF4J。
 	 */
 	public static void bridgeJUL() {
-		if (!SLF4JBridgeHandler.isInstalled()) {
-			SLF4JBridgeHandler.removeHandlersForRootLogger();
-			SLF4JBridgeHandler.install();
+		if (SLF4JBridgeHandler.isInstalled()) {
+			return;
 		}
+
+		SLF4JBridgeHandler.removeHandlersForRootLogger();
+		SLF4JBridgeHandler.install();
 	}
 }

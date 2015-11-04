@@ -78,6 +78,10 @@ public final class Calendars {
 
 	/**
 	 * 创建 DateTime 对象，参数为 null 时返回 null。
+	 * 
+	 * @param instant
+	 *            表示日期的对象
+	 * @return DateTime 对象
 	 */
 	public static DateTime newDateTime(Object instant) {
 		if (instant == null) {
@@ -88,6 +92,10 @@ public final class Calendars {
 
 	/**
 	 * 创建 LocalDate 对象，参数为 null 时返回 null。
+	 * 
+	 * @param instant
+	 *            表示日期的对象
+	 * @return LocalDate 对象
 	 */
 	public static LocalDate newLocalDate(Object instant) {
 		if (instant == null) {
@@ -98,6 +106,10 @@ public final class Calendars {
 
 	/**
 	 * 创建 LocalTime 对象，参数为 null 时返回 null。
+	 * 
+	 * @param instant
+	 *            表示日期的对象
+	 * @return LocalTime 对象
 	 */
 	public static LocalTime newLocalTime(Object instant) {
 		if (instant == null) {
@@ -108,6 +120,10 @@ public final class Calendars {
 
 	/**
 	 * 创建 LocalDateTime 对象，参数为 null 时返回 null。
+	 * 
+	 * @param instant
+	 *            表示日期的对象
+	 * @return LocalDateTime 对象
 	 */
 	public static LocalDateTime newLocalDateTime(Object instant) {
 		if (instant == null) {

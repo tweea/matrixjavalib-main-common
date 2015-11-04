@@ -120,7 +120,7 @@ public class DelimitedString
 	}
 
 	/**
-	 * @return the delimiter
+	 * @return 分割符
 	 */
 	public String getDelimiter() {
 		return delimiter;
@@ -128,7 +128,7 @@ public class DelimitedString
 
 	/**
 	 * @param delimiter
-	 *            the delimiter to set
+	 *            分割符
 	 */
 	public void setDelimiter(final String delimiter) {
 		this.delimiter = delimiter;

@@ -33,13 +33,13 @@ public class XMLConfigurationContainer
 	 */
 	public XMLConfigurationContainer() {
 		this.config = new XMLConfiguration();
-		this.config.setDelimiterParsingDisabled(isDelimiterParsingDisabled());
 	}
 
 	@Override
 	public void load(final Resource resource)
 		throws ConfigurationException {
 		LOG.debug("加载配置：{}", resource);
+		config.setDelimiterParsingDisabled(isDelimiterParsingDisabled());
 		try {
 			config.load(resource.getFile());
 			config.setReloadingStrategy(new FileChangedReloadingStrategy());
