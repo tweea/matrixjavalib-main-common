@@ -108,7 +108,7 @@ public final class ResourceBundles {
 			return bundle;
 		}
 
-		private InputStream getResourceAsStream(final ClassLoader loader, final boolean reload, final String resourceName)
+		private static InputStream getResourceAsStream(final ClassLoader loader, final boolean reload, final String resourceName)
 			throws IOException {
 			if (reload) {
 				URL url = loader.getResource(resourceName);

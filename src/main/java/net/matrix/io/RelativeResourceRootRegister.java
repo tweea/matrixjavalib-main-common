@@ -152,7 +152,7 @@ public class RelativeResourceRootRegister {
 	 * @param file
 	 *            旧文件
 	 */
-	private void deleteOldFile(final File file) {
+	private static void deleteOldFile(final File file) {
 		if (!file.exists()) {
 			return;
 		}

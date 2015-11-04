@@ -7,6 +7,7 @@ package net.matrix.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import net.matrix.lang.ImpossibleException;
 
@@ -22,9 +23,9 @@ public final class Encodes {
 	private static final String BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 	/**
-	 * 默认 URL 编码。
+	 * 默认 URL 编码（UTF-8）。
 	 */
-	private static final String DEFAULT_URL_ENCODING = "UTF-8";
+	private static final String DEFAULT_URL_ENCODING = StandardCharsets.UTF_8.name();
 
 	/**
 	 * 阻止实例化。
