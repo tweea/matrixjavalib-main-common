@@ -75,7 +75,7 @@ public final class HierarchicalConfigurationUtils {
 			subConfig.clear();
 		}
 		String newNameKey = subKey + "(-1)." + nameKey;
-		String newValueKey = subKey + "." + valueKey;
+		String newValueKey = subKey + '.' + valueKey;
 		for (Map.Entry<String, String> parameter : parameters.entrySet()) {
 			config.addProperty(newNameKey, parameter.getKey());
 			config.addProperty(newValueKey, parameter.getValue());
@@ -129,9 +129,9 @@ public final class HierarchicalConfigurationUtils {
 	 *            名字配置键值
 	 * @param nameValue
 	 *            属性值
+	 * @return 匹配的配置对象
 	 * @throws ConfigurationException
 	 *             找不到指定配置
-	 * @return 匹配的配置对象
 	 */
 	public static HierarchicalConfiguration findForName(final HierarchicalConfiguration config, final String subKey, final String nameKey,
 		final String nameValue)

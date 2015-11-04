@@ -37,12 +37,12 @@ public class DefaultTree<ID, DATA>
 	/**
 	 * 数据标识。
 	 */
-	private transient ID id;
+	private ID id;
 
 	/**
 	 * 数据。
 	 */
-	private transient DATA data;
+	private DATA data;
 
 	/**
 	 * 父节点。
@@ -52,12 +52,12 @@ public class DefaultTree<ID, DATA>
 	/**
 	 * 标识映射。
 	 */
-	private final transient Map<ID, Key> keyMap;
+	private final Map<ID, Key> keyMap;
 
 	/**
 	 * 存储所有的节点。
 	 */
-	private final transient SortedMap<Key, DefaultTree<ID, DATA>> nodes;
+	private final SortedMap<Key, DefaultTree<ID, DATA>> nodes;
 
 	/**
 	 * 构造一棵树。
