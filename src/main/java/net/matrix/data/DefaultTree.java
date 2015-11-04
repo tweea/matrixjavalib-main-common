@@ -336,7 +336,7 @@ public class DefaultTree<ID, DATA>
 
 		@Override
 		public boolean equals(final Object obj) {
-			if (obj instanceof DefaultKey) {
+			if (this.getClass() == obj.getClass()) {
 				DefaultKey ok = (DefaultKey) obj;
 				if (level != ok.level) {
 					return false;
