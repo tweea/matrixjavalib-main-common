@@ -83,7 +83,7 @@ public final class Calendars {
 	 *            表示日期的对象
 	 * @return DateTime 对象
 	 */
-	public static DateTime newDateTime(Object instant) {
+	public static DateTime newDateTime(final Object instant) {
 		if (instant == null) {
 			return null;
 		}
@@ -97,7 +97,7 @@ public final class Calendars {
 	 *            表示日期的对象
 	 * @return LocalDate 对象
 	 */
-	public static LocalDate newLocalDate(Object instant) {
+	public static LocalDate newLocalDate(final Object instant) {
 		if (instant == null) {
 			return null;
 		}
@@ -111,7 +111,7 @@ public final class Calendars {
 	 *            表示日期的对象
 	 * @return LocalTime 对象
 	 */
-	public static LocalTime newLocalTime(Object instant) {
+	public static LocalTime newLocalTime(final Object instant) {
 		if (instant == null) {
 			return null;
 		}
@@ -125,7 +125,7 @@ public final class Calendars {
 	 *            表示日期的对象
 	 * @return LocalDateTime 对象
 	 */
-	public static LocalDateTime newLocalDateTime(Object instant) {
+	public static LocalDateTime newLocalDateTime(final Object instant) {
 		if (instant == null) {
 			return null;
 		}
