@@ -113,7 +113,7 @@ public final class Digests {
 	 * 生成随机的 Byte[] 作为 salt。
 	 * 
 	 * @param numBytes
-	 *            byte 数组的大小
+	 *            salt 数组的大小
 	 * @return 扰码
 	 */
 	public static byte[] generateSalt(final int numBytes) {
