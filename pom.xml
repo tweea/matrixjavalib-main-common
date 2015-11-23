@@ -35,8 +35,8 @@
 			<version>1.9.2</version>
 			<scope>compile</scope>
 			<exclusions>
-				<!-- 使用 jcl-over-slf4j 代替 -->
 				<exclusion>
+					<!-- 使用 jcl-over-slf4j 代替 -->
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
@@ -54,8 +54,8 @@
 			<version>1.10</version>
 			<scope>compile</scope>
 			<exclusions>
-				<!-- 使用 jcl-over-slf4j 代替 -->
 				<exclusion>
+					<!-- 使用 jcl-over-slf4j 代替 -->
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
@@ -103,8 +103,8 @@
 			<version>4.2.3.RELEASE</version>
 			<scope>compile</scope>
 			<exclusions>
-				<!-- 使用 jcl-over-slf4j 代替 -->
 				<exclusion>
+					<!-- 使用 jcl-over-slf4j 代替 -->
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
@@ -124,8 +124,8 @@
 			<version>2.4.1</version>
 			<scope>runtime</scope>
 			<exclusions>
-				<!-- 排除旧版本传递依赖 -->
 				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
