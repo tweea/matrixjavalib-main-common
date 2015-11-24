@@ -36,11 +36,23 @@
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+				<exclusion>
 					<!-- 使用 jcl-over-slf4j 代替 -->
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<!-- 提升传递依赖 -->
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.2</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
