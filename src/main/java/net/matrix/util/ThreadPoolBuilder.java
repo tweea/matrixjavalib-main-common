@@ -33,6 +33,8 @@ public interface ThreadPoolBuilder {
 	 */
 	RejectedExecutionHandler DEFAULT_REJECT_HANDLER = new AbortPolicy();
 
+	ExecutorService build();
+
 	/**
 	 * 创建 FixedThreadPool。
 	 * 
@@ -49,7 +51,8 @@ public interface ThreadPoolBuilder {
 	 * 
 	 * 3. 因为线程全部为 core 线程，所以不会在空闲回收。
 	 */
-	class FixedThreadPoolBuilder {
+	class FixedThreadPoolBuilder
+		implements ThreadPoolBuilder {
 		private int poolSize = 0;
 
 		private int queueSize = 0;
@@ -78,6 +81,7 @@ public interface ThreadPoolBuilder {
 			return this;
 		}
 
+		@Override
 		public ExecutorService build() {
 			if (poolSize < 1) {
 				throw new IllegalArgumentException("size not set");
@@ -119,7 +123,8 @@ public interface ThreadPoolBuilder {
 	 * 
 	 * 3. minSize 以上，maxSize 以下的线程，如果在 keepAliveTime 中都 poll 不到任务执行将会被结束掉，keeAliveTime 默认为 60 秒，可设置。
 	 */
-	class CachedThreadPoolBuilder {
+	class CachedThreadPoolBuilder
+		implements ThreadPoolBuilder {
 		private int minSize = 0;
 
 		private int maxSize = Integer.MAX_VALUE;
@@ -155,6 +160,7 @@ public interface ThreadPoolBuilder {
 			return this;
 		}
 
+		@Override
 		public ExecutorService build() {
 			if (threadFactory == null) {
 				threadFactory = Executors.defaultThreadFactory();
