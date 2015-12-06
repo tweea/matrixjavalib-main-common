@@ -53,9 +53,9 @@ public interface ThreadPoolBuilder {
 	 */
 	class FixedThreadPoolBuilder
 		implements ThreadPoolBuilder {
-		private int poolSize = 0;
+		private int poolSize;
 
-		private int queueSize = 0;
+		private int queueSize;
 
 		private ThreadFactory threadFactory;
 
@@ -125,7 +125,7 @@ public interface ThreadPoolBuilder {
 	 */
 	class CachedThreadPoolBuilder
 		implements ThreadPoolBuilder {
-		private int minSize = 0;
+		private int minSize;
 
 		private int maxSize = Integer.MAX_VALUE;
 
