@@ -291,7 +291,7 @@ public final class Reflections {
 	 * eg.
 	 * 
 	 * <pre>
-	 * public UserDao extends HibernateDao&lt;User>
+	 * public UserDao extends HibernateDao&lt;User&gt;
 	 * </pre>
 	 * 
 	 * @param clazz
@@ -310,7 +310,7 @@ public final class Reflections {
 	 * 如：
 	 * 
 	 * <pre>
-	 * public UserDao extends HibernateDao&lt;User, Long>
+	 * public UserDao extends HibernateDao&lt;User, Long&gt;
 	 * </pre>
 	 * 
 	 * @param clazz

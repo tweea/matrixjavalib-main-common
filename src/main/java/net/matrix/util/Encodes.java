@@ -34,7 +34,7 @@ public final class Encodes {
 	}
 
 	/**
-	 * Base62(0_9A_Za_z) 编码数字，long->String。
+	 * Base62(0_9A_Za_z) 编码数字，long-&gt;String。
 	 * 
 	 * @param num
 	 *            数字
@@ -52,7 +52,7 @@ public final class Encodes {
 	}
 
 	/**
-	 * Base62(0_9A_Za_z) 解码数字，String->long。
+	 * Base62(0_9A_Za_z) 解码数字，String-&gt;long。
 	 * 
 	 * @param str
 	 *            编码结果
