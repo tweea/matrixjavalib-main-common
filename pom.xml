@@ -12,8 +12,8 @@
 	<!-- 基本属性 - 项目关系 -->
 	<parent>
 		<groupId>net.sf.matrixjavalib</groupId>
-		<artifactId>genesis7</artifactId>
-		<version>36</version>
+		<artifactId>genesis8</artifactId>
+		<version>37</version>
 	</parent>
 	<dependencies>
 		<!-- compile -->
