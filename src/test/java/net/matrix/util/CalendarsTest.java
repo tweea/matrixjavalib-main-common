@@ -12,6 +12,7 @@ import org.junit.Test;
 public class CalendarsTest {
 	@Test
 	public void isValidDate() {
+		Assertions.assertThat(Calendars.isValidDate(1948, 5, 1)).isTrue();
 		Assertions.assertThat(Calendars.isValidDate(2011, 10, 1)).isTrue();
 		Assertions.assertThat(Calendars.isValidDate(2011, 13, 1)).isFalse();
 		Assertions.assertThat(Calendars.isValidDate(2011, 2, 31)).isFalse();

@@ -16,7 +16,8 @@ public class Objects2Test {
 
 	@Test
 	public void testNullIf() {
-		Assertions.assertThat(Objects2.nullIf(null, null)).isNull();
+		Object nullValue = null;
+		Assertions.assertThat(Objects2.nullIf(nullValue, nullValue)).isNull();
 		Assertions.assertThat(Objects2.nullIf("A", "A")).isNull();
 		Assertions.assertThat(Objects2.nullIf("A", "B")).isEqualTo("A");
 	}

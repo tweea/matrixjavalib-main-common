@@ -16,9 +16,11 @@ public class ReflectionsTest {
 	public void getAndSetFieldValue() {
 		TestBean bean = new TestBean();
 		// 无需getter函数, 直接读取privateField
-		Assertions.assertThat(Reflections.getFieldValue(bean, "privateField")).isEqualTo(1);
+		Object value = Reflections.getFieldValue(bean, "privateField");
+		Assertions.assertThat(value).isEqualTo(1);
 		// 绕过将publicField+1的getter函数,直接读取publicField的原始值
-		Assertions.assertThat(Reflections.getFieldValue(bean, "publicField")).isEqualTo(1);
+		value = Reflections.getFieldValue(bean, "publicField");
+		Assertions.assertThat(value).isEqualTo(1);
 
 		bean = new TestBean();
 		// 无需setter函数, 直接设置privateField
@@ -47,7 +49,8 @@ public class ReflectionsTest {
 	@Test
 	public void invokeGetterAndSetter() {
 		TestBean bean = new TestBean();
-		Assertions.assertThat(Reflections.invokeGetter(bean, "publicField")).isEqualTo(bean.inspectPublicField() + 1);
+		Object value = Reflections.invokeGetter(bean, "publicField");
+		Assertions.assertThat(value).isEqualTo(bean.inspectPublicField() + 1);
 
 		bean = new TestBean();
 		// 通过setter的函数将+1
@@ -59,16 +62,18 @@ public class ReflectionsTest {
 	public void invokeMethod() {
 		TestBean bean = new TestBean();
 		// 使用函数名+参数类型的匹配
-		Assertions.assertThat(Reflections.invokeMethod(bean, "privateMethod", new Class[] {
+		Object value = Reflections.invokeMethod(bean, "privateMethod", new Class[] {
 			String.class
 		}, new Object[] {
 			"calvin"
-		})).isEqualTo(bean.privateMethod("calvin"));
+		});
+		Assertions.assertThat(value).isEqualTo(bean.privateMethod("calvin"));
 
 		// 仅匹配函数名
-		Assertions.assertThat(Reflections.invokeMethodByName(bean, "privateMethod", new Object[] {
+		value = Reflections.invokeMethodByName(bean, "privateMethod", new Object[] {
 			"calvin"
-		})).isEqualTo("hello calvin");
+		});
+		Assertions.assertThat(value).isEqualTo("hello calvin");
 
 		// 函数名错
 		try {
@@ -128,7 +133,8 @@ public class ReflectionsTest {
 	}
 
 	public static class TestBean
-		extends ParentBean<String, Long> {
+		extends
+		ParentBean<String, Long> {
 		/** 没有getter/setter的field */
 		private int privateField = 1;
 
@@ -159,7 +165,8 @@ public class ReflectionsTest {
 	}
 
 	public static class TestBean2
-		extends ParentBean {
+		extends
+		ParentBean {
 	}
 
 	public static class TestBean3 {

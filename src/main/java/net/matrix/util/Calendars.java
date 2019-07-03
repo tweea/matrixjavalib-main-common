@@ -61,8 +61,8 @@ public final class Calendars {
 	 *            日
 	 * @return 日期对象
 	 */
-	private static DateTime buildDate(final int year, final int month, final int day) {
-		return new DateTime(year, month, day, 0, 0);
+	private static LocalDate buildDate(final int year, final int month, final int day) {
+		return new LocalDate(year, month, day);
 	}
 
 	/**
