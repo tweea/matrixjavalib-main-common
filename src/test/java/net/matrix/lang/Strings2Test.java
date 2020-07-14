@@ -8,8 +8,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class Strings2Test {
-	@Test
-	public void testReplaceAllBetweenDelimiter() {
-		Assertions.assertThat(Strings2.replaceAllBetweenDelimiter("abc<Bad>xyz", "<", ">", "Bad", "Good")).isEqualTo("abc<Good>xyz");
-	}
+    @Test
+    public void testReplaceAllBetweenDelimiter() {
+        Assertions.assertThat(Strings2.replaceAllBetweenDelimiter("abc<Bad>xyz", "<", ">", "Bad", "Good")).isEqualTo("abc<Good>xyz");
+    }
 }

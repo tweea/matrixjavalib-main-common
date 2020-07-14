@@ -17,84 +17,84 @@ import net.matrix.lang.ImpossibleException;
  * 2.JDK 提供的 URLEncoder
  */
 public final class Encodes {
-	/**
-	 * Base 编码字母表。
-	 */
-	private static final String BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    /**
+     * Base 编码字母表。
+     */
+    private static final String BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-	/**
-	 * 默认 URL 编码（UTF-8）。
-	 */
-	private static final String DEFAULT_URL_ENCODING = StandardCharsets.UTF_8.name();
+    /**
+     * 默认 URL 编码（UTF-8）。
+     */
+    private static final String DEFAULT_URL_ENCODING = StandardCharsets.UTF_8.name();
 
-	/**
-	 * 阻止实例化。
-	 */
-	private Encodes() {
-	}
+    /**
+     * 阻止实例化。
+     */
+    private Encodes() {
+    }
 
-	/**
-	 * Base62(0_9A_Za_z) 编码数字，long-&gt;String。
-	 * 
-	 * @param num
-	 *            数字
-	 * @return 编码结果
-	 */
-	public static String encodeBase62(final long num) {
-		long index = Math.abs(num);
-		int base = BASE62.length();
-		StringBuilder sb = new StringBuilder();
-		for (; index > 0; index /= base) {
-			sb.append(BASE62.charAt((int) (index % base)));
-		}
+    /**
+     * Base62(0_9A_Za_z) 编码数字，long-&gt;String。
+     * 
+     * @param num
+     *     数字
+     * @return 编码结果
+     */
+    public static String encodeBase62(final long num) {
+        long index = Math.abs(num);
+        int base = BASE62.length();
+        StringBuilder sb = new StringBuilder();
+        for (; index > 0; index /= base) {
+            sb.append(BASE62.charAt((int) (index % base)));
+        }
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	/**
-	 * Base62(0_9A_Za_z) 解码数字，String-&gt;long。
-	 * 
-	 * @param str
-	 *            编码结果
-	 * @return 数字
-	 */
-	public static long decodeBase62(final String str) {
-		long result = 0;
-		int base = BASE62.length();
-		for (int i = 0; i < str.length(); i++) {
-			result += BASE62.indexOf(str.charAt(i)) * Math.pow(base, i);
-		}
+    /**
+     * Base62(0_9A_Za_z) 解码数字，String-&gt;long。
+     * 
+     * @param str
+     *     编码结果
+     * @return 数字
+     */
+    public static long decodeBase62(final String str) {
+        long result = 0;
+        int base = BASE62.length();
+        for (int i = 0; i < str.length(); i++) {
+            result += BASE62.indexOf(str.charAt(i)) * Math.pow(base, i);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * URL 编码，默认编码为 UTF-8。
-	 * 
-	 * @param part
-	 *            待编码字符串
-	 * @return 编码字符串
-	 */
-	public static String urlEncode(final String part) {
-		try {
-			return URLEncoder.encode(part, DEFAULT_URL_ENCODING);
-		} catch (UnsupportedEncodingException e) {
-			throw new ImpossibleException(e);
-		}
-	}
+    /**
+     * URL 编码，默认编码为 UTF-8。
+     * 
+     * @param part
+     *     待编码字符串
+     * @return 编码字符串
+     */
+    public static String urlEncode(final String part) {
+        try {
+            return URLEncoder.encode(part, DEFAULT_URL_ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            throw new ImpossibleException(e);
+        }
+    }
 
-	/**
-	 * URL 解码，默认编码为 UTF-8。
-	 * 
-	 * @param part
-	 *            待解码字符串
-	 * @return 解码字符串
-	 */
-	public static String urlDecode(final String part) {
-		try {
-			return URLDecoder.decode(part, DEFAULT_URL_ENCODING);
-		} catch (UnsupportedEncodingException e) {
-			throw new ImpossibleException(e);
-		}
-	}
+    /**
+     * URL 解码，默认编码为 UTF-8。
+     * 
+     * @param part
+     *     待解码字符串
+     * @return 解码字符串
+     */
+    public static String urlDecode(final String part) {
+        try {
+            return URLDecoder.decode(part, DEFAULT_URL_ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            throw new ImpossibleException(e);
+        }
+    }
 }
