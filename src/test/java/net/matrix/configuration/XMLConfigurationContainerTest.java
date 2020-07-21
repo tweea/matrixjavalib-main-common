@@ -4,19 +4,24 @@
  */
 package net.matrix.configuration;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.apache.commons.configuration2.XMLConfiguration;
+import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class XMLConfigurationContainerTest {
     @Test
-    public void testXMLConfigurationContainer() {
+    public void testXMLConfigurationContainer()
+        throws ConfigurationException {
         ReloadableConfigurationContainer<XMLConfiguration> container = new XMLConfigurationContainer();
-        Assertions.assertThat(container.getConfig()).isNotNull();
-        Assertions.assertThat(container.getConfig().isEmpty()).isTrue();
-        Assertions.assertThat(container.getConfig().isDelimiterParsingDisabled()).isFalse();
+        XMLConfiguration config = container.getConfig();
+        assertThat(config).isNotNull();
+        assertThat(config.isEmpty()).isTrue();
+        assertThat(config.getListDelimiterHandler()).isInstanceOf(DefaultListDelimiterHandler.class);
     }
 
     @Test
@@ -24,21 +29,22 @@ public class XMLConfigurationContainerTest {
         throws ConfigurationException {
         ReloadableConfigurationContainer<XMLConfiguration> container = new XMLConfigurationContainer();
         container.load(new ClassPathResource("bar.xml"));
-        Assertions.assertThat(container.getConfig().getInt("[@length]")).isEqualTo(50);
+        XMLConfiguration config = container.getConfig();
+        assertThat(config.getInt("[@length]")).isEqualTo(50);
     }
 
     @Test
-    public void testLoadStream()
+    public void testLoadJarEntry()
         throws ConfigurationException {
         ReloadableConfigurationContainer<XMLConfiguration> container = new XMLConfigurationContainer();
-        container.load(new ClassPathResource("digesterRules.xml"));
-        Assertions.assertThat(container.getConfig().getString("pattern(0)[@value]")).isEqualTo("configuration/properties");
+        container.load(new ClassPathResource("pmd.xml"));
+        XMLConfiguration config = container.getConfig();
+        assertThat(config.getString("rule(0)[@ref]")).isEqualTo("category/java/bestpractices.xml/AccessorClassGeneration");
     }
 
-    @Test(expected = ConfigurationException.class)
-    public void testLoadNotExist()
-        throws ConfigurationException {
+    @Test
+    public void testLoadNotExist() {
         ReloadableConfigurationContainer<XMLConfiguration> container = new XMLConfigurationContainer();
-        container.load(new ClassPathResource("notExist.xml"));
+        assertThatExceptionOfType(ConfigurationException.class).isThrownBy(() -> container.load(new ClassPathResource("notExist.xml")));
     }
 }

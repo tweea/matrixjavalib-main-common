@@ -16,7 +16,7 @@ public final class Threads {
     /**
      * 日志记录器。
      */
-    private static final Logger LOG = LoggerFactory.getLogger(Threads.class);
+    static final Logger LOG = LoggerFactory.getLogger(Threads.class);
 
     /**
      * 阻止实例化。

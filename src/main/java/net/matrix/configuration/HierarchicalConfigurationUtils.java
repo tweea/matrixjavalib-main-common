@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.HierarchicalConfiguration;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import net.matrix.text.MessageFormats;
 import net.matrix.text.ResourceBundles;
@@ -45,9 +45,10 @@ public final class HierarchicalConfigurationUtils {
      *     值配置键值
      * @return {@code java.util.Map} 对象
      */
-    public static Map<String, String> parseParameter(final HierarchicalConfiguration config, final String subKey, final String nameKey, final String valueKey) {
+    public static <T> Map<String, String> parseParameter(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey,
+        final String valueKey) {
         Map<String, String> parameters = new HashMap<>();
-        for (HierarchicalConfiguration subConfig : config.configurationsAt(subKey)) {
+        for (HierarchicalConfiguration<T> subConfig : config.configurationsAt(subKey)) {
             String name = subConfig.getString(nameKey);
             String value = subConfig.getString(valueKey);
             parameters.put(name, value);
@@ -69,11 +70,9 @@ public final class HierarchicalConfigurationUtils {
      * @param parameters
      *     {@code java.util.Map} 对象
      */
-    public static void updateParameter(final HierarchicalConfiguration config, final String subKey, final String nameKey, final String valueKey,
+    public static <T> void updateParameter(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey, final String valueKey,
         final Map<String, String> parameters) {
-        for (HierarchicalConfiguration subConfig : config.configurationsAt(subKey)) {
-            subConfig.clear();
-        }
+        config.clearTree(subKey);
         String newNameKey = subKey + "(-1)." + nameKey;
         String newValueKey = subKey + '.' + valueKey;
         for (Map.Entry<String, String> parameter : parameters.entrySet()) {
@@ -109,9 +108,9 @@ public final class HierarchicalConfigurationUtils {
      *     名字配置键值
      * @return 所有配置对象的名字列表
      */
-    public static List<String> listAllNames(final HierarchicalConfiguration config, final String subKey, final String nameKey) {
+    public static <T> List<String> listAllNames(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey) {
         List<String> names = new ArrayList<>();
-        for (HierarchicalConfiguration subConfig : config.configurationsAt(subKey)) {
+        for (HierarchicalConfiguration<T> subConfig : config.configurationsAt(subKey)) {
             String name = subConfig.getString(nameKey);
             names.add(name);
         }
@@ -133,10 +132,10 @@ public final class HierarchicalConfigurationUtils {
      * @throws ConfigurationException
      *     找不到指定配置
      */
-    public static HierarchicalConfiguration findForName(final HierarchicalConfiguration config, final String subKey, final String nameKey,
+    public static <T> HierarchicalConfiguration findForName(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey,
         final String nameValue)
         throws ConfigurationException {
-        for (HierarchicalConfiguration subConfig : config.configurationsAt(subKey)) {
+        for (HierarchicalConfiguration<T> subConfig : config.configurationsAt(subKey)) {
             String name = subConfig.getString(nameKey);
             if (name.equals(nameValue)) {
                 return subConfig;

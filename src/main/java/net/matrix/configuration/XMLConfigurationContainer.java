@@ -6,9 +6,14 @@ package net.matrix.configuration;
 
 import java.io.IOException;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.apache.commons.configuration2.XMLConfiguration;
+import org.apache.commons.configuration2.builder.ConfigurationBuilderEvent;
+import org.apache.commons.configuration2.builder.ConfigurationBuilderResultCreatedEvent;
+import org.apache.commons.configuration2.builder.ReloadingFileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.configuration2.ex.ConfigurationRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -23,38 +28,66 @@ public class XMLConfigurationContainer
      */
     private static final Logger LOG = LoggerFactory.getLogger(XMLConfigurationContainer.class);
 
-    /**
-     * 原始 XML 格式配置对象。
-     */
-    private final XMLConfiguration config;
+    private static final Parameters PARAMETERS = new Parameters();
 
     /**
-     * 构造一个空的 {@code XMLConfigurationContainer}。
+     * XML 格式配置对象的构建器。
+     */
+    private final ReloadingFileBasedConfigurationBuilder<XMLConfiguration> configBuilder;
+
+    /**
+     * 尚未加载资源的配置对象容器。
      */
     public XMLConfigurationContainer() {
-        this.config = new XMLConfiguration();
+        this.configBuilder = new ReloadingFileBasedConfigurationBuilder<>(XMLConfiguration.class);
+        ReloadableConfigurationContainerEventListener eventListener = new ReloadableConfigurationContainerEventListener(this);
+        this.configBuilder.addEventListener(ConfigurationBuilderEvent.CONFIGURATION_REQUEST, eventListener);
+        this.configBuilder.addEventListener(ConfigurationBuilderResultCreatedEvent.RESULT_CREATED, eventListener);
     }
 
     @Override
     public void load(final Resource resource)
         throws ConfigurationException {
+        configBuilder.reset();
         LOG.debug("加载配置：{}", resource);
-        config.setDelimiterParsingDisabled(isDelimiterParsingDisabled());
         try {
-            config.load(resource.getFile());
-            config.setReloadingStrategy(new FileChangedReloadingStrategy());
-            config.addConfigurationListener(new ConfigurationReloadingListener(this));
+            configBuilder.configure(PARAMETERS.xml().setURL(resource.getURL()));
         } catch (IOException e) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("", e);
-            }
-            try {
-                config.load(resource.getInputStream());
-            } catch (IOException ise) {
-                throw new ConfigurationException(ise);
-            }
+            throw new ConfigurationException(e);
         }
-        reset();
+        configBuilder.getConfiguration();
+    }
+
+    @Override
+    public void reload()
+        throws ConfigurationException {
+        configBuilder.resetResult();
+        configBuilder.getConfiguration();
+    }
+
+    @Override
+    public void checkReload() {
+        configBuilder.getReloadingController().checkForReloading(null);
+    }
+
+    @Override
+    public XMLConfiguration getConfig()
+        throws ConfigurationException {
+        return configBuilder.getConfiguration();
+    }
+
+    @Override
+    public void reset() {
+        LOG.debug("配置对象 {} 状态重置", this);
+        XMLConfiguration config;
+        try {
+            config = configBuilder.getConfiguration();
+        } catch (ConfigurationException e) {
+            throw new ConfigurationRuntimeException(e);
+        }
+        if (!isDelimiterParsingDisabled()) {
+            config.setListDelimiterHandler(new DefaultListDelimiterHandler(','));
+        }
     }
 
     /**
@@ -65,25 +98,5 @@ public class XMLConfigurationContainer
      */
     protected boolean isDelimiterParsingDisabled() {
         return false;
-    }
-
-    @Override
-    public void reload() {
-        config.reload();
-    }
-
-    @Override
-    public void checkReload() {
-        config.reload();
-    }
-
-    @Override
-    public void reset() {
-        LOG.debug("配置对象 {} 状态重置", this);
-    }
-
-    @Override
-    public XMLConfiguration getConfig() {
-        return config;
     }
 }

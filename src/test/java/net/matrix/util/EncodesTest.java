@@ -4,8 +4,9 @@
  */
 package net.matrix.util;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class EncodesTest {
     @Test
@@ -13,8 +14,8 @@ public class EncodesTest {
         long num = 63;
 
         String result = Encodes.encodeBase62(num);
-        Assertions.assertThat(result).isEqualTo("11");
-        Assertions.assertThat(Encodes.decodeBase62(result)).isEqualTo(num);
+        assertThat(result).isEqualTo("11");
+        assertThat(Encodes.decodeBase62(result)).isEqualTo(num);
     }
 
     @Test
@@ -22,6 +23,6 @@ public class EncodesTest {
         String input = "http://locahost/?q=中文&t=1";
         String result = Encodes.urlEncode(input);
 
-        Assertions.assertThat(Encodes.urlDecode(result)).isEqualTo(input);
+        assertThat(Encodes.urlDecode(result)).isEqualTo(input);
     }
 }

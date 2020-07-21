@@ -54,6 +54,10 @@ public final class ResourceBundles {
 
     private static class EmptyEnumeration
         implements Enumeration<String> {
+        public EmptyEnumeration() {
+            // 提升可见性，优化访问速度
+        }
+
         @Override
         public boolean hasMoreElements() {
             return false;
@@ -79,6 +83,10 @@ public final class ResourceBundles {
          * 支持资源格式。
          */
         private static final List<String> FORMATS = Arrays.asList("xml");
+
+        public XMLResourceBundleControl() {
+            // 提升可见性，优化访问速度
+        }
 
         @Override
         public List<String> getFormats(final String baseName) {

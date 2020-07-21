@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * 配置读取等相关实用功能。
+ * 配置对象相关。
  */
 package net.matrix.configuration;

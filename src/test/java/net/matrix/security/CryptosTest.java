@@ -6,8 +6,9 @@ package net.matrix.security;
 
 import java.security.GeneralSecurityException;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CryptosTest {
     @Test
@@ -18,10 +19,10 @@ public class CryptosTest {
         // key 可为任意字符串
         // byte[] key = "a foo key".getBytes();
         byte[] key = Cryptos.generateHmacSha1Key();
-        Assertions.assertThat(key).hasSize(20);
+        assertThat(key).hasSize(20);
 
         byte[] macResult = Cryptos.hmacSha1(input.getBytes(), key);
-        Assertions.assertThat(Cryptos.isMacValid(macResult, input.getBytes(), key)).isTrue();
+        assertThat(Cryptos.isMacValid(macResult, input.getBytes(), key)).isTrue();
     }
 
     @Test
@@ -30,11 +31,11 @@ public class CryptosTest {
         String input = "foo message";
 
         byte[] key = Cryptos.generateAesKey();
-        Assertions.assertThat(key).hasSize(16);
+        assertThat(key).hasSize(16);
 
         byte[] encryptResult = Cryptos.aesEncrypt(input.getBytes(), key);
         String descryptResult = new String(Cryptos.aesDecrypt(encryptResult, key));
-        Assertions.assertThat(descryptResult).isEqualTo(input);
+        assertThat(descryptResult).isEqualTo(input);
     }
 
     @Test
@@ -44,11 +45,11 @@ public class CryptosTest {
 
         byte[] key = Cryptos.generateAesKey();
         byte[] iv = Cryptos.generateIV();
-        Assertions.assertThat(key).hasSize(16);
-        Assertions.assertThat(iv).hasSize(16);
+        assertThat(key).hasSize(16);
+        assertThat(iv).hasSize(16);
 
         byte[] encryptResult = Cryptos.aesEncrypt(input.getBytes(), key, iv);
         String descryptResult = new String(Cryptos.aesDecrypt(encryptResult, key, iv));
-        Assertions.assertThat(descryptResult).isEqualTo(input);
+        assertThat(descryptResult).isEqualTo(input);
     }
 }

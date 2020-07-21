@@ -6,19 +6,22 @@ package net.matrix.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
-import org.assertj.core.api.Assertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 public class RelativeResourceRootRegisterTest {
     private static RelativeResourceRootRegister classRegister;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass()
         throws IOException {
         classRegister = new RelativeResourceRootRegister();
@@ -34,7 +37,7 @@ public class RelativeResourceRootRegisterTest {
     public void registerRoot() {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
         register.registerRoot("test", new ClassPathResource(""));
-        Assertions.assertThat(register.getRoot("test")).isNotNull();
+        assertThat(register.getRoot("test")).isNotNull();
     }
 
     @Test
@@ -42,14 +45,13 @@ public class RelativeResourceRootRegisterTest {
         throws IOException {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
         register.registerRoot("test", new ClassPathResource(""));
-        Assertions.assertThat(register.getResource(new RelativeResource("test", "bar.xml")).getFile()).exists();
+        assertThat(register.getResource(new RelativeResource("test", "bar.xml")).getFile()).exists();
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void getResource1()
-        throws IOException {
+    @Test
+    public void getResource1() {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
-        register.getResource(new RelativeResource("test", "bar.xml")).getFile();
+        assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> register.getResource(new RelativeResource("test", "bar.xml")).getFile());
     }
 
     @Test
@@ -58,9 +60,9 @@ public class RelativeResourceRootRegisterTest {
         RelativeResource src = new RelativeResource("test1", "getNewFile.txt");
         File srcFile = classRegister.getResource(src).getFile();
         srcFile.createNewFile();
-        Assertions.assertThat(srcFile).exists();
+        assertThat(srcFile).exists();
         srcFile = classRegister.getNewFile(src);
-        Assertions.assertThat(srcFile).doesNotExist();
+        assertThat(srcFile).doesNotExist();
     }
 
     @Test
@@ -72,8 +74,8 @@ public class RelativeResourceRootRegisterTest {
         File destFile = classRegister.getResource(dest).getFile();
         srcFile.createNewFile();
         classRegister.moveFile(src, dest);
-        Assertions.assertThat(srcFile).doesNotExist();
-        Assertions.assertThat(destFile).exists();
+        assertThat(srcFile).doesNotExist();
+        assertThat(destFile).exists();
         destFile.delete();
     }
 
@@ -87,8 +89,8 @@ public class RelativeResourceRootRegisterTest {
         srcFile.createNewFile();
         destFile.createNewFile();
         classRegister.moveFile(src, dest);
-        Assertions.assertThat(srcFile).doesNotExist();
-        Assertions.assertThat(destFile).exists();
+        assertThat(srcFile).doesNotExist();
+        assertThat(destFile).exists();
         destFile.delete();
     }
 
@@ -101,10 +103,10 @@ public class RelativeResourceRootRegisterTest {
         File destFile = classRegister.getResource(dest).getFile();
 
         String test = "Test!\nThis is a test!!\n测试！";
-        FileUtils.writeStringToFile(srcFile, test);
+        FileUtils.writeStringToFile(srcFile, test, StandardCharsets.UTF_8);
         classRegister.copyFile(src, dest);
-        Assertions.assertThat(destFile).exists();
-        Assertions.assertThat(destFile).hasContent(test);
+        assertThat(destFile).exists();
+        assertThat(destFile).hasContent(test);
         srcFile.delete();
         destFile.delete();
     }
