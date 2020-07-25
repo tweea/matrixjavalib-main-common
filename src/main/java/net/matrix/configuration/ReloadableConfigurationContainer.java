@@ -38,7 +38,12 @@ public interface ReloadableConfigurationContainer<CONFIG>
         throws ConfigurationException;
 
     /**
-     * 检查是否需要重新加载，如果需要则重新加载。
+     * 能否检查配置是否需要重新加载。
+     */
+    boolean canCheckReload();
+
+    /**
+     * 检查配置是否需要重新加载，如果需要则重新加载配置。
      */
     void checkReload();
 

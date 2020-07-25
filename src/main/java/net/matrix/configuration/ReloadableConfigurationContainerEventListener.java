@@ -34,11 +34,15 @@ public class ReloadableConfigurationContainerEventListener
         EventType eventType = event.getEventType();
         // 访问事件，在访问配置对象前检查是否需要重新加载
         if (EventType.isInstanceOf(eventType, ConfigurationBuilderEvent.CONFIGURATION_REQUEST)) {
-            container.checkReload();
+            if (container.canCheckReload()) {
+                container.checkReload();
+            }
         }
         // 创建事件，在创建配置对象后重置配置对象容器
         else if (EventType.isInstanceOf(eventType, ConfigurationBuilderResultCreatedEvent.RESULT_CREATED)) {
-            container.reset();
+            if (container.canCheckReload()) {
+                container.reset();
+            }
         }
     }
 }

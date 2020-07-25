@@ -20,41 +20,41 @@ public class HierarchicalConfigurationUtilsTest {
     private HierarchicalConfiguration config;
 
     @BeforeEach
-    public void setUp()
+    public void beforeEach()
         throws ConfigurationException {
         config = new Configurations().xml("./bar.xml");
     }
 
     @Test
     public void parseParameter() {
-        Map<String, String> parameter = HierarchicalConfigurationUtils.parseParameter(config.configurationAt("senders.target(0)"), "properties", "[@name]",
-            "[@value]");
+        HierarchicalConfiguration testConfig = config.configurationAt("senders.target(0)");
+
+        Map<String, String> parameter = HierarchicalConfigurationUtils.parseParameter(testConfig, "properties", "[@name]", "[@value]");
+        assertThat(parameter).hasSize(6);
         assertThat(parameter).containsEntry("hostname", "192.168.1.234");
     }
 
     @Test
     public void updateParameter() {
-        Map<String, String> parameter = HierarchicalConfigurationUtils.parseParameter(config.configurationAt("senders.target(0)"), "properties", "[@name]",
-            "[@value]");
+        HierarchicalConfiguration testConfig = config.configurationAt("senders.target(0)", true);
+        Map<String, String> parameter = HierarchicalConfigurationUtils.parseParameter(testConfig, "properties", "[@name]", "[@value]");
         parameter.put("hostname", "192.168.1.1");
         parameter.put("test", "abc");
         parameter.remove("port");
         parameter.remove("queueName");
-        HierarchicalConfigurationUtils.updateParameter(config.configurationAt("senders.target(0)", true), "properties", "[@name]", "[@value]", parameter);
-        parameter = HierarchicalConfigurationUtils.parseParameter(config.configurationAt("senders.target(0)"), "properties", "[@name]", "[@value]");
+
+        HierarchicalConfigurationUtils.updateParameter(testConfig, "properties", "[@name]", "[@value]", parameter);
+        parameter = HierarchicalConfigurationUtils.parseParameter(testConfig, "properties", "[@name]", "[@value]");
+        assertThat(parameter).hasSize(5);
         assertThat(parameter).containsEntry("hostname", "192.168.1.1");
         assertThat(parameter).doesNotContainKey("port");
     }
 
     @Test
-    public void parseAttributes() {
-        Map<String, String> parameter = HierarchicalConfigurationUtils.parseAttributes(config.configurationAt("senders.target(2).properties(0)"));
-        assertThat(parameter).containsEntry("[@name]", "url");
-    }
-
-    @Test
     public void listAllNames() {
-        List<String> names = HierarchicalConfigurationUtils.listAllNames(config.configurationAt("receivers.receiver(0)"), "properties", "[@name]");
+        HierarchicalConfiguration testConfig = config.configurationAt("receivers.receiver(0)");
+
+        List<String> names = HierarchicalConfigurationUtils.listAllNames(testConfig, "properties", "[@name]");
         assertThat(names).hasSize(6);
         assertThat(names).containsExactly("hostname", "port", "queueManagerName", "queueName", "ccsid", "channelName");
     }
@@ -62,13 +62,17 @@ public class HierarchicalConfigurationUtilsTest {
     @Test
     public void findForName()
         throws ConfigurationException {
-        HierarchicalConfiguration subconfig = HierarchicalConfigurationUtils.findForName(config.configurationAt("senders"), "target", "[@name]", "SysA");
-        assertThat(subconfig.getString("[@protocol]")).isEqualTo("WMQ");
+        HierarchicalConfiguration testConfig = config.configurationAt("senders");
+
+        HierarchicalConfiguration subConfig = HierarchicalConfigurationUtils.findForName(testConfig, "target", "[@name]", "SysA");
+        assertThat(subConfig.getString("[@protocol]")).isEqualTo("WMQ");
     }
 
     @Test
     public void findForName2() {
+        HierarchicalConfiguration testConfig = config.configurationAt("senders");
+
         assertThatExceptionOfType(ConfigurationException.class)
-            .isThrownBy(() -> HierarchicalConfigurationUtils.findForName(config.configurationAt("senders"), "target", "[@name]", "SysX"));
+            .isThrownBy(() -> HierarchicalConfigurationUtils.findForName(testConfig, "target", "[@name]", "SysX"));
     }
 }

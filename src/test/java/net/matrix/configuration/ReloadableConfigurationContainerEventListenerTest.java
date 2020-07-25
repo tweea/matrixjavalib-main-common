@@ -20,6 +20,7 @@ public class ReloadableConfigurationContainerEventListenerTest {
     @Test
     public void testConfigurationCheckReloadingListener() {
         TestContainer container = new TestContainer();
+
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
         assertThat(FieldSupport.extraction().fieldValue("container", ReloadableConfigurationContainer.class, listener)).isSameAs(container);
     }
@@ -27,9 +28,10 @@ public class ReloadableConfigurationContainerEventListenerTest {
     @Test
     public void testConfigurationRequestEvent() {
         TestContainer container = new TestContainer();
-        EventListener listener = new ReloadableConfigurationContainerEventListener(container);
-        assertThat(container.isChecked()).isFalse();
         ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
+        EventListener listener = new ReloadableConfigurationContainerEventListener(container);
+
+        assertThat(container.isChecked()).isFalse();
         listener.onEvent(new ConfigurationBuilderEvent(configurationBuilder, ConfigurationBuilderEvent.CONFIGURATION_REQUEST));
         assertThat(container.isChecked()).isTrue();
     }
@@ -37,9 +39,10 @@ public class ReloadableConfigurationContainerEventListenerTest {
     @Test
     public void testConfigurationCreatedEvent() {
         TestContainer container = new TestContainer();
-        EventListener listener = new ReloadableConfigurationContainerEventListener(container);
-        assertThat(container.isReseted()).isFalse();
         ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
+        EventListener listener = new ReloadableConfigurationContainerEventListener(container);
+
+        assertThat(container.isReseted()).isFalse();
         listener.onEvent(new ConfigurationBuilderEvent(configurationBuilder, ConfigurationBuilderResultCreatedEvent.RESULT_CREATED));
         assertThat(container.isReseted()).isTrue();
     }
@@ -47,10 +50,11 @@ public class ReloadableConfigurationContainerEventListenerTest {
     @Test
     public void testConfigurationOtherEvent() {
         TestContainer container = new TestContainer();
+        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
+
         assertThat(container.isChecked()).isFalse();
         assertThat(container.isReseted()).isFalse();
-        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
         listener.onEvent(new ConfigurationBuilderEvent(configurationBuilder, ConfigurationBuilderEvent.RESET));
         assertThat(container.isChecked()).isFalse();
         assertThat(container.isReseted()).isFalse();
@@ -80,6 +84,11 @@ public class ReloadableConfigurationContainerEventListenerTest {
 
         @Override
         public void reload() {
+        }
+
+        @Override
+        public boolean canCheckReload() {
+            return true;
         }
 
         @Override

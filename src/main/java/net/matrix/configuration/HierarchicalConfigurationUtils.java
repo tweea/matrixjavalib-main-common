@@ -9,16 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.HierarchicalConfiguration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import net.matrix.text.MessageFormats;
 import net.matrix.text.ResourceBundles;
-import net.matrix.util.IterableIterator;
 
 /**
- * 配置对象实用工具。
+ * 分层配置对象工具。
  */
 public final class HierarchicalConfigurationUtils {
     /**
@@ -33,14 +31,14 @@ public final class HierarchicalConfigurationUtils {
     }
 
     /**
-     * 从一个表示名字、数值对的配置对象中抽取信息转换为 {@code java.util.Map} 对象。
+     * 从一个存储名值对的分层配置对象中抽取信息转换为 {@code java.util.Map} 对象。
      * 
      * @param config
-     *     配置对象
+     *     分层配置对象
      * @param subKey
      *     子项配置键值
      * @param nameKey
-     *     名字配置键值
+     *     名配置键值
      * @param valueKey
      *     值配置键值
      * @return {@code java.util.Map} 对象
@@ -57,14 +55,14 @@ public final class HierarchicalConfigurationUtils {
     }
 
     /**
-     * 把一个 {@code java.util.Map} 对象的内容更新到配置对象中。
+     * 把一个 {@code java.util.Map} 对象的内容更新到存储名值对的分层配置对象中。
      * 
      * @param config
-     *     配置对象
+     *     分层配置对象
      * @param subKey
      *     子项配置键值
      * @param nameKey
-     *     名字配置键值
+     *     名配置键值
      * @param valueKey
      *     值配置键值
      * @param parameters
@@ -82,57 +80,40 @@ public final class HierarchicalConfigurationUtils {
     }
 
     /**
-     * 从一个配置对象中抽取信息转换为 {@code java.util.Map} 对象。
+     * 列出一个分层配置对象中所有子项配置的名配置。
      * 
      * @param config
-     *     配置对象
-     * @return {@code java.util.Map} 对象
-     */
-    public static Map<String, String> parseAttributes(final Configuration config) {
-        Map<String, String> parameters = new HashMap<>();
-        for (String key : new IterableIterator<>(config.getKeys())) {
-            String value = config.getString(key);
-            parameters.put(key, value);
-        }
-        return parameters;
-    }
-
-    /**
-     * 列出所有配置对象的名字。
-     * 
-     * @param config
-     *     配置对象
+     *     分层配置对象
      * @param subKey
      *     子项配置键值
      * @param nameKey
-     *     名字配置键值
-     * @return 所有配置对象的名字列表
+     *     名配置键值
+     * @return 名配置列表
      */
     public static <T> List<String> listAllNames(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey) {
         List<String> names = new ArrayList<>();
         for (HierarchicalConfiguration<T> subConfig : config.configurationsAt(subKey)) {
-            String name = subConfig.getString(nameKey);
-            names.add(name);
+            names.add(subConfig.getString(nameKey));
         }
         return names;
     }
 
     /**
-     * 从多个配置对象中找出符合给定名字的配置对象。
+     * 从一个分层配置对象中找出匹配给定名配置的子项配置。
      * 
      * @param config
-     *     配置对象
+     *     分层配置对象
      * @param subKey
      *     子项配置键值
      * @param nameKey
-     *     名字配置键值
+     *     名配置键值
      * @param nameValue
-     *     属性值
-     * @return 匹配的配置对象
+     *     名配置值
+     * @return 匹配的子项配置
      * @throws ConfigurationException
-     *     找不到指定配置
+     *     找不到匹配的子项配置
      */
-    public static <T> HierarchicalConfiguration findForName(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey,
+    public static <T> HierarchicalConfiguration<T> findForName(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey,
         final String nameValue)
         throws ConfigurationException {
         for (HierarchicalConfiguration<T> subConfig : config.configurationsAt(subKey)) {

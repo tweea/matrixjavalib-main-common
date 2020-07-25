@@ -11,9 +11,10 @@ import org.apache.commons.configuration2.builder.ConfigurationBuilderEvent;
 import org.apache.commons.configuration2.builder.ConfigurationBuilderResultCreatedEvent;
 import org.apache.commons.configuration2.builder.ReloadingFileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.builder.fluent.XMLBuilderParameters;
 import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
 import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.apache.commons.configuration2.ex.ConfigurationRuntimeException;
+import org.apache.commons.configuration2.io.FileHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -28,12 +29,25 @@ public class XMLConfigurationContainer
      */
     private static final Logger LOG = LoggerFactory.getLogger(XMLConfigurationContainer.class);
 
+    /**
+     * 配置对象构建器初始参数。
+     */
     private static final Parameters PARAMETERS = new Parameters();
 
     /**
-     * XML 格式配置对象的构建器。
+     * 配置对象构建器。
      */
     private final ReloadingFileBasedConfigurationBuilder<XMLConfiguration> configBuilder;
+
+    /**
+     * 资源。
+     */
+    private Resource resource;
+
+    /**
+     * 能否检查配置是否需要重新加载。
+     */
+    private boolean canCheckReload;
 
     /**
      * 尚未加载资源的配置对象容器。
@@ -43,26 +57,60 @@ public class XMLConfigurationContainer
         ReloadableConfigurationContainerEventListener eventListener = new ReloadableConfigurationContainerEventListener(this);
         this.configBuilder.addEventListener(ConfigurationBuilderEvent.CONFIGURATION_REQUEST, eventListener);
         this.configBuilder.addEventListener(ConfigurationBuilderResultCreatedEvent.RESULT_CREATED, eventListener);
+        XMLBuilderParameters configBuilderParameters = buildConfigBuilderParameters();
+        this.configBuilder.configure(configBuilderParameters);
     }
 
     @Override
-    public void load(final Resource resource)
+    public void load(final Resource newResource)
         throws ConfigurationException {
+        LOG.debug("从资源 {} 加载配置", newResource);
+
         configBuilder.reset();
-        LOG.debug("加载配置：{}", resource);
+        resource = newResource;
+        canCheckReload = false;
+
+        XMLBuilderParameters configBuilderParameters = buildConfigBuilderParameters();
         try {
-            configBuilder.configure(PARAMETERS.xml().setURL(resource.getURL()));
+            configBuilderParameters.setURL(resource.getURL());
+            canCheckReload = true;
         } catch (IOException e) {
-            throw new ConfigurationException(e);
+            LOG.trace("从资源 {} 尝试使用 URL 方式加载配置失败", resource, e);
         }
-        configBuilder.getConfiguration();
+        configBuilder.configure(configBuilderParameters);
+        loadConfig();
+    }
+
+    /**
+     * 在配置对象构建器重置后加载配置。
+     */
+    private void loadConfig()
+        throws ConfigurationException {
+        // 通过获取配置对象触发加载
+        XMLConfiguration config = configBuilder.getConfiguration();
+        if (!canCheckReload()) {
+            if (resource != null) {
+                try {
+                    FileHandler fileHandler = new FileHandler(config);
+                    fileHandler.load(resource.getInputStream());
+                } catch (IOException e) {
+                    throw new ConfigurationException(e);
+                }
+            }
+            reset();
+        }
     }
 
     @Override
     public void reload()
         throws ConfigurationException {
         configBuilder.resetResult();
-        configBuilder.getConfiguration();
+        loadConfig();
+    }
+
+    @Override
+    public boolean canCheckReload() {
+        return canCheckReload;
     }
 
     @Override
@@ -78,25 +126,39 @@ public class XMLConfigurationContainer
 
     @Override
     public void reset() {
-        LOG.debug("配置对象 {} 状态重置", this);
-        XMLConfiguration config;
-        try {
-            config = configBuilder.getConfiguration();
-        } catch (ConfigurationException e) {
-            throw new ConfigurationRuntimeException(e);
-        }
-        if (!isDelimiterParsingDisabled()) {
-            config.setListDelimiterHandler(new DefaultListDelimiterHandler(','));
-        }
+        LOG.debug("资源 {} 的配置对象 {} 状态重置", resource, this);
     }
 
     /**
-     * 是否解析配置内容中的分隔符。如果是配置内容中带分隔符的内容会被解析为数组，否则解析为单个值。
-     * 默认实现为解析。
+     * 构建配置对象构建器参数。
      * 
-     * @return true 为不解析
+     * @return 配置对象构建器参数
+     */
+    protected XMLBuilderParameters buildConfigBuilderParameters() {
+        XMLBuilderParameters configBuilderParameters = PARAMETERS.xml();
+        if (!isDelimiterParsingDisabled()) {
+            configBuilderParameters.setListDelimiterHandler(new DefaultListDelimiterHandler(getDelimiter()));
+        }
+        return configBuilderParameters;
+    }
+
+    /**
+     * 在解析配置内容时是否禁用分隔符。如果使用分隔符，配置内容中包含分隔符的内容会被解析为数组，否则解析为单个值。
+     * 默认实现为使用分隔符。
+     * 
+     * @return 是否禁用分隔符
      */
     protected boolean isDelimiterParsingDisabled() {
         return false;
+    }
+
+    /**
+     * 在解析配置内容时使用的分隔符。
+     * 默认实现为英文逗号。
+     * 
+     * @return 分隔符
+     */
+    protected char getDelimiter() {
+        return ',';
     }
 }
