@@ -5,7 +5,7 @@
 package net.matrix.lang;
 
 /**
- * 对象操作实用工具。
+ * 对象工具。
  */
 public final class Objects2 {
     /**
@@ -15,15 +15,12 @@ public final class Objects2 {
     }
 
     /**
-     * 如果对象值是 null 返回替代对象，否则返回对象本身。
+     * 如果对象的值是 null 返回替代对象，否则返回对象。
      * 
      * @param value
      *     对象
      * @param replacement
      *     替代对象
-     * @param <T>
-     *     对象类型
-     * @return 结果
      */
     public static <T> T isNull(final T value, final T replacement) {
         if (value == null) {
@@ -33,23 +30,20 @@ public final class Objects2 {
     }
 
     /**
-     * 如果两个对象中有 null 值或两个对象相同，返回 null，否则返回对象 1。
+     * 如果两个对象的值中有 null 或相同，返回 null，否则返回对象一。
      * 
-     * @param value
-     *     对象 1
+     * @param value1
+     *     对象一
      * @param value2
-     *     对象 2
-     * @param <T>
-     *     对象类型
-     * @return 结果
+     *     对象二
      */
-    public static <T> T nullIf(final T value, final T value2) {
-        if (value == null || value2 == null) {
+    public static <T> T nullIf(final T value1, final T value2) {
+        if (value1 == null || value2 == null) {
             return null;
         }
-        if (value.equals(value2)) {
+        if (value1.equals(value2)) {
             return null;
         }
-        return value;
+        return value1;
     }
 }

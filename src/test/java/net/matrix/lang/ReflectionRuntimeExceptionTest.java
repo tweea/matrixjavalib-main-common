@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReflectionRuntimeExceptionTest {
     @Test
-    public void testReflectionRuntimeExceptionThrowable() {
+    public void testReflectionRuntimeException_throwable() {
         Exception cause = new Exception();
         ReflectionRuntimeException exception = new ReflectionRuntimeException(cause);
         assertThat(exception.getCause()).isSameAs(cause);
@@ -24,7 +24,7 @@ public class ReflectionRuntimeExceptionTest {
     }
 
     @Test
-    public void testInitCauseThrowable() {
+    public void testInitCause() {
         Exception cause = new Exception();
         ReflectionRuntimeException exception = new ReflectionRuntimeException();
         exception.initCause(cause);

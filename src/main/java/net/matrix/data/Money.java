@@ -11,7 +11,7 @@ import java.util.Locale;
 import javax.annotation.concurrent.Immutable;
 
 /**
- * 金额：包括数量和货币。
+ * 金额，包括数量和货币。
  */
 @Immutable
 public class Money {
@@ -26,7 +26,7 @@ public class Money {
     private final Currency currency;
 
     /**
-     * 使用特定数量和默认货币构造对象。
+     * 构造使用默认货币的实例。
      * 
      * @param amount
      *     数量
@@ -36,7 +36,7 @@ public class Money {
     }
 
     /**
-     * 使用特定数量和货币构造对象。
+     * 构造使用指定货币的实例。
      * 
      * @param amount
      *     数量

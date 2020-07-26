@@ -24,7 +24,7 @@ public class ConfigurationUtils2Test {
     }
 
     @Test
-    public void parseAttributes() {
+    public void testParseAttributes() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders.target(2).properties(0)");
 
         Map<String, String> parameter = ConfigurationUtils2.parseAttributes(testConfig);

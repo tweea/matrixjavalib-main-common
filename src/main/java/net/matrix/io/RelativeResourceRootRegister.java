@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
 /**
- * 相对定位资源的根注册，所有相对定位资源都需要从这里获取根路径的绝对位置。
- * 操作资源时，需要先在此注册根路径名。
+ * 管理相对定位资源的根资源，提供将相对定位资源转换为基于对应根资源的实际资源的方法。
+ * 操作相对定位资源前，需要先注册对应根资源。
  */
 public class RelativeResourceRootRegister {
     /**
@@ -26,50 +26,50 @@ public class RelativeResourceRootRegister {
     private static final Logger LOG = LoggerFactory.getLogger(RelativeResourceRootRegister.class);
 
     /**
-     * 保存所有注册的根路径的绝对位置。
+     * 所有注册的根资源。
      */
     private final Map<String, Resource> roots;
 
     /**
-     * 构造空的根注册。
+     * 构造未注册根资源的实例。
      */
     public RelativeResourceRootRegister() {
-        roots = new HashMap<>();
+        this.roots = new HashMap<>();
     }
 
     /**
-     * 将某资源注册为资源根路径。
+     * 注册根资源到根路径名。
      * 
      * @param name
      *     根路径名
      * @param root
-     *     根路径资源
+     *     根资源
      */
     public void registerRoot(final String name, final Resource root) {
         roots.put(name, root);
     }
 
     /**
-     * 获取根路径代表的资源。
+     * 获取注册的根资源。
      * 
      * @param name
      *     根路径名
-     * @return 根路径资源
+     * @return 根资源
      */
     public Resource getRoot(final String name) {
         return roots.get(name);
     }
 
     /**
-     * 定位相对资源。
+     * 获取相对定位资源对应的实际资源。
      * 
      * @param relativeResource
-     *     需要定位的资源
-     * @return 已定位的绝对路径资源
+     *     相对定位资源
+     * @return 实际资源
      * @throws IOException
-     *     定位失败
+     *     获取失败
      * @throws IllegalStateException
-     *     根路径没有注册
+     *     根路径未注册
      */
     public Resource getResource(final RelativeResource relativeResource)
         throws IOException {
@@ -81,13 +81,13 @@ public class RelativeResourceRootRegister {
     }
 
     /**
-     * 根据文件路径名称和文件名称得到文件实际对应的 <code>File</code> 对象。如果文件存在先删除文件。
+     * 获取相对定位文件对应的 {@link File} 对象，并删除已存在文件。
      * 
      * @param relativeFile
-     *     抽象定位文件
-     * @return <code>File</code> 对象
+     *     相对定位文件
+     * @return {@link File} 对象
      * @throws IOException
-     *     文件操作异常
+     *     获取失败
      */
     public File getNewFile(final RelativeResource relativeFile)
         throws IOException {
@@ -97,52 +97,52 @@ public class RelativeResourceRootRegister {
     }
 
     /**
-     * 移动文件。
+     * 移动相对定位文件。
      * 
      * @param src
-     *     源抽象定位文件
+     *     源相对定位文件
      * @param dest
-     *     目标抽象定位文件
+     *     目标相对定位文件
      * @throws IOException
-     *     文件操作异常
+     *     移动失败
      */
     public void moveFile(final RelativeResource src, final RelativeResource dest)
         throws IOException {
         if (src.equals(dest)) {
             return;
         }
+
         LOG.debug("搬移文件从 {} 到 {}", src, dest);
         File srcFile = getResource(src).getFile();
         if (!srcFile.exists()) {
             throw new FileNotFoundException(srcFile.getAbsolutePath());
         }
-        File destFile = getResource(dest).getFile();
-        deleteOldFile(destFile);
+        File destFile = getNewFile(dest);
         FileUtils.moveFile(srcFile, destFile);
     }
 
     /**
-     * 复制文件。
+     * 复制相对定位文件。
      * 
      * @param src
-     *     源抽象定位文件
+     *     源相对定位文件
      * @param dest
-     *     目标抽象定位文件
+     *     目标相对定位文件
      * @throws IOException
-     *     文件操作异常
+     *     复制失败
      */
     public void copyFile(final RelativeResource src, final RelativeResource dest)
         throws IOException {
         if (src.equals(dest)) {
             return;
         }
+
         LOG.debug("复制文件从 {} 到 {}", src, dest);
         File srcFile = getResource(src).getFile();
         if (!srcFile.exists()) {
             throw new FileNotFoundException(srcFile.getAbsolutePath());
         }
-        File destFile = getResource(dest).getFile();
-        deleteOldFile(destFile);
+        File destFile = getNewFile(dest);
         FileUtils.copyFile(srcFile, destFile);
     }
 

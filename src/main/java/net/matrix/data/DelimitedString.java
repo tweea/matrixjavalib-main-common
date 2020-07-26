@@ -13,7 +13,7 @@ import java.util.ListIterator;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 表示一种特定格式的字符串，其内容由特定分割符分割成多个部分。默认的分隔符是逗号：“,”。
+ * 表示一种特定格式的字符串，其内容由特定分隔符分隔成多个部分。默认的分隔符是英文逗号“,”。
  */
 public class DelimitedString
     implements List<String> {
@@ -33,7 +33,7 @@ public class DelimitedString
     private List<String> content;
 
     /**
-     * 构造一个使用默认分隔符的空字符串。
+     * 构造使用默认分隔符的实例，内容为空。
      */
     public DelimitedString() {
         this.delimiter = DEFAULT_DELIMITER;
@@ -41,86 +41,86 @@ public class DelimitedString
     }
 
     /**
-     * 构造一个使用默认分隔符的字符串。
+     * 构造使用默认分隔符的实例，内容从字符串分隔获取。
      * 
      * @param value
-     *     默认分隔符分割的字符串
+     *     使用默认分隔符分隔的字符串
      */
     public DelimitedString(final String value) {
         this(value, DEFAULT_DELIMITER);
     }
 
     /**
-     * 构造一个使用指定分隔符的字符串。
+     * 构造使用指定分隔符的实例，内容从字符串分隔获取。
      * 
      * @param value
-     *     字符串
+     *     使用指定分隔符分隔的字符串
      * @param delimiter
      *     分隔符
      */
     public DelimitedString(final String value, final String delimiter) {
         this.delimiter = delimiter;
         this.content = new ArrayList<>();
-        String[] array = value.split(delimiter, -1);
-        for (String item : array) {
-            content.add(StringUtils.trim(item));
+        String[] valueParts = StringUtils.split(value, delimiter);
+        for (String valuePart : valueParts) {
+            this.content.add(StringUtils.trim(valuePart));
         }
     }
 
     /**
-     * 构造一个使用默认分隔符的字符串，使用已有的字符串数组作为内容。
+     * 构造使用默认分隔符的实例，内容从字符串数组获取。
      * 
-     * @param values
-     *     已有的字符串数组
+     * @param valueParts
+     *     字符串数组
      */
-    public DelimitedString(final String[] values) {
-        this(values, DEFAULT_DELIMITER);
+    public DelimitedString(final String[] valueParts) {
+        this(valueParts, DEFAULT_DELIMITER);
     }
 
     /**
-     * 构造一个使用指定分隔符的字符串，使用已有的字符串数组作为内容。
+     * 构造使用指定分隔符的实例，内容从字符串数组获取。
      * 
-     * @param values
-     *     已有的字符串数组
+     * @param valueParts
+     *     字符串数组
      * @param delimiter
      *     分隔符
      */
-    public DelimitedString(final String[] values, final String delimiter) {
+    public DelimitedString(final String[] valueParts, final String delimiter) {
         this.delimiter = delimiter;
         this.content = new ArrayList<>();
-        for (String item : values) {
-            content.add(StringUtils.trim(item));
+        for (String valuePart : valueParts) {
+            this.content.add(StringUtils.trim(valuePart));
         }
     }
 
     /**
-     * 构造一个使用默认分隔符的字符串，使用已有的字符串列表作为内容。
+     * 构造使用默认分隔符的实例，内容从字符串列表获取。
      * 
-     * @param list
-     *     已有的字符串列表
+     * @param valueParts
+     *     字符串列表
      */
-    public DelimitedString(final List<String> list) {
-        this(list, DEFAULT_DELIMITER);
+    public DelimitedString(final List<String> valueParts) {
+        this(valueParts, DEFAULT_DELIMITER);
     }
 
     /**
-     * 构造一个使用指定分隔符的字符串，使用已有的字符串列表作为内容。
+     * 构造使用指定分隔符的实例，内容从字符串列表获取。
      * 
-     * @param list
-     *     已有的字符串列表
+     * @param valueParts
+     *     字符串列表
      * @param delimiter
      *     分隔符
      */
-    public DelimitedString(final List<String> list, final String delimiter) {
+    public DelimitedString(final List<String> valueParts, final String delimiter) {
         this.delimiter = delimiter;
         this.content = new ArrayList<>();
-        for (String item : list) {
-            content.add(StringUtils.trim(item));
+        for (String valuePart : valueParts) {
+            this.content.add(StringUtils.trim(valuePart));
         }
     }
 
     /**
-     * @return 分割符
+     * @return 分隔符
      */
     public String getDelimiter() {
         return delimiter;
@@ -128,7 +128,7 @@ public class DelimitedString
 
     /**
      * @param delimiter
-     *     分割符
+     *     分隔符
      */
     public void setDelimiter(final String delimiter) {
         this.delimiter = delimiter;
@@ -245,7 +245,7 @@ public class DelimitedString
     }
 
     @Override
-    public List<String> subList(final int i, final int j) {
+    public DelimitedString subList(final int i, final int j) {
         return new DelimitedString(content.subList(i, j), delimiter);
     }
 

@@ -63,28 +63,28 @@ public interface Tree<ID, DATA> {
     Key findKey(ID id);
 
     /**
-     * 获得上级节点。
+     * 获取上级节点。
      * 
      * @return 上级节点
      */
     Tree<ID, DATA> getParent();
 
     /**
-     * 获得所有节点。
+     * 获取所有节点。
      * 
      * @return 所有节点
      */
     SortedMap<Key, ? extends Tree<ID, DATA>> getAllNodes();
 
     /**
-     * 获得所有子节点。
+     * 获取所有子节点。
      * 
      * @return 所有子节点
      */
     SortedMap<Key, ? extends Tree<ID, DATA>> getChildNodes();
 
     /**
-     * 获得节点。
+     * 获取节点。
      * 
      * @param key
      *     节点标识
@@ -93,7 +93,7 @@ public interface Tree<ID, DATA> {
     Tree<ID, DATA> getNode(Key key);
 
     /**
-     * 获得节点。
+     * 获取节点。
      * 
      * @param id
      *     数据标识
@@ -102,7 +102,7 @@ public interface Tree<ID, DATA> {
     Tree<ID, DATA> getNode(ID id);
 
     /**
-     * 获得子节点。
+     * 获取子节点。
      * 
      * @param key
      *     节点标识
@@ -111,7 +111,7 @@ public interface Tree<ID, DATA> {
     Tree<ID, DATA> getChildNode(Key key);
 
     /**
-     * 获得子节点。
+     * 获取子节点。
      * 
      * @param id
      *     数据标识
@@ -120,7 +120,7 @@ public interface Tree<ID, DATA> {
     Tree<ID, DATA> getChildNode(ID id);
 
     /**
-     * 增加新的子节点。
+     * 增加子节点。
      * 
      * @param id
      *     数据标识
@@ -148,20 +148,16 @@ public interface Tree<ID, DATA> {
 
     /**
      * 是否根节点。
-     * 
-     * @return true 是根节点
      */
     boolean isRoot();
 
     /**
      * 是否叶节点。
-     * 
-     * @return true 是叶节点
      */
     boolean isLeaf();
 
     /**
-     * 标识节点在树中的位置。
+     * 节点标识，表示节点在树型结构中的位置。
      */
     interface Key
         extends Comparable<Key>, Serializable {
@@ -173,14 +169,14 @@ public interface Tree<ID, DATA> {
         Key getParent();
 
         /**
-         * 获取同级节点中的索引。
+         * 获取节点在上级节点中的索引。
          * 
          * @return 索引
          */
         int getIndex();
 
         /**
-         * 获取节点所在级别。
+         * 获取节点在树型结构中的级别。
          * 
          * @return 级别
          */

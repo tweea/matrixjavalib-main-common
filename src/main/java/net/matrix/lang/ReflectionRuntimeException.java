@@ -7,13 +7,10 @@ package net.matrix.lang;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * 反射调用异常，可以将反射调用过程中产生的异常包装为本异常。
+ * 反射操作异常，用于包装反射操作过程中产生的异常。
  */
 public class ReflectionRuntimeException
     extends RuntimeException {
-    /**
-     * serialVersionUID.
-     */
     private static final long serialVersionUID = -8363292424989396451L;
 
     /**

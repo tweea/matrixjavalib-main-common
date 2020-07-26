@@ -12,8 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExceptionsTest {
     @Test
-    public void unchecked() {
+    public void testUnchecked() {
         Exception exception = new Exception("my exception");
+
         RuntimeException runtimeException = Exceptions.unchecked(exception);
         assertThat(runtimeException.getCause()).isSameAs(exception);
 
@@ -22,9 +23,19 @@ public class ExceptionsTest {
     }
 
     @Test
-    public void isCausedBy() {
-        IOException ioexception = new IOException("my exception");
-        IllegalStateException illegalStateException = new IllegalStateException(ioexception);
+    public void testGetMessageWithRootCause() {
+        IOException ioException = new IOException("my exception");
+        IllegalStateException illegalStateException = new IllegalStateException(ioException);
+        RuntimeException runtimeException = new RuntimeException(illegalStateException);
+
+        assertThat(Exceptions.getMessageWithRootCause(ioException)).contains(" without root cause");
+        assertThat(Exceptions.getMessageWithRootCause(runtimeException)).contains(" with root cause ");
+    }
+
+    @Test
+    public void testIsCausedBy() {
+        IOException ioException = new IOException("my exception");
+        IllegalStateException illegalStateException = new IllegalStateException(ioException);
         RuntimeException runtimeException = new RuntimeException(illegalStateException);
 
         assertThat(Exceptions.isCausedBy(runtimeException, IOException.class)).isTrue();

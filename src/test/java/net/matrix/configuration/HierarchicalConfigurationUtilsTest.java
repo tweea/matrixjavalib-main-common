@@ -26,7 +26,7 @@ public class HierarchicalConfigurationUtilsTest {
     }
 
     @Test
-    public void parseParameter() {
+    public void testParseParameter() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders.target(0)");
 
         Map<String, String> parameter = HierarchicalConfigurationUtils.parseParameter(testConfig, "properties", "[@name]", "[@value]");
@@ -35,7 +35,7 @@ public class HierarchicalConfigurationUtilsTest {
     }
 
     @Test
-    public void updateParameter() {
+    public void testUpdateParameter() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders.target(0)", true);
         Map<String, String> parameter = HierarchicalConfigurationUtils.parseParameter(testConfig, "properties", "[@name]", "[@value]");
         parameter.put("hostname", "192.168.1.1");
@@ -51,7 +51,7 @@ public class HierarchicalConfigurationUtilsTest {
     }
 
     @Test
-    public void listAllNames() {
+    public void testListAllNames() {
         HierarchicalConfiguration testConfig = config.configurationAt("receivers.receiver(0)");
 
         List<String> names = HierarchicalConfigurationUtils.listAllNames(testConfig, "properties", "[@name]");
@@ -60,7 +60,7 @@ public class HierarchicalConfigurationUtilsTest {
     }
 
     @Test
-    public void findForName()
+    public void testFindForName()
         throws ConfigurationException {
         HierarchicalConfiguration testConfig = config.configurationAt("senders");
 
@@ -69,7 +69,7 @@ public class HierarchicalConfigurationUtilsTest {
     }
 
     @Test
-    public void findForName2() {
+    public void testFindForName2() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders");
 
         assertThatExceptionOfType(ConfigurationException.class)

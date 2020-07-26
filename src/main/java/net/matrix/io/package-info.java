@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * Helper utilities for the java.io API.
+ * {@link java.io} API 工具。
  */
 package net.matrix.io;

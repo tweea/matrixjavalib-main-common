@@ -24,15 +24,12 @@ import java.util.TreeMap;
  */
 public class DefaultTree<ID, DATA>
     implements Serializable, Tree<ID, DATA> {
-    /**
-     * serialVersionUID.
-     */
     private static final long serialVersionUID = -21200598521077549L;
 
     /**
      * 节点标识。
      */
-    private final Key key;
+    private final DefaultKey key;
 
     /**
      * 数据标识。
@@ -45,27 +42,27 @@ public class DefaultTree<ID, DATA>
     private DATA data;
 
     /**
-     * 父节点。
+     * 上级节点。
      */
     private final DefaultTree<ID, DATA> parent;
 
     /**
-     * 标识映射。
+     * 所有数据标识到节点标识的映射。
      */
     private final Map<ID, Key> keyMap;
 
     /**
-     * 存储所有的节点。
+     * 所有节点。
      */
     private final SortedMap<Key, DefaultTree<ID, DATA>> nodes;
 
     /**
-     * 构造一棵树。
+     * 构造根节点实例。
      * 
      * @param id
      *     数据标识
      * @param data
-     *     数据对象
+     *     数据
      */
     public DefaultTree(final ID id, final DATA data) {
         this.key = new DefaultKey();
@@ -76,19 +73,19 @@ public class DefaultTree<ID, DATA>
         this.keyMap = Collections.synchronizedMap(new HashMap<ID, Key>());
         this.nodes = Collections.synchronizedSortedMap(new TreeMap<Key, DefaultTree<ID, DATA>>());
 
-        keyMap.put(id, key);
-        nodes.put(key, this);
+        this.keyMap.put(id, key);
+        this.nodes.put(key, this);
     }
 
     /**
-     * 构造一个树节点。
+     * 构造节点实例。
      * 
      * @param parent
-     *     父节点
+     *     上级节点
      * @param id
      *     数据标识
      * @param data
-     *     数据对象
+     *     数据
      */
     public DefaultTree(final DefaultTree<ID, DATA> parent, final ID id, final DATA data) {
         this.key = new DefaultKey(parent.key, parent.getChildNodes().size());
@@ -99,8 +96,8 @@ public class DefaultTree<ID, DATA>
         this.keyMap = parent.keyMap;
         this.nodes = parent.nodes;
 
-        keyMap.put(id, key);
-        nodes.put(key, this);
+        this.keyMap.put(id, key);
+        this.nodes.put(key, this);
     }
 
     @Override
@@ -131,8 +128,8 @@ public class DefaultTree<ID, DATA>
     }
 
     @Override
-    public Key findKey(final ID nodeId) {
-        return keyMap.get(nodeId);
+    public Key findKey(final ID theId) {
+        return keyMap.get(theId);
     }
 
     @Override
@@ -151,41 +148,41 @@ public class DefaultTree<ID, DATA>
     }
 
     @Override
-    public DefaultTree<ID, DATA> getNode(final Key nodeKey) {
-        return nodes.get(nodeKey);
+    public DefaultTree<ID, DATA> getNode(final Key theKey) {
+        return nodes.get(theKey);
     }
 
     @Override
-    public DefaultTree<ID, DATA> getNode(final ID nodeId) {
-        Key nodeKey = findKey(nodeId);
-        if (nodeKey == null) {
+    public DefaultTree<ID, DATA> getNode(final ID theId) {
+        Key theKey = findKey(theId);
+        if (theKey == null) {
             return null;
         }
-        return getNode(nodeKey);
+        return getNode(theKey);
     }
 
     @Override
-    public DefaultTree<ID, DATA> getChildNode(final Key nodeKey) {
-        return getChildNodes().get(nodeKey);
+    public DefaultTree<ID, DATA> getChildNode(final Key theKey) {
+        return getChildNodes().get(theKey);
     }
 
     @Override
-    public DefaultTree<ID, DATA> getChildNode(final ID nodeId) {
-        Key nodeKey = findKey(nodeId);
-        if (nodeKey == null) {
+    public DefaultTree<ID, DATA> getChildNode(final ID theId) {
+        Key theKey = findKey(theId);
+        if (theKey == null) {
             return null;
         }
-        return getChildNode(nodeKey);
+        return getChildNode(theKey);
     }
 
     @Override
-    public DefaultTree<ID, DATA> appendChildNode(final ID nodeId, final DATA nodeData) {
-        return new DefaultTree<>(this, nodeId, nodeData);
+    public DefaultTree<ID, DATA> appendChildNode(final ID newId, final DATA newData) {
+        return new DefaultTree<>(this, newId, newData);
     }
 
     @Override
-    public void removeChildNode(final Key nodeKey) {
-        DefaultTree<ID, DATA> node = getChildNode(nodeKey);
+    public void removeChildNode(final Key theKey) {
+        DefaultTree<ID, DATA> node = getChildNode(theKey);
         if (node == null) {
             return;
         }
@@ -193,16 +190,16 @@ public class DefaultTree<ID, DATA>
             node.removeChildNode(childKey);
         }
         keyMap.remove(node.id);
-        nodes.remove(nodeKey);
+        nodes.remove(theKey);
     }
 
     @Override
-    public void removeChildNode(final ID nodeId) {
-        Key nodeKey = findKey(nodeId);
-        if (nodeKey == null) {
+    public void removeChildNode(final ID theId) {
+        Key theKey = findKey(theId);
+        if (theKey == null) {
             return;
         }
-        removeChildNode(nodeKey);
+        removeChildNode(theKey);
     }
 
     @Override
@@ -226,24 +223,21 @@ public class DefaultTree<ID, DATA>
         } else {
             sb.append(parent.getKey());
         }
-        sb.append(",data=").append(data).append(",subnodes=").append(getChildNodes().values()).append(']');
+        sb.append(",data=").append(data).append(",nodes=").append(getChildNodes().values()).append(']');
         return sb.toString();
     }
 
     /**
-     * 标识节点在树中的位置。
+     * 节点标识的默认实现。
      */
     public static class DefaultKey
         implements Key {
-        /**
-         * serialVersionUID.
-         */
         private static final long serialVersionUID = 35507229935965284L;
 
         /**
-         * 父节点标识。
+         * 上级节点标识。
          */
-        private final Key parent;
+        private final DefaultKey parent;
 
         /**
          * 级别。
@@ -256,45 +250,35 @@ public class DefaultTree<ID, DATA>
         private final int index;
 
         /**
-         * 缓存 hashCode() 结果。
+         * 缓存 {@link #hashCode()} 结果。
          */
         private int hash;
 
         /**
-         * 缓存 toString() 结果。
+         * 缓存 {@link #toString()} 结果。
          */
         private String string;
 
         /**
-         * 构造新顶级节点实例。
+         * 构造根节点实例。
          */
         public DefaultKey() {
-            this(0);
-        }
-
-        /**
-         * 使用节点索引构造新顶级节点实例。
-         * 
-         * @param index
-         *     节点索引
-         */
-        private DefaultKey(final int index) {
             this.parent = null;
             this.level = 0;
-            this.index = index;
+            this.index = 0;
         }
 
         /**
-         * 使用父节点标识和节点索引构造新实例。
+         * 构造节点实例。
          * 
          * @param parent
-         *     父节点标识
+         *     上级节点标识
          * @param index
-         *     节点索引
+         *     索引
          */
-        public DefaultKey(final Key parent, final int index) {
+        public DefaultKey(final DefaultKey parent, final int index) {
             this.parent = parent;
-            this.level = parent.getLevel() + 1;
+            this.level = parent.level + 1;
             this.index = index;
         }
 
@@ -378,47 +362,47 @@ public class DefaultTree<ID, DATA>
     }
 
     /**
-     * 从 TreeSource 生成树状结构。
+     * 从树型结构数据源生成树型结构。
      * 
      * @param <ID>
      *     数据标识
      * @param <DATA>
      *     数据
      * @param source
-     *     节点构造源
-     * @return 新构造的树
+     *     树型结构数据源
+     * @return 生成的树型结构
      */
     public static <ID, DATA> DefaultTree<ID, DATA> generate(final TreeSource<ID, DATA> source) {
         ID rootId = source.getRootId();
         DATA rootData = source.getItem(rootId);
         DefaultTree<ID, DATA> tree = new DefaultTree<>(rootId, rootData);
-        generateSubNode(source, tree);
+        generateChildNode(source, tree);
         return tree;
     }
 
     /**
-     * 向 TreeSource 增加新的节点。
+     * 从树型结构数据源生成已有节点下级树型结构。
      * 
      * @param <ID>
      *     数据标识
      * @param <DATA>
      *     数据
      * @param source
-     *     节点构造源
+     *     树型结构数据源
      * @param node
-     *     父节点
+     *     已有节点
      */
-    private static <ID, DATA> void generateSubNode(final TreeSource<ID, DATA> source, final DefaultTree<ID, DATA> node) {
-        List<ID> items = source.listChildrenId(node.getId());
-        if (items == null || items.isEmpty()) {
+    private static <ID, DATA> void generateChildNode(final TreeSource<ID, DATA> source, final DefaultTree<ID, DATA> node) {
+        List<ID> childIds = source.listChildrenId(node.getId());
+        if (childIds.isEmpty()) {
             return;
         }
-        for (ID id : items) {
-            DATA item = source.getItem(id);
-            node.appendChildNode(id, item);
+        for (ID childId : childIds) {
+            DATA childData = source.getItem(childId);
+            node.appendChildNode(childId, childData);
         }
-        for (DefaultTree<ID, DATA> subNode : new ArrayList<>(node.getChildNodes().values())) {
-            generateSubNode(source, subNode);
+        for (DefaultTree<ID, DATA> childNode : new ArrayList<>(node.getChildNodes().values())) {
+            generateChildNode(source, childNode);
         }
     }
 }

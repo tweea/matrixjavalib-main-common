@@ -50,7 +50,7 @@ public class XMLConfigurationContainer
     private boolean canCheckReload;
 
     /**
-     * 尚未加载资源的配置对象容器。
+     * 构造未加载资源的实例。
      */
     public XMLConfigurationContainer() {
         this.configBuilder = new ReloadingFileBasedConfigurationBuilder<>(XMLConfiguration.class);

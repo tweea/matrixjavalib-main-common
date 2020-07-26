@@ -31,7 +31,7 @@ public final class HierarchicalConfigurationUtils {
     }
 
     /**
-     * 从一个存储名值对的分层配置对象中抽取信息转换为 {@code java.util.Map} 对象。
+     * 从一个存储名值对的分层配置对象中抽取信息转换为 {@link Map} 对象。
      * 
      * @param config
      *     分层配置对象
@@ -41,7 +41,7 @@ public final class HierarchicalConfigurationUtils {
      *     名配置键值
      * @param valueKey
      *     值配置键值
-     * @return {@code java.util.Map} 对象
+     * @return {@link Map} 对象
      */
     public static <T> Map<String, String> parseParameter(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey,
         final String valueKey) {
@@ -55,7 +55,7 @@ public final class HierarchicalConfigurationUtils {
     }
 
     /**
-     * 把一个 {@code java.util.Map} 对象的内容更新到存储名值对的分层配置对象中。
+     * 把一个 {@link Map} 对象的内容更新到存储名值对的分层配置对象中。
      * 
      * @param config
      *     分层配置对象
@@ -66,7 +66,7 @@ public final class HierarchicalConfigurationUtils {
      * @param valueKey
      *     值配置键值
      * @param parameters
-     *     {@code java.util.Map} 对象
+     *     {@link Map} 对象
      */
     public static <T> void updateParameter(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey, final String valueKey,
         final Map<String, String> parameters) {

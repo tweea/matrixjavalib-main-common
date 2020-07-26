@@ -10,7 +10,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
  * 可配置接口，实现此接口的类可以使用特定类型的配置对象进行配置。
  * 
  * @param <CONFIG>
- *     可以应用的配置对象类型
+ *     可以应用的配置对象
  */
 public interface Configurable<CONFIG> {
     /**

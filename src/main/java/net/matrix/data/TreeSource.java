@@ -7,7 +7,7 @@ package net.matrix.data;
 import java.util.List;
 
 /**
- * 产生树型结构上各个节点的接口。
+ * 树型结构数据源。
  * 
  * @param <ID>
  *     数据标识
@@ -23,16 +23,16 @@ public interface TreeSource<ID, DATA> {
     ID getRootId();
 
     /**
-     * 列出父节点数据标识下属的所有子节点数据标识。
+     * 列出上级节点数据标识的所有子节点数据标识。
      * 
      * @param parentId
-     *     父节点数据标识
+     *     上级节点数据标识
      * @return 子节点数据标识
      */
     List<ID> listChildrenId(ID parentId);
 
     /**
-     * 构造特定数据标识对应的数据。
+     * 获取指定数据标识对应的数据。
      * 
      * @param id
      *     数据标识

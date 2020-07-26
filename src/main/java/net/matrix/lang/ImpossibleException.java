@@ -5,13 +5,11 @@
 package net.matrix.lang;
 
 /**
- * 将认为不会发生的异常包装为本异常。如明知系统支持 UTF-8 时处理不支持的编码异常。
+ * 认为不会发生的异常。用于简化异常处理，并防止极端条件下异常丢失。
+ * 如 Java 规范要求默认支持 UTF-8 编码，使用 UTF-8 编码时处理 {@link java.io.UnsupportedEncodingException}。
  */
 public class ImpossibleException
     extends RuntimeException {
-    /**
-     * serialVersionUID.
-     */
     private static final long serialVersionUID = -8363292424989396451L;
 
     /**

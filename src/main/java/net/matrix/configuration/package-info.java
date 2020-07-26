@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * 配置对象相关。
+ * 操作配置内容的工具。
  */
 package net.matrix.configuration;

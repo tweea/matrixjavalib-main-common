@@ -22,11 +22,11 @@ public final class ConfigurationUtils2 {
     }
 
     /**
-     * 转换一个配置对象的内容为 {@code java.util.Map} 对象。
+     * 转换一个配置对象的内容为 {@link Map} 对象。
      * 
      * @param config
      *     配置对象
-     * @return {@code java.util.Map} 对象
+     * @return {@link Map} 对象
      */
     public static Map<String, String> parseAttributes(final Configuration config) {
         Map<String, String> parameters = new HashMap<>(config.size());

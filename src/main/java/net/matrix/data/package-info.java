@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * 数据类型及工具。
+ * 数据类型。
  */
 package net.matrix.data;

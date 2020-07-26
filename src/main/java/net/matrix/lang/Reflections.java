@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 反射工具类。
- * 提供调用 getter/setter 方法，访问私有成员，调用私有方法，获取泛型类型 Class，被 AOP 过的真实类等工具函数。
+ * 反射工具。
+ * 提供调用 getter/setter 方法，访问私有成员，调用私有方法，获取泛型类型 Class，被 AOP 过的真实类等工具。
  */
 public final class Reflections {
     /**
@@ -42,14 +42,57 @@ public final class Reflections {
     }
 
     /**
+     * 直接获取目标对象成员值，无视 private/protected 修饰符，不经过 getter 方法。
+     * 
+     * @param target
+     *     目标对象
+     * @param name
+     *     成员名
+     * @return 成员值
+     */
+    public static <T> T getFieldValue(final Object target, final String name) {
+        Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
+        if (field == null) {
+            throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
+        }
+
+        try {
+            return (T) field.get(target);
+        } catch (IllegalAccessException e) {
+            throw new ImpossibleException(e);
+        }
+    }
+
+    /**
+     * 直接设置目标对象成员值，无视 private/protected 修饰符，不经过 setter 方法。
+     * 
+     * @param target
+     *     目标对象
+     * @param name
+     *     成员名
+     * @param value
+     *     成员值
+     */
+    public static void setFieldValue(final Object target, final String name, final Object value) {
+        Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
+        if (field == null) {
+            throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
+        }
+
+        try {
+            field.set(target, value);
+        } catch (IllegalAccessException e) {
+            throw new ImpossibleException(e);
+        }
+    }
+
+    /**
      * 调用 Getter 方法。
      * 
      * @param target
      *     目标对象
      * @param name
      *     属性名
-     * @param <T>
-     *     期待的属性值类型
      * @return 属性值
      */
     public static <T> T invokeGetter(final Object target, final String name) {
@@ -75,59 +118,8 @@ public final class Reflections {
     }
 
     /**
-     * 直接读取对象成员值，无视 private/protected 修饰符，不经过 getter 函数。
-     * 
-     * @param target
-     *     目标对象
-     * @param name
-     *     成员名
-     * @param <T>
-     *     期待的成员值类型
-     * @return 成员值
-     */
-    public static <T> T getFieldValue(final Object target, final String name) {
-        Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
-
-        if (field == null) {
-            throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
-        }
-
-        T result = null;
-        try {
-            result = (T) field.get(target);
-        } catch (IllegalAccessException e) {
-            throw new ImpossibleException(e);
-        }
-        return result;
-    }
-
-    /**
-     * 直接设置对象成员值，无视 private/protected 修饰符，不经过 setter 函数。
-     * 
-     * @param target
-     *     目标对象
-     * @param name
-     *     成员名
-     * @param value
-     *     成员值
-     */
-    public static void setFieldValue(final Object target, final String name, final Object value) {
-        Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
-
-        if (field == null) {
-            throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
-        }
-
-        try {
-            field.set(target, value);
-        } catch (IllegalAccessException e) {
-            throw new ImpossibleException(e);
-        }
-    }
-
-    /**
-     * 直接调用对象方法，无视 private/protected 修饰符。
-     * 用于一次性调用的情况，否则应使用 getAccessibleMethod() 函数获得 Method 后反复调用。
+     * 直接调用目标对象方法，无视 private/protected 修饰符。
+     * 用于一次性调用的情况，否则应使用 getAccessibleMethod() 方法获得 Method 后反复调用。
      * 同时匹配方法名 + 参数类型。
      * 
      * @param target
@@ -138,8 +130,6 @@ public final class Reflections {
      *     参数类型
      * @param parameterValues
      *     参数值
-     * @param <T>
-     *     期待的返回值类型
      * @return 返回值
      */
     public static <T> T invokeMethod(final Object target, final String name, final Class<?>[] parameterTypes, final Object[] parameterValues) {
@@ -156,9 +146,9 @@ public final class Reflections {
     }
 
     /**
-     * 直接调用对象方法，无视 private/protected 修饰符。
-     * 用于一次性调用的情况，否则应使用 getAccessibleMethodByName() 函数获得 Method 后反复调用。
-     * 只匹配函数名，如果有多个同名函数调用第一个。
+     * 直接调用目标对象方法，无视 private/protected 修饰符。
+     * 用于一次性调用的情况，否则应使用 getAccessibleMethodByName() 方法获得 Method 后反复调用。
+     * 只匹配方法名，如果有多个同名方法调用第一个。
      * 
      * @param target
      *     目标对象
@@ -166,8 +156,6 @@ public final class Reflections {
      *     方法名
      * @param parameterValues
      *     参数值
-     * @param <T>
-     *     期待的返回值类型
      * @return 返回值
      */
     public static <T> T invokeMethodByName(final Object target, final String name, final Object[] parameterValues) {
@@ -194,9 +182,9 @@ public final class Reflections {
      * @return 成员
      */
     public static Field getAccessibleField(final Object target, final String name) {
-        for (Class<?> superClass = target.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
+        for (Class<?> searchType = target.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
             try {
-                Field field = superClass.getDeclaredField(name);
+                Field field = searchType.getDeclaredField(name);
                 makeAccessible(field);
                 return field;
             } catch (NoSuchFieldException e) {
@@ -210,8 +198,8 @@ public final class Reflections {
     /**
      * 循环向上转型，获取对象的 DeclaredMethod，并强制设置为可访问。
      * 如向上转型到 Object 仍无法找到，返回 null。
-     * 匹配函数名 + 参数类型。
-     * 用于方法需要被多次调用的情况。先使用本函数先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
+     * 匹配方法名 + 参数类型。
+     * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
      * 
      * @param target
      *     目标对象
@@ -228,7 +216,7 @@ public final class Reflections {
                 makeAccessible(method);
                 return method;
             } catch (NoSuchMethodException e) {
-                // Method不在当前类定义,继续向上转型
+                // Method 不在当前类定义，继续向上转型
                 LOG.trace("", e);
             }
         }
@@ -238,8 +226,8 @@ public final class Reflections {
     /**
      * 循环向上转型，获取对象的 DeclaredMethod，并强制设置为可访问。
      * 如向上转型到 Object 仍无法找到，返回 null。
-     * 只匹配函数名。
-     * 用于方法需要被多次调用的情况。先使用本函数先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
+     * 只匹配方法名。
+     * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
      * 
      * @param target
      *     目标对象
@@ -261,18 +249,6 @@ public final class Reflections {
     }
 
     /**
-     * 改变 private/protected 的方法为 public，尽量不调用实际改动的语句，避免 JDK 的 securityManager 抱怨。
-     * 
-     * @param method
-     *     方法
-     */
-    public static void makeAccessible(final Method method) {
-        if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) && !method.isAccessible()) {
-            method.setAccessible(true);
-        }
-    }
-
-    /**
      * 改变 private/protected 的成员为 public，尽量不调用实际改动的语句，避免 JDK 的 securityManager 抱怨。
      * 
      * @param field
@@ -286,9 +262,21 @@ public final class Reflections {
     }
 
     /**
-     * 通过反射，获得 Class 定义中声明的泛型参数的类型，注意泛型必须定义在父类处。
+     * 改变 private/protected 的方法为 public，尽量不调用实际改动的语句，避免 JDK 的 securityManager 抱怨。
+     * 
+     * @param method
+     *     方法
+     */
+    public static void makeAccessible(final Method method) {
+        if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) && !method.isAccessible()) {
+            method.setAccessible(true);
+        }
+    }
+
+    /**
+     * 通过反射，获得 Class 定义中声明的父类泛型参数类型。
      * 如无法找到，返回 Object.class。
-     * eg.
+     * 如：
      * 
      * <pre>
      * public UserDao extends HibernateDao&lt;User&gt;
@@ -305,7 +293,7 @@ public final class Reflections {
     }
 
     /**
-     * 通过反射，获得 Class 定义中声明的父类的泛型参数的类型。
+     * 通过反射，获得 Class 定义中声明的父类泛型参数类型。
      * 如无法找到，返回 Object.class。
      * 如：
      * 
@@ -314,21 +302,19 @@ public final class Reflections {
      * </pre>
      * 
      * @param clazz
-     *     clazz The class to introspect
+     *     The class to introspect
      * @param index
-     *     the Index of the generic ddeclaration,start from 0.
+     *     the index of the generic declaration, start from 0.
      * @return the index generic declaration, or Object.class if cannot be determined
      */
     public static Class getClassGenricType(final Class clazz, final int index) {
         Type genType = clazz.getGenericSuperclass();
-
         if (!(genType instanceof ParameterizedType)) {
             LOG.warn("{}'s superclass not ParameterizedType", clazz.getSimpleName());
             return Object.class;
         }
 
         Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-
         if (index >= params.length || index < 0) {
             LOG.warn("Index: {}, Size of {}'s Parameterized Type: {}", index, clazz.getSimpleName(), params.length);
             return Object.class;

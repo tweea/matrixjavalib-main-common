@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * Helper utilities for the java.lang API.
+ * {@link java.lang} API 工具。
  */
 package net.matrix.lang;

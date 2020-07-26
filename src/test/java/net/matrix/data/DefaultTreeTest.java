@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DefaultTreeTest {
     @Test
-    public void testDefaultTreeIDDATA() {
+    public void testDefaultTree_idData() {
         Tree<String, String> tree = new DefaultTree<>("root", "test");
         assertThat(tree.getKey()).isEqualTo(new DefaultTree.DefaultKey());
         assertThat(tree.getId()).isEqualTo("root");
@@ -24,8 +24,9 @@ public class DefaultTreeTest {
     }
 
     @Test
-    public void testDefaultTreeDefaultTreeOfIDDATAIDDATA() {
+    public void testDefaultTree_parentIdData() {
         DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
+
         DefaultTree<String, String> node1 = new DefaultTree<>(tree, "node1", "test1");
         DefaultTree<String, String> node2 = new DefaultTree<>(tree, "node2", "test2");
         Tree<String, String> leaf1 = new DefaultTree<>(node1, "leaf1", "value1");
@@ -130,7 +131,7 @@ public class DefaultTreeTest {
     }
 
     @Test
-    public void testGetNodeID() {
+    public void testGetNode_id() {
         DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
         DefaultTree<String, String> node1 = new DefaultTree<>(tree, "node1", "test1");
         DefaultTree<String, String> node2 = new DefaultTree<>(tree, "node2", "test1");
@@ -147,7 +148,7 @@ public class DefaultTreeTest {
     }
 
     @Test
-    public void testGetChildNodeID() {
+    public void testGetChildNode_id() {
         DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
         DefaultTree<String, String> node1 = new DefaultTree<>(tree, "node1", "test1");
         DefaultTree<String, String> node2 = new DefaultTree<>(tree, "node2", "test1");
@@ -178,6 +179,7 @@ public class DefaultTreeTest {
     @Test
     public void testAppendChildNode() {
         DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
+
         DefaultTree<String, String> node1 = tree.appendChildNode("node1", "test1");
         DefaultTree<String, String> node2 = tree.appendChildNode("node2", "test2");
         DefaultTree<String, String> leaf1 = node1.appendChildNode("leaf1", "value1");
@@ -203,7 +205,7 @@ public class DefaultTreeTest {
     }
 
     @Test
-    public void testRemoveChildNodeID() {
+    public void testRemoveChildNode_id() {
         DefaultTree<String, String> tree = new DefaultTree<>("root", "test");
         DefaultTree<String, String> node1 = tree.appendChildNode("node1", "test1");
         DefaultTree<String, String> node2 = tree.appendChildNode("node2", "test2");
@@ -211,20 +213,14 @@ public class DefaultTreeTest {
         DefaultTree<String, String> leaf2 = node2.appendChildNode("leaf2", "value3");
         DefaultTree<String, String> leaf3 = node2.appendChildNode("leaf3", "value3");
 
-        SortedMap<Key, DefaultTree<String, String>> childNodes = node1.getChildNodes();
-        assertThat(tree.getAllNodes()).hasSize(6);
-        assertThat(childNodes).hasSize(1);
-        assertThat(childNodes).containsValue(leaf1);
         node1.removeChildNode("leaf1");
+        SortedMap<Key, DefaultTree<String, String>> childNodes = node1.getChildNodes();
         assertThat(tree.getAllNodes()).hasSize(5);
         assertThat(childNodes).isEmpty();
         assertThat(childNodes).doesNotContainValue(leaf1);
 
-        childNodes = tree.getChildNodes();
-        assertThat(tree.getAllNodes()).hasSize(5);
-        assertThat(childNodes).hasSize(2);
-        assertThat(childNodes).containsValue(node2);
         tree.removeChildNode("node2");
+        childNodes = tree.getChildNodes();
         assertThat(tree.getAllNodes()).hasSize(2);
         assertThat(childNodes).hasSize(1);
         assertThat(childNodes).doesNotContainValue(node2);

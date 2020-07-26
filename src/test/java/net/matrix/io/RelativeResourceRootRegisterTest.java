@@ -22,7 +22,7 @@ public class RelativeResourceRootRegisterTest {
     private static RelativeResourceRootRegister classRegister;
 
     @BeforeAll
-    public static void beforeClass()
+    public static void beforeAll()
         throws IOException {
         classRegister = new RelativeResourceRootRegister();
         Resource test1 = new FileSystemResource("target/test1/");
@@ -34,45 +34,50 @@ public class RelativeResourceRootRegisterTest {
     }
 
     @Test
-    public void registerRoot() {
+    public void testRegisterRoot() {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
+
         register.registerRoot("test", new ClassPathResource(""));
         assertThat(register.getRoot("test")).isNotNull();
     }
 
     @Test
-    public void getResource()
+    public void testGetResource()
         throws IOException {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
         register.registerRoot("test", new ClassPathResource(""));
+
         assertThat(register.getResource(new RelativeResource("test", "bar.xml")).getFile()).exists();
     }
 
     @Test
-    public void getResource1() {
+    public void testGetResource1() {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
+
         assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> register.getResource(new RelativeResource("test", "bar.xml")).getFile());
     }
 
     @Test
-    public void getNewFile()
+    public void testGetNewFile()
         throws IOException {
         RelativeResource src = new RelativeResource("test1", "getNewFile.txt");
         File srcFile = classRegister.getResource(src).getFile();
         srcFile.createNewFile();
         assertThat(srcFile).exists();
+
         srcFile = classRegister.getNewFile(src);
         assertThat(srcFile).doesNotExist();
     }
 
     @Test
-    public void moveFile()
+    public void testMoveFile()
         throws IOException {
         RelativeResource src = new RelativeResource("test1", "move.txt");
         RelativeResource dest = new RelativeResource("test2", "move.txt");
         File srcFile = classRegister.getResource(src).getFile();
         File destFile = classRegister.getResource(dest).getFile();
         srcFile.createNewFile();
+
         classRegister.moveFile(src, dest);
         assertThat(srcFile).doesNotExist();
         assertThat(destFile).exists();
@@ -80,7 +85,7 @@ public class RelativeResourceRootRegisterTest {
     }
 
     @Test
-    public void moveFileOverride()
+    public void testMoveFile_override()
         throws IOException {
         RelativeResource src = new RelativeResource("test1", "moveOverride.txt");
         RelativeResource dest = new RelativeResource("test2", "moveOverride.txt");
@@ -88,6 +93,7 @@ public class RelativeResourceRootRegisterTest {
         File destFile = classRegister.getResource(dest).getFile();
         srcFile.createNewFile();
         destFile.createNewFile();
+
         classRegister.moveFile(src, dest);
         assertThat(srcFile).doesNotExist();
         assertThat(destFile).exists();
@@ -95,15 +101,15 @@ public class RelativeResourceRootRegisterTest {
     }
 
     @Test
-    public void copyFile()
+    public void testCopyFile()
         throws IOException {
         RelativeResource src = new RelativeResource("test1", "copy.txt");
         RelativeResource dest = new RelativeResource("test2", "copy.txt");
         File srcFile = classRegister.getResource(src).getFile();
         File destFile = classRegister.getResource(dest).getFile();
-
         String test = "Test!\nThis is a test!!\n测试！";
         FileUtils.writeStringToFile(srcFile, test, StandardCharsets.UTF_8);
+
         classRegister.copyFile(src, dest);
         assertThat(destFile).exists();
         assertThat(destFile).hasContent(test);

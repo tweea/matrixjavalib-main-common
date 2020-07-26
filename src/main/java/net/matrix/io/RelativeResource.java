@@ -9,7 +9,7 @@ import java.util.Objects;
 import javax.annotation.concurrent.Immutable;
 
 /**
- * 相对定位的资源。
+ * 相对定位资源。
  */
 @Immutable
 public class RelativeResource {
@@ -24,7 +24,7 @@ public class RelativeResource {
     private final String path;
 
     /**
-     * 基于指定根路径名构造资源。
+     * 构造指定根路径名的实例。
      * 
      * @param root
      *     根路径名
@@ -37,10 +37,10 @@ public class RelativeResource {
     }
 
     /**
-     * 基于已有资源构造。
+     * 构造基于上级资源的实例。
      * 
      * @param parent
-     *     关联资源
+     *     上级资源
      * @param path
      *     相对路径
      */

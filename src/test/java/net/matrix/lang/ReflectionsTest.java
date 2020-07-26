@@ -5,65 +5,58 @@
 package net.matrix.lang;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class ReflectionsTest {
-    private static final Logger LOG = LoggerFactory.getLogger(ReflectionsTest.class);
-
     @Test
-    public void getAndSetFieldValue() {
+    public void testGetFieldValue() {
         TestBean bean = new TestBean();
-        // 无需getter函数, 直接读取privateField
+
         Object value = Reflections.getFieldValue(bean, "privateField");
         assertThat(value).isEqualTo(1);
-        // 绕过将publicField+1的getter函数,直接读取publicField的原始值
+
         value = Reflections.getFieldValue(bean, "publicField");
         assertThat(value).isEqualTo(1);
 
-        bean = new TestBean();
-        // 无需setter函数, 直接设置privateField
-        Reflections.setFieldValue(bean, "privateField", 2);
-        assertThat(bean.inspectPrivateField()).isEqualTo(2);
-
-        // 绕过将publicField+1的setter函数,直接设置publicField的原始值
-        Reflections.setFieldValue(bean, "publicField", 2);
-        assertThat(bean.inspectPublicField()).isEqualTo(2);
-
-        try {
-            Reflections.getFieldValue(bean, "notExist");
-            fail("should throw exception here");
-        } catch (IllegalArgumentException e) {
-            LOG.trace("", e);
-        }
-
-        try {
-            Reflections.setFieldValue(bean, "notExist", 2);
-            fail("should throw exception here");
-        } catch (IllegalArgumentException e) {
-            LOG.trace("", e);
-        }
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.getFieldValue(bean, "notExist"));
     }
 
     @Test
-    public void invokeGetterAndSetter() {
+    public void testSetFieldValue() {
         TestBean bean = new TestBean();
+
+        Reflections.setFieldValue(bean, "privateField", 2);
+        assertThat(bean.inspectPrivateField()).isEqualTo(2);
+
+        Reflections.setFieldValue(bean, "publicField", 2);
+        assertThat(bean.inspectPublicField()).isEqualTo(2);
+
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.setFieldValue(bean, "notExist", 2));
+    }
+
+    @Test
+    public void testInvokeGetter() {
+        TestBean bean = new TestBean();
+
         Object value = Reflections.invokeGetter(bean, "publicField");
         assertThat(value).isEqualTo(bean.inspectPublicField() + 1);
+    }
 
-        bean = new TestBean();
-        // 通过setter的函数将+1
+    @Test
+    public void testInvokeSetter() {
+        TestBean bean = new TestBean();
+
         Reflections.invokeSetter(bean, "publicField", 10);
         assertThat(bean.inspectPublicField()).isEqualTo(10 + 1);
     }
 
     @Test
-    public void invokeMethod() {
+    public void testInvokeMethod() {
         TestBean bean = new TestBean();
-        // 使用函数名+参数类型的匹配
+
+        // 使用方法名+参数类型的匹配
         Object value = Reflections.invokeMethod(bean, "privateMethod", new Class[] {
             String.class
         }, new Object[] {
@@ -71,51 +64,42 @@ public class ReflectionsTest {
         });
         assertThat(value).isEqualTo("hello calvin");
 
-        // 仅匹配函数名
-        value = Reflections.invokeMethodByName(bean, "privateMethod", new Object[] {
+        // 方法名错
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.invokeMethod(bean, "notExistMethod", new Class[] {
+            String.class
+        }, new Object[] {
+            "calvin"
+        }));
+
+        // 参数类型错
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.invokeMethod(bean, "privateMethod", new Class[] {
+            Integer.class
+        }, new Object[] {
+            "calvin"
+        }));
+    }
+
+    @Test
+    public void testInvokeMethodByName() {
+        TestBean bean = new TestBean();
+
+        // 仅匹配方法名
+        Object value = Reflections.invokeMethodByName(bean, "privateMethod", new Object[] {
             "calvin"
         });
         assertThat(value).isEqualTo("hello calvin");
 
-        // 函数名错
-        try {
-            Reflections.invokeMethod(bean, "notExistMethod", new Class[] {
-                String.class
-            }, new Object[] {
-                "calvin"
-            });
-            fail("should throw exception here");
-        } catch (IllegalArgumentException e) {
-            LOG.trace("", e);
-        }
-
-        // 参数类型错
-        try {
-            Reflections.invokeMethod(bean, "privateMethod", new Class[] {
-                Integer.class
-            }, new Object[] {
-                "calvin"
-            });
-            fail("should throw exception here");
-        } catch (RuntimeException e) {
-            LOG.trace("", e);
-        }
-
-        // 函数名错
-        try {
-            Reflections.invokeMethodByName(bean, "notExistMethod", new Object[] {
-                "calvin"
-            });
-            fail("should throw exception here");
-        } catch (IllegalArgumentException e) {
-            LOG.trace("", e);
-        }
+        // 方法名错
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.invokeMethodByName(bean, "notExistMethod", new Object[] {
+            "calvin"
+        }));
     }
 
     @Test
-    public void getClassGenricType() {
+    public void testGetClassGenricType() {
         // 获取第1，2个泛型类型
         assertThat(Reflections.getClassGenricType(TestBean.class)).isEqualTo(String.class);
+        assertThat(Reflections.getClassGenricType(TestBean.class, 0)).isEqualTo(String.class);
         assertThat(Reflections.getClassGenricType(TestBean.class, 1)).isEqualTo(Long.class);
 
         // 定义父类时无泛型定义
@@ -136,18 +120,14 @@ public class ReflectionsTest {
 
     public static class TestBean
         extends ParentBean<String, Long> {
-        /** 没有getter/setter的field */
         private int privateField = 1;
 
-        /** 有getter/setter的field */
         private int publicField = 1;
 
-        // 通過getter函數會比屬性值+1
         public int getPublicField() {
             return publicField + 1;
         }
 
-        // 通過setter函數會被比輸入值加1
         public void setPublicField(int publicField) {
             this.publicField = publicField + 1;
         }

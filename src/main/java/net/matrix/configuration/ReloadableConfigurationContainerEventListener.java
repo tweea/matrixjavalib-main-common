@@ -10,7 +10,7 @@ import org.apache.commons.configuration2.event.EventListener;
 import org.apache.commons.configuration2.event.EventType;
 
 /**
- * 在配置对象容器中监听配置对象的相关事件。
+ * 监听配置对象容器中配置对象构建器相关事件的事件监听器。
  */
 public class ReloadableConfigurationContainerEventListener
     implements EventListener<ConfigurationBuilderEvent> {
@@ -20,7 +20,7 @@ public class ReloadableConfigurationContainerEventListener
     private final ReloadableConfigurationContainer container;
 
     /**
-     * 指定配置对象容器。
+     * 构造指定配置对象容器的实例。
      * 
      * @param container
      *     配置对象容器
