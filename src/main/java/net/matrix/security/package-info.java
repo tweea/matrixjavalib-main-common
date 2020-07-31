@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * 安全相关。
+ * 安全工具。
  */
 package net.matrix.security;

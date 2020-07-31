@@ -5,11 +5,11 @@
 package net.matrix.lang;
 
 /**
- * 字符串实用方法。
+ * 字符串工具。
  */
 public final class Strings2 {
     /**
-     * 禁止实例化。
+     * 阻止实例化。
      */
     private Strings2() {
     }
@@ -27,7 +27,7 @@ public final class Strings2 {
      *     要替换的字符串
      * @param replaceDest
      *     替换成的字符串
-     * @return 结果
+     * @return 替换结果
      */
     public static String replaceAllBetweenDelimiter(final String source, final String startStr, final String endStr, final String replaceSrc,
         final String replaceDest) {

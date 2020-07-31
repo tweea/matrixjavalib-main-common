@@ -7,7 +7,7 @@ package net.matrix.util;
 import java.math.BigDecimal;
 
 /**
- * BigDecimal 工具类。
+ * {@link BigDecimal} 工具。
  */
 public final class BigDecimals {
     /**
@@ -17,12 +17,12 @@ public final class BigDecimals {
     }
 
     /**
-     * 比较两个 BigDecimal，使用 compareTo()。
+     * 比较两个 {@link BigDecimal}，使用 compareTo()。
      * 
      * @param bd1
-     *     一个 BigDecimal
+     *     第一个 {@link BigDecimal}
      * @param bd2
-     *     另一个 BigDecimal
+     *     第二个 {@link BigDecimal}
      * @return 是否相等
      */
     public static boolean equals(final BigDecimal bd1, final BigDecimal bd2) {

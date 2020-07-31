@@ -17,8 +17,8 @@ import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 创建 ThreadPool 的工具类。
- * 对比 JDK 中 Executors 的 newFixedThreadPool() 和 newCachedThreadPool() 函数，提供更多有用的配置项。
+ * 创建 ThreadPool 的工具。
+ * 对比 JDK 中 Executors 的 newFixedThreadPool() 和 newCachedThreadPool()，提供更多有用的配置项。
  * 使用示例：
  * 
  * <pre>

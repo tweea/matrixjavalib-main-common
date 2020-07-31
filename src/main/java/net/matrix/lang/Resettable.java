@@ -9,7 +9,7 @@ package net.matrix.lang;
  */
 public interface Resettable {
     /**
-     * 重置对象状态为原始状态。
+     * 重置状态。
      */
     void reset();
 }

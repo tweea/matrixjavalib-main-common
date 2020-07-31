@@ -15,7 +15,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -23,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 读取多语言资源。
+ * 多语言资源工具。
  */
 public final class ResourceBundles {
     /**
@@ -38,7 +37,7 @@ public final class ResourceBundles {
     }
 
     /**
-     * 当读取资源出错后使用的 {@code ResourceBundle}，直接返回键值。
+     * 当读取资源失败后使用的 {@link ResourceBundle}，直接返回键值。
      */
     private static final ResourceBundle FALLBACK_BUNDLE = new ResourceBundle() {
         @Override
@@ -48,26 +47,9 @@ public final class ResourceBundles {
 
         @Override
         public Enumeration<String> getKeys() {
-            return new EmptyEnumeration();
+            return Collections.emptyEnumeration();
         }
     };
-
-    private static class EmptyEnumeration
-        implements Enumeration<String> {
-        public EmptyEnumeration() {
-            // 提升可见性，优化访问速度
-        }
-
-        @Override
-        public boolean hasMoreElements() {
-            return false;
-        }
-
-        @Override
-        public String nextElement() {
-            throw new NoSuchElementException();
-        }
-    }
 
     /**
      * 加载 XML 资源的控制对象。
@@ -158,8 +140,8 @@ public final class ResourceBundles {
          */
         public XMLResourceBundle(final InputStream stream)
             throws IOException {
-            props = new Properties();
-            props.loadFromXML(stream);
+            this.props = new Properties();
+            this.props.loadFromXML(stream);
         }
 
         @Override
@@ -174,7 +156,7 @@ public final class ResourceBundles {
     }
 
     /**
-     * 使用当前区域和默认类加载器加载资源。
+     * 使用与当前线程关联的区域和默认类加载器加载资源。
      * 
      * @param baseName
      *     资源名
@@ -197,7 +179,7 @@ public final class ResourceBundles {
         try {
             return ResourceBundle.getBundle(baseName, locale, XML_BUNDLE_CONTROL);
         } catch (MissingResourceException e) {
-            LOG.warn(baseName + " 资源加载失败", e);
+            LOG.warn("{} 资源加载失败", baseName, e);
             return FALLBACK_BUNDLE;
         }
     }
@@ -217,7 +199,7 @@ public final class ResourceBundles {
         try {
             return ResourceBundle.getBundle(baseName, locale, loader, XML_BUNDLE_CONTROL);
         } catch (MissingResourceException e) {
-            LOG.warn(baseName + " 资源加载失败", e);
+            LOG.warn("{} 资源加载失败", baseName, e);
             return FALLBACK_BUNDLE;
         }
     }
@@ -238,7 +220,7 @@ public final class ResourceBundles {
         try {
             return bundle.getString(key);
         } catch (MissingResourceException e) {
-            LOG.warn("找不到名为 " + key + " 的资源项", e);
+            LOG.warn("找不到名为 {} 的资源项", key, e);
             return key;
         }
     }

@@ -20,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import net.matrix.lang.ImpossibleException;
 
 /**
- * 支持 HMAC-SHA1 消息签名及 DES/AES 对称加密的工具类。
+ * HMAC-SHA1 消息签名及 AES 对称加密工具。
  */
 public final class Cryptos {
     /**

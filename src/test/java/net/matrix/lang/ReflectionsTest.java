@@ -6,6 +6,11 @@ package net.matrix.lang;
 
 import org.junit.jupiter.api.Test;
 
+import net.matrix.lang.ReflectionsTestData.TestBean;
+import net.matrix.lang.ReflectionsTestData.TestBean2;
+import net.matrix.lang.ReflectionsTestData.TestBean3;
+import net.matrix.lang.ReflectionsTestData.TestBean4;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -20,6 +25,12 @@ public class ReflectionsTest {
         value = Reflections.getFieldValue(bean, "publicField");
         assertThat(value).isEqualTo(1);
 
+        value = Reflections.getFieldValue(bean, "privateParentField");
+        assertThat(value).isEqualTo("1");
+
+        value = Reflections.getFieldValue(bean, "publicParentField");
+        assertThat(value).isEqualTo(1L);
+
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.getFieldValue(bean, "notExist"));
     }
 
@@ -33,23 +44,37 @@ public class ReflectionsTest {
         Reflections.setFieldValue(bean, "publicField", 2);
         assertThat(bean.inspectPublicField()).isEqualTo(2);
 
+        Reflections.setFieldValue(bean, "privateParentField", "2");
+        assertThat(bean.inspectPrivateParentField()).isEqualTo("2");
+
+        Reflections.setFieldValue(bean, "publicParentField", 2L);
+        assertThat(bean.inspectPublicParentField()).isEqualTo(2L);
+
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.setFieldValue(bean, "notExist", 2));
     }
 
     @Test
     public void testInvokeGetter() {
         TestBean bean = new TestBean();
+        TestBean4 bean4 = new TestBean4();
 
         Object value = Reflections.invokeGetter(bean, "publicField");
         assertThat(value).isEqualTo(bean.inspectPublicField() + 1);
+
+        value = Reflections.invokeGetter(bean4, "publicField");
+        assertThat(value).isEqualTo(bean4.inspectPublicField() + 1);
     }
 
     @Test
     public void testInvokeSetter() {
         TestBean bean = new TestBean();
+        TestBean4 bean4 = new TestBean4();
 
         Reflections.invokeSetter(bean, "publicField", 10);
         assertThat(bean.inspectPublicField()).isEqualTo(10 + 1);
+
+        Reflections.invokeSetter(bean4, "publicField", 10);
+        assertThat(bean4.inspectPublicField()).isEqualTo(10 + 1);
     }
 
     @Test
@@ -107,61 +132,5 @@ public class ReflectionsTest {
 
         // 无父类定义
         assertThat(Reflections.getClassGenricType(TestBean3.class)).isEqualTo(Object.class);
-    }
-
-    /**
-     * @param <T>
-     *     T
-     * @param <ID>
-     *     ID
-     */
-    public static class ParentBean<T, ID> {
-    }
-
-    public static class TestBean
-        extends ParentBean<String, Long> {
-        private int privateField = 1;
-
-        private int publicField = 1;
-
-        public int getPublicField() {
-            return publicField + 1;
-        }
-
-        public void setPublicField(int publicField) {
-            this.publicField = publicField + 1;
-        }
-
-        public int inspectPrivateField() {
-            return privateField;
-        }
-
-        public int inspectPublicField() {
-            return publicField;
-        }
-
-        private String privateMethod(String text) {
-            return "hello " + text;
-        }
-
-        public String publicMethod(String text) {
-            return privateMethod(text);
-        }
-    }
-
-    public static class TestBean2
-        extends ParentBean {
-    }
-
-    public static class TestBean3 {
-        private int id;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
     }
 }

@@ -15,6 +15,7 @@ public class ResourceBundlesTest {
     @Test
     public void testGetBundle() {
         Locales.current(Locale.CHINA);
+
         ResourceBundle bundle = ResourceBundles.getBundle("global");
         assertThat(bundle.getString("male")).isEqualTo("男性");
     }
@@ -34,6 +35,7 @@ public class ResourceBundlesTest {
     @Test
     public void testGetProperty() {
         ResourceBundle bundle = ResourceBundles.getBundle("global", Locale.US);
+
         assertThat(ResourceBundles.getProperty(bundle, "male")).isEqualTo("爷们");
         assertThat(ResourceBundles.getProperty(bundle, "yes")).isEqualTo("yes");
         assertThat(ResourceBundles.getProperty(bundle, "OK")).isEqualTo("OK");

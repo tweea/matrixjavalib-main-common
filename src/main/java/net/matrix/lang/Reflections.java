@@ -10,6 +10,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
@@ -51,13 +52,8 @@ public final class Reflections {
      * @return 成员值
      */
     public static <T> T getFieldValue(final Object target, final String name) {
-        Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
-        if (field == null) {
-            throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
-        }
-
         try {
-            return (T) field.get(target);
+            return (T) FieldUtils.readField(target, name, true);
         } catch (IllegalAccessException e) {
             throw new ImpossibleException(e);
         }
@@ -74,13 +70,8 @@ public final class Reflections {
      *     成员值
      */
     public static void setFieldValue(final Object target, final String name, final Object value) {
-        Field field = FieldUtils.getDeclaredField(target.getClass(), name, true);
-        if (field == null) {
-            throw new IllegalArgumentException("Could not find field [" + name + "] on target [" + target + ']');
-        }
-
         try {
-            field.set(target, value);
+            FieldUtils.writeField(target, name, value, true);
         } catch (IllegalAccessException e) {
             throw new ImpossibleException(e);
         }
@@ -97,7 +88,7 @@ public final class Reflections {
      */
     public static <T> T invokeGetter(final Object target, final String name) {
         String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(name);
-        return (T) invokeMethod(target, getterMethodName, new Class[] {}, new Object[] {});
+        return (T) invokeMethod(target, getterMethodName, ArrayUtils.EMPTY_CLASS_ARRAY, ArrayUtils.EMPTY_OBJECT_ARRAY);
     }
 
     /**
@@ -133,7 +124,7 @@ public final class Reflections {
      * @return 返回值
      */
     public static <T> T invokeMethod(final Object target, final String name, final Class<?>[] parameterTypes, final Object[] parameterValues) {
-        Method method = getAccessibleMethod(target, name, parameterTypes);
+        Method method = getAccessibleMethod(target.getClass(), name, parameterTypes);
         if (method == null) {
             throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + ']');
         }
@@ -159,7 +150,7 @@ public final class Reflections {
      * @return 返回值
      */
     public static <T> T invokeMethodByName(final Object target, final String name, final Object[] parameterValues) {
-        Method method = getAccessibleMethodByName(target, name);
+        Method method = getAccessibleMethodByName(target.getClass(), name);
         if (method == null) {
             throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + ']');
         }
@@ -175,14 +166,14 @@ public final class Reflections {
      * 循环向上转型，获取对象的 DeclaredField，并强制设置为可访问。
      * 如向上转型到 Object 仍无法找到，返回 null。
      * 
-     * @param target
+     * @param targetType
      *     目标对象
      * @param name
      *     成员名
      * @return 成员
      */
-    public static Field getAccessibleField(final Object target, final String name) {
-        for (Class<?> searchType = target.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+    public static Field getAccessibleField(final Class<?> targetType, final String name) {
+        for (Class<?> searchType = targetType; searchType != Object.class; searchType = searchType.getSuperclass()) {
             try {
                 Field field = searchType.getDeclaredField(name);
                 makeAccessible(field);
@@ -201,7 +192,7 @@ public final class Reflections {
      * 匹配方法名 + 参数类型。
      * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
      * 
-     * @param target
+     * @param targetType
      *     目标对象
      * @param name
      *     方法名
@@ -209,8 +200,8 @@ public final class Reflections {
      *     参数类型
      * @return 方法
      */
-    public static Method getAccessibleMethod(final Object target, final String name, final Class<?>... parameterTypes) {
-        for (Class<?> searchType = target.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+    public static Method getAccessibleMethod(final Class<?> targetType, final String name, final Class<?>... parameterTypes) {
+        for (Class<?> searchType = targetType; searchType != Object.class; searchType = searchType.getSuperclass()) {
             try {
                 Method method = searchType.getDeclaredMethod(name, parameterTypes);
                 makeAccessible(method);
@@ -229,14 +220,14 @@ public final class Reflections {
      * 只匹配方法名。
      * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
      * 
-     * @param target
+     * @param targetType
      *     目标对象
      * @param name
      *     方法名
      * @return 方法
      */
-    public static Method getAccessibleMethodByName(final Object target, final String name) {
-        for (Class<?> searchType = target.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+    public static Method getAccessibleMethodByName(final Class<?> targetType, final String name) {
+        for (Class<?> searchType = targetType; searchType != Object.class; searchType = searchType.getSuperclass()) {
             Method[] methods = searchType.getDeclaredMethods();
             for (Method method : methods) {
                 if (method.getName().equals(name)) {
@@ -249,26 +240,32 @@ public final class Reflections {
     }
 
     /**
-     * 改变 private/protected 的成员为 public，尽量不调用实际改动的语句，避免 JDK 的 securityManager 抱怨。
+     * 改变 private/protected 的成员为 public，尽量不调用实际改动的语句，避免 JDK 的 SecurityManager 抱怨。
      * 
      * @param field
      *     成员
      */
     public static void makeAccessible(final Field field) {
-        if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers()))
-            && !field.isAccessible()) {
+        if (field.isAccessible()) {
+            return;
+        }
+        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())
+            || Modifier.isFinal(field.getModifiers())) {
             field.setAccessible(true);
         }
     }
 
     /**
-     * 改变 private/protected 的方法为 public，尽量不调用实际改动的语句，避免 JDK 的 securityManager 抱怨。
+     * 改变 private/protected 的方法为 public，尽量不调用实际改动的语句，避免 JDK 的 SecurityManager 抱怨。
      * 
      * @param method
      *     方法
      */
     public static void makeAccessible(final Method method) {
-        if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) && !method.isAccessible()) {
+        if (method.isAccessible()) {
+            return;
+        }
+        if (!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
             method.setAccessible(true);
         }
     }
@@ -284,11 +281,9 @@ public final class Reflections {
      * 
      * @param clazz
      *     The class to introspect
-     * @param <T>
-     *     自动转型
      * @return the first generic declaration, or Object.class if cannot be determined
      */
-    public static <T> Class<T> getClassGenricType(final Class clazz) {
+    public static Class getClassGenricType(final Class clazz) {
         return getClassGenricType(clazz, 0);
     }
 

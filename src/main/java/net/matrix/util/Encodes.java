@@ -12,13 +12,13 @@ import java.nio.charset.StandardCharsets;
 import net.matrix.lang.ImpossibleException;
 
 /**
- * 封装各种格式的编码解码工具类。
- * 1.自行编写的，将 long 进行 base62 编码以缩短其长度
+ * 各种格式的编码解码工具。
+ * 1.自行编写的将 long 进行 base62 编码以缩短其长度
  * 2.JDK 提供的 URLEncoder
  */
 public final class Encodes {
     /**
-     * Base 编码字母表。
+     * Base62 编码字母表。
      */
     private static final String BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 

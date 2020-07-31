@@ -46,15 +46,17 @@ public class RelativeResourceRootRegisterTest {
         throws IOException {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
         register.registerRoot("test", new ClassPathResource(""));
+        RelativeResource relativeResource = new RelativeResource("test", "bar.xml");
 
-        assertThat(register.getResource(new RelativeResource("test", "bar.xml")).getFile()).exists();
+        assertThat(register.getResource(relativeResource).exists()).isTrue();
     }
 
     @Test
     public void testGetResource1() {
         RelativeResourceRootRegister register = new RelativeResourceRootRegister();
+        RelativeResource relativeResource = new RelativeResource("test", "bar.xml");
 
-        assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> register.getResource(new RelativeResource("test", "bar.xml")).getFile());
+        assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> register.getResource(relativeResource));
     }
 
     @Test

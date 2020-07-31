@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EncodesTest {
     @Test
-    public void base62Encode() {
+    public void testBase62Encode() {
         long num = 63;
 
         String result = Encodes.encodeBase62(num);
@@ -19,10 +19,10 @@ public class EncodesTest {
     }
 
     @Test
-    public void urlEncode() {
+    public void testUrlEncode() {
         String input = "http://locahost/?q=中文&t=1";
-        String result = Encodes.urlEncode(input);
 
+        String result = Encodes.urlEncode(input);
         assertThat(Encodes.urlDecode(result)).isEqualTo(input);
     }
 }

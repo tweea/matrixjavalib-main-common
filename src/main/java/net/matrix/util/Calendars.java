@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 日期工具类。
+ * 日期工具。
  */
 public final class Calendars {
     /**
@@ -36,16 +36,14 @@ public final class Calendars {
      *     月 1-12
      * @param day
      *     日
-     * @return true 符合历法
+     * @return 是否符合历法
      */
     public static boolean isValidDate(final int year, final int month, final int day) {
         try {
             buildDate(year, month, day);
             return true;
         } catch (IllegalFieldValueException e) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("", e);
-            }
+            LOG.trace("", e);
             return false;
         }
     }
@@ -70,65 +68,69 @@ public final class Calendars {
      * 
      * @param year
      *     年份
-     * @return true 是闰年
+     * @return 是否闰年
      */
     public static boolean isLeapYear(final int year) {
         return buildDate(year, 1, 1).year().isLeap();
     }
 
     /**
-     * 创建 DateTime 对象，参数为 null 时返回 null。
+     * 创建 {@link DateTime} 对象，参数为 null 时返回 null。
      * 
      * @param instant
      *     表示日期的对象
-     * @return DateTime 对象
+     * @return {@link DateTime} 对象
      */
     public static DateTime newDateTime(final Object instant) {
         if (instant == null) {
             return null;
         }
+
         return new DateTime(instant);
     }
 
     /**
-     * 创建 LocalDate 对象，参数为 null 时返回 null。
+     * 创建 {@link LocalDate} 对象，参数为 null 时返回 null。
      * 
      * @param instant
      *     表示日期的对象
-     * @return LocalDate 对象
+     * @return {@link LocalDate} 对象
      */
     public static LocalDate newLocalDate(final Object instant) {
         if (instant == null) {
             return null;
         }
+
         return new LocalDate(instant);
     }
 
     /**
-     * 创建 LocalTime 对象，参数为 null 时返回 null。
+     * 创建 {@link LocalTime} 对象，参数为 null 时返回 null。
      * 
      * @param instant
      *     表示日期的对象
-     * @return LocalTime 对象
+     * @return {@link LocalTime} 对象
      */
     public static LocalTime newLocalTime(final Object instant) {
         if (instant == null) {
             return null;
         }
+
         return new LocalTime(instant);
     }
 
     /**
-     * 创建 LocalDateTime 对象，参数为 null 时返回 null。
+     * 创建 {@link LocalDateTime} 对象，参数为 null 时返回 null。
      * 
      * @param instant
      *     表示日期的对象
-     * @return LocalDateTime 对象
+     * @return {@link LocalDateTime} 对象
      */
     public static LocalDateTime newLocalDateTime(final Object instant) {
         if (instant == null) {
             return null;
         }
+
         return new LocalDateTime(instant);
     }
 }

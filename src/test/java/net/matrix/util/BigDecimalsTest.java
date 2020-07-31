@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BigDecimalsTest {
     @Test
-    public void equals() {
+    public void testEquals() {
         assertThat(BigDecimals.equals(new BigDecimal("1"), new BigDecimal("1.0"))).isTrue();
         assertThat(BigDecimals.equals(new BigDecimal("1"), new BigDecimal("2.0"))).isFalse();
     }

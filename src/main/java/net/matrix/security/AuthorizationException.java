@@ -11,9 +11,6 @@ import java.security.GeneralSecurityException;
  */
 public class AuthorizationException
     extends GeneralSecurityException {
-    /**
-     * serialVersionUID.
-     */
     private static final long serialVersionUID = 5334348169085634972L;
 
     /**

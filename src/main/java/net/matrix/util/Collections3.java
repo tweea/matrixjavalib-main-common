@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import net.matrix.lang.ReflectionRuntimeException;
 
 /**
- * Collections 工具集。
+ * Collection 工具。
  * 在 JDK 的 Collections 和 Guava 的 Collections2 后，命名为 Collections3。
  */
 public final class Collections3 {
@@ -92,7 +92,8 @@ public final class Collections3 {
 
     /**
      * 转换 Collection 所有元素（通过 toString()）为 String，每个元素的前面加入 prefix，后面加入
-     * postfix，如<div>mymessage</div>。
+     * postfix。如：
+     * {mymessage}
      * 
      * @param collection
      *     来源集合

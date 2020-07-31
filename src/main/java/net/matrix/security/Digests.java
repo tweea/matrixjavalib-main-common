@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 import net.matrix.lang.ImpossibleException;
 
 /**
- * 支持 SHA-1/MD5 消息摘要的工具类，支持加盐达到更高的安全性。
+ * SHA-1/MD5 消息摘要工具，支持加盐达到更高的安全性。
  */
 public final class Digests {
     /**

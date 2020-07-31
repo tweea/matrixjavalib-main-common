@@ -11,9 +11,9 @@ import java.util.Locale;
  */
 public final class Locales {
     /**
-     * 保存当前设定区域。
+     * 与当前线程关联的区域。
      */
-    private static ThreadLocal<Locale> currentHolder = new ThreadLocal<>();
+    private static ThreadLocal<Locale> currentHolder = ThreadLocal.withInitial(() -> Locale.getDefault());
 
     /**
      * 阻止实例化。
@@ -22,24 +22,14 @@ public final class Locales {
     }
 
     /**
-     * 获取当前设定区域。
-     * 
-     * @return 当前设定区域
+     * 获取与当前线程关联的区域。
      */
     public static Locale current() {
-        Locale current = currentHolder.get();
-        if (current == null) {
-            current = Locale.getDefault();
-            currentHolder.set(current);
-        }
-        return current;
+        return currentHolder.get();
     }
 
     /**
-     * 设定当前区域。
-     * 
-     * @param current
-     *     当前设定区域
+     * 设置与当前线程关联的区域。
      */
     public static void current(final Locale current) {
         currentHolder.set(current);

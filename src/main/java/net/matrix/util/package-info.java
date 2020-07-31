@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * 跟 java.util 包的意思差不多。
+ * 类似 {@link java.util} 包的工具。
  */
 package net.matrix.util;

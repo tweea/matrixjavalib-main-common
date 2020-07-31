@@ -12,12 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CryptosTest {
     @Test
-    public void mac()
+    public void testHMAC()
         throws GeneralSecurityException {
         String input = "foo message";
 
-        // key 可为任意字符串
-        // byte[] key = "a foo key".getBytes();
         byte[] key = Cryptos.generateHmacSha1Key();
         assertThat(key).hasSize(20);
 
@@ -26,7 +24,7 @@ public class CryptosTest {
     }
 
     @Test
-    public void aes()
+    public void testAES()
         throws GeneralSecurityException {
         String input = "foo message";
 
@@ -39,7 +37,7 @@ public class CryptosTest {
     }
 
     @Test
-    public void aesWithIV()
+    public void testAESWithIV()
         throws GeneralSecurityException {
         String input = "foo message";
 

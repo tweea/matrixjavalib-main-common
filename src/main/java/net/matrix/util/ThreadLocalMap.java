@@ -10,16 +10,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 使用 ThreadLocal 存储的 Map，一般做静态变量使用。
+ * 使用 {@link ThreadLocal} 存储的 {@link Map}，一般作为静态变量使用。
  */
 public class ThreadLocalMap<K, V>
     implements Map<K, V> {
-    private final ThreadLocal<Map<K, V>> internal = new ThreadLocal<Map<K, V>>() {
-        @Override
-        protected Map<K, V> initialValue() {
-            return new HashMap<>();
-        }
-    };
+    private final ThreadLocal<Map<K, V>> internal = ThreadLocal.withInitial(() -> new HashMap<>());
 
     @Override
     public int size() {

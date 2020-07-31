@@ -7,7 +7,7 @@ package net.matrix.util;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
- * SLF4J 工具类。
+ * SLF4J 工具。
  */
 public final class SLF4Js {
     /**
@@ -17,7 +17,7 @@ public final class SLF4Js {
     }
 
     /**
-     * 将 java.util.logging 的日志代理到 SLF4J。
+     * 将 {@link java.util.logging} 的日志代理到 SLF4J。
      */
     public static void bridgeJUL() {
         if (SLF4JBridgeHandler.isInstalled()) {

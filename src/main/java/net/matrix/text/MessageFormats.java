@@ -21,14 +21,14 @@ public final class MessageFormats {
     /**
      * 当出现错误后，将消息格式化为一般形式。
      * 
-     * @param pattern
+     * @param key
      *     键值
      * @param arguments
      *     参数
      * @return 消息字符串
      */
-    public static String formatFallback(final String pattern, final Object... arguments) {
-        StringBuilder sb = new StringBuilder(pattern);
+    public static String formatFallback(final String key, final Object... arguments) {
+        StringBuilder sb = new StringBuilder(key);
         for (Object argument : arguments) {
             sb.append(", ");
             sb.append(argument);
@@ -69,7 +69,7 @@ public final class MessageFormats {
             return pattern;
         }
         if (pattern.equals(key)) {
-            return formatFallback(pattern, arguments);
+            return formatFallback(key, arguments);
         }
         return format(pattern, bundle.getLocale(), arguments);
     }

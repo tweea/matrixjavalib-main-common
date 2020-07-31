@@ -3,6 +3,6 @@
  * All right reserved.
  */
 /**
- * java.text 包的辅助工具。
+ * {@link java.text} API 工具。
  */
 package net.matrix.text;
