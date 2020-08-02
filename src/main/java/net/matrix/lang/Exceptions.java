@@ -24,7 +24,9 @@ public final class Exceptions {
      * @return 运行时异常
      */
     public static RuntimeException unchecked(final Throwable t) {
-        if (t instanceof RuntimeException) {
+        if (t instanceof Error) {
+            throw (Error) t;
+        } else if (t instanceof RuntimeException) {
             return (RuntimeException) t;
         } else {
             return new RuntimeException(t);

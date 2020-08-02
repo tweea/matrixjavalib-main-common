@@ -58,6 +58,7 @@ public final class Threads {
 
     /**
      * 保证不会有 Exception 抛出到线程池的 Runnable，防止用户没有捕捉异常导致中断了线程池中的线程。
+     * 在无法控制第三方包的 Runnalbe 实现时进行包装。
      */
     public static class WrapExceptionRunnable
         implements Runnable {
