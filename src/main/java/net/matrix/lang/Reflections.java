@@ -11,8 +11,10 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,11 @@ public final class Reflections {
      * Getter 方法前缀。
      */
     private static final String GETTER_PREFIX = "get";
+
+    /**
+     * Is 方法前缀。
+     */
+    private static final String IS_PREFIX = "is";
 
     /**
      * 阻止实例化。
@@ -60,6 +67,18 @@ public final class Reflections {
     }
 
     /**
+     * 使用已获取的 Field，直接读取对象成员值，不经过 getter 方法。
+     * 用于反复调用的场景。
+     */
+    public static <T> T getFieldValue(final Object target, final Field field) {
+        try {
+            return (T) field.get(target);
+        } catch (IllegalAccessException e) {
+            throw new ImpossibleException(e);
+        }
+    }
+
+    /**
      * 直接设置目标对象成员值，无视 private/protected 修饰符，不经过 setter 方法。
      * 
      * @param target
@@ -78,6 +97,18 @@ public final class Reflections {
     }
 
     /**
+     * 使用预先获取的 Field，直接读取对象成员值，不经过 setter 方法。
+     * 用于反复调用的场景。
+     */
+    public static void setFieldValue(final Object target, final Field field, final Object value) {
+        try {
+            field.set(target, value);
+        } catch (IllegalAccessException e) {
+            throw new ImpossibleException(e);
+        }
+    }
+
+    /**
      * 调用 Getter 方法。
      * 
      * @param target
@@ -87,8 +118,11 @@ public final class Reflections {
      * @return 属性值
      */
     public static <T> T invokeGetter(final Object target, final String name) {
-        String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(name);
-        return (T) invokeMethod(target, getterMethodName, ArrayUtils.EMPTY_CLASS_ARRAY, ArrayUtils.EMPTY_OBJECT_ARRAY);
+        Method method = getAccessibleGetterMethod(target.getClass(), name);
+        if (method == null) {
+            throw new IllegalArgumentException("Could not find getter method [" + name + "] on target [" + target + ']');
+        }
+        return invokeMethod(target, method);
     }
 
     /**
@@ -102,10 +136,29 @@ public final class Reflections {
      *     属性值
      */
     public static void invokeSetter(final Object target, final String name, final Object value) {
-        String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(name);
-        invokeMethodByName(target, setterMethodName, new Object[] {
-            value
-        });
+        Class valueType;
+        if (value == null) {
+            valueType = null;
+        } else {
+            valueType = value.getClass();
+        }
+
+        Method method = getAccessibleSetterMethod(target.getClass(), name, valueType);
+        if (method == null) {
+            throw new IllegalArgumentException("Could not find getter method [" + name + "] on target [" + target + ']');
+        }
+        invokeMethod(target, method, value);
+    }
+
+    /**
+     * 反射调用对象方法，无视 private/protected 修饰符。
+     * 根据传入参数的实际类型进行匹配，支持方法参数定义是接口、父类、原子类型等情况。
+     * 性能较差，仅用于单次调用。
+     */
+    public static <T> T invokeMethod(Object target, String name, Object... parameterValues) {
+        parameterValues = ArrayUtils.nullToEmpty(parameterValues);
+        final Class<?>[] parameterTypes = ClassUtils.toClass(parameterValues);
+        return invokeMethod(target, name, parameterValues, parameterTypes);
     }
 
     /**
@@ -129,11 +182,7 @@ public final class Reflections {
             throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + ']');
         }
 
-        try {
-            return (T) method.invoke(target, parameterValues);
-        } catch (ReflectiveOperationException e) {
-            throw new ReflectionRuntimeException(e);
-        }
+        return invokeMethod(target, method, parameterValues);
     }
 
     /**
@@ -155,6 +204,13 @@ public final class Reflections {
             throw new IllegalArgumentException("Could not find method [" + name + "] on target [" + target + ']');
         }
 
+        return invokeMethod(target, method, parameterValues);
+    }
+
+    /**
+     * 调用预先获取的 Method，用于反复调用的场景。
+     */
+    public static <T> T invokeMethod(final Object target, Method method, Object... parameterValues) {
         try {
             return (T) method.invoke(target, parameterValues);
         } catch (ReflectiveOperationException e) {
@@ -190,7 +246,7 @@ public final class Reflections {
      * 循环向上转型，获取对象的 DeclaredMethod，并强制设置为可访问。
      * 如向上转型到 Object 仍无法找到，返回 null。
      * 匹配方法名 + 参数类型。
-     * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
+     * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... parameterValues)
      * 
      * @param targetType
      *     目标对象
@@ -201,24 +257,20 @@ public final class Reflections {
      * @return 方法
      */
     public static Method getAccessibleMethod(final Class<?> targetType, final String name, final Class<?>... parameterTypes) {
-        for (Class<?> searchType = targetType; searchType != Object.class; searchType = searchType.getSuperclass()) {
-            try {
-                Method method = searchType.getDeclaredMethod(name, parameterTypes);
-                makeAccessible(method);
-                return method;
-            } catch (NoSuchMethodException e) {
-                // Method 不在当前类定义，继续向上转型
-                LOG.trace("", e);
-            }
+        Method method = MethodUtils.getMatchingMethod(targetType, name, parameterTypes);
+        if (method == null) {
+            return null;
         }
-        return null;
+
+        makeAccessible(method);
+        return method;
     }
 
     /**
      * 循环向上转型，获取对象的 DeclaredMethod，并强制设置为可访问。
      * 如向上转型到 Object 仍无法找到，返回 null。
      * 只匹配方法名。
-     * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... args)
+     * 用于方法需要被多次调用的情况。先使用本方法先取得 Method，然后调用 Method.invoke(Object obj, Object... parameterValues)
      * 
      * @param targetType
      *     目标对象
@@ -237,6 +289,30 @@ public final class Reflections {
             }
         }
         return null;
+    }
+
+    /**
+     * 循环遍历，按属性名获取前缀为 set 的方法，并设为可访问
+     */
+    public static Method getAccessibleSetterMethod(Class<?> clazz, String propertyName, Class<?> parameterType) {
+        String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(propertyName);
+        if (parameterType == null) {
+            return getAccessibleMethodByName(clazz, setterMethodName);
+        }
+        return getAccessibleMethod(clazz, setterMethodName, parameterType);
+    }
+
+    /**
+     * 循环遍历，按属性名获取前缀为 get 或 is 的方法，并设为可访问
+     */
+    public static Method getAccessibleGetterMethod(Class<?> clazz, String propertyName) {
+        String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(propertyName);
+        Method method = getAccessibleMethodByName(clazz, getterMethodName);
+        if (method == null) {
+            getterMethodName = IS_PREFIX + StringUtils.capitalize(propertyName);
+            method = getAccessibleMethodByName(clazz, getterMethodName);
+        }
+        return method;
     }
 
     /**
