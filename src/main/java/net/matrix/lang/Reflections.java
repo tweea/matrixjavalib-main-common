@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2011 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.lang;
 
@@ -158,7 +158,7 @@ public final class Reflections {
     public static <T> T invokeMethod(Object target, String name, Object... parameterValues) {
         parameterValues = ArrayUtils.nullToEmpty(parameterValues);
         final Class<?>[] parameterTypes = ClassUtils.toClass(parameterValues);
-        return invokeMethod(target, name, parameterValues, parameterTypes);
+        return invokeMethod(target, name, parameterTypes, parameterValues);
     }
 
     /**
@@ -292,7 +292,7 @@ public final class Reflections {
     }
 
     /**
-     * 循环遍历，按属性名获取前缀为 set 的方法，并设为可访问
+     * 循环遍历，按属性名获取前缀为 set 的方法，并设为可访问。
      */
     public static Method getAccessibleSetterMethod(Class<?> clazz, String propertyName, Class<?> parameterType) {
         String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(propertyName);
@@ -303,7 +303,7 @@ public final class Reflections {
     }
 
     /**
-     * 循环遍历，按属性名获取前缀为 get 或 is 的方法，并设为可访问
+     * 循环遍历，按属性名获取前缀为 get 或 is 的方法，并设为可访问。
      */
     public static Method getAccessibleGetterMethod(Class<?> clazz, String propertyName) {
         String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(propertyName);

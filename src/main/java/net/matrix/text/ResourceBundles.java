@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.text;
 
@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -64,9 +63,9 @@ public final class ResourceBundles {
         /**
          * 支持资源格式。
          */
-        private static final List<String> FORMATS = Arrays.asList("xml");
+        private static final List<String> FORMATS = Collections.singletonList("xml");
 
-        public XMLResourceBundleControl() {
+        XMLResourceBundleControl() {
             // 提升可见性，优化访问速度
         }
 
@@ -138,7 +137,7 @@ public final class ResourceBundles {
          * @throws IOException
          *     读取失败
          */
-        public XMLResourceBundle(final InputStream stream)
+        XMLResourceBundle(final InputStream stream)
             throws IOException {
             this.props = new Properties();
             this.props.loadFromXML(stream);

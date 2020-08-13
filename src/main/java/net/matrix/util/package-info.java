@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2011 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 /**
  * 类似 {@link java.util} 包的工具。

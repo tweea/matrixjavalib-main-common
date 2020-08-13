@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.security;
 
@@ -20,11 +20,6 @@ public final class Digests {
      * SHA-1 算法名。
      */
     private static final String SHA1_NAME = "SHA-1";
-
-    /**
-     * MD5 算法名。
-     */
-    private static final String MD5_NAME = "MD5";
 
     /**
      * 内部随机量。
@@ -120,20 +115,6 @@ public final class Digests {
         byte[] bytes = new byte[numBytes];
         RANDOM.nextBytes(bytes);
         return bytes;
-    }
-
-    /**
-     * 对输入流进行 md5 散列。
-     * 
-     * @param input
-     *     输入流
-     * @return 散列码
-     * @throws IOException
-     *     从输入流读取数据失败
-     */
-    public static byte[] md5(final InputStream input)
-        throws IOException {
-        return digest(input, MD5_NAME);
     }
 
     /**

@@ -1,17 +1,18 @@
 /*
- * Copyright(C) 2011 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.collect.Maps;
 
 import net.matrix.lang.ReflectionRuntimeException;
 
@@ -38,7 +39,7 @@ public final class Collections3 {
      * @return 属性集合
      */
     public static Map extractToMap(final Collection collection, final String keyPropertyName, final String valuePropertyName) {
-        Map map = new HashMap(collection.size());
+        Map map = Maps.newHashMapWithExpectedSize(collection.size());
 
         try {
             for (Object obj : collection) {
@@ -91,8 +92,8 @@ public final class Collections3 {
     }
 
     /**
-     * 转换 Collection 所有元素（通过 toString()）为 String，每个元素的前面加入 prefix，后面加入
-     * postfix。如：
+     * 转换 Collection 所有元素（通过 toString()）为 String，每个元素的前面加入 prefix，后面加入 postfix。
+     * 如：
      * {mymessage}
      * 
      * @param collection

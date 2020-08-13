@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.security;
 
@@ -11,7 +11,7 @@ import java.security.GeneralSecurityException;
  */
 public class AuthorizationException
     extends GeneralSecurityException {
-    private static final long serialVersionUID = 5334348169085634972L;
+    private static final long serialVersionUID = -5657215895337793268L;
 
     /**
      * 使用 <code>null</code> 作为详细信息构造异常。原因异常没有初始化，可以随后调用 {@link #initCause} 进行初始化。

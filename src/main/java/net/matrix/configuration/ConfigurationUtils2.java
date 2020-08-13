@@ -1,13 +1,14 @@
 /*
- * Copyright(C) 2020 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.configuration;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.configuration2.Configuration;
+
+import com.google.common.collect.Maps;
 
 import net.matrix.util.IterableIterator;
 
@@ -29,7 +30,7 @@ public final class ConfigurationUtils2 {
      * @return {@link Map} 对象
      */
     public static Map<String, String> parseAttributes(final Configuration config) {
-        Map<String, String> parameters = new HashMap<>(config.size());
+        Map<String, String> parameters = Maps.newHashMapWithExpectedSize(config.size());
         for (String key : new IterableIterator<>(config.getKeys())) {
             String value = config.getString(key);
             parameters.put(key, value);

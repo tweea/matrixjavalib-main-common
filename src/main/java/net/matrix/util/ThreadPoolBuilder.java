@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2015 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.util;
 
@@ -71,7 +71,7 @@ public interface ThreadPoolBuilder {
         }
 
         /**
-         * 与 threadNamePrefix 互斥, 优先使用 ThreadFactory
+         * 与 threadNamePrefix 互斥，优先使用 ThreadFactory。
          */
         public FixedThreadPoolBuilder setThreadFactory(final ThreadFactory threadFactory) {
             this.threadFactory = threadFactory;
@@ -88,7 +88,7 @@ public interface ThreadPoolBuilder {
             return this;
         }
 
-        public FixedThreadPoolBuilder setRejectHanlder(final RejectedExecutionHandler rejectHandler) {
+        public FixedThreadPoolBuilder setRejectHandler(final RejectedExecutionHandler rejectHandler) {
             this.rejectHandler = rejectHandler;
             return this;
         }
@@ -156,7 +156,7 @@ public interface ThreadPoolBuilder {
         }
 
         /**
-         * 与 threadNamePrefix 互斥, 优先使用 ThreadFactory
+         * 与 threadNamePrefix 互斥，优先使用 ThreadFactory。
          */
         public CachedThreadPoolBuilder setThreadFactory(final ThreadFactory threadFactory) {
             this.threadFactory = threadFactory;
@@ -173,7 +173,7 @@ public interface ThreadPoolBuilder {
             return this;
         }
 
-        public CachedThreadPoolBuilder setRejectHanlder(final RejectedExecutionHandler rejectHandler) {
+        public CachedThreadPoolBuilder setRejectHandler(final RejectedExecutionHandler rejectHandler) {
             this.rejectHandler = rejectHandler;
             return this;
         }
@@ -193,13 +193,13 @@ public interface ThreadPoolBuilder {
     /*
      * 创建 ScheduledPool。
      */
-    public static class ScheduledThreadPoolBuilder
+    class ScheduledThreadPoolBuilder
         implements ThreadPoolBuilder {
         private int poolSize = 1;
 
-        private ThreadFactory threadFactory = null;
+        private ThreadFactory threadFactory;
 
-        private String threadNamePrefix = null;
+        private String threadNamePrefix;
 
         public ScheduledThreadPoolBuilder setPoolSize(int poolSize) {
             this.poolSize = poolSize;
@@ -207,7 +207,7 @@ public interface ThreadPoolBuilder {
         }
 
         /**
-         * 与threadNamePrefix互斥, 优先使用ThreadFactory
+         * 与 threadNamePrefix 互斥，优先使用ThreadFactory。
          */
         public ScheduledThreadPoolBuilder setThreadFactory(ThreadFactory threadFactory) {
             this.threadFactory = threadFactory;

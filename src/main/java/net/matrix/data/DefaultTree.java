@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.data;
 
@@ -24,7 +24,7 @@ import java.util.TreeMap;
  */
 public class DefaultTree<ID, DATA>
     implements Serializable, Tree<ID, DATA> {
-    private static final long serialVersionUID = -21200598521077549L;
+    private static final long serialVersionUID = 6200293084826291564L;
 
     /**
      * 节点标识。
@@ -232,7 +232,7 @@ public class DefaultTree<ID, DATA>
      */
     public static class DefaultKey
         implements Key {
-        private static final long serialVersionUID = 35507229935965284L;
+        private static final long serialVersionUID = 5986109247641634972L;
 
         /**
          * 上级节点标识。

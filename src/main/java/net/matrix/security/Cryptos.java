@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.security;
 
@@ -12,9 +12,8 @@ import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import net.matrix.lang.ImpossibleException;
@@ -31,7 +30,7 @@ public final class Cryptos {
     /**
      * 带随机向量 AES 算法名。
      */
-    private static final String AES_CBC_NAME = "AES/CBC/PKCS5Padding";
+    private static final String AES_GCM_NAME = "AES/GCM/NoPadding";
 
     /**
      * HMAC-SHA1 算法名。
@@ -214,9 +213,7 @@ public final class Cryptos {
             Cipher cipher = Cipher.getInstance(AES_NAME);
             cipher.init(mode, secretKey);
             return cipher.doFinal(input);
-        } catch (NoSuchAlgorithmException e) {
-            throw new ImpossibleException(e);
-        } catch (NoSuchPaddingException e) {
+        } catch (GeneralSecurityException e) {
             throw new ImpossibleException(e);
         }
     }
@@ -240,13 +237,11 @@ public final class Cryptos {
         throws GeneralSecurityException {
         try {
             SecretKey secretKey = new SecretKeySpec(key, AES_NAME);
-            IvParameterSpec ivSpec = new IvParameterSpec(iv);
-            Cipher cipher = Cipher.getInstance(AES_CBC_NAME);
+            GCMParameterSpec ivSpec = new GCMParameterSpec(128, iv);
+            Cipher cipher = Cipher.getInstance(AES_GCM_NAME);
             cipher.init(mode, secretKey, ivSpec);
             return cipher.doFinal(input);
-        } catch (NoSuchAlgorithmException e) {
-            throw new ImpossibleException(e);
-        } catch (NoSuchPaddingException e) {
+        } catch (GeneralSecurityException e) {
             throw new ImpossibleException(e);
         }
     }

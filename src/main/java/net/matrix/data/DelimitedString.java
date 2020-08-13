@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.data;
 
@@ -120,6 +120,8 @@ public class DelimitedString
     }
 
     /**
+     * 获取分隔符。
+     * 
      * @return 分隔符
      */
     public String getDelimiter() {
@@ -127,6 +129,8 @@ public class DelimitedString
     }
 
     /**
+     * 设置分隔符。
+     * 
      * @param delimiter
      *     分隔符
      */

@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.data;
 
@@ -49,6 +49,8 @@ public class Money {
     }
 
     /**
+     * 获取数量。
+     * 
      * @return 数量
      */
     public BigDecimal getAmount() {
@@ -56,6 +58,8 @@ public class Money {
     }
 
     /**
+     * 获取货币。
+     * 
      * @return 货币
      */
     public Currency getCurrency() {

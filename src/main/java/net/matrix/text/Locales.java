@@ -1,5 +1,5 @@
 /*
- * 版权所有 2013 Matrix。
+ * 版权所有 2020 Matrix。
  * 保留所有权利。
  */
 package net.matrix.text;
@@ -13,7 +13,7 @@ public final class Locales {
     /**
      * 与当前线程关联的区域。
      */
-    private static ThreadLocal<Locale> currentHolder = ThreadLocal.withInitial(() -> Locale.getDefault());
+    private static ThreadLocal<Locale> currentHolder = ThreadLocal.withInitial(Locale::getDefault);
 
     /**
      * 阻止实例化。

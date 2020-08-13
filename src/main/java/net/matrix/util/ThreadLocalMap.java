@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2015 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.util;
 
@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class ThreadLocalMap<K, V>
     implements Map<K, V> {
-    private final ThreadLocal<Map<K, V>> internal = ThreadLocal.withInitial(() -> new HashMap<>());
+    private final ThreadLocal<Map<K, V>> internal = ThreadLocal.withInitial(HashMap::new);
 
     @Override
     public int size() {
