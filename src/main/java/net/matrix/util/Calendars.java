@@ -64,7 +64,7 @@ public final class Calendars {
     }
 
     /**
-     * 判断某年是否闰年。
+     * 判断指定年是否闰年。
      * 
      * @param year
      *     年份

@@ -97,7 +97,7 @@ public final class Cryptos {
      *     原始输入字符串
      * @param key
      *     密钥
-     * @return true 签名正确
+     * @return 签名是否正确
      * @throws GeneralSecurityException
      *     签名失败
      */
