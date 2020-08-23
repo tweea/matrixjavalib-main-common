@@ -65,7 +65,7 @@ public final class ResourceBundles {
          */
         private static final List<String> FORMATS = Collections.singletonList("xml");
 
-        XMLResourceBundleControl() {
+        public XMLResourceBundleControl() {
             // 提升可见性，优化访问速度
         }
 
