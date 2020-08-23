@@ -262,12 +262,8 @@ public class DefaultTreeTest {
         assertThat(leaf3.isLeaf()).isTrue();
     }
 
-    private static class TestSource
+    public static class TestSource
         implements TreeSource<String, String> {
-        public TestSource() {
-            // 提升可见性，优化访问速度
-        }
-
         @Override
         public String getRootId() {
             return "root";

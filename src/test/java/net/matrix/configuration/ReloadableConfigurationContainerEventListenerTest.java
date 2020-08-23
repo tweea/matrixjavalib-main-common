@@ -60,15 +60,11 @@ public class ReloadableConfigurationContainerEventListenerTest {
         assertThat(container.isReseted()).isFalse();
     }
 
-    private static class TestContainer
+    public static class TestContainer
         implements ReloadableConfigurationContainer<Object> {
         private boolean isChecked = false;
 
         private boolean isReseted = false;
-
-        public TestContainer() {
-            // 提升可见性，优化访问速度
-        }
 
         public boolean isChecked() {
             return isChecked;
