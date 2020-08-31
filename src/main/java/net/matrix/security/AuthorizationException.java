@@ -11,7 +11,7 @@ import java.security.GeneralSecurityException;
  */
 public class AuthorizationException
     extends GeneralSecurityException {
-    private static final long serialVersionUID = -5657215895337793268L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 使用 <code>null</code> 作为详细信息构造异常。原因异常没有初始化，可以随后调用 {@link #initCause} 进行初始化。
@@ -41,8 +41,7 @@ public class AuthorizationException
     }
 
     /**
-     * 使用指定详细信息和原因异常构造异常。
-     * <p>
+     * 使用指定详细信息和原因异常构造异常。<br>
      * 注意与 <code>cause</code> 关联的详细信息<i>不会</i>自动出现在本异常的详细信息中。
      * 
      * @param message

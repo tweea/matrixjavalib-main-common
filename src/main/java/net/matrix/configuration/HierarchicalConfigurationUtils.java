@@ -5,12 +5,13 @@
 package net.matrix.configuration;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.configuration2.HierarchicalConfiguration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+
+import com.google.common.collect.Maps;
 
 import net.matrix.text.MessageFormats;
 import net.matrix.text.ResourceBundles;
@@ -45,8 +46,10 @@ public final class HierarchicalConfigurationUtils {
      */
     public static <T> Map<String, String> parseParameter(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey,
         final String valueKey) {
-        Map<String, String> parameters = new HashMap<>();
-        for (HierarchicalConfiguration<T> subConfig : config.configurationsAt(subKey)) {
+        List<HierarchicalConfiguration<T>> subConfigs = config.configurationsAt(subKey);
+
+        Map<String, String> parameters = Maps.newHashMapWithExpectedSize(subConfigs.size());
+        for (HierarchicalConfiguration<T> subConfig : subConfigs) {
             String name = subConfig.getString(nameKey);
             String value = subConfig.getString(valueKey);
             parameters.put(name, value);
@@ -91,8 +94,10 @@ public final class HierarchicalConfigurationUtils {
      * @return 名配置列表
      */
     public static <T> List<String> listAllNames(final HierarchicalConfiguration<T> config, final String subKey, final String nameKey) {
-        List<String> names = new ArrayList<>();
-        for (HierarchicalConfiguration<T> subConfig : config.configurationsAt(subKey)) {
+        List<HierarchicalConfiguration<T>> subConfigs = config.configurationsAt(subKey);
+
+        List<String> names = new ArrayList<>(subConfigs.size());
+        for (HierarchicalConfiguration<T> subConfig : subConfigs) {
             names.add(subConfig.getString(nameKey));
         }
         return names;

@@ -59,9 +59,10 @@ public class DelimitedString
      *     分隔符
      */
     public DelimitedString(final String value, final String delimiter) {
-        this.delimiter = delimiter;
-        this.content = new ArrayList<>();
         String[] valueParts = StringUtils.split(value, delimiter);
+
+        this.delimiter = delimiter;
+        this.content = new ArrayList<>(valueParts.length);
         for (String valuePart : valueParts) {
             this.content.add(StringUtils.trim(valuePart));
         }
@@ -87,7 +88,7 @@ public class DelimitedString
      */
     public DelimitedString(final String[] valueParts, final String delimiter) {
         this.delimiter = delimiter;
-        this.content = new ArrayList<>();
+        this.content = new ArrayList<>(valueParts.length);
         for (String valuePart : valueParts) {
             this.content.add(StringUtils.trim(valuePart));
         }
@@ -113,7 +114,7 @@ public class DelimitedString
      */
     public DelimitedString(final List<String> valueParts, final String delimiter) {
         this.delimiter = delimiter;
-        this.content = new ArrayList<>();
+        this.content = new ArrayList<>(valueParts.size());
         for (String valuePart : valueParts) {
             this.content.add(StringUtils.trim(valuePart));
         }

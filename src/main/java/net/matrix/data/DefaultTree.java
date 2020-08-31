@@ -214,7 +214,7 @@ public class DefaultTree<ID, DATA>
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(64);
         sb.append(super.toString()).append("[id=").append(id);
         sb.append(",key=").append(key);
         sb.append(",parent=");

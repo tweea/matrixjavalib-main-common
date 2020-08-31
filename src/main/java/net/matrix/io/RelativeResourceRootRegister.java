@@ -7,6 +7,7 @@ package net.matrix.io;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -158,9 +159,10 @@ public class RelativeResourceRootRegister {
         }
 
         LOG.debug("删除旧文件：{}", file);
-        boolean success = file.delete();
-        if (!success) {
-            LOG.warn("删除文件失败：{}", file);
+        try {
+            Files.delete(file.toPath());
+        } catch (IOException e) {
+            LOG.warn("删除文件失败：{}", file, e);
         }
     }
 }
