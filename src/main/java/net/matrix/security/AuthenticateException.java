@@ -31,10 +31,10 @@ public class AuthenticateException
     }
 
     /**
-     * 使用指定原因异常构造异常，详细信息指定为 <tt>(cause==null ? null : cause.toString())</tt> （特别地指定原因异常的类和详细信息）。
+     * 使用指定原因异常构造异常，详细信息指定为 <code>(cause==null ? null : cause.toString())</code> （特别地指定原因异常的类和详细信息）。
      * 
      * @param cause
-     *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <tt>null</tt> 值，指原因异常不存在或未知。
+     *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
     public AuthenticateException(final Throwable cause) {
         super(cause);
@@ -47,7 +47,7 @@ public class AuthenticateException
      * @param message
      *     详细信息。详细信息可以通过 {@link #getMessage()} 方法获取。
      * @param cause
-     *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <tt>null</tt> 值，指原因异常不存在或未知。
+     *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
     public AuthenticateException(final String message, final Throwable cause) {
         super(message, cause);
