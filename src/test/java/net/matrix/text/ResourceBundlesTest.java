@@ -9,12 +9,14 @@ import java.util.ResourceBundle;
 
 import org.junit.jupiter.api.Test;
 
+import net.matrix.java.util.LocaleMx;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ResourceBundlesTest {
     @Test
     public void testGetBundle() {
-        Locales.current(Locale.CHINA);
+        LocaleMx.current(Locale.CHINA);
 
         ResourceBundle bundle = ResourceBundles.getBundle("global");
         assertThat(bundle.getString("male")).isEqualTo("男性");

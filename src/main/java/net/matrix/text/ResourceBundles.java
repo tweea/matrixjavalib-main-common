@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.matrix.java.util.LocaleMx;
+
 /**
  * 多语言资源工具。
  */
@@ -162,7 +164,7 @@ public final class ResourceBundles {
      * @return 资源
      */
     public static ResourceBundle getBundle(final String baseName) {
-        return getBundle(baseName, Locales.current());
+        return getBundle(baseName, LocaleMx.current());
     }
 
     /**
