@@ -44,7 +44,7 @@ public final class LocaleMx {
      * 初始为系统默认区域。
      * 
      * @param category
-     *     区域的功能分类
+     *     区域的功能分类。
      */
     public static Locale current(Locale.Category category) {
         switch (category) {
@@ -79,7 +79,7 @@ public final class LocaleMx {
      * 参数为 <code>null</code> 时重置为系统默认区域。
      * 
      * @param category
-     *     区域的功能分类
+     *     区域的功能分类。
      */
     public static void current(Locale.Category category, Locale locale) {
         switch (category) {
