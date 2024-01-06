@@ -23,6 +23,9 @@ import org.apache.commons.lang3.ArrayUtils;
  * 日期时间格式化工具。
  */
 public final class DateTimeFormatterMx {
+    /**
+     * 缓存。
+     */
     private static final ConcurrentMap<MultiKey, DateTimeFormatter> CACHE = new ConcurrentHashMap<>();
 
     /**
