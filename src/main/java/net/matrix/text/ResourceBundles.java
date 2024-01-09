@@ -14,13 +14,13 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.matrix.java.util.LocaleMx;
+import net.matrix.java.util.XMLPropertyResourceBundle;
 
 /**
  * 多语言资源工具。
@@ -92,7 +92,7 @@ public final class ResourceBundles {
                 try (InputStream is = getResourceAsStream(loader, reload, resourceName)) {
                     if (is != null) {
                         BufferedInputStream bis = new BufferedInputStream(is);
-                        bundle = new XMLResourceBundle(bis);
+                        bundle = new XMLPropertyResourceBundle(bis);
                     }
                 }
             }
@@ -118,41 +118,6 @@ public final class ResourceBundles {
             } else {
                 return loader.getResourceAsStream(resourceName);
             }
-        }
-    }
-
-    /**
-     * 支持读取 XML 资源。
-     */
-    private static final class XMLResourceBundle
-        extends ResourceBundle {
-        /**
-         * 资源中的属性。
-         */
-        private final Properties props;
-
-        /**
-         * 从输入流读取资源。
-         * 
-         * @param stream
-         *     输入流
-         * @throws IOException
-         *     读取失败
-         */
-        XMLResourceBundle(final InputStream stream)
-            throws IOException {
-            this.props = new Properties();
-            this.props.loadFromXML(stream);
-        }
-
-        @Override
-        protected Object handleGetObject(final String key) {
-            return props.getProperty(key);
-        }
-
-        @Override
-        public Enumeration<String> getKeys() {
-            return Collections.enumeration(props.stringPropertyNames());
         }
     }
 
