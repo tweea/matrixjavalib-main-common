@@ -4,14 +4,8 @@
  */
 package net.matrix.text;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -53,75 +47,6 @@ public final class ResourceBundles {
     };
 
     /**
-     * 加载 XML 资源的控制对象。
-     */
-    private static final ResourceBundle.Control XML_BUNDLE_CONTROL = new XMLResourceBundleControl();
-
-    /**
-     * 支持读取 XML 资源。
-     */
-    private static class XMLResourceBundleControl
-        extends ResourceBundle.Control {
-        /**
-         * 支持资源格式。
-         */
-        private static final List<String> FORMATS = Collections.singletonList("xml");
-
-        XMLResourceBundleControl() {
-            // 提升可见性，优化访问速度
-        }
-
-        @Override
-        public List<String> getFormats(final String baseName) {
-            if (baseName == null) {
-                throw new IllegalArgumentException("baseName");
-            }
-            return FORMATS;
-        }
-
-        @Override
-        public ResourceBundle newBundle(final String baseName, final Locale locale, final String format, final ClassLoader loader, final boolean reload)
-            throws IllegalAccessException, InstantiationException, IOException {
-            if (baseName == null || locale == null || format == null || loader == null) {
-                throw new IllegalArgumentException("参数不能为空");
-            }
-            ResourceBundle bundle = null;
-            if ("xml".equals(format)) {
-                String bundleName = toBundleName(baseName, locale);
-                String resourceName = toResourceName(bundleName, format);
-                try (InputStream is = getResourceAsStream(loader, reload, resourceName)) {
-                    if (is != null) {
-                        BufferedInputStream bis = new BufferedInputStream(is);
-                        bundle = new XMLPropertyResourceBundle(bis);
-                    }
-                }
-            }
-            return bundle;
-        }
-
-        private static InputStream getResourceAsStream(final ClassLoader loader, final boolean reload, final String resourceName)
-            throws IOException {
-            if (reload) {
-                URL url = loader.getResource(resourceName);
-                if (url == null) {
-                    return null;
-                }
-
-                URLConnection connection = url.openConnection();
-                if (connection == null) {
-                    return null;
-                }
-
-                // Disable caches to get fresh data for reloading.
-                connection.setUseCaches(false);
-                return connection.getInputStream();
-            } else {
-                return loader.getResourceAsStream(resourceName);
-            }
-        }
-    }
-
-    /**
      * 使用与当前线程关联的区域和默认类加载器加载资源。
      * 
      * @param baseName
@@ -143,7 +68,7 @@ public final class ResourceBundles {
      */
     public static ResourceBundle getBundle(final String baseName, final Locale locale) {
         try {
-            return ResourceBundle.getBundle(baseName, locale, XML_BUNDLE_CONTROL);
+            return ResourceBundle.getBundle(baseName, locale, XMLPropertyResourceBundle.Control.INSTANCE);
         } catch (MissingResourceException e) {
             LOG.warn("{} 资源加载失败", baseName, e);
             return FALLBACK_BUNDLE;
@@ -163,7 +88,7 @@ public final class ResourceBundles {
      */
     public static ResourceBundle getBundle(final String baseName, final Locale locale, final ClassLoader loader) {
         try {
-            return ResourceBundle.getBundle(baseName, locale, loader, XML_BUNDLE_CONTROL);
+            return ResourceBundle.getBundle(baseName, locale, loader, XMLPropertyResourceBundle.Control.INSTANCE);
         } catch (MissingResourceException e) {
             LOG.warn("{} 资源加载失败", baseName, e);
             return FALLBACK_BUNDLE;
