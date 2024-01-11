@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * 实现 {@link ResourceBundle#getKeys()} 方法。
  */
-public class ResourceBundleEnumeration
+public class ResourceBundleKeyEnumeration
     implements Enumeration<String> {
     private Set<String> set;
 
@@ -23,7 +23,7 @@ public class ResourceBundleEnumeration
 
     private String next;
 
-    public ResourceBundleEnumeration(Set<String> set, ResourceBundle parent) {
+    public ResourceBundleKeyEnumeration(Set<String> set, ResourceBundle parent) {
         this.set = set;
         this.iterator = set.iterator();
         if (parent == null) {

@@ -13,8 +13,8 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import com.google.common.collect.Maps;
 
+import net.matrix.java.util.ResourceBundleMx;
 import net.matrix.text.MessageFormats;
-import net.matrix.text.ResourceBundles;
 
 /**
  * 分层配置对象工具。
@@ -128,6 +128,6 @@ public final class HierarchicalConfigurationUtils {
             }
         }
         // 没有找到
-        throw new ConfigurationException(MessageFormats.format(ResourceBundles.getBundle(RESOURCE_BASENAME), "subnodeNotFound", nameKey, nameValue, subKey));
+        throw new ConfigurationException(MessageFormats.format(ResourceBundleMx.getBundle(RESOURCE_BASENAME), "subnodeNotFound", nameKey, nameValue, subKey));
     }
 }

@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 
 import org.junit.jupiter.api.Test;
 
+import net.matrix.java.util.ResourceBundleMx;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MessageFormatsTest {
@@ -24,14 +26,14 @@ public class MessageFormatsTest {
 
     @Test
     public void testFormatBundle() {
-        ResourceBundle bundle = ResourceBundles.getBundle("global", Locale.CHINA);
+        ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
 
         assertThat(MessageFormats.format(bundle, "message", "绣花鞋")).isEqualTo("一双绣花鞋");
     }
 
     @Test
     public void testFormatBundle_fallback() {
-        ResourceBundle bundle = ResourceBundles.getBundle("global", Locale.CHINA);
+        ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
 
         assertThat(MessageFormats.format(bundle, "1", "2", 3)).isEqualTo("1, 2, 3");
     }

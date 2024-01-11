@@ -56,7 +56,7 @@ public class XMLPropertyResourceBundle
 
     @Override
     public Enumeration<String> getKeys() {
-        return new ResourceBundleEnumeration(lookup.keySet(), parent);
+        return new ResourceBundleKeyEnumeration(lookup.keySet(), parent);
     }
 
     @Override

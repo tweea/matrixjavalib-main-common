@@ -8,6 +8,8 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import net.matrix.java.util.ResourceBundleMx;
+
 /**
  * 消息格式化工具。
  */
@@ -64,7 +66,7 @@ public final class MessageFormats {
      * @return 消息字符串
      */
     public static String format(final ResourceBundle bundle, final String key, final Object... arguments) {
-        String pattern = ResourceBundles.getProperty(bundle, key);
+        String pattern = ResourceBundleMx.getObject(bundle, key, key);
         if (arguments.length == 0) {
             return pattern;
         }

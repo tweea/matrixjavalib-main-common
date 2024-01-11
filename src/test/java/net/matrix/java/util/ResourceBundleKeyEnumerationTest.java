@@ -12,10 +12,10 @@ import com.google.common.collect.Sets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ResourceBundleEnumerationTest {
+public class ResourceBundleKeyEnumerationTest {
     @Test
     public void testNew() {
-        ResourceBundleEnumeration enumeration = new ResourceBundleEnumeration(Sets.newHashSet("a", "b"), null);
+        ResourceBundleKeyEnumeration enumeration = new ResourceBundleKeyEnumeration(Sets.newHashSet("a", "b"), null);
         assertThat(enumeration.hasMoreElements()).isTrue();
         assertThat(enumeration.nextElement()).isEqualTo("a");
         assertThat(enumeration.hasMoreElements()).isTrue();
@@ -25,7 +25,7 @@ public class ResourceBundleEnumerationTest {
 
     @Test
     public void testNew_parent() {
-        ResourceBundleEnumeration enumeration = new ResourceBundleEnumeration(Sets.newHashSet("a", "b"), new ListResourceBundle() {
+        ResourceBundleKeyEnumeration enumeration = new ResourceBundleKeyEnumeration(Sets.newHashSet("a", "b"), new ListResourceBundle() {
             @Override
             protected Object[][] getContents() {
                 return new Object[][] {
