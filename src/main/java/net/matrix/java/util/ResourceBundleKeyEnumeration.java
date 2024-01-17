@@ -11,18 +11,35 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
- * 实现 {@link ResourceBundle#getKeys()} 方法。
+ * 实现 {@link ResourceBundle#getKeys()} 方法的枚举器。
  */
 public class ResourceBundleKeyEnumeration
     implements Enumeration<String> {
+    /**
+     * 本级键值集合。
+     */
     private Set<String> set;
 
+    /**
+     * 本级键值集合对应迭代器。
+     */
     private Iterator<String> iterator;
 
+    /**
+     * 上级键值集合对应枚举器。
+     */
     private Enumeration<String> enumeration;
 
     private String next;
 
+    /**
+     * 构造器。
+     * 
+     * @param set
+     *     本级键值集合。
+     * @param parent
+     *     上级。
+     */
     public ResourceBundleKeyEnumeration(Set<String> set, ResourceBundle parent) {
         this.set = set;
         this.iterator = set.iterator();

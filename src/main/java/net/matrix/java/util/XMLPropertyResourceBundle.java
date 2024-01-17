@@ -74,6 +74,9 @@ public class XMLPropertyResourceBundle
          */
         private static final List<String> FORMATS = Collections.singletonList("xml");
 
+        /**
+         * 单例。
+         */
         public static final Control INSTANCE = new Control();
 
         private Control() {
