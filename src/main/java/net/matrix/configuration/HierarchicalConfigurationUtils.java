@@ -13,17 +13,16 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import com.google.common.collect.Maps;
 
-import net.matrix.java.text.LocaleMessageFormatMx;
-import net.matrix.java.util.ResourceBundleMx;
+import net.matrix.text.ResourceBundleMessageFormatter;
 
 /**
  * 分层配置对象工具。
  */
 public final class HierarchicalConfigurationUtils {
     /**
-     * 资源位置。
+     * 区域相关资源。
      */
-    private static final String RESOURCE_BASENAME = "net.matrix.configuration.Messages";
+    private static final ResourceBundleMessageFormatter RBMF = new ResourceBundleMessageFormatter("net.matrix.configuration.Messages").useCurrentLocale();
 
     /**
      * 阻止实例化。
@@ -128,7 +127,6 @@ public final class HierarchicalConfigurationUtils {
             }
         }
         // 没有找到
-        throw new ConfigurationException(
-            LocaleMessageFormatMx.format(ResourceBundleMx.getBundle(RESOURCE_BASENAME), "subnodeNotFound", nameKey, nameValue, subKey));
+        throw new ConfigurationException(RBMF.format("subnodeNotFound", nameKey, nameValue, subKey));
     }
 }
