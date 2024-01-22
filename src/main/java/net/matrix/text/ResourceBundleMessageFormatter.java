@@ -101,6 +101,30 @@ public class ResourceBundleMessageFormatter {
     }
 
     /**
+     * 获取消息，从区域相关资源加载，使用调用方类加载器。
+     * 
+     * @param key
+     *     在区域相关资源中，消息对应的键值。
+     * @return 消息。
+     */
+    public String get(String key) {
+        return get(getResourceBundle(), key);
+    }
+
+    /**
+     * 获取消息，从区域相关资源加载。
+     * 
+     * @param loader
+     *     类加载器。
+     * @param key
+     *     在区域相关资源中，消息对应的键值。
+     * @return 消息。
+     */
+    public String get(ClassLoader loader, String key) {
+        return get(getResourceBundle(loader), key);
+    }
+
+    /**
      * 格式化消息，从区域相关资源加载消息格式，使用调用方类加载器。
      * 
      * @param key
@@ -126,6 +150,23 @@ public class ResourceBundleMessageFormatter {
      */
     public String format(ClassLoader loader, String key, Object... arguments) {
         return format(getResourceBundle(loader), key, arguments);
+    }
+
+    /**
+     * 获取消息，从区域相关资源加载。
+     * 
+     * @param bundle
+     *     区域相关资源。
+     * @param key
+     *     在区域相关资源中，消息对应的键值。
+     * @return 消息。
+     */
+    public static String get(ResourceBundle bundle, String key) {
+        String pattern = ResourceBundleMx.getObject(bundle, key);
+        if (pattern == null) {
+            return key;
+        }
+        return pattern;
     }
 
     /**

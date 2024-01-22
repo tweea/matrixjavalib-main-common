@@ -59,11 +59,27 @@ public class ResourceBundleMessageFormatterTest {
     }
 
     @Test
+    public void testGet() {
+        ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
+
+        assertThat(formatter.get("message")).isEqualTo("一双{0}");
+        assertThat(formatter.get("1")).isEqualTo("1");
+    }
+
+    @Test
     public void testFormat() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
 
         assertThat(formatter.format("message", "绣花鞋")).isEqualTo("一双绣花鞋");
         assertThat(formatter.format("1", "2", 3)).isEqualTo("1, 2, 3");
+    }
+
+    @Test
+    public void testGet_bundle() {
+        ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
+
+        assertThat(ResourceBundleMessageFormatter.get(bundle, "message")).isEqualTo("一双{0}");
+        assertThat(ResourceBundleMessageFormatter.get(bundle, "1")).isEqualTo("1");
     }
 
     @Test
