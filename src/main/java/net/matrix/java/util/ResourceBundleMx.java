@@ -150,9 +150,9 @@ public final class ResourceBundleMx {
             return (T) bundle.getObject(key);
         } catch (MissingResourceException e) {
             if (LOG.isTraceEnabled()) {
-                LOG.warn("资源中未找到键值 {}", key, e);
+                LOG.trace("资源中未找到键值 {}", key, e);
             } else {
-                LOG.warn("资源中未找到键值 {}", key);
+                LOG.debug("资源中未找到键值 {}", key);
             }
         }
         return defaultObject;
