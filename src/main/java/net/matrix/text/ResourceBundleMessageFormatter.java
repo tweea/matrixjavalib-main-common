@@ -162,11 +162,7 @@ public class ResourceBundleMessageFormatter {
      * @return 消息。
      */
     public static String get(ResourceBundle bundle, String key) {
-        String pattern = ResourceBundleMx.getObject(bundle, key);
-        if (pattern == null) {
-            return key;
-        }
-        return pattern;
+        return ResourceBundleMx.getObject(bundle, key, key);
     }
 
     /**
@@ -181,10 +177,7 @@ public class ResourceBundleMessageFormatter {
      * @return 格式化的消息。
      */
     public static String format(ResourceBundle bundle, String key, Object... arguments) {
-        String pattern = ResourceBundleMx.getObject(bundle, key);
-        if (pattern == null) {
-            return MessageFormatMx.formatFallback(key, arguments);
-        }
+        String pattern = ResourceBundleMx.getObject(bundle, key, key);
         return MessageFormatMx.format(pattern, bundle.getLocale(), arguments);
     }
 }

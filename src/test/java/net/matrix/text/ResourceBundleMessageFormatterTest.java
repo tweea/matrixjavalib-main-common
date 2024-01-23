@@ -71,7 +71,7 @@ public class ResourceBundleMessageFormatterTest {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
 
         assertThat(formatter.format("message", "绣花鞋")).isEqualTo("一双绣花鞋");
-        assertThat(formatter.format("1", "2", 3)).isEqualTo("1, 2, 3");
+        assertThat(formatter.format("1, {0}, {1}", "2", 3)).isEqualTo("1, 2, 3");
     }
 
     @Test
@@ -87,6 +87,6 @@ public class ResourceBundleMessageFormatterTest {
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
 
         assertThat(ResourceBundleMessageFormatter.format(bundle, "message", "绣花鞋")).isEqualTo("一双绣花鞋");
-        assertThat(ResourceBundleMessageFormatter.format(bundle, "1", "2", 3)).isEqualTo("1, 2, 3");
+        assertThat(ResourceBundleMessageFormatter.format(bundle, "1, {0}, {1}", "2", 3)).isEqualTo("1, 2, 3");
     }
 }
