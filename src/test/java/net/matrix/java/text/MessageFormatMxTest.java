@@ -14,17 +14,17 @@ public class MessageFormatMxTest {
     @Test
     public void testFormat() {
         assertThat(MessageFormatMx.format("{0} + {1} = {2}", 1, 2, 3)).isEqualTo("1 + 2 = 3");
-        assertThat(MessageFormatMx.format("{0", 1)).isEqualTo("{0, 1");
+        assertThat(MessageFormatMx.format("{0", 1)).isEqualTo("{0，1");
     }
 
     @Test
     public void testFormat_locale() {
         assertThat(MessageFormatMx.format("{0} + {1} = {2}", Locale.CHINA, 1, 2, 3)).isEqualTo("1 + 2 = 3");
-        assertThat(MessageFormatMx.format("{0", Locale.CHINA, 1)).isEqualTo("{0, 1");
+        assertThat(MessageFormatMx.format("{0", Locale.CHINA, 1)).isEqualTo("{0，1");
     }
 
     @Test
     public void testFormatFallback() {
-        assertThat(MessageFormatMx.formatFallback("1", "2", 3)).isEqualTo("1, 2, 3");
+        assertThat(MessageFormatMx.formatFallback("1", "2", 3)).isEqualTo("1，2，3");
     }
 }

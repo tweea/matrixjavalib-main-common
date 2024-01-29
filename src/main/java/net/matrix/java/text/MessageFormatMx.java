@@ -10,6 +10,8 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.matrix.text.ResourceBundleMessageFormatter;
+
 /**
  * 消息格式化工具。
  */
@@ -18,6 +20,11 @@ public final class MessageFormatMx {
      * 日志记录器。
      */
     private static final Logger LOG = LoggerFactory.getLogger(MessageFormatMx.class);
+
+    /**
+     * 区域相关资源。
+     */
+    private static final ResourceBundleMessageFormatter RBMF = new ResourceBundleMessageFormatter(MessageFormatMx.class).useCurrentLocale();
 
     /**
      * 阻止实例化。
@@ -39,7 +46,7 @@ public final class MessageFormatMx {
             MessageFormat format = new MessageFormat(pattern);
             return format.format(arguments);
         } catch (IllegalArgumentException e) {
-            LOG.warn("", e);
+            LOG.warn(RBMF.get("格式化消息失败"), e);
             return formatFallback(pattern, arguments);
         }
     }
@@ -60,7 +67,7 @@ public final class MessageFormatMx {
             MessageFormat format = new MessageFormat(pattern, locale);
             return format.format(arguments);
         } catch (IllegalArgumentException e) {
-            LOG.warn("", e);
+            LOG.warn(RBMF.get("格式化消息失败"), e);
             return formatFallback(pattern, arguments);
         }
     }
@@ -75,9 +82,11 @@ public final class MessageFormatMx {
      * @return 格式化的消息。
      */
     public static String formatFallback(String pattern, Object... arguments) {
+        String separator = RBMF.get("，");
+
         StringBuilder sb = new StringBuilder(pattern);
         for (Object argument : arguments) {
-            sb.append(", ");
+            sb.append(separator);
             sb.append(argument);
         }
         return sb.toString();

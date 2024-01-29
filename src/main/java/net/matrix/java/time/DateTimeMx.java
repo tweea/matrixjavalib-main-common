@@ -16,6 +16,8 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.matrix.text.ResourceBundleMessageFormatter;
+
 /**
  * 日期时间工具。
  */
@@ -24,6 +26,11 @@ public final class DateTimeMx {
      * 日志记录器。
      */
     private static final Logger LOG = LoggerFactory.getLogger(DateTimeMx.class);
+
+    /**
+     * 区域相关资源。
+     */
+    private static final ResourceBundleMessageFormatter RBMF = new ResourceBundleMessageFormatter(DateTimeMx.class).useCurrentLocale();
 
     /**
      * 阻止实例化。
@@ -47,7 +54,9 @@ public final class DateTimeMx {
             LocalDate.of(year, month, day);
             return true;
         } catch (DateTimeException e) {
-            LOG.trace("", e);
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(RBMF.get("日期不符合历法"), e);
+            }
             return false;
         }
     }
@@ -68,7 +77,9 @@ public final class DateTimeMx {
             LocalTime.of(hour, minute, second);
             return true;
         } catch (DateTimeException e) {
-            LOG.trace("", e);
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(RBMF.get("时间不符合历法"), e);
+            }
             return false;
         }
     }
