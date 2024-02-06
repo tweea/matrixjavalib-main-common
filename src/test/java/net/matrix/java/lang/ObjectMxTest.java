@@ -124,4 +124,22 @@ public class ObjectMxTest {
         assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> ObjectMx.ifNullThrow(null, supplier));
         assertThat(runned.booleanValue()).isTrue();
     }
+
+    @Test
+    public void testIfElse() {
+        Object object1 = new Object();
+        Object object2 = new Object();
+
+        assertThat(ObjectMx.ifElse(true, object1, object2)).isSameAs(object1);
+        assertThat(ObjectMx.ifElse(false, object1, object2)).isSameAs(object2);
+    }
+
+    @Test
+    public void testIfElseGet() {
+        Object object1 = new Object();
+        Object object2 = new Object();
+
+        assertThat(ObjectMx.ifElseGet(true, () -> object1, () -> object2)).isSameAs(object1);
+        assertThat(ObjectMx.ifElseGet(false, () -> object1, () -> object2)).isSameAs(object2);
+    }
 }
