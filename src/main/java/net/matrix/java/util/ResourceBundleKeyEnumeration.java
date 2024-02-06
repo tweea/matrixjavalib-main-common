@@ -10,6 +10,8 @@ import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import net.matrix.java.lang.ObjectMx;
+
 /**
  * 实现 {@link ResourceBundle#getKeys()} 方法的枚举器。
  */
@@ -43,11 +45,7 @@ public class ResourceBundleKeyEnumeration
     public ResourceBundleKeyEnumeration(Set<String> set, ResourceBundle parent) {
         this.set = set;
         this.iterator = set.iterator();
-        if (parent == null) {
-            this.enumeration = null;
-        } else {
-            this.enumeration = parent.getKeys();
-        }
+        this.enumeration = ObjectMx.ifNotNullMap(parent, ResourceBundle::getKeys);
     }
 
     @Override
