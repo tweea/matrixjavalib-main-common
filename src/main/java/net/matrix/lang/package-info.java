@@ -1,8 +1,8 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 /**
- * {@link java.lang} API 工具。
+ * 类似 {@link java.lang} 包的工具。
  */
 package net.matrix.lang;
