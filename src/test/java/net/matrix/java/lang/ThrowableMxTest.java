@@ -1,8 +1,8 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
-package net.matrix.lang;
+package net.matrix.java.lang;
 
 import java.io.IOException;
 
@@ -10,15 +10,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ExceptionsTest {
+public class ThrowableMxTest {
     @Test
-    public void testUnchecked() {
+    public void testWrap() {
         Exception exception = new Exception("my exception");
 
-        RuntimeException runtimeException = Exceptions.unchecked(exception);
+        RuntimeException runtimeException = ThrowableMx.wrap(exception);
         assertThat(runtimeException.getCause()).isSameAs(exception);
 
-        RuntimeException runtimeException2 = Exceptions.unchecked(runtimeException);
+        RuntimeException runtimeException2 = ThrowableMx.wrap(runtimeException);
         assertThat(runtimeException2).isSameAs(runtimeException);
     }
 
@@ -28,8 +28,8 @@ public class ExceptionsTest {
         IllegalStateException illegalStateException = new IllegalStateException(ioException);
         RuntimeException runtimeException = new RuntimeException(illegalStateException);
 
-        assertThat(Exceptions.getMessageWithRootCause(ioException)).contains(" without root cause");
-        assertThat(Exceptions.getMessageWithRootCause(runtimeException)).contains(" with root cause ");
+        assertThat(ThrowableMx.getMessageWithRootCause(ioException)).contains(" 没有根源异常");
+        assertThat(ThrowableMx.getMessageWithRootCause(runtimeException)).contains(" 具有根源异常 ");
     }
 
     @Test
@@ -38,9 +38,9 @@ public class ExceptionsTest {
         IllegalStateException illegalStateException = new IllegalStateException(ioException);
         RuntimeException runtimeException = new RuntimeException(illegalStateException);
 
-        assertThat(Exceptions.isCausedBy(runtimeException, IOException.class)).isTrue();
-        assertThat(Exceptions.isCausedBy(runtimeException, IllegalStateException.class, IOException.class)).isTrue();
-        assertThat(Exceptions.isCausedBy(runtimeException, Exception.class)).isTrue();
-        assertThat(Exceptions.isCausedBy(runtimeException, IllegalAccessException.class)).isFalse();
+        assertThat(ThrowableMx.isCausedBy(runtimeException, IOException.class)).isTrue();
+        assertThat(ThrowableMx.isCausedBy(runtimeException, IllegalStateException.class, IOException.class)).isTrue();
+        assertThat(ThrowableMx.isCausedBy(runtimeException, Exception.class)).isTrue();
+        assertThat(ThrowableMx.isCausedBy(runtimeException, IllegalAccessException.class)).isFalse();
     }
 }
