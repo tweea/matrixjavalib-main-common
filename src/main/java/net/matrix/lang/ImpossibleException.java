@@ -1,11 +1,11 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.lang;
 
 /**
- * 认为不会发生的异常。用于简化异常处理，并防止极端条件下异常丢失。
+ * 认为不会发生的异常。用于简化异常处理，并防止极端条件下丢失异常。
  * 如 Java 规范要求默认支持 UTF-8 编码，使用 UTF-8 编码时处理 {@link java.io.UnsupportedEncodingException}。
  */
 public class ImpossibleException
@@ -25,7 +25,7 @@ public class ImpossibleException
      * @param message
      *     详细信息。详细信息可以通过 {@link #getMessage()} 方法获取。
      */
-    public ImpossibleException(final String message) {
+    public ImpossibleException(String message) {
         super(message);
     }
 
@@ -35,7 +35,7 @@ public class ImpossibleException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
-    public ImpossibleException(final Throwable cause) {
+    public ImpossibleException(Throwable cause) {
         super(cause);
     }
 
@@ -48,7 +48,7 @@ public class ImpossibleException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
-    public ImpossibleException(final String message, final Throwable cause) {
+    public ImpossibleException(String message, Throwable cause) {
         super(message, cause);
     }
 }
