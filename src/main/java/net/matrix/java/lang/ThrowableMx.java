@@ -26,11 +26,11 @@ public final class ThrowableMx {
     }
 
     /**
-     * 将异常转换为运行时异常。
+     * 将检查异常转换为非检查异常。
      * 
      * @param throwable
      *     异常。
-     * @return 运行时异常。
+     * @return 非检查异常。
      */
     public static RuntimeException wrap(Throwable throwable) {
         if (throwable instanceof Error) {
