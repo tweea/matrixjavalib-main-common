@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Maps;
 
-import net.matrix.lang.ReflectionRuntimeException;
+import net.matrix.java.lang.reflect.UncheckedReflectiveOperationException;
 
 /**
  * Collection 工具。
@@ -46,7 +46,7 @@ public final class Collections3 {
                 map.put(PropertyUtils.getProperty(obj, keyPropertyName), PropertyUtils.getProperty(obj, valuePropertyName));
             }
         } catch (ReflectiveOperationException e) {
-            throw new ReflectionRuntimeException(e);
+            throw new UncheckedReflectiveOperationException(e);
         }
 
         return map;
@@ -69,7 +69,7 @@ public final class Collections3 {
                 list.add(PropertyUtils.getProperty(obj, propertyName));
             }
         } catch (ReflectiveOperationException e) {
-            throw new ReflectionRuntimeException(e);
+            throw new UncheckedReflectiveOperationException(e);
         }
 
         return list;

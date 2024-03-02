@@ -18,6 +18,8 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.matrix.java.lang.reflect.UncheckedReflectiveOperationException;
+
 /**
  * 反射工具。
  * 提供调用 getter/setter 方法，访问私有成员，调用私有方法，获取泛型类型 Class，被 AOP 过的真实类等工具。
@@ -214,7 +216,7 @@ public final class Reflections {
         try {
             return (T) method.invoke(target, parameterValues);
         } catch (ReflectiveOperationException e) {
-            throw new ReflectionRuntimeException(e);
+            throw new UncheckedReflectiveOperationException(e);
         }
     }
 
