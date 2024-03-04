@@ -7,8 +7,6 @@ package net.matrix.lang;
 import org.junit.jupiter.api.Test;
 
 import net.matrix.lang.ReflectionsTestData.TestBean;
-import net.matrix.lang.ReflectionsTestData.TestBean2;
-import net.matrix.lang.ReflectionsTestData.TestBean3;
 import net.matrix.lang.ReflectionsTestData.TestBean4;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -118,19 +116,5 @@ public class ReflectionsTest {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Reflections.invokeMethodByName(bean, "notExistMethod", new Object[] {
             "calvin"
         }));
-    }
-
-    @Test
-    public void testGetClassGenricType() {
-        // 获取第1，2个泛型类型
-        assertThat(Reflections.getClassGenricType(TestBean.class)).isEqualTo(String.class);
-        assertThat(Reflections.getClassGenricType(TestBean.class, 0)).isEqualTo(String.class);
-        assertThat(Reflections.getClassGenricType(TestBean.class, 1)).isEqualTo(Long.class);
-
-        // 定义父类时无泛型定义
-        assertThat(Reflections.getClassGenricType(TestBean2.class)).isEqualTo(Object.class);
-
-        // 无父类定义
-        assertThat(Reflections.getClassGenricType(TestBean3.class)).isEqualTo(Object.class);
     }
 }

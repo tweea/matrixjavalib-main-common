@@ -7,8 +7,6 @@ package net.matrix.lang;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
@@ -346,57 +344,5 @@ public final class Reflections {
         if (!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
             method.setAccessible(true);
         }
-    }
-
-    /**
-     * 通过反射，获得 Class 定义中声明的父类泛型参数类型。
-     * 如无法找到，返回 Object.class。
-     * 如：
-     * 
-     * <pre>
-     * public UserDao extends HibernateDao&lt;User&gt;
-     * </pre>
-     * 
-     * @param clazz
-     *     The class to introspect
-     * @return the first generic declaration, or Object.class if cannot be determined
-     */
-    public static Class getClassGenricType(final Class clazz) {
-        return getClassGenricType(clazz, 0);
-    }
-
-    /**
-     * 通过反射，获得 Class 定义中声明的父类泛型参数类型。
-     * 如无法找到，返回 Object.class。
-     * 如：
-     * 
-     * <pre>
-     * public UserDao extends HibernateDao&lt;User, Long&gt;
-     * </pre>
-     * 
-     * @param clazz
-     *     The class to introspect
-     * @param index
-     *     the index of the generic declaration, start from 0.
-     * @return the index generic declaration, or Object.class if cannot be determined
-     */
-    public static Class getClassGenricType(final Class clazz, final int index) {
-        Type genType = clazz.getGenericSuperclass();
-        if (!(genType instanceof ParameterizedType)) {
-            LOG.warn("{}'s superclass not ParameterizedType", clazz.getSimpleName());
-            return Object.class;
-        }
-
-        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-        if (index >= params.length || index < 0) {
-            LOG.warn("Index: {}, Size of {}'s Parameterized Type: {}", index, clazz.getSimpleName(), params.length);
-            return Object.class;
-        }
-        if (!(params[index] instanceof Class)) {
-            LOG.warn("{} not set the actual class on superclass generic parameter", clazz.getSimpleName());
-            return Object.class;
-        }
-
-        return (Class) params[index];
     }
 }
