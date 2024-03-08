@@ -1,10 +1,10 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
-package net.matrix.lang;
+package net.matrix.java.lang.reflect;
 
-public class ReflectionsTestData {
+public class ReflectionMxTestData {
     public static class ParentBean<T, ID> {
         private T privateParentField;
 
@@ -56,25 +56,6 @@ public class ReflectionsTestData {
 
         public String publicMethod(String text) {
             return privateMethod(text);
-        }
-    }
-
-    public static class TestBean2
-        extends ParentBean {
-        public TestBean2() {
-            super(null, null);
-        }
-    }
-
-    public static class TestBean3 {
-        private int id;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
         }
     }
 
