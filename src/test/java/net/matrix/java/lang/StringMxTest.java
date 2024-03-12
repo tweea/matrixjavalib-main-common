@@ -4,7 +4,9 @@
  */
 package net.matrix.java.lang;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -80,5 +82,15 @@ public class StringMxTest {
         replacementMap.put("ab", "d");
         replacementMap.put("d", "t");
         assertThat(StringMx.replaceEachRepeatedly("abcde", replacementMap)).isEqualTo("tcte");
+    }
+
+    @Test
+    public void testJoin() {
+        List<String> list = new ArrayList();
+        list.add("aa");
+        list.add("bb");
+
+        String result = StringMx.join(list, "<li>", "</li>", ",");
+        assertThat(result).isEqualTo("<li>aa</li>,<li>bb</li>");
     }
 }
