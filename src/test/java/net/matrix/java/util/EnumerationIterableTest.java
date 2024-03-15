@@ -1,8 +1,8 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
-package net.matrix.util;
+package net.matrix.java.util;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IterableEnumerationTest {
+public class EnumerationIterableTest {
     @Test
-    public void testIterableEnumeration() {
+    public void testIterator() {
         Enumeration<String> enumeration = Collections.enumeration(Collections.singletonList("a"));
 
-        IterableEnumeration<String> iterableEnumeration = new IterableEnumeration<>(enumeration);
-        assertThat(iterableEnumeration).containsExactly("a");
+        EnumerationIterable<String> iterable = new EnumerationIterable<>(enumeration);
+        assertThat(iterable).containsExactly("a");
     }
 }

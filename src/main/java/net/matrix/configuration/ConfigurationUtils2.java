@@ -6,11 +6,10 @@ package net.matrix.configuration;
 
 import java.util.Map;
 
+import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.configuration2.Configuration;
 
 import com.google.common.collect.Maps;
-
-import net.matrix.util.IterableIterator;
 
 /**
  * 配置对象工具。
@@ -31,7 +30,7 @@ public final class ConfigurationUtils2 {
      */
     public static Map<String, String> parseAttributes(final Configuration config) {
         Map<String, String> parameters = Maps.newHashMapWithExpectedSize(config.size());
-        for (String key : new IterableIterator<>(config.getKeys())) {
+        for (String key : IteratorUtils.asIterable(config.getKeys())) {
             String value = config.getString(key);
             parameters.put(key, value);
         }
