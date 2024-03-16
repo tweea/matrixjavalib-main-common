@@ -186,7 +186,7 @@ public interface ThreadPoolBuilder {
                 rejectHandler = DEFAULT_REJECT_HANDLER;
             }
 
-            return new ThreadPoolExecutor(minSize, maxSize, keepAlive, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), threadFactory, rejectHandler);
+            return new ThreadPoolExecutor(minSize, maxSize, keepAlive, TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactory, rejectHandler);
         }
     }
 

@@ -70,8 +70,8 @@ public class DefaultTree<ID, DATA>
         this.data = data;
         this.parent = null;
 
-        this.keyMap = Collections.synchronizedMap(new HashMap<ID, Key>());
-        this.nodes = Collections.synchronizedSortedMap(new TreeMap<Key, DefaultTree<ID, DATA>>());
+        this.keyMap = Collections.synchronizedMap(new HashMap<>());
+        this.nodes = Collections.synchronizedSortedMap(new TreeMap<>());
 
         this.keyMap.put(id, key);
         this.nodes.put(key, this);
