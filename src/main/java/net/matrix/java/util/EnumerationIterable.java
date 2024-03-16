@@ -17,7 +17,7 @@ public class EnumerationIterable<E>
     /**
      * 被转换的 {@link Enumeration}。
      */
-    private Enumeration<? extends E> enumeration;
+    private final Enumeration<? extends E> enumeration;
 
     /**
      * 构造器。

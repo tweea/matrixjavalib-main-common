@@ -20,17 +20,17 @@ public class ResourceBundleKeyEnumeration
     /**
      * 本级键值集合。
      */
-    private Set<String> set;
+    private final Set<String> set;
 
     /**
      * 本级键值集合对应迭代器。
      */
-    private Iterator<String> iterator;
+    private final Iterator<String> iterator;
 
     /**
      * 上级键值集合对应枚举器。
      */
-    private Enumeration<String> enumeration;
+    private final Enumeration<String> enumeration;
 
     private String next;
 

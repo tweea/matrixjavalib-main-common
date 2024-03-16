@@ -19,7 +19,7 @@ public class ResourceBundleMessageFormatter {
     /**
      * 资源基础名称。
      */
-    private String baseName;
+    private final String baseName;
 
     /**
      * 区域获取方式。
