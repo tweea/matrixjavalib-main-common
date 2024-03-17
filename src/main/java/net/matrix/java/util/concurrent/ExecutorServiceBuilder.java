@@ -1,8 +1,8 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
-package net.matrix.util;
+package net.matrix.java.util.concurrent;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -20,24 +20,26 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 /**
- * 创建 ThreadPool 的工具。
- * 对比 JDK 中 Executors 的 newFixedThreadPool()、newCachedThreadPool()、newScheduledThreadPool，提供更多有用的配置项。
+ * 创建线程池的工具。
+ * 对比 JDK 中 {@link Executors} 的 newFixedThreadPool()、newCachedThreadPool()、newScheduledThreadPool()，提供更多有用的配置项。
  * 使用示例：
  * 
  * <pre>
- * ExecutorService ExecutorService = new FixedThreadPoolBuilder().setPoolSize(10).build();
+ * ExecutorService executorService = new ExecutorServiceBuilder.Fixed().setPoolSize(10).build();
  * </pre>
  */
-public interface ThreadPoolBuilder {
+public interface ExecutorServiceBuilder {
     /**
-     * 默认策略为 AbortPolicy，抛出 RejectedExecutionException 异常。
+     * 默认拒绝策略为 {@link AbortPolicy}，抛出异常。
      */
     RejectedExecutionHandler DEFAULT_REJECT_HANDLER = new AbortPolicy();
 
+    /**
+     * 创建线程池。
+     */
     ExecutorService build();
 
     /**
-     * 创建 FixedThreadPool。
      * 1. 任务提交时，如果线程数还没达到 poolSize 即创建新线程并绑定任务（即 poolSize 次提交后线程总数必达到 poolSize，不会重用之前的线程）
      * poolSize 默认为 1。
      * 2. 第 poolSize 次任务提交后，新增任务放入 Queue 中，Pool 中的所有线程从 Queue 中 take 任务执行。
@@ -46,8 +48,8 @@ public interface ThreadPoolBuilder {
      * 其他可选的 Policy 包括静默放弃当前任务（Discard），放弃 Queue 里最老的任务（DisacardOldest），或由主线程来直接执行（CallerRuns）。
      * 3. 因为线程全部为 core 线程，所以不会在空闲回收。
      */
-    class FixedThreadPoolBuilder
-        implements ThreadPoolBuilder {
+    class Fixed
+        implements ExecutorServiceBuilder {
         private int poolSize = 1;
 
         private int queueSize = -1;
@@ -60,12 +62,12 @@ public interface ThreadPoolBuilder {
 
         private RejectedExecutionHandler rejectHandler;
 
-        public FixedThreadPoolBuilder setPoolSize(final int poolSize) {
+        public Fixed setPoolSize(int poolSize) {
             this.poolSize = poolSize;
             return this;
         }
 
-        public FixedThreadPoolBuilder setQueueSize(final int queueSize) {
+        public Fixed setQueueSize(int queueSize) {
             this.queueSize = queueSize;
             return this;
         }
@@ -73,22 +75,22 @@ public interface ThreadPoolBuilder {
         /**
          * 与 threadNamePrefix 互斥，优先使用 ThreadFactory。
          */
-        public FixedThreadPoolBuilder setThreadFactory(final ThreadFactory threadFactory) {
+        public Fixed setThreadFactory(ThreadFactory threadFactory) {
             this.threadFactory = threadFactory;
             return this;
         }
 
-        public FixedThreadPoolBuilder setThreadNamePrefix(String threadNamePrefix) {
+        public Fixed setThreadNamePrefix(String threadNamePrefix) {
             this.threadNamePrefix = threadNamePrefix;
             return this;
         }
 
-        public FixedThreadPoolBuilder setDaemon(Boolean daemon) {
+        public Fixed setDaemon(Boolean daemon) {
             this.daemon = daemon;
             return this;
         }
 
-        public FixedThreadPoolBuilder setRejectHandler(final RejectedExecutionHandler rejectHandler) {
+        public Fixed setRejectHandler(RejectedExecutionHandler rejectHandler) {
             this.rejectHandler = rejectHandler;
             return this;
         }
@@ -113,7 +115,6 @@ public interface ThreadPoolBuilder {
     }
 
     /**
-     * 创建 CachedThreadPool。
      * 1. 任务提交时，如果线程数还没达到 minSize 即创建新线程并绑定任务（即 minSize 次提交后线程总数必达到 minSize，不会重用之前的线程）
      * minSize 默认为 0 ，可设置保证有基本的线程处理请求不被回收。
      * 2. 第 minSize 次任务提交后，新增任务提交进 SynchronousQueue 后，如果没有空闲线程立刻处理，则会创建新的线程，直到总线程数达到上限。
@@ -124,8 +125,8 @@ public interface ThreadPoolBuilder {
      * 3. minSize 以上，maxSize 以下的线程，如果在 keepAliveTime 中都 poll 不到任务执行将会被结束掉，keeAliveTime 默认为 10 秒，可设置。
      * JDK 默认值 60 秒太高，如高达 1000 线程，低于 16QPS 时才会回收开始回收，因此改为默认 10 秒。
      */
-    class CachedThreadPoolBuilder
-        implements ThreadPoolBuilder {
+    class Cached
+        implements ExecutorServiceBuilder {
         private int minSize;
 
         private int maxSize = Integer.MAX_VALUE;
@@ -140,17 +141,17 @@ public interface ThreadPoolBuilder {
 
         private RejectedExecutionHandler rejectHandler;
 
-        public CachedThreadPoolBuilder setMinSize(final int minSize) {
+        public Cached setMinSize(int minSize) {
             this.minSize = minSize;
             return this;
         }
 
-        public CachedThreadPoolBuilder setMaxSize(final int maxSize) {
+        public Cached setMaxSize(int maxSize) {
             this.maxSize = maxSize;
             return this;
         }
 
-        public CachedThreadPoolBuilder setKeepAlive(final int keepAlive) {
+        public Cached setKeepAlive(int keepAlive) {
             this.keepAlive = keepAlive;
             return this;
         }
@@ -158,22 +159,22 @@ public interface ThreadPoolBuilder {
         /**
          * 与 threadNamePrefix 互斥，优先使用 ThreadFactory。
          */
-        public CachedThreadPoolBuilder setThreadFactory(final ThreadFactory threadFactory) {
+        public Cached setThreadFactory(ThreadFactory threadFactory) {
             this.threadFactory = threadFactory;
             return this;
         }
 
-        public CachedThreadPoolBuilder setThreadNamePrefix(String threadNamePrefix) {
+        public Cached setThreadNamePrefix(String threadNamePrefix) {
             this.threadNamePrefix = threadNamePrefix;
             return this;
         }
 
-        public CachedThreadPoolBuilder setDaemon(Boolean daemon) {
+        public Cached setDaemon(Boolean daemon) {
             this.daemon = daemon;
             return this;
         }
 
-        public CachedThreadPoolBuilder setRejectHandler(final RejectedExecutionHandler rejectHandler) {
+        public Cached setRejectHandler(RejectedExecutionHandler rejectHandler) {
             this.rejectHandler = rejectHandler;
             return this;
         }
@@ -190,18 +191,15 @@ public interface ThreadPoolBuilder {
         }
     }
 
-    /*
-     * 创建 ScheduledPool。
-     */
-    class ScheduledThreadPoolBuilder
-        implements ThreadPoolBuilder {
+    class Scheduled
+        implements ExecutorServiceBuilder {
         private int poolSize = 1;
 
         private ThreadFactory threadFactory;
 
         private String threadNamePrefix;
 
-        public ScheduledThreadPoolBuilder setPoolSize(int poolSize) {
+        public Scheduled setPoolSize(int poolSize) {
             this.poolSize = poolSize;
             return this;
         }
@@ -209,12 +207,12 @@ public interface ThreadPoolBuilder {
         /**
          * 与 threadNamePrefix 互斥，优先使用ThreadFactory。
          */
-        public ScheduledThreadPoolBuilder setThreadFactory(ThreadFactory threadFactory) {
+        public Scheduled setThreadFactory(ThreadFactory threadFactory) {
             this.threadFactory = threadFactory;
             return this;
         }
 
-        public ScheduledThreadPoolBuilder setThreadNamePrefix(String threadNamePrefix) {
+        public Scheduled setThreadNamePrefix(String threadNamePrefix) {
             this.threadNamePrefix = threadNamePrefix;
             return this;
         }
