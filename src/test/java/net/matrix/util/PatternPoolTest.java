@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.util;
@@ -12,23 +12,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PatternPoolTest {
     @Test
-    public void testForPattern() {
-        String patternString = "a+";
+    public void testOf() {
+        String regex = "a+";
         PatternPool pool = new PatternPool();
 
-        Pattern pattern = pool.forPattern(patternString);
-        assertThat(pattern).isSameAs(pool.forPattern(patternString));
+        Pattern pattern = pool.of(regex);
+        assertThat(pool.of(regex)).isSameAs(pattern);
         assertThat(pattern.matcher("aaa").matches()).isTrue();
         assertThat(pattern.matcher("aab").matches()).isFalse();
     }
 
     @Test
     public void testClear() {
-        String patternString = "a+";
+        String regex = "a+";
         PatternPool pool = new PatternPool();
-        Pattern pattern = pool.forPattern(patternString);
+        Pattern pattern = pool.of(regex);
 
         pool.clear();
-        assertThat(pattern).isNotSameAs(pool.forPattern(patternString));
+        assertThat(pool.of(regex)).isNotSameAs(pattern);
     }
 }
