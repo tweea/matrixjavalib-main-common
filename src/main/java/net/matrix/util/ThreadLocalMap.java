@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.util;
@@ -27,32 +27,32 @@ public class ThreadLocalMap<K, V>
     }
 
     @Override
-    public boolean containsKey(final Object key) {
+    public boolean containsKey(Object key) {
         return internal.get().containsKey(key);
     }
 
     @Override
-    public boolean containsValue(final Object value) {
+    public boolean containsValue(Object value) {
         return internal.get().containsValue(value);
     }
 
     @Override
-    public V get(final Object key) {
+    public V get(Object key) {
         return internal.get().get(key);
     }
 
     @Override
-    public V put(final K key, final V value) {
+    public V put(K key, V value) {
         return internal.get().put(key, value);
     }
 
     @Override
-    public V remove(final Object key) {
+    public V remove(Object key) {
         return internal.get().remove(key);
     }
 
     @Override
-    public void putAll(final Map<? extends K, ? extends V> m) {
+    public void putAll(Map<? extends K, ? extends V> m) {
         internal.get().putAll(m);
     }
 
@@ -77,7 +77,7 @@ public class ThreadLocalMap<K, V>
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         return internal.get().equals(o);
     }
 
