@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.security;
@@ -7,7 +7,7 @@ package net.matrix.security;
 import java.security.GeneralSecurityException;
 
 /**
- * 权限检查失败异常。
+ * 授权检查相关异常。
  */
 public class AuthorizationException
     extends GeneralSecurityException {
@@ -26,7 +26,7 @@ public class AuthorizationException
      * @param message
      *     详细信息。详细信息可以通过 {@link #getMessage()} 方法获取。
      */
-    public AuthorizationException(final String message) {
+    public AuthorizationException(String message) {
         super(message);
     }
 
@@ -36,7 +36,7 @@ public class AuthorizationException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
-    public AuthorizationException(final Throwable cause) {
+    public AuthorizationException(Throwable cause) {
         super(cause);
     }
 
@@ -49,7 +49,7 @@ public class AuthorizationException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
-    public AuthorizationException(final String message, final Throwable cause) {
+    public AuthorizationException(String message, Throwable cause) {
         super(message, cause);
     }
 }
