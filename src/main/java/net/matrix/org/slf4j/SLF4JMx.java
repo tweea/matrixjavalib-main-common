@@ -1,23 +1,23 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
-package net.matrix.util;
+package net.matrix.org.slf4j;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
  * SLF4J 工具。
  */
-public final class SLF4Js {
+public final class SLF4JMx {
     /**
      * 阻止实例化。
      */
-    private SLF4Js() {
+    private SLF4JMx() {
     }
 
     /**
-     * 将 {@link java.util.logging} 的日志代理到 SLF4J。
+     * 桥接所有 {@link java.util.logging} 的日志到 SLF4J。
      */
     public static void bridgeJUL() {
         if (SLF4JBridgeHandler.isInstalled()) {
