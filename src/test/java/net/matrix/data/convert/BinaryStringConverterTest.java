@@ -18,7 +18,7 @@ public class BinaryStringConverterTest {
         byte[] binary = string.getBytes(StandardCharsets.UTF_8);
 
         assertThat(converter.toString(binary)).isEqualTo(string);
-        assertThat(converter.toBinary(string)).containsExactly(binary);
+        assertThat(converter.toBinary(string)).isEqualTo(binary);
     }
 
     @Test
@@ -26,7 +26,7 @@ public class BinaryStringConverterTest {
         BinaryStringConverter converter = BinaryStringConverter.BIT;
         byte[] binary = "foo message".getBytes(StandardCharsets.UTF_8);
 
-        assertThat(converter.toBinary(converter.toString(binary))).containsExactly(binary);
+        assertThat(converter.toBinary(converter.toString(binary))).isEqualTo(binary);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class BinaryStringConverterTest {
         BinaryStringConverter converter = BinaryStringConverter.HEX;
         byte[] binary = "foo message".getBytes(StandardCharsets.UTF_8);
 
-        assertThat(converter.toBinary(converter.toString(binary))).containsExactly(binary);
+        assertThat(converter.toBinary(converter.toString(binary))).isEqualTo(binary);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class BinaryStringConverterTest {
         BinaryStringConverter converter = BinaryStringConverter.BASE64;
         byte[] binary = "foo message".getBytes(StandardCharsets.UTF_8);
 
-        assertThat(converter.toBinary(converter.toString(binary))).containsExactly(binary);
+        assertThat(converter.toBinary(converter.toString(binary))).isEqualTo(binary);
     }
 
     @Test
@@ -50,6 +50,6 @@ public class BinaryStringConverterTest {
         BinaryStringConverter converter = BinaryStringConverter.BASE64_URL_SAFE;
         byte[] binary = "foo message".getBytes(StandardCharsets.UTF_8);
 
-        assertThat(converter.toBinary(converter.toString(binary))).containsExactly(binary);
+        assertThat(converter.toBinary(converter.toString(binary))).isEqualTo(binary);
     }
 }
