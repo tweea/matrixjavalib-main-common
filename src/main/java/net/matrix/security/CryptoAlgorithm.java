@@ -164,7 +164,7 @@ public class CryptoAlgorithm {
          *     算法变种名称。
          * @return 枚举值。
          */
-        public static Asymmetric forCode(final String code) {
+        public static Asymmetric forCode(String code) {
             return CODE_MAP.get(code);
         }
     }
@@ -213,7 +213,7 @@ public class CryptoAlgorithm {
          *     签名算法名称。
          * @return 枚举值。
          */
-        public static Sign forCode(final String code) {
+        public static Sign forCode(String code) {
             return CODE_MAP.get(code);
         }
     }
