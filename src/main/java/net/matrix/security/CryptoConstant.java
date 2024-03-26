@@ -69,7 +69,7 @@ public final class CryptoConstant {
     public static final String RSA_NONE_PKCS1PADDING = "RSA/NONE/Pkcs1Padding";
 
     /**
-     * 密钥长度足够大，不支持私钥加密。
+     * 密钥长度足够大。
      */
     public static final String SM2 = "EC";
 

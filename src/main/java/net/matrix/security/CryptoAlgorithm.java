@@ -130,7 +130,7 @@ public class CryptoAlgorithm {
         RSA_NONE_PKCS1PADDING(CryptoConstant.RSA, CryptoConstant.RSA_NONE_PKCS1PADDING, 2048),
 
         /**
-         * 密钥长度足够大，不支持私钥加密。
+         * 密钥长度足够大。
          */
         SM2_NONE_NOPADDING(CryptoConstant.SM2, CryptoConstant.SM2_NONE_NOPADDING, 192);
 
