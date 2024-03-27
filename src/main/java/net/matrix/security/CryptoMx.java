@@ -98,12 +98,26 @@ public final class CryptoMx {
      * 
      * @param length
      *     随机数长度。
+     * @param random
+     *     随机数生成器算法实例。
+     * @return 随机数。
+     */
+    public static byte[] generateRandom(int length, SecureRandom random) {
+        byte[] randomData = new byte[length];
+        random.nextBytes(randomData);
+        return randomData;
+    }
+
+    /**
+     * 生成随机数。
+     * 
+     * @param length
+     *     随机数长度。
      * @return 随机数。
      */
     public static byte[] generateRandom(int length) {
-        byte[] randomData = new byte[length];
-        RANDOM.nextBytes(randomData);
-        return randomData;
+        SecureRandom random = RANDOM;
+        return generateRandom(length, random);
     }
 
     /**
@@ -117,9 +131,7 @@ public final class CryptoMx {
      */
     public static byte[] generateRandom(int length, String algorithm) {
         SecureRandom random = getSecureRandom(algorithm);
-        byte[] randomData = new byte[length];
-        random.nextBytes(randomData);
-        return randomData;
+        return generateRandom(length, random);
     }
 
     /**
@@ -133,9 +145,7 @@ public final class CryptoMx {
      */
     public static byte[] generateRandom(int length, CryptoAlgorithm.Random algorithm) {
         SecureRandom random = getSecureRandom(algorithm);
-        byte[] randomData = new byte[length];
-        random.nextBytes(randomData);
-        return randomData;
+        return generateRandom(length, random);
     }
 
     // 摘要算法
@@ -204,6 +214,54 @@ public final class CryptoMx {
     public static byte[] digest(byte[] plainData, CryptoAlgorithm.Digest algorithm) {
         MessageDigest digest = getDigest(algorithm);
         return digest(plainData, digest);
+    }
+
+    /**
+     * 计算摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param saltData
+     *     盐。
+     * @param digest
+     *     摘要算法实例。
+     * @return 摘要。
+     */
+    public static byte[] digest(byte[] plainData, byte[] saltData, MessageDigest digest) {
+        digest.update(saltData);
+        return digest.digest(plainData);
+    }
+
+    /**
+     * 计算摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param saltData
+     *     盐。
+     * @param algorithm
+     *     算法名称。
+     * @return 摘要。
+     */
+    public static byte[] digest(byte[] plainData, byte[] saltData, String algorithm) {
+        MessageDigest digest = getDigest(algorithm);
+        return digest(plainData, saltData, digest);
+    }
+
+    /**
+     * 计算摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param saltData
+     *     盐。
+     * @param algorithm
+     *     算法枚举值。
+     * @return 摘要。
+     */
+    public static byte[] digest(byte[] plainData, byte[] saltData, CryptoAlgorithm.Digest algorithm) {
+        MessageDigest digest = getDigest(algorithm);
+        return digest(plainData, saltData, digest);
     }
 
     /**
