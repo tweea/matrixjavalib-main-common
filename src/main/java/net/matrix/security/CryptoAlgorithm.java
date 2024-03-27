@@ -13,6 +13,37 @@ import net.matrix.java.lang.EnumMx;
  */
 public class CryptoAlgorithm {
     /**
+     * 随机数生成器算法。
+     */
+    public enum Random {
+        DEFAULT(CryptoConstant.DEFAULT),
+
+        NONCE_AND_IV(CryptoConstant.NONCE_AND_IV);
+
+        private static final Map<String, Random> CODE_MAP = EnumMx.buildValueMap(Random.class, v -> v.algorithm);
+
+        /**
+         * 算法名称。
+         */
+        public final String algorithm;
+
+        Random(String algorithm) {
+            this.algorithm = algorithm;
+        }
+
+        /**
+         * 算法名称转换为枚举值。
+         * 
+         * @param code
+         *     算法名称。
+         * @return 枚举值。
+         */
+        public static Random forCode(String code) {
+            return CODE_MAP.get(code);
+        }
+    }
+
+    /**
      * 摘要算法。
      */
     public enum Digest {

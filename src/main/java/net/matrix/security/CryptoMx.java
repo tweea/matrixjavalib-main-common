@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Provider;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
@@ -41,6 +42,11 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public final class CryptoMx {
     /**
+     * 随机数生成器。
+     */
+    private static final SecureRandom RANDOM = new SecureRandom();
+
+    /**
      * 加密算法实现。
      */
     private static final Provider PROVIDER = new BouncyCastleProvider();
@@ -49,6 +55,87 @@ public final class CryptoMx {
      * 阻止实例化。
      */
     private CryptoMx() {
+    }
+
+    // 随机数生成器算法
+    /**
+     * 获取随机数生成器算法实例。
+     * 
+     * @return 随机数生成器算法实例。
+     */
+    public static SecureRandom getSecureRandom() {
+        return RANDOM;
+    }
+
+    /**
+     * 获取随机数生成器算法实例。
+     * 
+     * @param algorithm
+     *     算法名称。
+     * @return 随机数生成器算法实例。
+     */
+    public static SecureRandom getSecureRandom(String algorithm) {
+        try {
+            return SecureRandom.getInstance(algorithm, PROVIDER);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 获取随机数生成器算法实例。
+     * 
+     * @param algorithm
+     *     算法枚举值。
+     * @return 随机数生成器算法实例。
+     */
+    public static SecureRandom getSecureRandom(CryptoAlgorithm.Random algorithm) {
+        return getSecureRandom(algorithm.algorithm);
+    }
+
+    /**
+     * 生成随机数。
+     * 
+     * @param length
+     *     随机数长度。
+     * @return 随机数。
+     */
+    public static byte[] generateRandom(int length) {
+        byte[] randomData = new byte[length];
+        RANDOM.nextBytes(randomData);
+        return randomData;
+    }
+
+    /**
+     * 生成随机数。
+     * 
+     * @param length
+     *     随机数长度。
+     * @param algorithm
+     *     算法名称。
+     * @return 随机数。
+     */
+    public static byte[] generateRandom(int length, String algorithm) {
+        SecureRandom random = getSecureRandom(algorithm);
+        byte[] randomData = new byte[length];
+        random.nextBytes(randomData);
+        return randomData;
+    }
+
+    /**
+     * 生成随机数。
+     * 
+     * @param length
+     *     随机数长度。
+     * @param algorithm
+     *     算法枚举值。
+     * @return 随机数。
+     */
+    public static byte[] generateRandom(int length, CryptoAlgorithm.Random algorithm) {
+        SecureRandom random = getSecureRandom(algorithm);
+        byte[] randomData = new byte[length];
+        random.nextBytes(randomData);
+        return randomData;
     }
 
     // 摘要算法

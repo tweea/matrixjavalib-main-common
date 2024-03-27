@@ -8,6 +8,11 @@ package net.matrix.security;
  * 加密算法常量。
  */
 public final class CryptoConstant {
+    // 随机数生成器算法
+    public static final String DEFAULT = "Default";
+
+    public static final String NONCE_AND_IV = "NonceAndIV";
+
     // 摘要算法
     public static final String MD5 = "MD5";
 
