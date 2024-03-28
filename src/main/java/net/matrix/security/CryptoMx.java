@@ -319,6 +319,68 @@ public final class CryptoMx {
         return digest(plainData, digest);
     }
 
+    /**
+     * 计算摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param saltData
+     *     盐。
+     * @param digest
+     *     摘要算法实例。
+     * @return 摘要。
+     * @throws IOException
+     *     读取明文失败。
+     */
+    public static byte[] digest(InputStream plainData, byte[] saltData, MessageDigest digest)
+        throws IOException {
+        digest.update(saltData);
+        byte[] input = new byte[8 * 1024];
+        int readLength = -1;
+        while ((readLength = IOUtils.read(plainData, input)) > 0) {
+            digest.update(input, 0, readLength);
+        }
+        return digest.digest();
+    }
+
+    /**
+     * 计算摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param saltData
+     *     盐。
+     * @param algorithm
+     *     算法名称。
+     * @return 摘要。
+     * @throws IOException
+     *     读取明文失败。
+     */
+    public static byte[] digest(InputStream plainData, byte[] saltData, String algorithm)
+        throws IOException {
+        MessageDigest digest = getDigest(algorithm);
+        return digest(plainData, saltData, digest);
+    }
+
+    /**
+     * 计算摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param saltData
+     *     盐。
+     * @param algorithm
+     *     算法枚举值。
+     * @return 摘要。
+     * @throws IOException
+     *     读取明文失败。
+     */
+    public static byte[] digest(InputStream plainData, byte[] saltData, CryptoAlgorithm.Digest algorithm)
+        throws IOException {
+        MessageDigest digest = getDigest(algorithm);
+        return digest(plainData, saltData, digest);
+    }
+
     // 加密算法
     /**
      * 获取加密算法实例。

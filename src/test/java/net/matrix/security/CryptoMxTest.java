@@ -116,6 +116,17 @@ class CryptoMxTest {
     }
 
     @Test
+    void testDigest_stream_salt()
+        throws IOException {
+        CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.MD5;
+        byte[] plainData = UTF8.toBinary("海月明");
+        byte[] saltData = UTF8.toBinary("沧");
+        byte[] digestData = HEX.toBinary("5b95c94bbc42391c190ae5e91b26c007");
+
+        assertThat(CryptoMx.digest(new ByteArrayInputStream(plainData), saltData, algorithm)).isEqualTo(digestData);
+    }
+
+    @Test
     void testGetCipher_symmetric() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
 
