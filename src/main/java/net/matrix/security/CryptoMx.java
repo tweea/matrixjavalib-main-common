@@ -176,6 +176,18 @@ public final class CryptoMx {
     }
 
     /**
+     * 更新摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param digest
+     *     摘要算法实例。
+     */
+    public static void updateDigest(byte[] plainData, MessageDigest digest) {
+        digest.update(plainData);
+    }
+
+    /**
      * 计算摘要。
      * 
      * @param plainData
@@ -185,7 +197,8 @@ public final class CryptoMx {
      * @return 摘要。
      */
     public static byte[] digest(byte[] plainData, MessageDigest digest) {
-        return digest.digest(plainData);
+        updateDigest(plainData, digest);
+        return digest.digest();
     }
 
     /**
@@ -228,8 +241,9 @@ public final class CryptoMx {
      * @return 摘要。
      */
     public static byte[] digest(byte[] plainData, byte[] saltData, MessageDigest digest) {
-        digest.update(saltData);
-        return digest.digest(plainData);
+        updateDigest(saltData, digest);
+        updateDigest(plainData, digest);
+        return digest.digest();
     }
 
     /**
@@ -265,6 +279,25 @@ public final class CryptoMx {
     }
 
     /**
+     * 更新摘要。
+     * 
+     * @param plainData
+     *     明文。
+     * @param digest
+     *     摘要算法实例。
+     * @throws IOException
+     *     读取明文失败。
+     */
+    public static void updateDigest(InputStream plainData, MessageDigest digest)
+        throws IOException {
+        byte[] input = new byte[8 * 1024];
+        int readLength = -1;
+        while ((readLength = IOUtils.read(plainData, input)) > 0) {
+            digest.update(input, 0, readLength);
+        }
+    }
+
+    /**
      * 计算摘要。
      * 
      * @param plainData
@@ -277,11 +310,7 @@ public final class CryptoMx {
      */
     public static byte[] digest(InputStream plainData, MessageDigest digest)
         throws IOException {
-        byte[] input = new byte[8 * 1024];
-        int readLength = -1;
-        while ((readLength = IOUtils.read(plainData, input)) > 0) {
-            digest.update(input, 0, readLength);
-        }
+        updateDigest(plainData, digest);
         return digest.digest();
     }
 
@@ -334,12 +363,8 @@ public final class CryptoMx {
      */
     public static byte[] digest(InputStream plainData, byte[] saltData, MessageDigest digest)
         throws IOException {
-        digest.update(saltData);
-        byte[] input = new byte[8 * 1024];
-        int readLength = -1;
-        while ((readLength = IOUtils.read(plainData, input)) > 0) {
-            digest.update(input, 0, readLength);
-        }
+        updateDigest(saltData, digest);
+        updateDigest(plainData, digest);
         return digest.digest();
     }
 
