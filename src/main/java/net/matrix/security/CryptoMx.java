@@ -7,6 +7,9 @@ package net.matrix.security;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.AlgorithmParameterGenerator;
+import java.security.AlgorithmParameters;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -44,7 +47,7 @@ public final class CryptoMx {
     /**
      * 随机数生成器。
      */
-    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final SecureRandom SYSTEM_SECURE_RANDOM = new SecureRandom();
 
     /**
      * 加密算法实现。
@@ -61,20 +64,14 @@ public final class CryptoMx {
     /**
      * 获取随机数生成器算法实例。
      * 
-     * @return 随机数生成器算法实例。
-     */
-    public static SecureRandom getSecureRandom() {
-        return RANDOM;
-    }
-
-    /**
-     * 获取随机数生成器算法实例。
-     * 
      * @param algorithm
      *     算法名称。
      * @return 随机数生成器算法实例。
      */
     public static SecureRandom getSecureRandom(String algorithm) {
+        if (CryptoAlgorithm.Random.forCode(algorithm) == CryptoAlgorithm.Random.SYSTEM) {
+            return SYSTEM_SECURE_RANDOM;
+        }
         try {
             return SecureRandom.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -96,56 +93,28 @@ public final class CryptoMx {
     /**
      * 生成随机数。
      * 
+     * @param randomData
+     *     随机数。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void generateRandom(byte[] randomData, SecureRandom secureRandom) {
+        secureRandom.nextBytes(randomData);
+    }
+
+    /**
+     * 生成随机数。
+     * 
      * @param length
      *     随机数长度。
-     * @param random
+     * @param secureRandom
      *     随机数生成器算法实例。
      * @return 随机数。
      */
-    public static byte[] generateRandom(int length, SecureRandom random) {
+    public static byte[] generateRandom(int length, SecureRandom secureRandom) {
         byte[] randomData = new byte[length];
-        random.nextBytes(randomData);
+        generateRandom(randomData, secureRandom);
         return randomData;
-    }
-
-    /**
-     * 生成随机数。
-     * 
-     * @param length
-     *     随机数长度。
-     * @return 随机数。
-     */
-    public static byte[] generateRandom(int length) {
-        SecureRandom random = RANDOM;
-        return generateRandom(length, random);
-    }
-
-    /**
-     * 生成随机数。
-     * 
-     * @param length
-     *     随机数长度。
-     * @param algorithm
-     *     算法名称。
-     * @return 随机数。
-     */
-    public static byte[] generateRandom(int length, String algorithm) {
-        SecureRandom random = getSecureRandom(algorithm);
-        return generateRandom(length, random);
-    }
-
-    /**
-     * 生成随机数。
-     * 
-     * @param length
-     *     随机数长度。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 随机数。
-     */
-    public static byte[] generateRandom(int length, CryptoAlgorithm.Random algorithm) {
-        SecureRandom random = getSecureRandom(algorithm);
-        return generateRandom(length, random);
     }
 
     // 摘要算法
@@ -156,7 +125,7 @@ public final class CryptoMx {
      *     算法名称。
      * @return 摘要算法实例。
      */
-    public static MessageDigest getDigest(String algorithm) {
+    public static MessageDigest getMessageDigest(String algorithm) {
         try {
             return MessageDigest.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -171,8 +140,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 摘要算法实例。
      */
-    public static MessageDigest getDigest(CryptoAlgorithm.Digest algorithm) {
-        return getDigest(algorithm.algorithm);
+    public static MessageDigest getMessageDigest(CryptoAlgorithm.Digest algorithm) {
+        return getMessageDigest(algorithm.algorithm);
     }
 
     /**
@@ -206,34 +175,6 @@ public final class CryptoMx {
      * 
      * @param plainData
      *     明文。
-     * @param algorithm
-     *     算法名称。
-     * @return 摘要。
-     */
-    public static byte[] digest(byte[] plainData, String algorithm) {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, digest);
-    }
-
-    /**
-     * 计算摘要。
-     * 
-     * @param plainData
-     *     明文。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 摘要。
-     */
-    public static byte[] digest(byte[] plainData, CryptoAlgorithm.Digest algorithm) {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, digest);
-    }
-
-    /**
-     * 计算摘要。
-     * 
-     * @param plainData
-     *     明文。
      * @param saltData
      *     盐。
      * @param digest
@@ -244,38 +185,6 @@ public final class CryptoMx {
         updateDigest(saltData, digest);
         updateDigest(plainData, digest);
         return digest.digest();
-    }
-
-    /**
-     * 计算摘要。
-     * 
-     * @param plainData
-     *     明文。
-     * @param saltData
-     *     盐。
-     * @param algorithm
-     *     算法名称。
-     * @return 摘要。
-     */
-    public static byte[] digest(byte[] plainData, byte[] saltData, String algorithm) {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, saltData, digest);
-    }
-
-    /**
-     * 计算摘要。
-     * 
-     * @param plainData
-     *     明文。
-     * @param saltData
-     *     盐。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 摘要。
-     */
-    public static byte[] digest(byte[] plainData, byte[] saltData, CryptoAlgorithm.Digest algorithm) {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, saltData, digest);
     }
 
     /**
@@ -319,40 +228,6 @@ public final class CryptoMx {
      * 
      * @param plainData
      *     明文。
-     * @param algorithm
-     *     算法名称。
-     * @return 摘要。
-     * @throws IOException
-     *     读取明文失败。
-     */
-    public static byte[] digest(InputStream plainData, String algorithm)
-        throws IOException {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, digest);
-    }
-
-    /**
-     * 计算摘要。
-     * 
-     * @param plainData
-     *     明文。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 摘要。
-     * @throws IOException
-     *     读取明文失败。
-     */
-    public static byte[] digest(InputStream plainData, CryptoAlgorithm.Digest algorithm)
-        throws IOException {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, digest);
-    }
-
-    /**
-     * 计算摘要。
-     * 
-     * @param plainData
-     *     明文。
      * @param saltData
      *     盐。
      * @param digest
@@ -368,45 +243,106 @@ public final class CryptoMx {
         return digest.digest();
     }
 
+    // 加密算法
     /**
-     * 计算摘要。
+     * 获取加密算法参数生成器实例。
      * 
-     * @param plainData
-     *     明文。
-     * @param saltData
-     *     盐。
      * @param algorithm
      *     算法名称。
-     * @return 摘要。
-     * @throws IOException
-     *     读取明文失败。
+     * @return 加密算法参数生成器实例。
      */
-    public static byte[] digest(InputStream plainData, byte[] saltData, String algorithm)
-        throws IOException {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, saltData, digest);
+    public static AlgorithmParameterGenerator getAlgorithmParameterGenerator(String algorithm) {
+        try {
+            return AlgorithmParameterGenerator.getInstance(algorithm, PROVIDER);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**
-     * 计算摘要。
+     * 初始化加密算法参数生成器实例。
      * 
-     * @param plainData
-     *     明文。
-     * @param saltData
-     *     盐。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 摘要。
-     * @throws IOException
-     *     读取明文失败。
+     * @param algorithmParameterGenerator
+     *     加密算法参数生成器实例。
+     * @param size
+     *     参数长度。
      */
-    public static byte[] digest(InputStream plainData, byte[] saltData, CryptoAlgorithm.Digest algorithm)
-        throws IOException {
-        MessageDigest digest = getDigest(algorithm);
-        return digest(plainData, saltData, digest);
+    public static void initAlgorithmParameterGenerator(AlgorithmParameterGenerator algorithmParameterGenerator, int size) {
+        algorithmParameterGenerator.init(size);
     }
 
-    // 加密算法
+    /**
+     * 初始化加密算法参数生成器实例。
+     * 
+     * @param algorithmParameterGenerator
+     *     加密算法参数生成器实例。
+     * @param size
+     *     参数长度。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initAlgorithmParameterGenerator(AlgorithmParameterGenerator algorithmParameterGenerator, int size, SecureRandom secureRandom) {
+        algorithmParameterGenerator.init(size, secureRandom);
+    }
+
+    /**
+     * 生成加密算法参数实例。
+     * 
+     * @param algorithmParameterGenerator
+     *     加密算法参数生成器实例。
+     * @return 加密算法参数实例。
+     */
+    public static AlgorithmParameters generateAlgorithmParameter(AlgorithmParameterGenerator algorithmParameterGenerator) {
+        return algorithmParameterGenerator.generateParameters();
+    }
+
+    /**
+     * 获取加密算法参数实例。
+     * 
+     * @param algorithm
+     *     算法名称。
+     * @return 加密算法参数实例。
+     */
+    public static AlgorithmParameters getAlgorithmParameter(String algorithm) {
+        try {
+            return AlgorithmParameters.getInstance(algorithm, PROVIDER);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 初始化加密算法参数实例。
+     * 
+     * @param algorithmParameter
+     *     加密算法参数实例。
+     * @param paramData
+     *     参数。
+     */
+    public static void initAlgorithmParameter(AlgorithmParameters algorithmParameter, byte[] paramData) {
+        try {
+            algorithmParameter.init(paramData);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 获取加密算法参数。
+     * 
+     * @param algorithmParameter
+     *     加密算法参数实例。
+     * @return
+     *     参数。
+     */
+    public static byte[] encodeAlgorithmParameter(AlgorithmParameters algorithmParameter) {
+        try {
+            return algorithmParameter.getEncoded();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     /**
      * 获取加密算法实例。
      * 
@@ -430,10 +366,66 @@ public final class CryptoMx {
      * @param key
      *     秘钥。
      */
-    public static void initEncryptKey(Cipher cipher, Key key) {
+    public static void initCipherForEncrypt(Cipher cipher, Key key) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, key);
         } catch (InvalidKeyException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 初始化加密算法实例加密秘钥。
+     * 
+     * @param cipher
+     *     加密算法实例。
+     * @param key
+     *     秘钥。
+     * @param algorithmParameter
+     *     加密算法参数。
+     */
+    public static void initCipherForEncrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter) {
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key, algorithmParameter);
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 初始化加密算法实例加密秘钥。
+     * 
+     * @param cipher
+     *     加密算法实例。
+     * @param key
+     *     秘钥。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initCipherForEncrypt(Cipher cipher, Key key, SecureRandom secureRandom) {
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key, secureRandom);
+        } catch (InvalidKeyException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 初始化加密算法实例加密秘钥。
+     * 
+     * @param cipher
+     *     加密算法实例。
+     * @param key
+     *     秘钥。
+     * @param algorithmParameter
+     *     加密算法参数。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initCipherForEncrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter, SecureRandom secureRandom) {
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key, algorithmParameter, secureRandom);
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
             throw new IllegalArgumentException(e);
         }
     }
@@ -446,10 +438,66 @@ public final class CryptoMx {
      * @param key
      *     秘钥。
      */
-    public static void initDecryptKey(Cipher cipher, Key key) {
+    public static void initCipherForDecrypt(Cipher cipher, Key key) {
         try {
             cipher.init(Cipher.DECRYPT_MODE, key);
         } catch (InvalidKeyException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 初始化加密算法实例解密秘钥。
+     * 
+     * @param cipher
+     *     加密算法实例。
+     * @param key
+     *     秘钥。
+     * @param algorithmParameter
+     *     加密算法参数。
+     */
+    public static void initCipherForDecrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter) {
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, key, algorithmParameter);
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 初始化加密算法实例解密秘钥。
+     * 
+     * @param cipher
+     *     加密算法实例。
+     * @param key
+     *     秘钥。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initCipherForDecrypt(Cipher cipher, Key key, SecureRandom secureRandom) {
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, key, secureRandom);
+        } catch (InvalidKeyException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 初始化加密算法实例解密秘钥。
+     * 
+     * @param cipher
+     *     加密算法实例。
+     * @param key
+     *     秘钥。
+     * @param algorithmParameter
+     *     加密算法参数。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initCipherForDecrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter, SecureRandom secureRandom) {
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, key, algorithmParameter, secureRandom);
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
             throw new IllegalArgumentException(e);
         }
     }
@@ -556,14 +604,214 @@ public final class CryptoMx {
 
     // 对称加密算法
     /**
-     * 获取对称加密算法实例。
+     * 获取加密算法参数生成器实例。
      * 
      * @param algorithm
      *     算法枚举值。
-     * @return 加密算法实例。
+     * @return 加密算法参数生成器实例。
      */
-    public static Cipher getCipher(CryptoAlgorithm.Symmetric algorithm) {
-        return getCipher(algorithm.transformation);
+    public static AlgorithmParameterGenerator getAlgorithmParameterGenerator(CryptoAlgorithm.Symmetric algorithm) {
+        return getAlgorithmParameterGenerator(algorithm.algorithm);
+    }
+
+    /**
+     * 对称加密算法参数生成器实例构建工具。
+     */
+    public static class SymmetricAlgorithmParameterGeneratorBuilder {
+        /**
+         * 加密算法参数生成器实例。
+         */
+        private AlgorithmParameterGenerator algorithmParameterGenerator;
+
+        /**
+         * 参数长度。
+         */
+        private int size;
+
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private SymmetricAlgorithmParameterGeneratorBuilder() {
+        }
+
+        /**
+         * 构造加密算法参数生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 加密算法参数生成器实例构建工具。
+         */
+        public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(String algorithm) {
+            SymmetricAlgorithmParameterGeneratorBuilder builder = new SymmetricAlgorithmParameterGeneratorBuilder();
+            builder.algorithmParameterGenerator = getAlgorithmParameterGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 构造加密算法参数生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 加密算法参数生成器实例构建工具。
+         */
+        public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+            SymmetricAlgorithmParameterGeneratorBuilder builder = new SymmetricAlgorithmParameterGeneratorBuilder();
+            builder.algorithmParameterGenerator = getAlgorithmParameterGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置参数长度。
+         * 
+         * @param size
+         *     参数长度。
+         * @return 加密算法参数生成器实例构建工具。
+         */
+        public SymmetricAlgorithmParameterGeneratorBuilder setSize(int size) {
+            this.size = size;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 加密算法参数生成器实例构建工具。
+         */
+        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 加密算法参数生成器实例构建工具。
+         */
+        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 加密算法参数生成器实例构建工具。
+         */
+        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建加密算法参数生成器实例。
+         * 
+         * @return 加密算法参数生成器实例。
+         */
+        public AlgorithmParameterGenerator build() {
+            if (size == 0) {
+                if (secureRandom != null) {
+                    throw new IllegalArgumentException();
+                }
+            } else {
+                if (secureRandom == null) {
+                    initAlgorithmParameterGenerator(algorithmParameterGenerator, size);
+                } else {
+                    initAlgorithmParameterGenerator(algorithmParameterGenerator, size, secureRandom);
+                }
+            }
+            return algorithmParameterGenerator;
+        }
+    }
+
+    /**
+     * 获取加密算法参数实例。
+     * 
+     * @param algorithm
+     *     算法枚举值。
+     * @return 加密算法参数实例。
+     */
+    public static AlgorithmParameters getAlgorithmParameter(CryptoAlgorithm.Symmetric algorithm) {
+        return getAlgorithmParameter(algorithm.algorithm);
+    }
+
+    /**
+     * 对称加密算法参数实例构建工具。
+     */
+    public static class SymmetricAlgorithmParameterBuilder {
+        /**
+         * 加密算法参数实例。
+         */
+        private AlgorithmParameters algorithmParameter;
+
+        /**
+         * 参数。
+         */
+        private byte[] paramData;
+
+        /**
+         * 阻止实例化。
+         */
+        private SymmetricAlgorithmParameterBuilder() {
+        }
+
+        /**
+         * 构造加密算法参数实例构建工具。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 加密算法参数实例构建工具。
+         */
+        public static SymmetricAlgorithmParameterBuilder newBuilder(String algorithm) {
+            SymmetricAlgorithmParameterBuilder builder = new SymmetricAlgorithmParameterBuilder();
+            builder.algorithmParameter = getAlgorithmParameter(algorithm);
+            return builder;
+        }
+
+        /**
+         * 构造加密算法参数实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 加密算法参数实例构建工具。
+         */
+        public static SymmetricAlgorithmParameterBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+            SymmetricAlgorithmParameterBuilder builder = new SymmetricAlgorithmParameterBuilder();
+            builder.algorithmParameter = getAlgorithmParameter(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置参数。
+         * 
+         * @param paramData
+         *     参数。
+         * @return 加密算法参数实例构建工具。
+         */
+        public SymmetricAlgorithmParameterBuilder setParam(byte[] paramData) {
+            this.paramData = paramData;
+            return this;
+        }
+
+        /**
+         * 构建加密算法参数实例。
+         * 
+         * @return 加密算法参数实例。
+         */
+        public AlgorithmParameters build() {
+            initAlgorithmParameter(algorithmParameter, paramData);
+            return algorithmParameter;
+        }
     }
 
     /**
@@ -593,44 +841,172 @@ public final class CryptoMx {
     }
 
     /**
-     * 生成对称加密算法秘钥实例。
+     * 初始化秘钥生成器实例。
      * 
-     * @param algorithm
-     *     算法名称。
+     * @param keyGenerator
+     *     秘钥生成器实例。
      * @param keySize
      *     秘钥长度。
-     * @return 秘钥实例。
      */
-    public static SecretKey generateSecretKey(String algorithm, int keySize) {
-        KeyGenerator keyGenerator = getKeyGenerator(algorithm);
+    public static void initKeyGenerator(KeyGenerator keyGenerator, int keySize) {
         keyGenerator.init(keySize);
-        return keyGenerator.generateKey();
+    }
+
+    /**
+     * 初始化秘钥生成器实例。
+     * 
+     * @param keyGenerator
+     *     秘钥生成器实例。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initKeyGenerator(KeyGenerator keyGenerator, SecureRandom secureRandom) {
+        keyGenerator.init(secureRandom);
+    }
+
+    /**
+     * 初始化秘钥生成器实例。
+     * 
+     * @param keyGenerator
+     *     秘钥生成器实例。
+     * @param keySize
+     *     秘钥长度。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initKeyGenerator(KeyGenerator keyGenerator, int keySize, SecureRandom secureRandom) {
+        keyGenerator.init(keySize, secureRandom);
+    }
+
+    /**
+     * 秘钥生成器实例构建工具。
+     */
+    public static class KeyGeneratorBuilder {
+        /**
+         * 秘钥生成器实例。
+         */
+        private KeyGenerator keyGenerator;
+
+        /**
+         * 秘钥长度。
+         */
+        private int keySize;
+
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private KeyGeneratorBuilder() {
+        }
+
+        /**
+         * 构造秘钥生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public static KeyGeneratorBuilder newBuilder(String algorithm) {
+            KeyGeneratorBuilder builder = new KeyGeneratorBuilder();
+            builder.keyGenerator = getKeyGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 构造秘钥生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public static KeyGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+            KeyGeneratorBuilder builder = new KeyGeneratorBuilder();
+            builder.keyGenerator = getKeyGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置秘钥长度。
+         * 
+         * @param keySize
+         *     秘钥长度。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public KeyGeneratorBuilder setKeySize(int keySize) {
+            this.keySize = keySize;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public KeyGeneratorBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public KeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public KeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建秘钥生成器实例。
+         * 
+         * @return 秘钥生成器实例。
+         */
+        public KeyGenerator build() {
+            if (keySize == 0) {
+                if (secureRandom != null) {
+                    initKeyGenerator(keyGenerator, secureRandom);
+                }
+            } else {
+                if (secureRandom == null) {
+                    initKeyGenerator(keyGenerator, keySize);
+                } else {
+                    initKeyGenerator(keyGenerator, keySize, secureRandom);
+                }
+            }
+            return keyGenerator;
+        }
     }
 
     /**
      * 生成对称加密算法秘钥实例。
      * 
-     * @param algorithm
-     *     算法枚举值。
-     * @param keySize
-     *     秘钥长度。
+     * @param keyGenerator
+     *     秘钥生成器实例。
      * @return 秘钥实例。
      */
-    public static SecretKey generateSecretKey(CryptoAlgorithm.Symmetric algorithm, int keySize) {
-        KeyGenerator keyGenerator = getKeyGenerator(algorithm);
-        keyGenerator.init(keySize);
+    public static SecretKey generateSecretKey(KeyGenerator keyGenerator) {
         return keyGenerator.generateKey();
-    }
-
-    /**
-     * 生成对称加密算法秘钥实例。
-     * 
-     * @param algorithm
-     *     算法枚举值。
-     * @return 秘钥实例。
-     */
-    public static SecretKey generateSecretKey(CryptoAlgorithm.Symmetric algorithm) {
-        return generateSecretKey(algorithm, algorithm.defaultKeySize);
     }
 
     /**
@@ -660,185 +1036,206 @@ public final class CryptoMx {
     }
 
     /**
-     * 对称加密。
-     * 
-     * @param plainData
-     *     明文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法名称。
-     * @param transformation
-     *     算法变种名称。
-     * @return 密文。
-     */
-    public static byte[] encrypt(byte[] plainData, byte[] keyData, String algorithm, String transformation) {
-        Cipher cipher = getCipher(transformation);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initEncryptKey(cipher, secretKey);
-        return encrypt(plainData, cipher);
-    }
-
-    /**
-     * 对称加密。
-     * 
-     * @param plainData
-     *     明文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 密文。
-     */
-    public static byte[] encrypt(byte[] plainData, byte[] keyData, CryptoAlgorithm.Symmetric algorithm) {
-        Cipher cipher = getCipher(algorithm);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initEncryptKey(cipher, secretKey);
-        return encrypt(plainData, cipher);
-    }
-
-    /**
-     * 对称加密。
-     * 
-     * @param plainData
-     *     明文。
-     * @param cipherData
-     *     密文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法名称。
-     * @param transformation
-     *     算法变种名称。
-     * @throws IOException
-     *     读取明文失败。
-     */
-    public static void encrypt(InputStream plainData, OutputStream cipherData, byte[] keyData, String algorithm, String transformation)
-        throws IOException {
-        Cipher cipher = getCipher(transformation);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initEncryptKey(cipher, secretKey);
-        encrypt(plainData, cipherData, cipher);
-    }
-
-    /**
-     * 对称加密。
-     * 
-     * @param plainData
-     *     明文。
-     * @param cipherData
-     *     密文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法枚举值。
-     * @throws IOException
-     *     读取明文失败。
-     */
-    public static void encrypt(InputStream plainData, OutputStream cipherData, byte[] keyData, CryptoAlgorithm.Symmetric algorithm)
-        throws IOException {
-        Cipher cipher = getCipher(algorithm);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initEncryptKey(cipher, secretKey);
-        encrypt(plainData, cipherData, cipher);
-    }
-
-    /**
-     * 对称解密。
-     * 
-     * @param cipherData
-     *     密文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法名称。
-     * @param transformation
-     *     算法变种名称。
-     * @return 明文。
-     */
-    public static byte[] decrypt(byte[] cipherData, byte[] keyData, String algorithm, String transformation) {
-        Cipher cipher = getCipher(transformation);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initDecryptKey(cipher, secretKey);
-        return decrypt(cipherData, cipher);
-    }
-
-    /**
-     * 对称解密。
-     * 
-     * @param cipherData
-     *     密文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 明文。
-     */
-    public static byte[] decrypt(byte[] cipherData, byte[] keyData, CryptoAlgorithm.Symmetric algorithm) {
-        Cipher cipher = getCipher(algorithm);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initDecryptKey(cipher, secretKey);
-        return decrypt(cipherData, cipher);
-    }
-
-    /**
-     * 对称解密。
-     * 
-     * @param cipherData
-     *     密文。
-     * @param plainData
-     *     明文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法名称。
-     * @param transformation
-     *     算法变种名称。
-     * @throws IOException
-     *     读取明文失败。
-     */
-    public static void decrypt(InputStream cipherData, OutputStream plainData, byte[] keyData, String algorithm, String transformation)
-        throws IOException {
-        Cipher cipher = getCipher(transformation);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initDecryptKey(cipher, secretKey);
-        decrypt(cipherData, plainData, cipher);
-    }
-
-    /**
-     * 对称解密。
-     * 
-     * @param cipherData
-     *     密文。
-     * @param plainData
-     *     明文。
-     * @param keyData
-     *     秘钥。
-     * @param algorithm
-     *     算法枚举值。
-     * @throws IOException
-     *     读取明文失败。
-     */
-    public static void decrypt(InputStream cipherData, OutputStream plainData, byte[] keyData, CryptoAlgorithm.Symmetric algorithm)
-        throws IOException {
-        Cipher cipher = getCipher(algorithm);
-        SecretKey secretKey = getSecretKey(keyData, algorithm);
-        initDecryptKey(cipher, secretKey);
-        decrypt(cipherData, plainData, cipher);
-    }
-
-    // 非对称加密算法
-    /**
-     * 获取非对称加密算法实例。
+     * 获取对称加密算法实例。
      * 
      * @param algorithm
      *     算法枚举值。
      * @return 加密算法实例。
      */
-    public static Cipher getCipher(CryptoAlgorithm.Asymmetric algorithm) {
+    public static Cipher getCipher(CryptoAlgorithm.Symmetric algorithm) {
         return getCipher(algorithm.transformation);
     }
 
+    /**
+     * 对称加密算法实例构建工具。
+     */
+    public static class SymmetricCipherBuilder {
+        /**
+         * 加密算法实例。
+         */
+        private Cipher cipher;
+
+        /**
+         * 秘钥。
+         */
+        private Key key;
+
+        /**
+         * 加密算法参数。
+         */
+        private AlgorithmParameters algorithmParameter;
+
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private SymmetricCipherBuilder() {
+        }
+
+        /**
+         * 构造对称加密算法实例构建工具。
+         * 
+         * @param transformation
+         *     算法变种名称。
+         * @return 对称加密算法实例构建工具。
+         */
+        public static SymmetricCipherBuilder newBuilder(String transformation) {
+            SymmetricCipherBuilder builder = new SymmetricCipherBuilder();
+            builder.cipher = getCipher(transformation);
+            return builder;
+        }
+
+        /**
+         * 构造对称加密算法实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 对称加密算法实例构建工具。
+         */
+        public static SymmetricCipherBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+            SymmetricCipherBuilder builder = new SymmetricCipherBuilder();
+            builder.cipher = getCipher(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置秘钥。
+         * 
+         * @param keyData
+         *     秘钥。
+         * @param algorithm
+         *     算法名称。
+         * @return 对称加密算法实例构建工具。
+         */
+        public SymmetricCipherBuilder setKey(byte[] keyData, String algorithm) {
+            this.key = getSecretKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置秘钥。
+         * 
+         * @param keyData
+         *     秘钥。
+         * @param algorithm
+         *     算法枚举值。
+         * @return 对称加密算法实例构建工具。
+         */
+        public SymmetricCipherBuilder setKey(byte[] keyData, CryptoAlgorithm.Symmetric algorithm) {
+            this.key = getSecretKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置秘钥。
+         * 
+         * @param key
+         *     秘钥。
+         * @return 对称加密算法实例构建工具。
+         */
+        public SymmetricCipherBuilder setKey(SecretKey key) {
+            this.key = key;
+            return this;
+        }
+
+        /**
+         * 设置加密算法参数。
+         * 
+         * @param algorithmParameter
+         *     加密算法参数。
+         * @return 对称加密算法实例构建工具。
+         */
+        public SymmetricCipherBuilder setAlgorithmParameter(AlgorithmParameters algorithmParameter) {
+            this.algorithmParameter = algorithmParameter;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 对称加密算法实例构建工具。
+         */
+        public SymmetricCipherBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 对称加密算法实例构建工具。
+         */
+        public SymmetricCipherBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 对称加密算法实例构建工具。
+         */
+        public SymmetricCipherBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建对称加密算法实例。
+         * 
+         * @return 对称加密算法实例。
+         */
+        public Cipher buildForEncrypt() {
+            if (algorithmParameter == null) {
+                if (secureRandom == null) {
+                    initCipherForEncrypt(cipher, key);
+                } else {
+                    initCipherForEncrypt(cipher, key, secureRandom);
+                }
+            } else {
+                if (secureRandom == null) {
+                    initCipherForEncrypt(cipher, key, algorithmParameter);
+                } else {
+                    initCipherForEncrypt(cipher, key, algorithmParameter, secureRandom);
+                }
+            }
+            return cipher;
+        }
+
+        /**
+         * 构建对称加密算法实例。
+         * 
+         * @return 对称加密算法实例。
+         */
+        public Cipher buildForDecrypt() {
+            if (algorithmParameter == null) {
+                if (secureRandom == null) {
+                    initCipherForDecrypt(cipher, key);
+                } else {
+                    initCipherForDecrypt(cipher, key, secureRandom);
+                }
+            } else {
+                if (secureRandom == null) {
+                    initCipherForDecrypt(cipher, key, algorithmParameter);
+                } else {
+                    initCipherForDecrypt(cipher, key, algorithmParameter, secureRandom);
+                }
+            }
+            return cipher;
+        }
+    }
+
+    // 非对称加密算法
     /**
      * 获取非对称加密算法秘钥对生成器实例。
      * 
@@ -866,44 +1263,160 @@ public final class CryptoMx {
     }
 
     /**
-     * 生成非对称加密算法秘钥对实例。
+     * 初始化秘钥对生成器实例。
      * 
-     * @param algorithm
-     *     算法名称。
+     * @param keyPairGenerator
+     *     秘钥对生成器实例。
      * @param keySize
      *     秘钥长度。
-     * @return 秘钥对实例。
      */
-    public static KeyPair generateKeyPair(String algorithm, int keySize) {
-        KeyPairGenerator keyPairGenerator = getKeyPairGenerator(algorithm);
+    public static void initKeyPairGenerator(KeyPairGenerator keyPairGenerator, int keySize) {
         keyPairGenerator.initialize(keySize);
-        return keyPairGenerator.generateKeyPair();
+    }
+
+    /**
+     * 初始化秘钥对生成器实例。
+     * 
+     * @param keyPairGenerator
+     *     秘钥对生成器实例。
+     * @param keySize
+     *     秘钥长度。
+     * @param secureRandom
+     *     随机数生成器算法实例。
+     */
+    public static void initKeyPairGenerator(KeyPairGenerator keyPairGenerator, int keySize, SecureRandom secureRandom) {
+        keyPairGenerator.initialize(keySize, secureRandom);
+    }
+
+    /**
+     * 秘钥对生成器实例构建工具。
+     */
+    public static class AsymmetricKeyPairGeneratorBuilder {
+        /**
+         * 秘钥对生成器实例。
+         */
+        private KeyPairGenerator keyPairGenerator;
+
+        /**
+         * 秘钥长度。
+         */
+        private int keySize;
+
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private AsymmetricKeyPairGeneratorBuilder() {
+        }
+
+        /**
+         * 构造秘钥对生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public static AsymmetricKeyPairGeneratorBuilder newBuilder(String algorithm) {
+            AsymmetricKeyPairGeneratorBuilder builder = new AsymmetricKeyPairGeneratorBuilder();
+            builder.keyPairGenerator = getKeyPairGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 构造秘钥对生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public static AsymmetricKeyPairGeneratorBuilder newBuilder(CryptoAlgorithm.Asymmetric algorithm) {
+            AsymmetricKeyPairGeneratorBuilder builder = new AsymmetricKeyPairGeneratorBuilder();
+            builder.keyPairGenerator = getKeyPairGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置秘钥长度。
+         * 
+         * @param keySize
+         *     秘钥长度。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public AsymmetricKeyPairGeneratorBuilder setKeySize(int keySize) {
+            this.keySize = keySize;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建秘钥对生成器实例。
+         * 
+         * @return 秘钥对生成器实例。
+         */
+        public KeyPairGenerator build() {
+            if (keySize == 0) {
+                if (secureRandom != null) {
+                    throw new IllegalArgumentException();
+                }
+            } else {
+                if (secureRandom == null) {
+                    initKeyPairGenerator(keyPairGenerator, keySize);
+                } else {
+                    initKeyPairGenerator(keyPairGenerator, keySize, secureRandom);
+                }
+            }
+            return keyPairGenerator;
+        }
     }
 
     /**
      * 生成非对称加密算法秘钥对实例。
      * 
-     * @param algorithm
-     *     算法枚举值。
-     * @param keySize
-     *     秘钥长度。
+     * @param keyPairGenerator
+     *     秘钥对生成器实例。
      * @return 秘钥对实例。
      */
-    public static KeyPair generateKeyPair(CryptoAlgorithm.Asymmetric algorithm, int keySize) {
-        KeyPairGenerator keyPairGenerator = getKeyPairGenerator(algorithm);
-        keyPairGenerator.initialize(keySize);
+    public static KeyPair generateKeyPair(KeyPairGenerator keyPairGenerator) {
         return keyPairGenerator.generateKeyPair();
-    }
-
-    /**
-     * 生成非对称加密算法秘钥对实例。
-     * 
-     * @param algorithm
-     *     算法枚举值。
-     * @return 秘钥对实例。
-     */
-    public static KeyPair generateKeyPair(CryptoAlgorithm.Asymmetric algorithm) {
-        return generateKeyPair(algorithm, algorithm.defaultKeySize);
     }
 
     /**
@@ -1009,108 +1522,213 @@ public final class CryptoMx {
     }
 
     /**
-     * 非对称加密。
+     * 获取非对称加密算法实例。
      * 
-     * @param plainData
-     *     明文。
-     * @param keyData
-     *     公钥。
-     * @param algorithm
-     *     算法名称。
-     * @param transformation
-     *     算法变种名称。
-     * @return 密文。
-     */
-    public static byte[] encryptPublic(byte[] plainData, byte[] keyData, String algorithm, String transformation) {
-        Cipher cipher = getCipher(transformation);
-        PublicKey publicKey = getPublicKey(keyData, algorithm);
-        initEncryptKey(cipher, publicKey);
-        return encrypt(plainData, cipher);
-    }
-
-    /**
-     * 非对称加密。
-     * 
-     * @param plainData
-     *     明文。
-     * @param keyData
-     *     公钥。
      * @param algorithm
      *     算法枚举值。
-     * @return 密文。
+     * @return 加密算法实例。
      */
-    public static byte[] encryptPublic(byte[] plainData, byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
-        Cipher cipher = getCipher(algorithm);
-        PublicKey publicKey = getPublicKey(keyData, algorithm);
-        initEncryptKey(cipher, publicKey);
-        return encrypt(plainData, cipher);
+    public static Cipher getCipher(CryptoAlgorithm.Asymmetric algorithm) {
+        return getCipher(algorithm.transformation);
     }
 
     /**
-     * 非对称解密。
-     * 
-     * @param cipherData
-     *     密文。
-     * @param keyData
-     *     私钥。
-     * @param algorithm
-     *     算法名称。
-     * @param transformation
-     *     算法变种名称。
-     * @return 明文。
+     * 非对称加密算法实例构建工具。
      */
-    public static byte[] decryptPrivate(byte[] cipherData, byte[] keyData, String algorithm, String transformation) {
-        Cipher cipher = getCipher(transformation);
-        PrivateKey privateKey = getPrivateKey(keyData, algorithm);
-        initDecryptKey(cipher, privateKey);
-        return decrypt(cipherData, cipher);
-    }
+    public static class AsymmetricCipherBuilder {
+        /**
+         * 加密算法实例。
+         */
+        private Cipher cipher;
 
-    /**
-     * 非对称解密。
-     * 
-     * @param cipherData
-     *     密文。
-     * @param keyData
-     *     私钥。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 明文。
-     */
-    public static byte[] decryptPrivate(byte[] cipherData, byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
-        Cipher cipher = getCipher(algorithm);
-        PrivateKey privateKey = getPrivateKey(keyData, algorithm);
-        initDecryptKey(cipher, privateKey);
-        return decrypt(cipherData, cipher);
-    }
+        /**
+         * 秘钥。
+         */
+        private Key key;
 
-    // 签名算法
-    /**
-     * 获取签名算法实例。
-     * 
-     * @param signAlgorithm
-     *     签名算法名称。
-     * @return 签名算法实例。
-     */
-    public static Signature getSignature(String signAlgorithm) {
-        try {
-            return Signature.getInstance(signAlgorithm, PROVIDER);
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException(e);
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private AsymmetricCipherBuilder() {
+        }
+
+        /**
+         * 构造非对称加密算法实例构建工具。
+         * 
+         * @param transformation
+         *     算法变种名称。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public static AsymmetricCipherBuilder newBuilder(String transformation) {
+            AsymmetricCipherBuilder builder = new AsymmetricCipherBuilder();
+            builder.cipher = getCipher(transformation);
+            return builder;
+        }
+
+        /**
+         * 构造非对称加密算法实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public static AsymmetricCipherBuilder newBuilder(CryptoAlgorithm.Asymmetric algorithm) {
+            AsymmetricCipherBuilder builder = new AsymmetricCipherBuilder();
+            builder.cipher = getCipher(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置私钥。
+         * 
+         * @param keyData
+         *     私钥。
+         * @param algorithm
+         *     算法名称。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setPrivateKey(byte[] keyData, String algorithm) {
+            this.key = getPrivateKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置私钥。
+         * 
+         * @param keyData
+         *     私钥。
+         * @param algorithm
+         *     算法枚举值。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setPrivateKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
+            this.key = getPrivateKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置私钥。
+         * 
+         * @param key
+         *     私钥。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setPrivateKey(PrivateKey key) {
+            this.key = key;
+            return this;
+        }
+
+        /**
+         * 设置公钥。
+         * 
+         * @param keyData
+         *     公钥。
+         * @param algorithm
+         *     算法名称。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setPublicKey(byte[] keyData, String algorithm) {
+            this.key = getPublicKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置公钥。
+         * 
+         * @param keyData
+         *     公钥。
+         * @param algorithm
+         *     算法枚举值。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setPublicKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
+            this.key = getPublicKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置公钥。
+         * 
+         * @param key
+         *     公钥。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setPublicKey(PublicKey key) {
+            this.key = key;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 非对称加密算法实例构建工具。
+         */
+        public AsymmetricCipherBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建非对称加密算法实例。
+         * 
+         * @return 非对称加密算法实例。
+         */
+        public Cipher buildForEncrypt() {
+            if (secureRandom == null) {
+                initCipherForEncrypt(cipher, key);
+            } else {
+                initCipherForEncrypt(cipher, key, secureRandom);
+            }
+            return cipher;
+        }
+
+        /**
+         * 构建非对称加密算法实例。
+         * 
+         * @return 非对称加密算法实例。
+         */
+        public Cipher buildForDecrypt() {
+            if (secureRandom == null) {
+                initCipherForDecrypt(cipher, key);
+            } else {
+                initCipherForDecrypt(cipher, key, secureRandom);
+            }
+            return cipher;
         }
     }
 
-    /**
-     * 获取签名算法实例。
-     * 
-     * @param algorithm
-     *     算法枚举值。
-     * @return 签名算法实例。
-     */
-    public static Signature getSignature(CryptoAlgorithm.Sign algorithm) {
-        return getSignature(algorithm.signAlgorithm);
-    }
-
+    // 签名算法
     /**
      * 获取非对称加密算法秘钥对生成器实例。
      * 
@@ -1123,29 +1741,123 @@ public final class CryptoMx {
     }
 
     /**
-     * 生成非对称加密算法秘钥对实例。
-     * 
-     * @param algorithm
-     *     算法枚举值。
-     * @param keySize
-     *     秘钥长度。
-     * @return 秘钥对实例。
+     * 秘钥对生成器实例构建工具。
      */
-    public static KeyPair generateKeyPair(CryptoAlgorithm.Sign algorithm, int keySize) {
-        KeyPairGenerator keyPairGenerator = getKeyPairGenerator(algorithm);
-        keyPairGenerator.initialize(keySize);
-        return keyPairGenerator.generateKeyPair();
-    }
+    public static class SignKeyPairGeneratorBuilder {
+        /**
+         * 秘钥对生成器实例。
+         */
+        private KeyPairGenerator keyPairGenerator;
 
-    /**
-     * 生成非对称加密算法秘钥对实例。
-     * 
-     * @param algorithm
-     *     算法枚举值。
-     * @return 秘钥对实例。
-     */
-    public static KeyPair generateKeyPair(CryptoAlgorithm.Sign algorithm) {
-        return generateKeyPair(algorithm, algorithm.defaultKeySize);
+        /**
+         * 秘钥长度。
+         */
+        private int keySize;
+
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private SignKeyPairGeneratorBuilder() {
+        }
+
+        /**
+         * 构造秘钥对生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public static SignKeyPairGeneratorBuilder newBuilder(String algorithm) {
+            SignKeyPairGeneratorBuilder builder = new SignKeyPairGeneratorBuilder();
+            builder.keyPairGenerator = getKeyPairGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 构造秘钥对生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public static SignKeyPairGeneratorBuilder newBuilder(CryptoAlgorithm.Sign algorithm) {
+            SignKeyPairGeneratorBuilder builder = new SignKeyPairGeneratorBuilder();
+            builder.keyPairGenerator = getKeyPairGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置秘钥长度。
+         * 
+         * @param keySize
+         *     秘钥长度。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public SignKeyPairGeneratorBuilder setKeySize(int keySize) {
+            this.keySize = keySize;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public SignKeyPairGeneratorBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public SignKeyPairGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 秘钥对生成器实例构建工具。
+         */
+        public SignKeyPairGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建秘钥对生成器实例。
+         * 
+         * @return 秘钥对生成器实例。
+         */
+        public KeyPairGenerator build() {
+            if (keySize == 0) {
+                if (secureRandom != null) {
+                    throw new IllegalArgumentException();
+                }
+            } else {
+                if (secureRandom == null) {
+                    initKeyPairGenerator(keyPairGenerator, keySize);
+                } else {
+                    initKeyPairGenerator(keyPairGenerator, keySize, secureRandom);
+                }
+            }
+            return keyPairGenerator;
+        }
     }
 
     /**
@@ -1198,31 +1910,236 @@ public final class CryptoMx {
     }
 
     /**
-     * 生成签名。
+     * 获取签名算法实例。
      * 
-     * @param data
-     *     数据。
-     * @param keyData
-     *     私钥。
-     * @param algorithm
-     *     算法名称。
      * @param signAlgorithm
      *     签名算法名称。
-     * @return 签名。
+     * @return 签名算法实例。
      */
-    public static byte[] signPrivate(byte[] data, byte[] keyData, String algorithm, String signAlgorithm) {
-        Signature signature = getSignature(signAlgorithm);
-        PrivateKey privateKey = getPrivateKey(keyData, algorithm);
+    public static Signature getSignature(String signAlgorithm) {
         try {
-            signature.initSign(privateKey);
-        } catch (InvalidKeyException e) {
+            return Signature.getInstance(signAlgorithm, PROVIDER);
+        } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException(e);
         }
-        try {
-            signature.update(data);
-            return signature.sign();
-        } catch (SignatureException e) {
-            throw new IllegalArgumentException(e);
+    }
+
+    /**
+     * 获取签名算法实例。
+     * 
+     * @param algorithm
+     *     算法枚举值。
+     * @return 签名算法实例。
+     */
+    public static Signature getSignature(CryptoAlgorithm.Sign algorithm) {
+        return getSignature(algorithm.signAlgorithm);
+    }
+
+    /**
+     * 签名算法实例构建工具。
+     */
+    public static class SignatureBuilder {
+        /**
+         * 签名算法实例。
+         */
+        private Signature signature;
+
+        /**
+         * 秘钥。
+         */
+        private Key key;
+
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private SignatureBuilder() {
+        }
+
+        /**
+         * 构造签名算法实例构建工具。
+         * 
+         * @param signAlgorithm
+         *     签名算法名称。
+         * @return 签名算法实例构建工具。
+         */
+        public static SignatureBuilder newBuilder(String signAlgorithm) {
+            SignatureBuilder builder = new SignatureBuilder();
+            builder.signature = getSignature(signAlgorithm);
+            return builder;
+        }
+
+        /**
+         * 构造签名算法实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 签名算法实例构建工具。
+         */
+        public static SignatureBuilder newBuilder(CryptoAlgorithm.Sign algorithm) {
+            SignatureBuilder builder = new SignatureBuilder();
+            builder.signature = getSignature(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置私钥。
+         * 
+         * @param keyData
+         *     私钥。
+         * @param algorithm
+         *     算法名称。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setPrivateKey(byte[] keyData, String algorithm) {
+            this.key = getPrivateKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置私钥。
+         * 
+         * @param keyData
+         *     私钥。
+         * @param algorithm
+         *     算法枚举值。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setPrivateKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
+            this.key = getPrivateKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置私钥。
+         * 
+         * @param key
+         *     私钥。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setPrivateKey(PrivateKey key) {
+            this.key = key;
+            return this;
+        }
+
+        /**
+         * 设置公钥。
+         * 
+         * @param keyData
+         *     公钥。
+         * @param algorithm
+         *     算法名称。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setPublicKey(byte[] keyData, String algorithm) {
+            this.key = getPublicKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置公钥。
+         * 
+         * @param keyData
+         *     公钥。
+         * @param algorithm
+         *     算法枚举值。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setPublicKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
+            this.key = getPublicKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置公钥。
+         * 
+         * @param key
+         *     公钥。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setPublicKey(PublicKey key) {
+            this.key = key;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 签名算法实例构建工具。
+         */
+        public SignatureBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建签名算法实例。
+         * 
+         * @return 签名算法实例。
+         */
+        public Signature buildForSign() {
+            if (secureRandom == null) {
+                try {
+                    signature.initSign((PrivateKey) key);
+                } catch (InvalidKeyException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            } else {
+                try {
+                    signature.initSign((PrivateKey) key, secureRandom);
+                } catch (InvalidKeyException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+            return signature;
+        }
+
+        /**
+         * 构建签名算法实例。
+         * 
+         * @return 签名算法实例。
+         */
+        public Signature buildForVerify() {
+            if (secureRandom == null) {
+                try {
+                    signature.initVerify((PublicKey) key);
+                } catch (InvalidKeyException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            } else {
+                throw new IllegalArgumentException();
+            }
+            return signature;
         }
     }
 
@@ -1231,20 +2148,11 @@ public final class CryptoMx {
      * 
      * @param data
      *     数据。
-     * @param keyData
-     *     私钥。
-     * @param algorithm
-     *     算法枚举值。
+     * @param signature
+     *     签名算法实例。
      * @return 签名。
      */
-    public static byte[] signPrivate(byte[] data, byte[] keyData, CryptoAlgorithm.Sign algorithm) {
-        Signature signature = getSignature(algorithm);
-        PrivateKey privateKey = getPrivateKey(keyData, algorithm);
-        try {
-            signature.initSign(privateKey);
-        } catch (InvalidKeyException e) {
-            throw new IllegalArgumentException(e);
-        }
+    public static byte[] sign(byte[] data, Signature signature) {
         try {
             signature.update(data);
             return signature.sign();
@@ -1260,51 +2168,11 @@ public final class CryptoMx {
      *     数据。
      * @param signData
      *     签名。
-     * @param keyData
-     *     公钥。
-     * @param algorithm
-     *     算法名称。
-     * @param signAlgorithm
-     *     签名算法名称。
+     * @param signature
+     *     签名算法实例。
      * @return 是否通过验证。
      */
-    public static boolean verifyPublic(byte[] data, byte[] signData, byte[] keyData, String algorithm, String signAlgorithm) {
-        Signature signature = getSignature(signAlgorithm);
-        PublicKey publicKey = getPublicKey(keyData, algorithm);
-        try {
-            signature.initVerify(publicKey);
-        } catch (InvalidKeyException e) {
-            throw new IllegalArgumentException(e);
-        }
-        try {
-            signature.update(data);
-            return signature.verify(signData);
-        } catch (SignatureException e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-
-    /**
-     * 验证签名。
-     * 
-     * @param data
-     *     数据。
-     * @param signData
-     *     签名。
-     * @param keyData
-     *     公钥。
-     * @param algorithm
-     *     算法枚举值。
-     * @return 是否通过验证。
-     */
-    public static boolean verifyPublic(byte[] data, byte[] signData, byte[] keyData, CryptoAlgorithm.Sign algorithm) {
-        Signature signature = getSignature(algorithm);
-        PublicKey publicKey = getPublicKey(keyData, algorithm);
-        try {
-            signature.initVerify(publicKey);
-        } catch (InvalidKeyException e) {
-            throw new IllegalArgumentException(e);
-        }
+    public static boolean verify(byte[] data, byte[] signData, Signature signature) {
         try {
             signature.update(data);
             return signature.verify(signData);

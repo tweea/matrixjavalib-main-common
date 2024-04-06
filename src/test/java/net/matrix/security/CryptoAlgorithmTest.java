@@ -10,6 +10,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CryptoAlgorithmTest {
     @Test
+    public void testRandom() {
+        CryptoAlgorithm.Random random = CryptoAlgorithm.Random.DEFAULT;
+
+        assertThat(CryptoAlgorithm.Random.forCode(random.algorithm)).isSameAs(random);
+    }
+
+    @Test
     public void testDigest() {
         CryptoAlgorithm.Digest digest = CryptoAlgorithm.Digest.MD5;
 

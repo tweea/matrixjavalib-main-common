@@ -16,6 +16,8 @@ public class CryptoAlgorithm {
      * 随机数生成器算法。
      */
     public enum Random {
+        SYSTEM(CryptoConstant.SYSTEM),
+
         DEFAULT(CryptoConstant.DEFAULT),
 
         NONCE_AND_IV(CryptoConstant.NONCE_AND_IV);
@@ -83,38 +85,62 @@ public class CryptoAlgorithm {
         /**
          * 密钥长度 8 字节。
          */
-        DES_ECB_NOPADDING(CryptoConstant.DES, CryptoConstant.DES_ECB_NOPADDING, 64),
+        DES_ECB_NOPADDING(CryptoConstant.DES, CryptoConstant.DES_ECB_NOPADDING),
 
-        DES_ECB_ZEROBYTEPADDING(CryptoConstant.DES, CryptoConstant.DES_ECB_ZEROBYTEPADDING, 64),
+        DES_ECB_ZEROBYTEPADDING(CryptoConstant.DES, CryptoConstant.DES_ECB_ZEROBYTEPADDING),
 
-        DES_ECB_PKCS5PADDING(CryptoConstant.DES, CryptoConstant.DES_ECB_PKCS5PADDING, 64),
+        DES_ECB_PKCS5PADDING(CryptoConstant.DES, CryptoConstant.DES_ECB_PKCS5PADDING),
+
+        DES_CBC_NOPADDING(CryptoConstant.DES, CryptoConstant.DES_CBC_NOPADDING),
+
+        DES_CBC_ZEROBYTEPADDING(CryptoConstant.DES, CryptoConstant.DES_CBC_ZEROBYTEPADDING),
+
+        DES_CBC_PKCS5PADDING(CryptoConstant.DES, CryptoConstant.DES_CBC_PKCS5PADDING),
 
         /**
          * 密钥长度 16 或 24 字节。
          */
-        DESEDE_ECB_NOPADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_ECB_NOPADDING, 128),
+        DESEDE_ECB_NOPADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_ECB_NOPADDING),
 
-        DESEDE_ECB_ZEROBYTEPADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_ECB_ZEROBYTEPADDING, 128),
+        DESEDE_ECB_ZEROBYTEPADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_ECB_ZEROBYTEPADDING),
 
-        DESEDE_ECB_PKCS5PADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_ECB_PKCS5PADDING, 128),
+        DESEDE_ECB_PKCS5PADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_ECB_PKCS5PADDING),
+
+        DESEDE_CBC_NOPADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_CBC_NOPADDING),
+
+        DESEDE_CBC_ZEROBYTEPADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_CBC_ZEROBYTEPADDING),
+
+        DESEDE_CBC_PKCS5PADDING(CryptoConstant.DESEDE, CryptoConstant.DESEDE_CBC_PKCS5PADDING),
 
         /**
          * 密钥长度 0 到 32 字节。
          */
-        AES_ECB_NOPADDING(CryptoConstant.AES, CryptoConstant.AES_ECB_NOPADDING, 128),
+        AES_ECB_NOPADDING(CryptoConstant.AES, CryptoConstant.AES_ECB_NOPADDING),
 
-        AES_ECB_ZEROBYTEPADDING(CryptoConstant.AES, CryptoConstant.AES_ECB_ZEROBYTEPADDING, 128),
+        AES_ECB_ZEROBYTEPADDING(CryptoConstant.AES, CryptoConstant.AES_ECB_ZEROBYTEPADDING),
 
-        AES_ECB_PKCS5PADDING(CryptoConstant.AES, CryptoConstant.AES_ECB_PKCS5PADDING, 128),
+        AES_ECB_PKCS5PADDING(CryptoConstant.AES, CryptoConstant.AES_ECB_PKCS5PADDING),
+
+        AES_CBC_NOPADDING(CryptoConstant.AES, CryptoConstant.AES_CBC_NOPADDING),
+
+        AES_CBC_ZEROBYTEPADDING(CryptoConstant.AES, CryptoConstant.AES_CBC_ZEROBYTEPADDING),
+
+        AES_CBC_PKCS5PADDING(CryptoConstant.AES, CryptoConstant.AES_CBC_PKCS5PADDING),
 
         /**
          * 密钥长度 16 字节。
          */
-        SM4_ECB_NOPADDING(CryptoConstant.SM4, CryptoConstant.SM4_ECB_NOPADDING, 128),
+        SM4_ECB_NOPADDING(CryptoConstant.SM4, CryptoConstant.SM4_ECB_NOPADDING),
 
-        SM4_ECB_ZEROBYTEPADDING(CryptoConstant.SM4, CryptoConstant.SM4_ECB_ZEROBYTEPADDING, 128),
+        SM4_ECB_ZEROBYTEPADDING(CryptoConstant.SM4, CryptoConstant.SM4_ECB_ZEROBYTEPADDING),
 
-        SM4_ECB_PKCS5PADDING(CryptoConstant.SM4, CryptoConstant.SM4_ECB_PKCS5PADDING, 128);
+        SM4_ECB_PKCS5PADDING(CryptoConstant.SM4, CryptoConstant.SM4_ECB_PKCS5PADDING),
+
+        SM4_CBC_NOPADDING(CryptoConstant.SM4, CryptoConstant.SM4_CBC_NOPADDING),
+
+        SM4_CBC_ZEROBYTEPADDING(CryptoConstant.SM4, CryptoConstant.SM4_CBC_ZEROBYTEPADDING),
+
+        SM4_CBC_PKCS5PADDING(CryptoConstant.SM4, CryptoConstant.SM4_CBC_PKCS5PADDING);
 
         private static final Map<String, Symmetric> CODE_MAP = EnumMx.buildValueMap(Symmetric.class, v -> v.transformation);
 
@@ -128,15 +154,9 @@ public class CryptoAlgorithm {
          */
         public final String transformation;
 
-        /**
-         * 默认秘钥长度。
-         */
-        public final int defaultKeySize;
-
-        Symmetric(String algorithm, String transformation, int defaultKeySize) {
+        Symmetric(String algorithm, String transformation) {
             this.algorithm = algorithm;
             this.transformation = transformation;
-            this.defaultKeySize = defaultKeySize;
         }
 
         /**
@@ -158,12 +178,12 @@ public class CryptoAlgorithm {
         /**
          * 密钥长度足够大。
          */
-        RSA_NONE_PKCS1PADDING(CryptoConstant.RSA, CryptoConstant.RSA_NONE_PKCS1PADDING, 2048),
+        RSA_NONE_PKCS1PADDING(CryptoConstant.RSA, CryptoConstant.RSA_NONE_PKCS1PADDING),
 
         /**
          * 密钥长度足够大。
          */
-        SM2_NONE_NOPADDING(CryptoConstant.SM2, CryptoConstant.SM2_NONE_NOPADDING, 192);
+        SM2_NONE_NOPADDING(CryptoConstant.SM2, CryptoConstant.SM2_NONE_NOPADDING);
 
         private static final Map<String, Asymmetric> CODE_MAP = EnumMx.buildValueMap(Asymmetric.class, v -> v.transformation);
 
@@ -177,15 +197,9 @@ public class CryptoAlgorithm {
          */
         public final String transformation;
 
-        /**
-         * 默认秘钥长度。
-         */
-        public final int defaultKeySize;
-
-        Asymmetric(String algorithm, String transformation, int defaultKeySize) {
+        Asymmetric(String algorithm, String transformation) {
             this.algorithm = algorithm;
             this.transformation = transformation;
-            this.defaultKeySize = defaultKeySize;
         }
 
         /**
@@ -207,12 +221,12 @@ public class CryptoAlgorithm {
         /**
          * SHA1 和 RSA。
          */
-        SHA1_RSA(CryptoConstant.RSA, CryptoConstant.SHA1_RSA, 2048),
+        SHA1_RSA(CryptoConstant.RSA, CryptoConstant.SHA1_RSA),
 
         /**
          * SM3 和 SM2。
          */
-        SM3_SM2(CryptoConstant.SM2, CryptoConstant.SM3_SM2, 192);
+        SM3_SM2(CryptoConstant.SM2, CryptoConstant.SM3_SM2);
 
         private static final Map<String, Sign> CODE_MAP = EnumMx.buildValueMap(Sign.class, v -> v.signAlgorithm);
 
@@ -226,15 +240,9 @@ public class CryptoAlgorithm {
          */
         public final String signAlgorithm;
 
-        /**
-         * 默认秘钥长度。
-         */
-        public final int defaultKeySize;
-
-        Sign(String algorithm, String signAlgorithm, int defaultKeySize) {
+        Sign(String algorithm, String signAlgorithm) {
             this.algorithm = algorithm;
             this.signAlgorithm = signAlgorithm;
-            this.defaultKeySize = defaultKeySize;
         }
 
         /**

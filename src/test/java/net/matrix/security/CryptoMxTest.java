@@ -7,6 +7,8 @@ package net.matrix.security;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.AlgorithmParameterGenerator;
+import java.security.AlgorithmParameters;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -30,9 +32,10 @@ import static net.matrix.data.convert.BinaryStringConverter.HEX;
 import static net.matrix.data.convert.BinaryStringConverter.UTF8;
 
 class CryptoMxTest {
-    KeyPair rsaKeyPair = CryptoMx.generateKeyPair(CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING);
+    KeyPair rsaKeyPair = CryptoMx
+        .generateKeyPair(CryptoMx.AsymmetricKeyPairGeneratorBuilder.newBuilder(CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING).build());
 
-    KeyPair sm2KeyPair = CryptoMx.generateKeyPair(CryptoAlgorithm.Asymmetric.SM2_NONE_NOPADDING);
+    KeyPair sm2KeyPair = CryptoMx.generateKeyPair(CryptoMx.AsymmetricKeyPairGeneratorBuilder.newBuilder(CryptoAlgorithm.Asymmetric.SM2_NONE_NOPADDING).build());
 
     @Test
     void testGetSecureRandom() {
@@ -44,94 +47,163 @@ class CryptoMxTest {
 
     @Test
     void testGenerateRandom() {
-        byte[] randomData = CryptoMx.generateRandom(5);
+        CryptoAlgorithm.Random algorithm = CryptoAlgorithm.Random.DEFAULT;
+        SecureRandom random = CryptoMx.getSecureRandom(algorithm);
+
+        byte[] randomData = CryptoMx.generateRandom(5, random);
         assertThat(randomData).hasSize(5);
     }
 
     @Test
-    void testGenerateRandom_default() {
-        byte[] randomData = CryptoMx.generateRandom(5, CryptoAlgorithm.Random.DEFAULT);
-        assertThat(randomData).hasSize(5);
-    }
-
-    @Test
-    void testGenerateRandom_nonce_and_iv() {
-        byte[] randomData = CryptoMx.generateRandom(5, CryptoAlgorithm.Random.NONCE_AND_IV);
-        assertThat(randomData).hasSize(5);
-    }
-
-    @Test
-    void testGetDigest() {
+    void testGetMessageDigest() {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.MD5;
 
-        MessageDigest digest = CryptoMx.getDigest(algorithm);
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
         assertThat(digest.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
     void testDigest_md5() {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.MD5;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
         byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] digestData = HEX.toBinary("5b95c94bbc42391c190ae5e91b26c007");
 
-        assertThat(CryptoMx.digest(plainData, algorithm)).isEqualTo(digestData);
+        assertThat(CryptoMx.digest(plainData, digest)).isEqualTo(digestData);
     }
 
     @Test
     void testDigest_sha1() {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.SHA1;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
         byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] digestData = HEX.toBinary("0f88beb5d269a339887aca1d769edc7c88f7eab0");
 
-        assertThat(CryptoMx.digest(plainData, algorithm)).isEqualTo(digestData);
+        assertThat(CryptoMx.digest(plainData, digest)).isEqualTo(digestData);
     }
 
     @Test
     void testDigest_sm3() {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.SM3;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
         byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] digestData = HEX.toBinary("e5aee80250131e14ca2a0e2165a7759b47b2285dadd5ece90251b79c2cd9f7b1");
 
-        assertThat(CryptoMx.digest(plainData, algorithm)).isEqualTo(digestData);
+        assertThat(CryptoMx.digest(plainData, digest)).isEqualTo(digestData);
     }
 
     @Test
     void testDigest_salt() {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.MD5;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
         byte[] plainData = UTF8.toBinary("海月明");
         byte[] saltData = UTF8.toBinary("沧");
         byte[] digestData = HEX.toBinary("5b95c94bbc42391c190ae5e91b26c007");
 
-        assertThat(CryptoMx.digest(plainData, saltData, algorithm)).isEqualTo(digestData);
+        assertThat(CryptoMx.digest(plainData, saltData, digest)).isEqualTo(digestData);
     }
 
     @Test
     void testDigest_stream()
         throws IOException {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.MD5;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
         byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] digestData = HEX.toBinary("5b95c94bbc42391c190ae5e91b26c007");
 
-        assertThat(CryptoMx.digest(new ByteArrayInputStream(plainData), algorithm)).isEqualTo(digestData);
+        assertThat(CryptoMx.digest(new ByteArrayInputStream(plainData), digest)).isEqualTo(digestData);
     }
 
     @Test
     void testDigest_stream_salt()
         throws IOException {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.MD5;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
         byte[] plainData = UTF8.toBinary("海月明");
         byte[] saltData = UTF8.toBinary("沧");
         byte[] digestData = HEX.toBinary("5b95c94bbc42391c190ae5e91b26c007");
 
-        assertThat(CryptoMx.digest(new ByteArrayInputStream(plainData), saltData, algorithm)).isEqualTo(digestData);
+        assertThat(CryptoMx.digest(new ByteArrayInputStream(plainData), saltData, digest)).isEqualTo(digestData);
     }
 
     @Test
-    void testGetCipher_symmetric() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
+    void testGetAlgorithmParameterGenerator_symmetric() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
 
-        Cipher cipher = CryptoMx.getCipher(algorithm);
-        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.getAlgorithmParameterGenerator(algorithm);
+        assertThat(algorithmParameterGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testSymmetricAlgorithmParameterGeneratorBuilder() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        assertThat(algorithmParameterGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testSymmetricAlgorithmParameterGeneratorBuilder_random() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).setSize(16)
+            .setSecureRandom(randomAlgorithm).build();
+        assertThat(algorithmParameterGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateAlgorithmParameter_des() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        assertThat(algorithmParameter.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateAlgorithmParameter_desede() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        assertThat(algorithmParameter.getAlgorithm()).isEqualTo(CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING.algorithm);
+    }
+
+    @Test
+    void testGenerateAlgorithmParameter_aes() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        assertThat(algorithmParameter.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateAlgorithmParameter_sm4() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        assertThat(algorithmParameter.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetAlgorithmParameter_symmetric() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+
+        AlgorithmParameters algorithmParameter = CryptoMx.getAlgorithmParameter(algorithm);
+        assertThat(algorithmParameter.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testSymmetricAlgorithmParameterBuilder() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] paramData = CryptoMx.encodeAlgorithmParameter(CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator));
+
+        AlgorithmParameters algorithmParameter = CryptoMx.SymmetricAlgorithmParameterBuilder.newBuilder(algorithm).setParam(paramData).build();
+        assertThat(algorithmParameter.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
@@ -143,34 +215,55 @@ class CryptoMxTest {
     }
 
     @Test
-    void testGenerateSecretKey_des() {
+    void testKeyGeneratorBuilder() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
 
-        SecretKey secretKey = CryptoMx.generateSecretKey(algorithm);
+        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
+        assertThat(keyGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testKeyGeneratorBuilder_random() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+
+        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).setSecureRandom(randomAlgorithm).build();
+        assertThat(keyGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateSecretKey_des() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
+        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
     void testGenerateSecretKey_desede() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_NOPADDING;
+        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
 
-        SecretKey secretKey = CryptoMx.generateSecretKey(algorithm);
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
     void testGenerateSecretKey_aes() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_NOPADDING;
+        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
 
-        SecretKey secretKey = CryptoMx.generateSecretKey(algorithm);
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
     void testGenerateSecretKey_sm4() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_NOPADDING;
+        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
 
-        SecretKey secretKey = CryptoMx.generateSecretKey(algorithm);
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
@@ -211,277 +304,414 @@ class CryptoMxTest {
     }
 
     @Test
-    void testEncrypt_des_no() {
+    void testGetCipher_symmetric() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
-        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("34c6973019c198d96aabb6dcbb70854d");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        Cipher cipher = CryptoMx.getCipher(algorithm);
+        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
     }
 
     @Test
-    void testDecrypt_des_no() {
+    void testSymmetricCipherBuilder() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        Cipher cipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+    }
+
+    @Test
+    void testSymmetricCipherBuilder_random() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        Cipher cipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setSecureRandom(randomAlgorithm).buildForEncrypt();
+        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+    }
+
+    @Test
+    void testSymmetricCipherBuilder_iv() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+
+        Cipher cipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+    }
+
+    @Test
+    void testSymmetric_des_ecb_no() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
-        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("34c6973019c198d96aabb6dcbb70854d");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
 
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testEncrypt_des_zero() {
+    void testSymmetric_des_ecb_zero() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("34c6973019c198d96aabb6dcbb70854d");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_des_zero() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("34c6973019c198d96aabb6dcbb70854d");
-
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testEncrypt_des_pkcs5() {
+    void testSymmetric_des_ecb_pkcs5() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("34c6973019c198d9e1b30a0356794508");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_des_pkcs5() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
+    void testSymmetric_des_cbc_no() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("34c6973019c198d9e1b30a0356794508");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
 
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testEncrypt_desede_no() {
+    void testSymmetric_des_cbc_zero() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_ZEROBYTEPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_des_cbc_pkcs5() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_CBC_PKCS5PADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_desede_ecb_no() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_NOPADDING;
-        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("DB481C8419B7427F5317DED078263235");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_desede_no() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_NOPADDING;
-        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("DB481C8419B7427F5317DED078263235");
-
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testEncrypt_desede_zero() {
+    void testSymmetric_desede_ecb_zero() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("DB481C8419B7427F5317DED078263235");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_desede_zero() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("DB481C8419B7427F5317DED078263235");
-
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testEncrypt_desede_pkcs5() {
+    void testSymmetric_desede_ecb_pkcs5() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("DB481C8419B7427FEF9F9389A3F996AD");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_desede_pkcs5() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
+    void testSymmetric_desede_cbc_no() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("DB481C8419B7427FEF9F9389A3F996AD");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
 
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testEncrypt_aes_no() {
+    void testSymmetric_desede_cbc_zero() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_CBC_ZEROBYTEPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_desede_cbc_pkcs5() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_CBC_PKCS5PADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_aes_ecb_no() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_NOPADDING;
-        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("034DE8D5305F57BB9732719D7AADBB4C");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_aes_no() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_NOPADDING;
-        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("034DE8D5305F57BB9732719D7AADBB4C");
-
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testEncrypt_aes_zero() {
+    void testSymmetric_aes_ecb_zero() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("034DE8D5305F57BB9732719D7AADBB4C");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_aes_zero() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("034DE8D5305F57BB9732719D7AADBB4C");
-
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testEncrypt_aes_pkcs5() {
+    void testSymmetric_aes_ecb_pkcs5() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("8A342C2709BC1093A379B868BB77FB26");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_aes_pkcs5() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
+    void testSymmetric_aes_cbc_no() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
-        byte[] cipherData = HEX.toBinary("8A342C2709BC1093A379B868BB77FB26");
-
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testEncrypt_sm4_no() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_NOPADDING;
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
         byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = HEX.toBinary("84D11964A5607018F1EEBE87B764D8DB");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_sm4_no() {
+    void testSymmetric_aes_cbc_zero() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_CBC_ZEROBYTEPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_aes_cbc_pkcs5() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_CBC_PKCS5PADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5fae44c3716e699e8c");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_sm4_ecb_no() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_NOPADDING;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
         byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = HEX.toBinary("84D11964A5607018F1EEBE87B764D8DB");
 
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testEncrypt_sm4_zero() {
+    void testSymmetric_sm4_ecb_zero() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = HEX.toBinary("84D11964A5607018F1EEBE87B764D8DB");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_sm4_zero() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_ZEROBYTEPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = HEX.toBinary("84D11964A5607018F1EEBE87B764D8DB");
-
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testEncrypt_sm4_pkcs5() {
+    void testSymmetric_sm4_ecb_pkcs5() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = HEX.toBinary("8B5941833E3BD724E109EF786A8729D8");
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        assertThat(CryptoMx.encrypt(plainData, keyData, algorithm)).isEqualTo(cipherData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testDecrypt_sm4_pkcs5() {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
+    void testSymmetric_sm4_cbc_no() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_CBC_NOPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = HEX.toBinary("8B5941833E3BD724E109EF786A8729D8");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = Arrays.copyOf(UTF8.toBinary("沧海月明"), 16);
 
-        assertThat(CryptoMx.decrypt(cipherData, keyData, algorithm)).isEqualTo(plainData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testEncrypt_stream()
+    void testSymmetric_sm4_cbc_zero() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_CBC_ZEROBYTEPADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_sm4_cbc_pkcs5() {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_CBC_PKCS5PADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
+    }
+
+    @Test
+    void testSymmetric_stream_ecb()
         throws IOException {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary(RandomStringUtils.random(16 * 1024 + 200));
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = CryptoMx.encrypt(plainData, keyData, algorithm);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary(RandomStringUtils.random(16 * 1024 + 200));
 
         ByteArrayOutputStream cipherDataStream = new ByteArrayOutputStream();
-        CryptoMx.encrypt(new ByteArrayInputStream(plainData), cipherDataStream, keyData, algorithm);
-        assertThat(cipherDataStream.toByteArray()).isEqualTo(cipherData);
-    }
-
-    @Test
-    void testDecrypt_stream()
-        throws IOException {
-        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_PKCS5PADDING;
-        byte[] plainData = UTF8.toBinary(RandomStringUtils.random(16 * 1024 + 200));
-        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
-        byte[] cipherData = CryptoMx.encrypt(plainData, keyData, algorithm);
-
+        CryptoMx.encrypt(new ByteArrayInputStream(plainData), cipherDataStream, encryptCipher);
         ByteArrayOutputStream plainDataStream = new ByteArrayOutputStream();
-        CryptoMx.decrypt(new ByteArrayInputStream(cipherData), plainDataStream, keyData, algorithm);
+        CryptoMx.decrypt(new ByteArrayInputStream(cipherDataStream.toByteArray()), plainDataStream, decryptCipher);
         assertThat(plainDataStream.toByteArray()).isEqualTo(plainData);
     }
 
     @Test
-    void testGetCipher_asymmetric() {
-        CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
+    void testSymmetric_stream_cbc()
+        throws IOException {
+        CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_CBC_PKCS5PADDING;
+        AlgorithmParameterGenerator algorithmParameterGenerator = CryptoMx.SymmetricAlgorithmParameterGeneratorBuilder.newBuilder(algorithm).build();
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c7d2d9dea2ba24a5f");
+        AlgorithmParameters algorithmParameter = CryptoMx.generateAlgorithmParameter(algorithmParameterGenerator);
+        Cipher encryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.SymmetricCipherBuilder.newBuilder(algorithm).setKey(keyData, algorithm).setAlgorithmParameter(algorithmParameter)
+            .buildForDecrypt();
+        byte[] plainData = UTF8.toBinary(RandomStringUtils.random(16 * 1024 + 200));
 
-        Cipher cipher = CryptoMx.getCipher(algorithm);
-        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+        ByteArrayOutputStream cipherDataStream = new ByteArrayOutputStream();
+        CryptoMx.encrypt(new ByteArrayInputStream(plainData), cipherDataStream, encryptCipher);
+        ByteArrayOutputStream plainDataStream = new ByteArrayOutputStream();
+        CryptoMx.decrypt(new ByteArrayInputStream(cipherDataStream.toByteArray()), plainDataStream, decryptCipher);
+        assertThat(plainDataStream.toByteArray()).isEqualTo(plainData);
     }
 
     @Test
@@ -493,18 +723,38 @@ class CryptoMxTest {
     }
 
     @Test
-    void testGenerateKeyPair_rsa() {
+    void testAsymmetricKeyPairGeneratorBuilder() {
         CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
 
-        KeyPair keyPair = CryptoMx.generateKeyPair(algorithm);
+        KeyPairGenerator keyPairGenerator = CryptoMx.AsymmetricKeyPairGeneratorBuilder.newBuilder(algorithm).build();
+        assertThat(keyPairGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testAsymmetricKeyPairGeneratorBuilder_random() {
+        CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+
+        KeyPairGenerator keyPairGenerator = CryptoMx.AsymmetricKeyPairGeneratorBuilder.newBuilder(algorithm).setKeySize(1024).setSecureRandom(randomAlgorithm)
+            .build();
+        assertThat(keyPairGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateKeyPair_rsa() {
+        CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
+        KeyPairGenerator keyPairGenerator = CryptoMx.AsymmetricKeyPairGeneratorBuilder.newBuilder(algorithm).build();
+
+        KeyPair keyPair = CryptoMx.generateKeyPair(keyPairGenerator);
         assertThat(keyPair.getPrivate().getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
     void testGenerateKeyPair_sm2() {
         CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.SM2_NONE_NOPADDING;
+        KeyPairGenerator keyPairGenerator = CryptoMx.AsymmetricKeyPairGeneratorBuilder.newBuilder(algorithm).build();
 
-        KeyPair keyPair = CryptoMx.generateKeyPair(algorithm);
+        KeyPair keyPair = CryptoMx.generateKeyPair(keyPairGenerator);
         assertThat(keyPair.getPrivate().getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
@@ -553,33 +803,57 @@ class CryptoMxTest {
     }
 
     @Test
-    void testEncrypt_rsa() {
+    void testGetCipher_asymmetric() {
         CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
+
+        Cipher cipher = CryptoMx.getCipher(algorithm);
+        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+    }
+
+    @Test
+    void testAsymmetricCipherBuilder() {
+        CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
+        byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
+
+        Cipher cipher = CryptoMx.AsymmetricCipherBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForDecrypt();
+        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+    }
+
+    @Test
+    void testAsymmetricCipherBuilder_random() {
+        CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+        byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
+
+        Cipher cipher = CryptoMx.AsymmetricCipherBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).setSecureRandom(randomAlgorithm)
+            .buildForDecrypt();
+        assertThat(cipher.getAlgorithm()).isEqualTo(algorithm.transformation);
+    }
+
+    @Test
+    void testAsymmetric_rsa() {
+        CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.RSA_NONE_PKCS1PADDING;
         byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
         byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
+        Cipher encryptCipher = CryptoMx.AsymmetricCipherBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.AsymmetricCipherBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        byte[] cipherData = CryptoMx.encryptPublic(plainData, publicKeyData, algorithm);
-        assertThat(CryptoMx.decryptPrivate(cipherData, privateKeyData, algorithm)).isEqualTo(plainData);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
-    void testEncrypt_sm2() {
+    void testAsymmetric_sm2() {
         CryptoAlgorithm.Asymmetric algorithm = CryptoAlgorithm.Asymmetric.SM2_NONE_NOPADDING;
-        byte[] plainData = UTF8.toBinary("沧海月明");
         byte[] privateKeyData = sm2KeyPair.getPrivate().getEncoded();
         byte[] publicKeyData = sm2KeyPair.getPublic().getEncoded();
+        Cipher encryptCipher = CryptoMx.AsymmetricCipherBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForEncrypt();
+        Cipher decryptCipher = CryptoMx.AsymmetricCipherBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForDecrypt();
+        byte[] plainData = UTF8.toBinary("沧海月明");
 
-        byte[] cipherData = CryptoMx.encryptPublic(plainData, publicKeyData, algorithm);
-        assertThat(CryptoMx.decryptPrivate(cipherData, privateKeyData, algorithm)).isEqualTo(plainData);
-    }
-
-    @Test
-    void testGetSignature() {
-        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
-
-        Signature signature = CryptoMx.getSignature(algorithm);
-        assertThat(signature.getAlgorithm()).isEqualTo(algorithm.signAlgorithm);
+        byte[] cipherData = CryptoMx.encrypt(plainData, encryptCipher);
+        assertThat(CryptoMx.decrypt(cipherData, decryptCipher)).isEqualTo(plainData);
     }
 
     @Test
@@ -591,18 +865,37 @@ class CryptoMxTest {
     }
 
     @Test
+    void testSignKeyPairGeneratorBuilder() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
+
+        KeyPairGenerator keyPairGenerator = CryptoMx.SignKeyPairGeneratorBuilder.newBuilder(algorithm).build();
+        assertThat(keyPairGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testSignKeyPairGeneratorBuilder_random() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+
+        KeyPairGenerator keyPairGenerator = CryptoMx.SignKeyPairGeneratorBuilder.newBuilder(algorithm).setKeySize(192).setSecureRandom(randomAlgorithm).build();
+        assertThat(keyPairGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
     void testGenerateKeyPair_sign_rsa() {
         CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SHA1_RSA;
+        KeyPairGenerator keyPairGenerator = CryptoMx.SignKeyPairGeneratorBuilder.newBuilder(algorithm).build();
 
-        KeyPair keyPair = CryptoMx.generateKeyPair(algorithm);
+        KeyPair keyPair = CryptoMx.generateKeyPair(keyPairGenerator);
         assertThat(keyPair.getPrivate().getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
     void testGenerateKeyPair_sign_sm2() {
         CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
+        KeyPairGenerator keyPairGenerator = CryptoMx.SignKeyPairGeneratorBuilder.newBuilder(algorithm).build();
 
-        KeyPair keyPair = CryptoMx.generateKeyPair(algorithm);
+        KeyPair keyPair = CryptoMx.generateKeyPair(keyPairGenerator);
         assertThat(keyPair.getPrivate().getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
@@ -651,24 +944,56 @@ class CryptoMxTest {
     }
 
     @Test
+    void testGetSignature() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
+
+        Signature signature = CryptoMx.getSignature(algorithm);
+        assertThat(signature.getAlgorithm()).isEqualTo(algorithm.signAlgorithm);
+    }
+
+    @Test
+    void testSignatureBuilder() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
+        byte[] privateKeyData = sm2KeyPair.getPrivate().getEncoded();
+
+        Signature signature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        assertThat(signature.getAlgorithm()).isEqualTo(algorithm.signAlgorithm);
+    }
+
+    @Test
+    void testSignatureBuilder_random() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+        byte[] privateKeyData = sm2KeyPair.getPrivate().getEncoded();
+
+        Signature signature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).setSecureRandom(randomAlgorithm)
+            .buildForSign();
+        assertThat(signature.getAlgorithm()).isEqualTo(algorithm.signAlgorithm);
+    }
+
+    @Test
     void testSign_rsa() {
         CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SHA1_RSA;
-        byte[] data = UTF8.toBinary("沧海月明");
         byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
         byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
+        Signature signSignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        Signature verifySignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForVerify();
+        byte[] data = UTF8.toBinary("沧海月明");
 
-        byte[] signature = CryptoMx.signPrivate(data, privateKeyData, algorithm);
-        assertThat(CryptoMx.verifyPublic(data, signature, publicKeyData, algorithm)).isTrue();
+        byte[] signature = CryptoMx.sign(data, signSignature);
+        assertThat(CryptoMx.verify(data, signature, verifySignature)).isTrue();
     }
 
     @Test
     void testSign_sm2() {
         CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
-        byte[] data = UTF8.toBinary("沧海月明");
         byte[] privateKeyData = sm2KeyPair.getPrivate().getEncoded();
         byte[] publicKeyData = sm2KeyPair.getPublic().getEncoded();
+        Signature signSignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        Signature verifySignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForVerify();
+        byte[] data = UTF8.toBinary("沧海月明");
 
-        byte[] signature = CryptoMx.signPrivate(data, privateKeyData, algorithm);
-        assertThat(CryptoMx.verifyPublic(data, signature, publicKeyData, algorithm)).isTrue();
+        byte[] signature = CryptoMx.sign(data, signSignature);
+        assertThat(CryptoMx.verify(data, signature, verifySignature)).isTrue();
     }
 }

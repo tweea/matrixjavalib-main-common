@@ -9,6 +9,8 @@ package net.matrix.security;
  */
 public final class CryptoConstant {
     // 随机数生成器算法
+    public static final String SYSTEM = "";
+
     public static final String DEFAULT = "Default";
 
     public static final String NONCE_AND_IV = "NonceAndIV";
@@ -32,6 +34,12 @@ public final class CryptoConstant {
 
     public static final String DES_ECB_PKCS5PADDING = "DES/ECB/Pkcs5Padding";
 
+    public static final String DES_CBC_NOPADDING = "DES/CBC/NoPadding";
+
+    public static final String DES_CBC_ZEROBYTEPADDING = "DES/CBC/ZeroBytePadding";
+
+    public static final String DES_CBC_PKCS5PADDING = "DES/CBC/Pkcs5Padding";
+
     /**
      * 密钥长度 16 或 24 字节。
      */
@@ -42,6 +50,12 @@ public final class CryptoConstant {
     public static final String DESEDE_ECB_ZEROBYTEPADDING = "DESede/ECB/ZeroBytePadding";
 
     public static final String DESEDE_ECB_PKCS5PADDING = "DESede/ECB/Pkcs5Padding";
+
+    public static final String DESEDE_CBC_NOPADDING = "DESede/CBC/NoPadding";
+
+    public static final String DESEDE_CBC_ZEROBYTEPADDING = "DESede/CBC/ZeroBytePadding";
+
+    public static final String DESEDE_CBC_PKCS5PADDING = "DESede/CBC/Pkcs5Padding";
 
     /**
      * 密钥长度 0 到 32 字节。
@@ -54,6 +68,12 @@ public final class CryptoConstant {
 
     public static final String AES_ECB_PKCS5PADDING = "AES/ECB/Pkcs5Padding";
 
+    public static final String AES_CBC_NOPADDING = "AES/CBC/NoPadding";
+
+    public static final String AES_CBC_ZEROBYTEPADDING = "AES/CBC/ZeroBytePadding";
+
+    public static final String AES_CBC_PKCS5PADDING = "AES/CBC/Pkcs5Padding";
+
     /**
      * 密钥长度 16 字节。
      */
@@ -64,6 +84,12 @@ public final class CryptoConstant {
     public static final String SM4_ECB_ZEROBYTEPADDING = "SM4/ECB/ZeroBytePadding";
 
     public static final String SM4_ECB_PKCS5PADDING = "SM4/ECB/Pkcs5Padding";
+
+    public static final String SM4_CBC_NOPADDING = "SM4/CBC/NoPadding";
+
+    public static final String SM4_CBC_ZEROBYTEPADDING = "SM4/CBC/ZeroBytePadding";
+
+    public static final String SM4_CBC_PKCS5PADDING = "SM4/CBC/Pkcs5Padding";
 
     // 非对称加密算法
     /**
