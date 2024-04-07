@@ -31,6 +31,13 @@ public class CryptoAlgorithmTest {
     }
 
     @Test
+    public void testMac() {
+        CryptoAlgorithm.Mac mac = CryptoAlgorithm.Mac.HMAC_MD5;
+
+        assertThat(CryptoAlgorithm.Mac.forCode(mac.algorithm)).isSameAs(mac);
+    }
+
+    @Test
     public void testAsymmetric() {
         CryptoAlgorithm.Asymmetric asymmetric = CryptoAlgorithm.Asymmetric.SM2_NONE_NOPADDING;
 

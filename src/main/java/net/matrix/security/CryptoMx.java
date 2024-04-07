@@ -32,6 +32,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
+import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.ShortBufferException;
@@ -39,6 +40,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.util.Arrays;
 
 /**
  * 加密算法工具。
@@ -579,7 +581,7 @@ public final class CryptoMx {
      * @param cipher
      *     加密算法实例。
      * @throws IOException
-     *     读取明文失败。
+     *     读取密文失败。
      */
     public static void decrypt(InputStream cipherData, OutputStream plainData, Cipher cipher)
         throws IOException {
@@ -881,7 +883,7 @@ public final class CryptoMx {
     /**
      * 秘钥生成器实例构建工具。
      */
-    public static class KeyGeneratorBuilder {
+    public static class SymmetricKeyGeneratorBuilder {
         /**
          * 秘钥生成器实例。
          */
@@ -900,7 +902,7 @@ public final class CryptoMx {
         /**
          * 阻止实例化。
          */
-        private KeyGeneratorBuilder() {
+        private SymmetricKeyGeneratorBuilder() {
         }
 
         /**
@@ -910,8 +912,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥生成器实例构建工具。
          */
-        public static KeyGeneratorBuilder newBuilder(String algorithm) {
-            KeyGeneratorBuilder builder = new KeyGeneratorBuilder();
+        public static SymmetricKeyGeneratorBuilder newBuilder(String algorithm) {
+            SymmetricKeyGeneratorBuilder builder = new SymmetricKeyGeneratorBuilder();
             builder.keyGenerator = getKeyGenerator(algorithm);
             return builder;
         }
@@ -923,8 +925,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥生成器实例构建工具。
          */
-        public static KeyGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
-            KeyGeneratorBuilder builder = new KeyGeneratorBuilder();
+        public static SymmetricKeyGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+            SymmetricKeyGeneratorBuilder builder = new SymmetricKeyGeneratorBuilder();
             builder.keyGenerator = getKeyGenerator(algorithm);
             return builder;
         }
@@ -936,7 +938,7 @@ public final class CryptoMx {
          *     秘钥长度。
          * @return 秘钥生成器实例构建工具。
          */
-        public KeyGeneratorBuilder setKeySize(int keySize) {
+        public SymmetricKeyGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
             return this;
         }
@@ -948,7 +950,7 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥生成器实例构建工具。
          */
-        public KeyGeneratorBuilder setSecureRandom(String algorithm) {
+        public SymmetricKeyGeneratorBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -960,7 +962,7 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥生成器实例构建工具。
          */
-        public KeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        public SymmetricKeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -972,7 +974,7 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 秘钥生成器实例构建工具。
          */
-        public KeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+        public SymmetricKeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -1233,6 +1235,360 @@ public final class CryptoMx {
             }
             return cipher;
         }
+    }
+
+    // 消息认证码算法
+    /**
+     * 获取对称加密算法秘钥生成器实例。
+     * 
+     * @param algorithm
+     *     算法枚举值。
+     * @return 秘钥生成器实例。
+     */
+    public static KeyGenerator getKeyGenerator(CryptoAlgorithm.Mac algorithm) {
+        return getKeyGenerator(algorithm.algorithm);
+    }
+
+    /**
+     * 秘钥生成器实例构建工具。
+     */
+    public static class MacKeyGeneratorBuilder {
+        /**
+         * 秘钥生成器实例。
+         */
+        private KeyGenerator keyGenerator;
+
+        /**
+         * 秘钥长度。
+         */
+        private int keySize;
+
+        /**
+         * 随机数生成器算法实例。
+         */
+        private SecureRandom secureRandom;
+
+        /**
+         * 阻止实例化。
+         */
+        private MacKeyGeneratorBuilder() {
+        }
+
+        /**
+         * 构造秘钥生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public static MacKeyGeneratorBuilder newBuilder(String algorithm) {
+            MacKeyGeneratorBuilder builder = new MacKeyGeneratorBuilder();
+            builder.keyGenerator = getKeyGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 构造秘钥生成器实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public static MacKeyGeneratorBuilder newBuilder(CryptoAlgorithm.Mac algorithm) {
+            MacKeyGeneratorBuilder builder = new MacKeyGeneratorBuilder();
+            builder.keyGenerator = getKeyGenerator(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置秘钥长度。
+         * 
+         * @param keySize
+         *     秘钥长度。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public MacKeyGeneratorBuilder setKeySize(int keySize) {
+            this.keySize = keySize;
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public MacKeyGeneratorBuilder setSecureRandom(String algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public MacKeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+            this.secureRandom = getSecureRandom(algorithm);
+            return this;
+        }
+
+        /**
+         * 设置随机数生成器算法实例。
+         * 
+         * @param secureRandom
+         *     随机数生成器算法实例。
+         * @return 秘钥生成器实例构建工具。
+         */
+        public MacKeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+            this.secureRandom = secureRandom;
+            return this;
+        }
+
+        /**
+         * 构建秘钥生成器实例。
+         * 
+         * @return 秘钥生成器实例。
+         */
+        public KeyGenerator build() {
+            if (keySize == 0) {
+                if (secureRandom != null) {
+                    initKeyGenerator(keyGenerator, secureRandom);
+                }
+            } else {
+                if (secureRandom == null) {
+                    initKeyGenerator(keyGenerator, keySize);
+                } else {
+                    initKeyGenerator(keyGenerator, keySize, secureRandom);
+                }
+            }
+            return keyGenerator;
+        }
+    }
+
+    /**
+     * 获取对称加密算法秘钥实例。
+     * 
+     * @param keyData
+     *     秘钥。
+     * @param algorithm
+     *     算法枚举值。
+     * @return 秘钥实例。
+     */
+    public static SecretKey getSecretKey(byte[] keyData, CryptoAlgorithm.Mac algorithm) {
+        return getSecretKey(keyData, algorithm.algorithm);
+    }
+
+    /**
+     * 获取消息认证码算法实例。
+     * 
+     * @param algorithm
+     *     算法名称。
+     * @return 消息认证码算法实例。
+     */
+    public static Mac getMac(String algorithm) {
+        try {
+            return Mac.getInstance(algorithm, PROVIDER);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 获取消息认证码算法实例。
+     * 
+     * @param algorithm
+     *     算法枚举值。
+     * @return 消息认证码算法实例。
+     */
+    public static Mac getMac(CryptoAlgorithm.Mac algorithm) {
+        return getMac(algorithm.algorithm);
+    }
+
+    /**
+     * 初始化消息认证码算法实例秘钥。
+     * 
+     * @param mac
+     *     消息认证码算法实例。
+     * @param key
+     *     秘钥。
+     */
+    public static void initMac(Mac mac, Key key) {
+        try {
+            mac.init(key);
+        } catch (InvalidKeyException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    /**
+     * 消息认证码算法实例构建工具。
+     */
+    public static class MacBuilder {
+        /**
+         * 消息认证码算法实例。
+         */
+        private Mac mac;
+
+        /**
+         * 秘钥。
+         */
+        private Key key;
+
+        /**
+         * 阻止实例化。
+         */
+        private MacBuilder() {
+        }
+
+        /**
+         * 构造消息认证码算法实例构建工具。
+         * 
+         * @param algorithm
+         *     算法名称。
+         * @return 消息认证码算法实例构建工具。
+         */
+        public static MacBuilder newBuilder(String algorithm) {
+            MacBuilder builder = new MacBuilder();
+            builder.mac = getMac(algorithm);
+            return builder;
+        }
+
+        /**
+         * 构造消息认证码算法实例构建工具。
+         * 
+         * @param algorithm
+         *     算法枚举值。
+         * @return 消息认证码算法实例构建工具。
+         */
+        public static MacBuilder newBuilder(CryptoAlgorithm.Mac algorithm) {
+            MacBuilder builder = new MacBuilder();
+            builder.mac = getMac(algorithm);
+            return builder;
+        }
+
+        /**
+         * 设置秘钥。
+         * 
+         * @param keyData
+         *     秘钥。
+         * @param algorithm
+         *     算法名称。
+         * @return 消息认证码算法实例构建工具。
+         */
+        public MacBuilder setKey(byte[] keyData, String algorithm) {
+            this.key = getSecretKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置秘钥。
+         * 
+         * @param keyData
+         *     秘钥。
+         * @param algorithm
+         *     算法枚举值。
+         * @return 消息认证码算法实例构建工具。
+         */
+        public MacBuilder setKey(byte[] keyData, CryptoAlgorithm.Mac algorithm) {
+            this.key = getSecretKey(keyData, algorithm);
+            return this;
+        }
+
+        /**
+         * 设置秘钥。
+         * 
+         * @param key
+         *     秘钥。
+         * @return 消息认证码算法实例构建工具。
+         */
+        public MacBuilder setKey(SecretKey key) {
+            this.key = key;
+            return this;
+        }
+
+        /**
+         * 构建消息认证码算法实例。
+         * 
+         * @return 消息认证码算法实例。
+         */
+        public Mac build() {
+            initMac(mac, key);
+            return mac;
+        }
+    }
+
+    /**
+     * 生成消息认证码。
+     * 
+     * @param plainData
+     *     数据。
+     * @param mac
+     *     消息认证码算法实例。
+     * @return 消息认证码。
+     */
+    public static byte[] sign(byte[] plainData, Mac mac) {
+        mac.update(plainData);
+        return mac.doFinal();
+    }
+
+    /**
+     * 生成消息认证码。
+     * 
+     * @param plainData
+     *     数据。
+     * @param mac
+     *     消息认证码算法实例。
+     * @return 消息认证码。
+     * @throws IOException
+     *     读取数据失败。
+     */
+    public static byte[] sign(InputStream plainData, Mac mac)
+        throws IOException {
+        byte[] input = new byte[8 * 1024];
+        int readLength = -1;
+        while ((readLength = IOUtils.read(plainData, input)) > 0) {
+            mac.update(input, 0, readLength);
+        }
+        return mac.doFinal();
+    }
+
+    /**
+     * 验证消息认证码。
+     * 
+     * @param plainData
+     *     数据。
+     * @param signData
+     *     消息认证码。
+     * @param mac
+     *     消息认证码算法实例。
+     * @return 是否通过验证。
+     */
+    public static boolean verify(byte[] plainData, byte[] signData, Mac mac) {
+        byte[] actualSignData = sign(plainData, mac);
+        return Arrays.constantTimeAreEqual(actualSignData, signData);
+    }
+
+    /**
+     * 验证消息认证码。
+     * 
+     * @param plainData
+     *     数据。
+     * @param signData
+     *     消息认证码。
+     * @param mac
+     *     消息认证码算法实例。
+     * @return 是否通过验证。
+     * @throws IOException
+     *     读取数据失败。
+     */
+    public static boolean verify(InputStream plainData, byte[] signData, Mac mac)
+        throws IOException {
+        byte[] actualSignData = sign(plainData, mac);
+        return Arrays.constantTimeAreEqual(actualSignData, signData);
     }
 
     // 非对称加密算法
@@ -2146,15 +2502,15 @@ public final class CryptoMx {
     /**
      * 生成签名。
      * 
-     * @param data
+     * @param plainData
      *     数据。
      * @param signature
      *     签名算法实例。
      * @return 签名。
      */
-    public static byte[] sign(byte[] data, Signature signature) {
+    public static byte[] sign(byte[] plainData, Signature signature) {
         try {
-            signature.update(data);
+            signature.update(plainData);
             return signature.sign();
         } catch (SignatureException e) {
             throw new IllegalArgumentException(e);
@@ -2164,7 +2520,7 @@ public final class CryptoMx {
     /**
      * 验证签名。
      * 
-     * @param data
+     * @param plainData
      *     数据。
      * @param signData
      *     签名。
@@ -2172,9 +2528,9 @@ public final class CryptoMx {
      *     签名算法实例。
      * @return 是否通过验证。
      */
-    public static boolean verify(byte[] data, byte[] signData, Signature signature) {
+    public static boolean verify(byte[] plainData, byte[] signData, Signature signature) {
         try {
-            signature.update(data);
+            signature.update(plainData);
             return signature.verify(signData);
         } catch (SignatureException e) {
             throw new IllegalArgumentException(e);

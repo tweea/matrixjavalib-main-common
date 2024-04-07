@@ -172,6 +172,39 @@ public class CryptoAlgorithm {
     }
 
     /**
+     * 消息认证码算法。
+     */
+    public enum Mac {
+        HMAC_MD5(CryptoConstant.HMAC_MD5),
+
+        HMAC_SHA1(CryptoConstant.HMAC_SHA1),
+
+        HMAC_SM3(CryptoConstant.HMAC_SM3);
+
+        private static final Map<String, Mac> CODE_MAP = EnumMx.buildValueMap(Mac.class, v -> v.algorithm);
+
+        /**
+         * 算法名称。
+         */
+        public final String algorithm;
+
+        Mac(String algorithm) {
+            this.algorithm = algorithm;
+        }
+
+        /**
+         * 算法名称转换为枚举值。
+         * 
+         * @param code
+         *     算法名称。
+         * @return 枚举值。
+         */
+        public static Mac forCode(String code) {
+            return CODE_MAP.get(code);
+        }
+    }
+
+    /**
      * 非对称加密算法。
      */
     public enum Asymmetric {

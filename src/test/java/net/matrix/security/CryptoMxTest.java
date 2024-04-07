@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -207,7 +208,7 @@ class CryptoMxTest {
     }
 
     @Test
-    void testGetKeyGenerator() {
+    void testGetKeyGenerator_symmetric() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
 
         KeyGenerator keyGenerator = CryptoMx.getKeyGenerator(algorithm);
@@ -215,26 +216,26 @@ class CryptoMxTest {
     }
 
     @Test
-    void testKeyGeneratorBuilder() {
+    void testSymmetricKeyGeneratorBuilder() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
 
-        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
+        KeyGenerator keyGenerator = CryptoMx.SymmetricKeyGeneratorBuilder.newBuilder(algorithm).build();
         assertThat(keyGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
-    void testKeyGeneratorBuilder_random() {
+    void testSymmetricKeyGeneratorBuilder_random() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
         CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
 
-        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).setSecureRandom(randomAlgorithm).build();
+        KeyGenerator keyGenerator = CryptoMx.SymmetricKeyGeneratorBuilder.newBuilder(algorithm).setSecureRandom(randomAlgorithm).build();
         assertThat(keyGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
     }
 
     @Test
     void testGenerateSecretKey_des() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DES_ECB_NOPADDING;
-        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
+        KeyGenerator keyGenerator = CryptoMx.SymmetricKeyGeneratorBuilder.newBuilder(algorithm).build();
 
         SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
@@ -243,7 +244,7 @@ class CryptoMxTest {
     @Test
     void testGenerateSecretKey_desede() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.DESEDE_ECB_NOPADDING;
-        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
+        KeyGenerator keyGenerator = CryptoMx.SymmetricKeyGeneratorBuilder.newBuilder(algorithm).build();
 
         SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
@@ -252,7 +253,7 @@ class CryptoMxTest {
     @Test
     void testGenerateSecretKey_aes() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.AES_ECB_NOPADDING;
-        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
+        KeyGenerator keyGenerator = CryptoMx.SymmetricKeyGeneratorBuilder.newBuilder(algorithm).build();
 
         SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
@@ -261,7 +262,7 @@ class CryptoMxTest {
     @Test
     void testGenerateSecretKey_sm4() {
         CryptoAlgorithm.Symmetric algorithm = CryptoAlgorithm.Symmetric.SM4_ECB_NOPADDING;
-        KeyGenerator keyGenerator = CryptoMx.KeyGeneratorBuilder.newBuilder(algorithm).build();
+        KeyGenerator keyGenerator = CryptoMx.SymmetricKeyGeneratorBuilder.newBuilder(algorithm).build();
 
         SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
         assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
@@ -712,6 +713,147 @@ class CryptoMxTest {
         ByteArrayOutputStream plainDataStream = new ByteArrayOutputStream();
         CryptoMx.decrypt(new ByteArrayInputStream(cipherDataStream.toByteArray()), plainDataStream, decryptCipher);
         assertThat(plainDataStream.toByteArray()).isEqualTo(plainData);
+    }
+
+    @Test
+    void testGetKeyGenerator_mac() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+
+        KeyGenerator keyGenerator = CryptoMx.getKeyGenerator(algorithm);
+        assertThat(keyGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testMacKeyGeneratorBuilder() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+        assertThat(keyGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testMacKeyGeneratorBuilder_random() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+        CryptoAlgorithm.Random randomAlgorithm = CryptoAlgorithm.Random.DEFAULT;
+
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).setSecureRandom(randomAlgorithm).build();
+        assertThat(keyGenerator.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateSecretKey_hmac_md5() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_MD5;
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
+        assertThat(secretKey.getAlgorithm()).isEqualToIgnoringCase(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateSecretKey_hmac_sha1() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA1;
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
+        assertThat(secretKey.getAlgorithm()).isEqualToIgnoringCase(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateSecretKey_hmac_sm3() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
+        assertThat(secretKey.getAlgorithm()).isEqualToIgnoringCase(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetSecretKey_hmac_md5() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_MD5;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
+        assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetSecretKey_hmac_sha1() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA1;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
+        assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetSecretKey_hmac_sm3() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
+        assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetMac() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+
+        Mac mac = CryptoMx.getMac(algorithm);
+        assertThat(mac.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testMacBuilder() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        assertThat(mac.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testSign_md5() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_MD5;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, mac);
+        assertThat(CryptoMx.verify(data, signature, mac)).isTrue();
+    }
+
+    @Test
+    void testSign_sha1() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA1;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, mac);
+        assertThat(CryptoMx.verify(data, signature, mac)).isTrue();
+    }
+
+    @Test
+    void testSign_sm3() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, mac);
+        assertThat(CryptoMx.verify(data, signature, mac)).isTrue();
+    }
+
+    @Test
+    void testSign_stream()
+        throws IOException {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(new ByteArrayInputStream(data), mac);
+        assertThat(CryptoMx.verify(new ByteArrayInputStream(data), signature, mac)).isTrue();
     }
 
     @Test

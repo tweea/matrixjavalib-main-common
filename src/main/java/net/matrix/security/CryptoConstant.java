@@ -91,6 +91,13 @@ public final class CryptoConstant {
 
     public static final String SM4_CBC_PKCS5PADDING = "SM4/CBC/Pkcs5Padding";
 
+    // 消息认证码算法
+    public static final String HMAC_MD5 = "HmacMD5";
+
+    public static final String HMAC_SHA1 = "HmacSHA1";
+
+    public static final String HMAC_SM3 = "HmacSM3";
+
     // 非对称加密算法
     /**
      * 密钥长度足够大。
