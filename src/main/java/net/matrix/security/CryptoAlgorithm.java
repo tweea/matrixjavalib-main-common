@@ -53,6 +53,14 @@ public class CryptoAlgorithm {
 
         SHA1(CryptoConstant.SHA1),
 
+        SHA_256(CryptoConstant.SHA_256),
+
+        SHA_512(CryptoConstant.SHA_512),
+
+        SHA3_256(CryptoConstant.SHA3_256),
+
+        SHA3_512(CryptoConstant.SHA3_512),
+
         SM3(CryptoConstant.SM3);
 
         private static final Map<String, Digest> CODE_MAP = EnumMx.buildValueMap(Digest.class, v -> v.algorithm);
@@ -179,6 +187,14 @@ public class CryptoAlgorithm {
 
         HMAC_SHA1(CryptoConstant.HMAC_SHA1),
 
+        HMAC_SHA_256(CryptoConstant.HMAC_SHA_256),
+
+        HMAC_SHA_512(CryptoConstant.HMAC_SHA_512),
+
+        HMAC_SHA3_256(CryptoConstant.HMAC_SHA3_256),
+
+        HMAC_SHA3_512(CryptoConstant.HMAC_SHA3_512),
+
         HMAC_SM3(CryptoConstant.HMAC_SM3);
 
         private static final Map<String, Mac> CODE_MAP = EnumMx.buildValueMap(Mac.class, v -> v.algorithm);
@@ -252,9 +268,34 @@ public class CryptoAlgorithm {
      */
     public enum Sign {
         /**
+         * MD5 和 RSA。
+         */
+        MD5_RSA(CryptoConstant.RSA, CryptoConstant.MD5_RSA),
+
+        /**
          * SHA1 和 RSA。
          */
         SHA1_RSA(CryptoConstant.RSA, CryptoConstant.SHA1_RSA),
+
+        /**
+         * SHA-256 和 RSA。
+         */
+        SHA_256_RSA(CryptoConstant.RSA, CryptoConstant.SHA_256_RSA),
+
+        /**
+         * SHA-512 和 RSA。
+         */
+        SHA_512_RSA(CryptoConstant.RSA, CryptoConstant.SHA_512_RSA),
+
+        /**
+         * SHA3-256 和 RSA。
+         */
+        SHA3_256_RSA(CryptoConstant.RSA, CryptoConstant.SHA3_256_RSA),
+
+        /**
+         * SHA3-512 和 RSA。
+         */
+        SHA3_512_RSA(CryptoConstant.RSA, CryptoConstant.SHA3_512_RSA),
 
         /**
          * SM3 和 SM2。

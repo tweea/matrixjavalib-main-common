@@ -84,6 +84,48 @@ class CryptoMxTest {
     }
 
     @Test
+    void testDigest_sha_256() {
+        CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.SHA_256;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
+        byte[] plainData = UTF8.toBinary("沧海月明");
+        byte[] digestData = HEX.toBinary("730ae9764b6a5a2941df2585ced49102daf40c8e0391773f3614e22fc5528b0c");
+
+        assertThat(CryptoMx.digest(plainData, digest)).isEqualTo(digestData);
+    }
+
+    @Test
+    void testDigest_sha_512() {
+        CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.SHA_512;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
+        byte[] plainData = UTF8.toBinary("沧海月明");
+        byte[] digestData = HEX
+            .toBinary("533f1d08cfc5fac9d34d48e578a11484bd3408d168654142b383e015bcaa51e8a9ee848243e4408d5611494c73d32d2e4b766fc17389a8e520f82f4d02d4439d");
+
+        assertThat(CryptoMx.digest(plainData, digest)).isEqualTo(digestData);
+    }
+
+    @Test
+    void testDigest_sha3_256() {
+        CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.SHA3_256;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
+        byte[] plainData = UTF8.toBinary("沧海月明");
+        byte[] digestData = HEX.toBinary("2fbf751fb88bedd6e897f97e3541f04d0c7d342184f7da383619e6e7c8c11437");
+
+        assertThat(CryptoMx.digest(plainData, digest)).isEqualTo(digestData);
+    }
+
+    @Test
+    void testDigest_sha3_512() {
+        CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.SHA3_512;
+        MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
+        byte[] plainData = UTF8.toBinary("沧海月明");
+        byte[] digestData = HEX
+            .toBinary("69d11dc6355a338e9f4c3d94419f9ad22084cf0b335ee0c564238fe223d02f37818516c1487555a1d8c4fdf8140cc274e2a934ecaa4d852881c2fefec2af7a88");
+
+        assertThat(CryptoMx.digest(plainData, digest)).isEqualTo(digestData);
+    }
+
+    @Test
     void testDigest_sm3() {
         CryptoAlgorithm.Digest algorithm = CryptoAlgorithm.Digest.SM3;
         MessageDigest digest = CryptoMx.getMessageDigest(algorithm);
@@ -759,6 +801,42 @@ class CryptoMxTest {
     }
 
     @Test
+    void testGenerateSecretKey_hmac_sha_256() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA_256;
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
+        assertThat(secretKey.getAlgorithm()).isEqualToIgnoringCase(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateSecretKey_hmac_sha_512() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA_512;
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
+        assertThat(secretKey.getAlgorithm()).isEqualToIgnoringCase(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateSecretKey_hmac_sha3_256() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA3_256;
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
+        assertThat(secretKey.getAlgorithm()).isEqualToIgnoringCase(algorithm.algorithm);
+    }
+
+    @Test
+    void testGenerateSecretKey_hmac_sha3_512() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA3_512;
+        KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
+
+        SecretKey secretKey = CryptoMx.generateSecretKey(keyGenerator);
+        assertThat(secretKey.getAlgorithm()).isEqualToIgnoringCase(algorithm.algorithm);
+    }
+
+    @Test
     void testGenerateSecretKey_hmac_sm3() {
         CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SM3;
         KeyGenerator keyGenerator = CryptoMx.MacKeyGeneratorBuilder.newBuilder(algorithm).build();
@@ -779,6 +857,42 @@ class CryptoMxTest {
     @Test
     void testGetSecretKey_hmac_sha1() {
         CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA1;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
+        assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetSecretKey_hmac_sha_256() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA_256;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
+        assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetSecretKey_hmac_sha_512() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA_512;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
+        assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetSecretKey_hmac_sha3_256() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA3_256;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+
+        SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
+        assertThat(secretKey.getAlgorithm()).isEqualTo(algorithm.algorithm);
+    }
+
+    @Test
+    void testGetSecretKey_hmac_sha3_512() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA3_512;
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
 
         SecretKey secretKey = CryptoMx.getSecretKey(keyData, algorithm);
@@ -825,6 +939,50 @@ class CryptoMxTest {
     @Test
     void testSign_sha1() {
         CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA1;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, mac);
+        assertThat(CryptoMx.verify(data, signature, mac)).isTrue();
+    }
+
+    @Test
+    void testSign_sha_256() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA_256;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, mac);
+        assertThat(CryptoMx.verify(data, signature, mac)).isTrue();
+    }
+
+    @Test
+    void testSign_sha_512() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA_512;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, mac);
+        assertThat(CryptoMx.verify(data, signature, mac)).isTrue();
+    }
+
+    @Test
+    void testSign_sha3_256() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA3_256;
+        byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
+        Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, mac);
+        assertThat(CryptoMx.verify(data, signature, mac)).isTrue();
+    }
+
+    @Test
+    void testSign_sha3_512() {
+        CryptoAlgorithm.Mac algorithm = CryptoAlgorithm.Mac.HMAC_SHA3_512;
         byte[] keyData = HEX.toBinary("ae44c3716e699e8c");
         Mac mac = CryptoMx.MacBuilder.newBuilder(algorithm).setKey(keyData, algorithm).build();
         byte[] data = UTF8.toBinary("沧海月明");
@@ -1114,7 +1272,20 @@ class CryptoMxTest {
     }
 
     @Test
-    void testSign_rsa() {
+    void testSign_md5_rsa() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.MD5_RSA;
+        byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
+        byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
+        Signature signSignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        Signature verifySignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForVerify();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, signSignature);
+        assertThat(CryptoMx.verify(data, signature, verifySignature)).isTrue();
+    }
+
+    @Test
+    void testSign_sha1_rsa() {
         CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SHA1_RSA;
         byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
         byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
@@ -1127,7 +1298,59 @@ class CryptoMxTest {
     }
 
     @Test
-    void testSign_sm2() {
+    void testSign_sha_256_rsa() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SHA_256_RSA;
+        byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
+        byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
+        Signature signSignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        Signature verifySignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForVerify();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, signSignature);
+        assertThat(CryptoMx.verify(data, signature, verifySignature)).isTrue();
+    }
+
+    @Test
+    void testSign_sha_512_rsa() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SHA_512_RSA;
+        byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
+        byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
+        Signature signSignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        Signature verifySignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForVerify();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, signSignature);
+        assertThat(CryptoMx.verify(data, signature, verifySignature)).isTrue();
+    }
+
+    @Test
+    void testSign_sha3_256_rsa() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SHA3_256_RSA;
+        byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
+        byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
+        Signature signSignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        Signature verifySignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForVerify();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, signSignature);
+        assertThat(CryptoMx.verify(data, signature, verifySignature)).isTrue();
+    }
+
+    @Test
+    void testSign_sha3_512_rsa() {
+        CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SHA3_512_RSA;
+        byte[] privateKeyData = rsaKeyPair.getPrivate().getEncoded();
+        byte[] publicKeyData = rsaKeyPair.getPublic().getEncoded();
+        Signature signSignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPrivateKey(privateKeyData, algorithm).buildForSign();
+        Signature verifySignature = CryptoMx.SignatureBuilder.newBuilder(algorithm).setPublicKey(publicKeyData, algorithm).buildForVerify();
+        byte[] data = UTF8.toBinary("沧海月明");
+
+        byte[] signature = CryptoMx.sign(data, signSignature);
+        assertThat(CryptoMx.verify(data, signature, verifySignature)).isTrue();
+    }
+
+    @Test
+    void testSign_sm3_sm2() {
         CryptoAlgorithm.Sign algorithm = CryptoAlgorithm.Sign.SM3_SM2;
         byte[] privateKeyData = sm2KeyPair.getPrivate().getEncoded();
         byte[] publicKeyData = sm2KeyPair.getPublic().getEncoded();

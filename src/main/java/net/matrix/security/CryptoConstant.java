@@ -20,6 +20,14 @@ public final class CryptoConstant {
 
     public static final String SHA1 = "SHA1";
 
+    public static final String SHA_256 = "SHA-256";
+
+    public static final String SHA_512 = "SHA-512";
+
+    public static final String SHA3_256 = "SHA3-256";
+
+    public static final String SHA3_512 = "SHA3-512";
+
     public static final String SM3 = "SM3";
 
     // 对称加密算法
@@ -96,6 +104,14 @@ public final class CryptoConstant {
 
     public static final String HMAC_SHA1 = "HmacSHA1";
 
+    public static final String HMAC_SHA_256 = "HmacSHA256";
+
+    public static final String HMAC_SHA_512 = "HmacSHA512";
+
+    public static final String HMAC_SHA3_256 = "HmacSHA3-256";
+
+    public static final String HMAC_SHA3_512 = "HmacSHA3-512";
+
     public static final String HMAC_SM3 = "HmacSM3";
 
     // 非对称加密算法
@@ -114,7 +130,17 @@ public final class CryptoConstant {
     public static final String SM2_NONE_NOPADDING = "SM2/NONE/NoPadding";
 
     // 签名算法
+    public static final String MD5_RSA = "MD5withRSA";
+
     public static final String SHA1_RSA = "SHA1withRSA";
+
+    public static final String SHA_256_RSA = "SHA256withRSA";
+
+    public static final String SHA_512_RSA = "SHA512withRSA";
+
+    public static final String SHA3_256_RSA = "SHA3-256withRSA";
+
+    public static final String SHA3_512_RSA = "SHA3-512withRSA";
 
     public static final String SM3_SM2 = "SM3withSM2";
 
