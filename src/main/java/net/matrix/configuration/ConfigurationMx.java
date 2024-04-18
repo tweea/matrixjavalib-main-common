@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.configuration;
@@ -14,26 +14,26 @@ import com.google.common.collect.Maps;
 /**
  * 配置对象工具。
  */
-public final class ConfigurationUtils2 {
+public final class ConfigurationMx {
     /**
      * 阻止实例化。
      */
-    private ConfigurationUtils2() {
+    private ConfigurationMx() {
     }
 
     /**
-     * 转换一个配置对象的内容为 {@link Map} 对象。
+     * 从配置对象内容构造 {@link Map} 形式映射关系。
      * 
      * @param config
-     *     配置对象
-     * @return {@link Map} 对象
+     *     配置对象。
+     * @return 映射关系。
      */
-    public static Map<String, String> parseAttributes(final Configuration config) {
-        Map<String, String> parameters = Maps.newHashMapWithExpectedSize(config.size());
+    public static Map<String, String> buildMap(Configuration config) {
+        Map<String, String> map = Maps.newHashMapWithExpectedSize(config.size());
         for (String key : IteratorUtils.asIterable(config.getKeys())) {
             String value = config.getString(key);
-            parameters.put(key, value);
+            map.put(key, value);
         }
-        return parameters;
+        return map;
     }
 }

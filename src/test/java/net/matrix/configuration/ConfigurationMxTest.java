@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.configuration;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConfigurationUtils2Test {
+public class ConfigurationMxTest {
     private HierarchicalConfiguration config;
 
     @BeforeEach
@@ -24,11 +24,11 @@ public class ConfigurationUtils2Test {
     }
 
     @Test
-    public void testParseAttributes() {
+    public void testBuildMap() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders.target(2).properties(0)");
 
-        Map<String, String> parameter = ConfigurationUtils2.parseAttributes(testConfig);
-        assertThat(parameter).hasSize(testConfig.size());
-        assertThat(parameter).containsEntry("[@name]", "url");
+        Map<String, String> configMap = ConfigurationMx.buildMap(testConfig);
+        assertThat(configMap).hasSize(testConfig.size());
+        assertThat(configMap).containsEntry("[@name]", "url");
     }
 }
