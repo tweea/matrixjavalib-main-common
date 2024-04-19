@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.configuration;
@@ -19,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
+import net.matrix.text.ResourceBundleMessageFormatter;
+
 /**
  * 读取 XML 格式的配置对象容器。
  */
@@ -28,6 +30,11 @@ public class XMLConfigurationContainer
      * 日志记录器。
      */
     private static final Logger LOG = LoggerFactory.getLogger(XMLConfigurationContainer.class);
+
+    /**
+     * 区域相关资源。
+     */
+    private static final ResourceBundleMessageFormatter RBMF = new ResourceBundleMessageFormatter(XMLConfigurationContainer.class).useCurrentLocale();
 
     /**
      * 配置对象构建器初始参数。
@@ -45,12 +52,12 @@ public class XMLConfigurationContainer
     private Resource resource;
 
     /**
-     * 能否检查配置是否需要重新加载。
+     * 是否支持检查配置是否需要重新加载。
      */
     private boolean canCheckReload;
 
     /**
-     * 构造未加载资源的实例。
+     * 构造器，未加载资源。
      */
     public XMLConfigurationContainer() {
         this.configBuilder = new ReloadingFileBasedConfigurationBuilder<>(XMLConfiguration.class);
@@ -62,9 +69,11 @@ public class XMLConfigurationContainer
     }
 
     @Override
-    public void load(final Resource newResource)
+    public void load(Resource newResource)
         throws ConfigurationException {
-        LOG.debug("从资源 {} 加载配置", newResource);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(RBMF.get("从资源 {} 加载配置"), newResource);
+        }
 
         configBuilder.reset();
         resource = newResource;
@@ -75,7 +84,9 @@ public class XMLConfigurationContainer
             configBuilderParameters.setURL(resource.getURL());
             canCheckReload = true;
         } catch (IOException e) {
-            LOG.trace("从资源 {} 尝试使用 URL 方式加载配置失败", resource, e);
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(RBMF.get("从资源 {} 尝试使用 URL 方式加载配置失败"), resource, e);
+            }
         }
         configBuilder.configure(configBuilderParameters);
         loadConfig();
@@ -126,13 +137,15 @@ public class XMLConfigurationContainer
 
     @Override
     public void reset() {
-        LOG.debug("资源 {} 的配置对象 {} 状态重置", resource, this);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(RBMF.get("资源 {} 的配置对象 {} 状态重置"), resource, this);
+        }
     }
 
     /**
      * 构建配置对象构建器参数。
      * 
-     * @return 配置对象构建器参数
+     * @return 配置对象构建器参数。
      */
     protected XMLBuilderParameters buildConfigBuilderParameters() {
         XMLBuilderParameters configBuilderParameters = PARAMETERS.xml();
@@ -146,7 +159,7 @@ public class XMLConfigurationContainer
      * 在解析配置内容时是否禁用分隔符。如果使用分隔符，配置内容中包含分隔符的内容会被解析为数组，否则解析为单个值。
      * 默认实现为使用分隔符。
      * 
-     * @return 是否禁用分隔符
+     * @return 是否禁用分隔符。
      */
     protected boolean isDelimiterParsingDisabled() {
         return false;
@@ -156,7 +169,7 @@ public class XMLConfigurationContainer
      * 在解析配置内容时使用的分隔符。
      * 默认实现为英文逗号。
      * 
-     * @return 分隔符
+     * @return 分隔符。
      */
     protected char getDelimiter() {
         return ',';

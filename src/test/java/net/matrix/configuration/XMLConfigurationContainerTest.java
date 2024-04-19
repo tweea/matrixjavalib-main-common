@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.configuration;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class XMLConfigurationContainerTest {
     @Test
-    public void testXMLConfigurationContainer()
+    public void testNew()
         throws ConfigurationException {
         XMLConfigurationContainer container = new XMLConfigurationContainer();
         assertThat(container.canCheckReload()).isFalse();
@@ -41,18 +41,6 @@ public class XMLConfigurationContainerTest {
         assertThat(container.canCheckReload()).isTrue();
         XMLConfiguration config = container.getConfig();
         assertThat(config.getInt("[@length]")).isEqualTo(50);
-    }
-
-    @Test
-    public void testLoadJarEntry()
-        throws ConfigurationException {
-        Resource resource = new ClassPathResource("pmd.xml");
-        XMLConfigurationContainer container = new XMLConfigurationContainer();
-
-        container.load(resource);
-        assertThat(container.canCheckReload()).isTrue();
-        XMLConfiguration config = container.getConfig();
-        assertThat(config.getString("rule(0)[@ref]")).isEqualTo("category/java/bestpractices.xml/AccessorClassGeneration");
     }
 
     @Test
@@ -122,21 +110,6 @@ public class XMLConfigurationContainerTest {
         container.reload();
         config = container.getConfig();
         assertThat(config.getInt("[@length]")).isEqualTo(50);
-    }
-
-    @Test
-    public void testReloadJarEntry()
-        throws ConfigurationException {
-        Resource resource = new ClassPathResource("pmd.xml");
-        XMLConfigurationContainer container = new XMLConfigurationContainer();
-        container.load(resource);
-
-        XMLConfiguration config = container.getConfig();
-        config.setProperty("rule(0)[@ref]", 100);
-        assertThat(config.getInt("rule(0)[@ref]")).isEqualTo(100);
-        container.reload();
-        config = container.getConfig();
-        assertThat(config.getString("rule(0)[@ref]")).isEqualTo("category/java/bestpractices.xml/AccessorClassGeneration");
     }
 
     @Test

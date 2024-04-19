@@ -617,7 +617,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 对称加密算法参数生成器实例构建工具。
+     * 对称加密算法参数生成器实例构建器。
      */
     public static class SymmetricAlgorithmParameterGeneratorBuilder {
         /**
@@ -642,11 +642,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造加密算法参数生成器实例构建工具。
+         * 构造加密算法参数生成器实例构建器。
          * 
          * @param algorithm
          *     算法名称。
-         * @return 加密算法参数生成器实例构建工具。
+         * @return 加密算法参数生成器实例构建器。
          */
         public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(String algorithm) {
             SymmetricAlgorithmParameterGeneratorBuilder builder = new SymmetricAlgorithmParameterGeneratorBuilder();
@@ -655,11 +655,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造加密算法参数生成器实例构建工具。
+         * 构造加密算法参数生成器实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 加密算法参数生成器实例构建工具。
+         * @return 加密算法参数生成器实例构建器。
          */
         public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
             SymmetricAlgorithmParameterGeneratorBuilder builder = new SymmetricAlgorithmParameterGeneratorBuilder();
@@ -672,7 +672,7 @@ public final class CryptoMx {
          * 
          * @param size
          *     参数长度。
-         * @return 加密算法参数生成器实例构建工具。
+         * @return 加密算法参数生成器实例构建器。
          */
         public SymmetricAlgorithmParameterGeneratorBuilder setSize(int size) {
             this.size = size;
@@ -684,7 +684,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 加密算法参数生成器实例构建工具。
+         * @return 加密算法参数生成器实例构建器。
          */
         public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -696,7 +696,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 加密算法参数生成器实例构建工具。
+         * @return 加密算法参数生成器实例构建器。
          */
         public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -708,7 +708,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 加密算法参数生成器实例构建工具。
+         * @return 加密算法参数生成器实例构建器。
          */
         public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
@@ -748,7 +748,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 对称加密算法参数实例构建工具。
+     * 对称加密算法参数实例构建器。
      */
     public static class SymmetricAlgorithmParameterBuilder {
         /**
@@ -768,11 +768,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造加密算法参数实例构建工具。
+         * 构造加密算法参数实例构建器。
          * 
          * @param algorithm
          *     算法名称。
-         * @return 加密算法参数实例构建工具。
+         * @return 加密算法参数实例构建器。
          */
         public static SymmetricAlgorithmParameterBuilder newBuilder(String algorithm) {
             SymmetricAlgorithmParameterBuilder builder = new SymmetricAlgorithmParameterBuilder();
@@ -781,11 +781,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造加密算法参数实例构建工具。
+         * 构造加密算法参数实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 加密算法参数实例构建工具。
+         * @return 加密算法参数实例构建器。
          */
         public static SymmetricAlgorithmParameterBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
             SymmetricAlgorithmParameterBuilder builder = new SymmetricAlgorithmParameterBuilder();
@@ -798,7 +798,7 @@ public final class CryptoMx {
          * 
          * @param paramData
          *     参数。
-         * @return 加密算法参数实例构建工具。
+         * @return 加密算法参数实例构建器。
          */
         public SymmetricAlgorithmParameterBuilder setParam(byte[] paramData) {
             this.paramData = paramData;
@@ -881,7 +881,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 秘钥生成器实例构建工具。
+     * 秘钥生成器实例构建器。
      */
     public static class SymmetricKeyGeneratorBuilder {
         /**
@@ -906,11 +906,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥生成器实例构建工具。
+         * 构造秘钥生成器实例构建器。
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public static SymmetricKeyGeneratorBuilder newBuilder(String algorithm) {
             SymmetricKeyGeneratorBuilder builder = new SymmetricKeyGeneratorBuilder();
@@ -919,11 +919,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥生成器实例构建工具。
+         * 构造秘钥生成器实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public static SymmetricKeyGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
             SymmetricKeyGeneratorBuilder builder = new SymmetricKeyGeneratorBuilder();
@@ -936,7 +936,7 @@ public final class CryptoMx {
          * 
          * @param keySize
          *     秘钥长度。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public SymmetricKeyGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
@@ -948,7 +948,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public SymmetricKeyGeneratorBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -960,7 +960,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public SymmetricKeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -972,7 +972,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public SymmetricKeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
@@ -1049,7 +1049,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 对称加密算法实例构建工具。
+     * 对称加密算法实例构建器。
      */
     public static class SymmetricCipherBuilder {
         /**
@@ -1079,11 +1079,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造对称加密算法实例构建工具。
+         * 构造对称加密算法实例构建器。
          * 
          * @param transformation
          *     算法变种名称。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public static SymmetricCipherBuilder newBuilder(String transformation) {
             SymmetricCipherBuilder builder = new SymmetricCipherBuilder();
@@ -1092,11 +1092,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造对称加密算法实例构建工具。
+         * 构造对称加密算法实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public static SymmetricCipherBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
             SymmetricCipherBuilder builder = new SymmetricCipherBuilder();
@@ -1111,7 +1111,7 @@ public final class CryptoMx {
          *     秘钥。
          * @param algorithm
          *     算法名称。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public SymmetricCipherBuilder setKey(byte[] keyData, String algorithm) {
             this.key = getSecretKey(keyData, algorithm);
@@ -1125,7 +1125,7 @@ public final class CryptoMx {
          *     秘钥。
          * @param algorithm
          *     算法枚举值。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public SymmetricCipherBuilder setKey(byte[] keyData, CryptoAlgorithm.Symmetric algorithm) {
             this.key = getSecretKey(keyData, algorithm);
@@ -1137,7 +1137,7 @@ public final class CryptoMx {
          * 
          * @param key
          *     秘钥。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public SymmetricCipherBuilder setKey(SecretKey key) {
             this.key = key;
@@ -1149,7 +1149,7 @@ public final class CryptoMx {
          * 
          * @param algorithmParameter
          *     加密算法参数。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public SymmetricCipherBuilder setAlgorithmParameter(AlgorithmParameters algorithmParameter) {
             this.algorithmParameter = algorithmParameter;
@@ -1161,7 +1161,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public SymmetricCipherBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -1173,7 +1173,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public SymmetricCipherBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -1185,7 +1185,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 对称加密算法实例构建工具。
+         * @return 对称加密算法实例构建器。
          */
         public SymmetricCipherBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
@@ -1250,7 +1250,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 秘钥生成器实例构建工具。
+     * 秘钥生成器实例构建器。
      */
     public static class MacKeyGeneratorBuilder {
         /**
@@ -1275,11 +1275,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥生成器实例构建工具。
+         * 构造秘钥生成器实例构建器。
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public static MacKeyGeneratorBuilder newBuilder(String algorithm) {
             MacKeyGeneratorBuilder builder = new MacKeyGeneratorBuilder();
@@ -1288,11 +1288,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥生成器实例构建工具。
+         * 构造秘钥生成器实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public static MacKeyGeneratorBuilder newBuilder(CryptoAlgorithm.Mac algorithm) {
             MacKeyGeneratorBuilder builder = new MacKeyGeneratorBuilder();
@@ -1305,7 +1305,7 @@ public final class CryptoMx {
          * 
          * @param keySize
          *     秘钥长度。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public MacKeyGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
@@ -1317,7 +1317,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public MacKeyGeneratorBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -1329,7 +1329,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public MacKeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -1341,7 +1341,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 秘钥生成器实例构建工具。
+         * @return 秘钥生成器实例构建器。
          */
         public MacKeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
@@ -1425,7 +1425,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 消息认证码算法实例构建工具。
+     * 消息认证码算法实例构建器。
      */
     public static class MacBuilder {
         /**
@@ -1445,11 +1445,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造消息认证码算法实例构建工具。
+         * 构造消息认证码算法实例构建器。
          * 
          * @param algorithm
          *     算法名称。
-         * @return 消息认证码算法实例构建工具。
+         * @return 消息认证码算法实例构建器。
          */
         public static MacBuilder newBuilder(String algorithm) {
             MacBuilder builder = new MacBuilder();
@@ -1458,11 +1458,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造消息认证码算法实例构建工具。
+         * 构造消息认证码算法实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 消息认证码算法实例构建工具。
+         * @return 消息认证码算法实例构建器。
          */
         public static MacBuilder newBuilder(CryptoAlgorithm.Mac algorithm) {
             MacBuilder builder = new MacBuilder();
@@ -1477,7 +1477,7 @@ public final class CryptoMx {
          *     秘钥。
          * @param algorithm
          *     算法名称。
-         * @return 消息认证码算法实例构建工具。
+         * @return 消息认证码算法实例构建器。
          */
         public MacBuilder setKey(byte[] keyData, String algorithm) {
             this.key = getSecretKey(keyData, algorithm);
@@ -1491,7 +1491,7 @@ public final class CryptoMx {
          *     秘钥。
          * @param algorithm
          *     算法枚举值。
-         * @return 消息认证码算法实例构建工具。
+         * @return 消息认证码算法实例构建器。
          */
         public MacBuilder setKey(byte[] keyData, CryptoAlgorithm.Mac algorithm) {
             this.key = getSecretKey(keyData, algorithm);
@@ -1503,7 +1503,7 @@ public final class CryptoMx {
          * 
          * @param key
          *     秘钥。
-         * @return 消息认证码算法实例构建工具。
+         * @return 消息认证码算法实例构建器。
          */
         public MacBuilder setKey(SecretKey key) {
             this.key = key;
@@ -1645,7 +1645,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 秘钥对生成器实例构建工具。
+     * 秘钥对生成器实例构建器。
      */
     public static class AsymmetricKeyPairGeneratorBuilder {
         /**
@@ -1670,11 +1670,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥对生成器实例构建工具。
+         * 构造秘钥对生成器实例构建器。
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public static AsymmetricKeyPairGeneratorBuilder newBuilder(String algorithm) {
             AsymmetricKeyPairGeneratorBuilder builder = new AsymmetricKeyPairGeneratorBuilder();
@@ -1683,11 +1683,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥对生成器实例构建工具。
+         * 构造秘钥对生成器实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public static AsymmetricKeyPairGeneratorBuilder newBuilder(CryptoAlgorithm.Asymmetric algorithm) {
             AsymmetricKeyPairGeneratorBuilder builder = new AsymmetricKeyPairGeneratorBuilder();
@@ -1700,7 +1700,7 @@ public final class CryptoMx {
          * 
          * @param keySize
          *     秘钥长度。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public AsymmetricKeyPairGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
@@ -1712,7 +1712,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public AsymmetricKeyPairGeneratorBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -1724,7 +1724,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public AsymmetricKeyPairGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -1736,7 +1736,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public AsymmetricKeyPairGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
@@ -1889,7 +1889,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 非对称加密算法实例构建工具。
+     * 非对称加密算法实例构建器。
      */
     public static class AsymmetricCipherBuilder {
         /**
@@ -1914,11 +1914,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造非对称加密算法实例构建工具。
+         * 构造非对称加密算法实例构建器。
          * 
          * @param transformation
          *     算法变种名称。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public static AsymmetricCipherBuilder newBuilder(String transformation) {
             AsymmetricCipherBuilder builder = new AsymmetricCipherBuilder();
@@ -1927,11 +1927,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造非对称加密算法实例构建工具。
+         * 构造非对称加密算法实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public static AsymmetricCipherBuilder newBuilder(CryptoAlgorithm.Asymmetric algorithm) {
             AsymmetricCipherBuilder builder = new AsymmetricCipherBuilder();
@@ -1946,7 +1946,7 @@ public final class CryptoMx {
          *     私钥。
          * @param algorithm
          *     算法名称。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setPrivateKey(byte[] keyData, String algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
@@ -1960,7 +1960,7 @@ public final class CryptoMx {
          *     私钥。
          * @param algorithm
          *     算法枚举值。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setPrivateKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
@@ -1972,7 +1972,7 @@ public final class CryptoMx {
          * 
          * @param key
          *     私钥。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setPrivateKey(PrivateKey key) {
             this.key = key;
@@ -1986,7 +1986,7 @@ public final class CryptoMx {
          *     公钥。
          * @param algorithm
          *     算法名称。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setPublicKey(byte[] keyData, String algorithm) {
             this.key = getPublicKey(keyData, algorithm);
@@ -2000,7 +2000,7 @@ public final class CryptoMx {
          *     公钥。
          * @param algorithm
          *     算法枚举值。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setPublicKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
             this.key = getPublicKey(keyData, algorithm);
@@ -2012,7 +2012,7 @@ public final class CryptoMx {
          * 
          * @param key
          *     公钥。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setPublicKey(PublicKey key) {
             this.key = key;
@@ -2024,7 +2024,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -2036,7 +2036,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -2048,7 +2048,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 非对称加密算法实例构建工具。
+         * @return 非对称加密算法实例构建器。
          */
         public AsymmetricCipherBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
@@ -2097,7 +2097,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 秘钥对生成器实例构建工具。
+     * 秘钥对生成器实例构建器。
      */
     public static class SignKeyPairGeneratorBuilder {
         /**
@@ -2122,11 +2122,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥对生成器实例构建工具。
+         * 构造秘钥对生成器实例构建器。
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public static SignKeyPairGeneratorBuilder newBuilder(String algorithm) {
             SignKeyPairGeneratorBuilder builder = new SignKeyPairGeneratorBuilder();
@@ -2135,11 +2135,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造秘钥对生成器实例构建工具。
+         * 构造秘钥对生成器实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public static SignKeyPairGeneratorBuilder newBuilder(CryptoAlgorithm.Sign algorithm) {
             SignKeyPairGeneratorBuilder builder = new SignKeyPairGeneratorBuilder();
@@ -2152,7 +2152,7 @@ public final class CryptoMx {
          * 
          * @param keySize
          *     秘钥长度。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public SignKeyPairGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
@@ -2164,7 +2164,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public SignKeyPairGeneratorBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -2176,7 +2176,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public SignKeyPairGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -2188,7 +2188,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 秘钥对生成器实例构建工具。
+         * @return 秘钥对生成器实例构建器。
          */
         public SignKeyPairGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
@@ -2292,7 +2292,7 @@ public final class CryptoMx {
     }
 
     /**
-     * 签名算法实例构建工具。
+     * 签名算法实例构建器。
      */
     public static class SignatureBuilder {
         /**
@@ -2317,11 +2317,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造签名算法实例构建工具。
+         * 构造签名算法实例构建器。
          * 
          * @param signAlgorithm
          *     签名算法名称。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public static SignatureBuilder newBuilder(String signAlgorithm) {
             SignatureBuilder builder = new SignatureBuilder();
@@ -2330,11 +2330,11 @@ public final class CryptoMx {
         }
 
         /**
-         * 构造签名算法实例构建工具。
+         * 构造签名算法实例构建器。
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public static SignatureBuilder newBuilder(CryptoAlgorithm.Sign algorithm) {
             SignatureBuilder builder = new SignatureBuilder();
@@ -2349,7 +2349,7 @@ public final class CryptoMx {
          *     私钥。
          * @param algorithm
          *     算法名称。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setPrivateKey(byte[] keyData, String algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
@@ -2363,7 +2363,7 @@ public final class CryptoMx {
          *     私钥。
          * @param algorithm
          *     算法枚举值。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setPrivateKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
@@ -2375,7 +2375,7 @@ public final class CryptoMx {
          * 
          * @param key
          *     私钥。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setPrivateKey(PrivateKey key) {
             this.key = key;
@@ -2389,7 +2389,7 @@ public final class CryptoMx {
          *     公钥。
          * @param algorithm
          *     算法名称。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setPublicKey(byte[] keyData, String algorithm) {
             this.key = getPublicKey(keyData, algorithm);
@@ -2403,7 +2403,7 @@ public final class CryptoMx {
          *     公钥。
          * @param algorithm
          *     算法枚举值。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setPublicKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
             this.key = getPublicKey(keyData, algorithm);
@@ -2415,7 +2415,7 @@ public final class CryptoMx {
          * 
          * @param key
          *     公钥。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setPublicKey(PublicKey key) {
             this.key = key;
@@ -2427,7 +2427,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法名称。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setSecureRandom(String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -2439,7 +2439,7 @@ public final class CryptoMx {
          * 
          * @param algorithm
          *     算法枚举值。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
@@ -2451,7 +2451,7 @@ public final class CryptoMx {
          * 
          * @param secureRandom
          *     随机数生成器算法实例。
-         * @return 签名算法实例构建工具。
+         * @return 签名算法实例构建器。
          */
         public SignatureBuilder setSecureRandom(SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
