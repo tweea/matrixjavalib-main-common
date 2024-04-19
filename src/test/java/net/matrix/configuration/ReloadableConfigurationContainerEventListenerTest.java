@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.configuration;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReloadableConfigurationContainerEventListenerTest {
     @Test
-    public void testConfigurationCheckReloadingListener() {
+    public void testNew() {
         TestContainer container = new TestContainer();
 
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
@@ -28,8 +28,8 @@ public class ReloadableConfigurationContainerEventListenerTest {
     @Test
     public void testConfigurationRequestEvent() {
         TestContainer container = new TestContainer();
-        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
+        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
 
         assertThat(container.isChecked()).isFalse();
         listener.onEvent(new ConfigurationBuilderEvent(configurationBuilder, ConfigurationBuilderEvent.CONFIGURATION_REQUEST));
@@ -39,8 +39,8 @@ public class ReloadableConfigurationContainerEventListenerTest {
     @Test
     public void testConfigurationCreatedEvent() {
         TestContainer container = new TestContainer();
-        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
+        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
 
         assertThat(container.isReseted()).isFalse();
         listener.onEvent(new ConfigurationBuilderEvent(configurationBuilder, ConfigurationBuilderResultCreatedEvent.RESULT_CREATED));
@@ -50,8 +50,8 @@ public class ReloadableConfigurationContainerEventListenerTest {
     @Test
     public void testConfigurationOtherEvent() {
         TestContainer container = new TestContainer();
-        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
+        ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
 
         assertThat(container.isChecked()).isFalse();
         assertThat(container.isReseted()).isFalse();

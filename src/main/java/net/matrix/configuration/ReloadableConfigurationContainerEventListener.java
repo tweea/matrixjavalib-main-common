@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.configuration;
@@ -10,7 +10,7 @@ import org.apache.commons.configuration2.event.EventListener;
 import org.apache.commons.configuration2.event.EventType;
 
 /**
- * 监听配置对象容器中配置对象构建器相关事件的事件监听器。
+ * 监听配置对象容器中配置对象构建工具相关事件的事件监听器。
  */
 public class ReloadableConfigurationContainerEventListener
     implements EventListener<ConfigurationBuilderEvent> {
@@ -20,17 +20,17 @@ public class ReloadableConfigurationContainerEventListener
     private final ReloadableConfigurationContainer container;
 
     /**
-     * 构造指定配置对象容器的实例。
+     * 构造器，使用指定配置对象容器。
      * 
      * @param container
-     *     配置对象容器
+     *     配置对象容器。
      */
-    public ReloadableConfigurationContainerEventListener(final ReloadableConfigurationContainer container) {
+    public ReloadableConfigurationContainerEventListener(ReloadableConfigurationContainer container) {
         this.container = container;
     }
 
     @Override
-    public void onEvent(final ConfigurationBuilderEvent event) {
+    public void onEvent(ConfigurationBuilderEvent event) {
         EventType eventType = event.getEventType();
         // 访问事件，在访问配置对象前检查是否需要重新加载
         if (EventType.isInstanceOf(eventType, ConfigurationBuilderEvent.CONFIGURATION_REQUEST)) {
