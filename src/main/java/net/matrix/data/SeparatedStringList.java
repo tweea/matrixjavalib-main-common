@@ -6,11 +6,18 @@ package net.matrix.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -201,6 +208,16 @@ public class SeparatedStringList
     }
 
     @Override
+    public void replaceAll(UnaryOperator<String> operator) {
+        strings.replaceAll(operator);
+    }
+
+    @Override
+    public void sort(Comparator<? super String> c) {
+        strings.sort(c);
+    }
+
+    @Override
     public void clear() {
         strings.clear();
     }
@@ -265,6 +282,36 @@ public class SeparatedStringList
     @Override
     public SeparatedStringList subList(int fromIndex, int toIndex) {
         return new SeparatedStringList(strings.subList(fromIndex, toIndex), delimiter);
+    }
+
+    @Override
+    public Spliterator<String> spliterator() {
+        return strings.spliterator();
+    }
+
+    @Override
+    public <T> T[] toArray(IntFunction<T[]> generator) {
+        return strings.toArray(generator);
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super String> filter) {
+        return strings.removeIf(filter);
+    }
+
+    @Override
+    public Stream<String> stream() {
+        return strings.stream();
+    }
+
+    @Override
+    public Stream<String> parallelStream() {
+        return strings.parallelStream();
+    }
+
+    @Override
+    public void forEach(Consumer<? super String> action) {
+        strings.forEach(action);
     }
 
     @Override
