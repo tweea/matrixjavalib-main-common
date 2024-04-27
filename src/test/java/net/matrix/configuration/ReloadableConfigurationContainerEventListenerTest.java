@@ -17,12 +17,14 @@ import org.springframework.core.io.Resource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReloadableConfigurationContainerEventListenerTest {
+    private FieldSupport fieldSupport = FieldSupport.extraction();
+
     @Test
     public void testNew() {
         TestContainer container = new TestContainer();
 
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
-        assertThat(FieldSupport.extraction().fieldValue("container", ReloadableConfigurationContainer.class, listener)).isSameAs(container);
+        assertThat(fieldSupport.fieldValue("container", ReloadableConfigurationContainer.class, listener)).isSameAs(container);
     }
 
     @Test
