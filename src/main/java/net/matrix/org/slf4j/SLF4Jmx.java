@@ -9,11 +9,11 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * SLF4J 工具。
  */
-public final class SLF4JMx {
+public final class SLF4Jmx {
     /**
      * 阻止实例化。
      */
-    private SLF4JMx() {
+    private SLF4Jmx() {
     }
 
     /**

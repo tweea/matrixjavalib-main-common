@@ -9,11 +9,11 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SLF4JMxTest {
+public class SLF4JmxTest {
     @Test
     public void testBridgeJUL() {
         assertThat(SLF4JBridgeHandler.isInstalled()).isFalse();
-        SLF4JMx.bridgeJUL();
+        SLF4Jmx.bridgeJUL();
         assertThat(SLF4JBridgeHandler.isInstalled()).isTrue();
     }
 }
