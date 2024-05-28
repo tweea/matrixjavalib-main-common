@@ -170,8 +170,6 @@ public final class ResourceBundleMx {
         } catch (MissingResourceException e) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace(RBMF.get("资源中未找到键值 {}"), key, e);
-            } else if (LOG.isDebugEnabled()) {
-                LOG.debug(RBMF.get("资源中未找到键值 {}"), key);
             }
         }
         return defaultObject;
