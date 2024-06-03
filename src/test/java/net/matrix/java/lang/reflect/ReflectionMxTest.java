@@ -4,13 +4,15 @@
  */
 package net.matrix.java.lang.reflect;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
 import net.matrix.java.lang.reflect.ReflectionMxTestData.TestBean;
-import net.matrix.java.lang.reflect.ReflectionMxTestData.TestBean4;
+import net.matrix.java.lang.reflect.ReflectionMxTestData.TestBean2;
+import net.matrix.java.lang.reflect.ReflectionMxTestData.TestBean3;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -91,6 +93,16 @@ public class ReflectionMxTest {
     }
 
     @Test
+    public void testMakeAccessible_constructor()
+        throws ReflectiveOperationException {
+        Constructor constructor = TestBean3.class.getDeclaredConstructor();
+
+        assertThat(ReflectionMx.isAccessible(constructor)).isFalse();
+        ReflectionMx.makeAccessible(constructor);
+        assertThat(ReflectionMx.isAccessible(constructor)).isTrue();
+    }
+
+    @Test
     public void testMakeAccessible_method()
         throws ReflectiveOperationException {
         Class targetType = (new Object() {
@@ -120,7 +132,7 @@ public class ReflectionMxTest {
         });
         assertThat(method.getName()).isEqualTo("privateMethod");
 
-        method = ReflectionMx.getAccessibleMethod(TestBean4.class, "privateMethod", new Class[] {
+        method = ReflectionMx.getAccessibleMethod(TestBean2.class, "privateMethod", new Class[] {
             String.class
         });
         assertThat(method.getName()).isEqualTo("privateMethod");
@@ -142,7 +154,7 @@ public class ReflectionMxTest {
         Method method = ReflectionMx.getAccessibleMethodByName(TestBean.class, "privateMethod");
         assertThat(method.getName()).isEqualTo("privateMethod");
 
-        method = ReflectionMx.getAccessibleMethodByName(TestBean4.class, "privateMethod");
+        method = ReflectionMx.getAccessibleMethodByName(TestBean2.class, "privateMethod");
         assertThat(method.getName()).isEqualTo("privateMethod");
 
         // 方法名错
@@ -195,7 +207,7 @@ public class ReflectionMxTest {
     @Test
     public void testInvokeGetter() {
         TestBean bean = new TestBean();
-        TestBean4 bean4 = new TestBean4();
+        TestBean2 bean4 = new TestBean2();
 
         Object value = ReflectionMx.invokeGetter(bean, "publicField");
         assertThat(value).isEqualTo(bean.inspectPublicField() + 1);
@@ -207,7 +219,7 @@ public class ReflectionMxTest {
     @Test
     public void testInvokeSetter() {
         TestBean bean = new TestBean();
-        TestBean4 bean4 = new TestBean4();
+        TestBean2 bean4 = new TestBean2();
 
         ReflectionMx.invokeSetter(bean, "publicField", int.class, 10);
         assertThat(bean.inspectPublicField()).isEqualTo(10 + 1);

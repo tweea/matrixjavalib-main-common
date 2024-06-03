@@ -5,6 +5,7 @@
 package net.matrix.java.lang.reflect;
 
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -156,6 +157,22 @@ public final class ReflectionMx {
             field.set(target, value);
         } catch (IllegalAccessException e) {
             throw new UncheckedReflectiveOperationException(e);
+        }
+    }
+
+    /**
+     * 设置忽略构造器的访问控制。
+     * 
+     * @param constructor
+     *     构造器。
+     */
+    public static void makeAccessible(Constructor constructor) {
+        if (isAccessible(constructor)) {
+            return;
+        }
+
+        if (!Modifier.isPublic(constructor.getModifiers()) || !Modifier.isPublic(constructor.getDeclaringClass().getModifiers())) {
+            constructor.setAccessible(true);
         }
     }
 

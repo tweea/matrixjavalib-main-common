@@ -59,7 +59,11 @@ public class ReflectionMxTestData {
         }
     }
 
-    public static class TestBean4
+    public static class TestBean2
+        extends TestBean {
+    }
+
+    static class TestBean3
         extends TestBean {
     }
 }
