@@ -17,9 +17,9 @@ import net.matrix.java.lang.reflect.ReflectionMxTestData.TestBean3;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class ReflectionMxTest {
+class ReflectionMxTest {
     @Test
-    public void testMakeAccessible_field()
+    void testMakeAccessible_field()
         throws ReflectiveOperationException {
         Class targetType = (new Object() {
             boolean v;
@@ -37,7 +37,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testGetAccessibleField() {
+    void testGetAccessibleField() {
         Field field = ReflectionMx.getAccessibleField(TestBean.class, "privateField");
         assertThat(field.getName()).isEqualTo("privateField");
 
@@ -55,7 +55,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testGetFieldValue() {
+    void testGetFieldValue() {
         TestBean bean = new TestBean();
 
         Object value = ReflectionMx.getFieldValue(bean, "privateField");
@@ -74,7 +74,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testSetFieldValue() {
+    void testSetFieldValue() {
         TestBean bean = new TestBean();
 
         ReflectionMx.setFieldValue(bean, "privateField", 2);
@@ -93,7 +93,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testMakeAccessible_constructor()
+    void testMakeAccessible_constructor()
         throws ReflectiveOperationException {
         Constructor constructor = TestBean3.class.getDeclaredConstructor();
 
@@ -103,7 +103,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testMakeAccessible_method()
+    void testMakeAccessible_method()
         throws ReflectiveOperationException {
         Class targetType = (new Object() {
             boolean v;
@@ -125,7 +125,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testGetAccessibleMethod() {
+    void testGetAccessibleMethod() {
         // 使用方法名+参数类型的匹配
         Method method = ReflectionMx.getAccessibleMethod(TestBean.class, "privateMethod", new Class[] {
             String.class
@@ -149,7 +149,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testGetAccessibleMethodByName() {
+    void testGetAccessibleMethodByName() {
         // 仅匹配方法名
         Method method = ReflectionMx.getAccessibleMethodByName(TestBean.class, "privateMethod");
         assertThat(method.getName()).isEqualTo("privateMethod");
@@ -162,7 +162,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testInvokeMethod() {
+    void testInvokeMethod() {
         TestBean bean = new TestBean();
 
         // 使用方法名+参数类型的匹配
@@ -189,7 +189,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testInvokeMethodByName() {
+    void testInvokeMethodByName() {
         TestBean bean = new TestBean();
 
         // 仅匹配方法名
@@ -205,7 +205,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testInvokeGetter() {
+    void testInvokeGetter() {
         TestBean bean = new TestBean();
         TestBean2 bean4 = new TestBean2();
 
@@ -217,7 +217,7 @@ public class ReflectionMxTest {
     }
 
     @Test
-    public void testInvokeSetter() {
+    void testInvokeSetter() {
         TestBean bean = new TestBean();
         TestBean2 bean4 = new TestBean2();
 

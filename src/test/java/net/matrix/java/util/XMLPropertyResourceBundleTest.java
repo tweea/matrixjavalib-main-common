@@ -13,16 +13,16 @@ import org.springframework.core.io.ClassPathResource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class XMLPropertyResourceBundleTest {
+class XMLPropertyResourceBundleTest {
     @Test
-    public void testNew()
+    void testNew()
         throws IOException {
         XMLPropertyResourceBundle bundle = new XMLPropertyResourceBundle(new ClassPathResource("global.xml").getInputStream());
         assertThat(bundle.getString("male")).isEqualTo("男性");
     }
 
     @Test
-    public void testControl()
+    void testControl()
         throws IOException {
         ResourceBundle bundle = XMLPropertyResourceBundle.Control.INSTANCE.newBundle("global", Locale.US, "xml", getClass().getClassLoader(), true);
         assertThat(bundle.getString("male")).isEqualTo("爷们");

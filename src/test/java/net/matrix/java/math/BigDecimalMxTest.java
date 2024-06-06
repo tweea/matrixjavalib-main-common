@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BigDecimalMxTest {
+class BigDecimalMxTest {
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertThat(BigDecimalMx.equals(new BigDecimal("1"), new BigDecimal("1.0"))).isTrue();
         assertThat(BigDecimalMx.equals(new BigDecimal("1"), new BigDecimal("2.0"))).isFalse();
     }

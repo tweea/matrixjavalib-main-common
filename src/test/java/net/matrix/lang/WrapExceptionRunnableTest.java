@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class WrapExceptionRunnableTest {
+class WrapExceptionRunnableTest {
     @Test
-    public void testRun() {
+    void testRun() {
         MutableBoolean flag = new MutableBoolean();
         Runnable runnable = new Runnable() {
             @Override
@@ -25,7 +25,7 @@ public class WrapExceptionRunnableTest {
     }
 
     @Test
-    public void testRun_exception() {
+    void testRun_exception() {
         MutableBoolean flag = new MutableBoolean();
         Runnable runnable = new Runnable() {
             @Override

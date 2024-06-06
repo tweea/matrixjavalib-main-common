@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SeparatedStringListTest {
+class SeparatedStringListTest {
     @Test
-    public void testNew() {
+    void testNew() {
         SeparatedStringList list = new SeparatedStringList();
         assertThat(list.getDelimiter()).isEqualTo(SeparatedStringList.DEFAULT_DELIMITER);
         assertThat(list).isEmpty();
@@ -20,7 +20,7 @@ public class SeparatedStringListTest {
     }
 
     @Test
-    public void testNew_string() {
+    void testNew_string() {
         SeparatedStringList list = new SeparatedStringList("a,bc,d");
         assertThat(list.getDelimiter()).isEqualTo(SeparatedStringList.DEFAULT_DELIMITER);
         assertThat(list).hasSize(3);
@@ -28,7 +28,7 @@ public class SeparatedStringListTest {
     }
 
     @Test
-    public void testNew_stringWithDelimiter() {
+    void testNew_stringWithDelimiter() {
         SeparatedStringList list = new SeparatedStringList("a=bc=d", "=");
         assertThat(list.getDelimiter()).isEqualTo("=");
         assertThat(list).hasSize(3);
@@ -36,7 +36,7 @@ public class SeparatedStringListTest {
     }
 
     @Test
-    public void testNew_stringArray() {
+    void testNew_stringArray() {
         SeparatedStringList list = new SeparatedStringList(new String[] {
             "a", "bc", "d"
         });
@@ -46,7 +46,7 @@ public class SeparatedStringListTest {
     }
 
     @Test
-    public void testNew_stringArrayWithDelimiter() {
+    void testNew_stringArrayWithDelimiter() {
         SeparatedStringList list = new SeparatedStringList(new String[] {
             "a", "bc", "d"
         }, "+");
@@ -56,7 +56,7 @@ public class SeparatedStringListTest {
     }
 
     @Test
-    public void testNew_stringList() {
+    void testNew_stringList() {
         SeparatedStringList list = new SeparatedStringList(Arrays.asList("a", "bc", "d"));
         assertThat(list.getDelimiter()).isEqualTo(SeparatedStringList.DEFAULT_DELIMITER);
         assertThat(list).hasSize(3);
@@ -64,7 +64,7 @@ public class SeparatedStringListTest {
     }
 
     @Test
-    public void testNew_stringListWithDelimiter() {
+    void testNew_stringListWithDelimiter() {
         SeparatedStringList list = new SeparatedStringList(Arrays.asList("a", "bc", "d"), "-");
         assertThat(list.getDelimiter()).isEqualTo("-");
         assertThat(list).hasSize(3);
@@ -72,7 +72,7 @@ public class SeparatedStringListTest {
     }
 
     @Test
-    public void testSubList() {
+    void testSubList() {
         SeparatedStringList list = new SeparatedStringList(Arrays.asList("a", "bc", "d"), "-").subList(0, 2);
         assertThat(list.getDelimiter()).isEqualTo("-");
         assertThat(list).hasSize(2);

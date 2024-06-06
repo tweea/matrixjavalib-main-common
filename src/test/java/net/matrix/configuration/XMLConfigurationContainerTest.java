@@ -19,9 +19,9 @@ import org.springframework.core.io.Resource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class XMLConfigurationContainerTest {
+class XMLConfigurationContainerTest {
     @Test
-    public void testNew()
+    void testNew()
         throws ConfigurationException {
         XMLConfigurationContainer container = new XMLConfigurationContainer();
         assertThat(container.canCheckReload()).isFalse();
@@ -32,7 +32,7 @@ public class XMLConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadFile()
+    void testLoadFile()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("bar.xml");
         XMLConfigurationContainer container = new XMLConfigurationContainer();
@@ -44,7 +44,7 @@ public class XMLConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadInputStream()
+    void testLoadInputStream()
         throws ConfigurationException, IOException {
         Resource resource = new InputStreamResource(new ClassPathResource("bar.xml").getInputStream());
         XMLConfigurationContainer container = new XMLConfigurationContainer();
@@ -56,7 +56,7 @@ public class XMLConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadNotExist()
+    void testLoadNotExist()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("notExist.xml");
         XMLConfigurationContainer container = new XMLConfigurationContainer();
@@ -68,7 +68,7 @@ public class XMLConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadMany()
+    void testLoadMany()
         throws ConfigurationException, IOException {
         Resource resource1 = new ClassPathResource("bar.xml");
         Resource resource2 = new ClassPathResource("pmd.xml");
@@ -98,7 +98,7 @@ public class XMLConfigurationContainerTest {
     }
 
     @Test
-    public void testReloadFile()
+    void testReloadFile()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("bar.xml");
         XMLConfigurationContainer container = new XMLConfigurationContainer();
@@ -113,7 +113,7 @@ public class XMLConfigurationContainerTest {
     }
 
     @Test
-    public void testReloadInputStream()
+    void testReloadInputStream()
         throws ConfigurationException, IOException {
         Resource resource = new ByteArrayResource(IOUtils.toByteArray(new ClassPathResource("bar.xml").getInputStream()));
         XMLConfigurationContainer container = new XMLConfigurationContainer();
@@ -128,7 +128,7 @@ public class XMLConfigurationContainerTest {
     }
 
     @Test
-    public void testReloadNotExist()
+    void testReloadNotExist()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("notExist.xml");
         XMLConfigurationContainer container = new XMLConfigurationContainer();

@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UncheckedReflectiveOperationExceptionTest {
+class UncheckedReflectiveOperationExceptionTest {
     @Test
-    public void testNew_cause() {
+    void testNew_cause() {
         ReflectiveOperationException cause = new ReflectiveOperationException();
 
         UncheckedReflectiveOperationException exception = new UncheckedReflectiveOperationException(cause);
@@ -21,7 +21,7 @@ public class UncheckedReflectiveOperationExceptionTest {
     }
 
     @Test
-    public void testNew_cause_InvocationTargetException() {
+    void testNew_cause_InvocationTargetException() {
         Exception target = new Exception();
         ReflectiveOperationException cause = new InvocationTargetException(target);
 
@@ -31,7 +31,7 @@ public class UncheckedReflectiveOperationExceptionTest {
     }
 
     @Test
-    public void testNew_message_cause() {
+    void testNew_message_cause() {
         String message = "t";
         ReflectiveOperationException cause = new ReflectiveOperationException();
 

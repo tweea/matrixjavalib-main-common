@@ -8,16 +8,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ImpossibleExceptionTest {
+class ImpossibleExceptionTest {
     @Test
-    public void testNew() {
+    void testNew() {
         ImpossibleException exception = new ImpossibleException();
         assertThat(exception.getMessage()).isNull();
         assertThat(exception.getCause()).isNull();
     }
 
     @Test
-    public void testNew_message() {
+    void testNew_message() {
         String message = "t";
 
         ImpossibleException exception = new ImpossibleException(message);
@@ -26,7 +26,7 @@ public class ImpossibleExceptionTest {
     }
 
     @Test
-    public void testNew_cause() {
+    void testNew_cause() {
         Exception cause = new Exception();
 
         ImpossibleException exception = new ImpossibleException(cause);
@@ -35,7 +35,7 @@ public class ImpossibleExceptionTest {
     }
 
     @Test
-    public void testNew_message_cause() {
+    void testNew_message_cause() {
         String message = "t";
         Exception cause = new Exception();
 

@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StringMxTest {
+class StringMxTest {
     @Test
-    public void testReplaceEach() {
+    void testReplaceEach() {
         Map<String, String> replacementMap = new LinkedHashMap<>();
 
         replacementMap.put("a", "b");
@@ -50,7 +50,7 @@ public class StringMxTest {
     }
 
     @Test
-    public void testReplaceEachRepeatedly() {
+    void testReplaceEachRepeatedly() {
         Map<String, String> replacementMap = new LinkedHashMap<>();
 
         replacementMap.put("a", "b");
@@ -85,7 +85,7 @@ public class StringMxTest {
     }
 
     @Test
-    public void testJoin() {
+    void testJoin() {
         List<String> list = new ArrayList();
         list.add("aa");
         list.add("bb");

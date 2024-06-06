@@ -8,16 +8,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AuthenticationExceptionTest {
+class AuthenticationExceptionTest {
     @Test
-    public void testNew() {
+    void testNew() {
         AuthenticationException exception = new AuthenticationException();
         assertThat(exception.getMessage()).isNull();
         assertThat(exception.getCause()).isNull();
     }
 
     @Test
-    public void testNew_message() {
+    void testNew_message() {
         String message = "t";
 
         AuthenticationException exception = new AuthenticationException(message);
@@ -26,7 +26,7 @@ public class AuthenticationExceptionTest {
     }
 
     @Test
-    public void testNew_cause() {
+    void testNew_cause() {
         Exception cause = new Exception();
 
         AuthenticationException exception = new AuthenticationException(cause);
@@ -35,7 +35,7 @@ public class AuthenticationExceptionTest {
     }
 
     @Test
-    public void testNew_message_cause() {
+    void testNew_message_cause() {
         String message = "t";
         Exception cause = new Exception();
 

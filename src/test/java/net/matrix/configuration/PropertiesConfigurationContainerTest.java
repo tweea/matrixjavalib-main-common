@@ -19,9 +19,9 @@ import org.springframework.core.io.Resource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class PropertiesConfigurationContainerTest {
+class PropertiesConfigurationContainerTest {
     @Test
-    public void testNew()
+    void testNew()
         throws ConfigurationException {
         PropertiesConfigurationContainer container = new PropertiesConfigurationContainer();
         assertThat(container.canCheckReload()).isFalse();
@@ -32,7 +32,7 @@ public class PropertiesConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadFile()
+    void testLoadFile()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("bar.properties");
         PropertiesConfigurationContainer container = new PropertiesConfigurationContainer();
@@ -44,7 +44,7 @@ public class PropertiesConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadInputStream()
+    void testLoadInputStream()
         throws ConfigurationException, IOException {
         Resource resource = new InputStreamResource(new ClassPathResource("bar.properties").getInputStream());
         PropertiesConfigurationContainer container = new PropertiesConfigurationContainer();
@@ -56,7 +56,7 @@ public class PropertiesConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadNotExist()
+    void testLoadNotExist()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("notExist.properties");
         PropertiesConfigurationContainer container = new PropertiesConfigurationContainer();
@@ -68,7 +68,7 @@ public class PropertiesConfigurationContainerTest {
     }
 
     @Test
-    public void testLoadMany()
+    void testLoadMany()
         throws ConfigurationException, IOException {
         Resource resource1 = new ClassPathResource("bar.properties");
         Resource resource2 = new ClassPathResource("pmd.properties");
@@ -98,7 +98,7 @@ public class PropertiesConfigurationContainerTest {
     }
 
     @Test
-    public void testReloadFile()
+    void testReloadFile()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("bar.properties");
         PropertiesConfigurationContainer container = new PropertiesConfigurationContainer();
@@ -113,7 +113,7 @@ public class PropertiesConfigurationContainerTest {
     }
 
     @Test
-    public void testReloadInputStream()
+    void testReloadInputStream()
         throws ConfigurationException, IOException {
         Resource resource = new ByteArrayResource(IOUtils.toByteArray(new ClassPathResource("bar.properties").getInputStream()));
         PropertiesConfigurationContainer container = new PropertiesConfigurationContainer();
@@ -128,7 +128,7 @@ public class PropertiesConfigurationContainerTest {
     }
 
     @Test
-    public void testReloadNotExist()
+    void testReloadNotExist()
         throws ConfigurationException {
         Resource resource = new ClassPathResource("notExist.properties");
         PropertiesConfigurationContainer container = new PropertiesConfigurationContainer();

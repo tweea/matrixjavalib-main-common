@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UncheckedExceptionTest {
+class UncheckedExceptionTest {
     @Test
-    public void testNew_cause() {
+    void testNew_cause() {
         Exception cause = new Exception();
 
         UncheckedException exception = new UncheckedException(cause);
@@ -19,7 +19,7 @@ public class UncheckedExceptionTest {
     }
 
     @Test
-    public void testNew_message_cause() {
+    void testNew_message_cause() {
         String message = "t";
         Exception cause = new Exception();
 

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ClassMxTest {
+class ClassMxTest {
     static class A {
     }
 
@@ -20,14 +20,14 @@ public class ClassMxTest {
     }
 
     @Test
-    public void testGetParameterizedTypeNumber() {
+    void testGetParameterizedTypeNumber() {
         assertThat(ClassMx.getParameterizedTypeNumber(A.class)).isEqualTo(0);
 
         assertThat(ClassMx.getParameterizedTypeNumber(B.class)).isEqualTo(2);
     }
 
     @Test
-    public void testGetParameterizedType() {
+    void testGetParameterizedType() {
         assertThat(ClassMx.getParameterizedType(A.class, -1)).isNull();
         assertThat(ClassMx.getParameterizedType(A.class, 0)).isNull();
         assertThat(ClassMx.getParameterizedType(A.class, 1)).isNull();

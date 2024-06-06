@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class ObjectMxTest {
+class ObjectMxTest {
     @Test
-    public void testIfNull() {
+    void testIfNull() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();
         Runnable action = () -> runned.setTrue();
@@ -31,7 +31,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfNotNull() {
+    void testIfNotNull() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();
         Consumer action = o -> runned.setTrue();
@@ -44,7 +44,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfNullOrElse() {
+    void testIfNullOrElse() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();
         MutableBoolean elseRunned = new MutableBoolean();
@@ -62,7 +62,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfNullOrTest() {
+    void testIfNullOrTest() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();
         Predicate predicate = o -> {
@@ -78,7 +78,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfNotNullAndTest() {
+    void testIfNotNullAndTest() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();
         Predicate predicate = o -> {
@@ -94,7 +94,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfNotNullMap() {
+    void testIfNotNullMap() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();
         Function function = o -> {
@@ -110,7 +110,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfNullThrow() {
+    void testIfNullThrow() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();
         Supplier<RuntimeException> supplier = () -> {
@@ -126,7 +126,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfElse() {
+    void testIfElse() {
         Object object1 = new Object();
         Object object2 = new Object();
 
@@ -135,7 +135,7 @@ public class ObjectMxTest {
     }
 
     @Test
-    public void testIfElseGet() {
+    void testIfElseGet() {
         Object object1 = new Object();
         Object object2 = new Object();
 

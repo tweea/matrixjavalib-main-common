@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TimeZoneMxTest {
+class TimeZoneMxTest {
     @Test
-    public void testCurrent() {
+    void testCurrent() {
         assertThat(TimeZoneMx.current()).isEqualTo(TimeZone.getDefault());
 
         TimeZoneMx.current(TimeZone.getTimeZone("GMT+8"));

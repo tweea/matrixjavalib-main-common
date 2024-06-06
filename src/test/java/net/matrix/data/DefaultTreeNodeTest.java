@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DefaultTreeNodeTest {
+class DefaultTreeNodeTest {
     @Test
-    public void testNew() {
+    void testNew() {
         TreeNode<String> treeNode = new DefaultTreeNode<>();
         assertThat(treeNode.getData()).isNull();
         assertThat(treeNode.getParent()).isNull();
@@ -21,7 +21,7 @@ public class DefaultTreeNodeTest {
     }
 
     @Test
-    public void testNew_data() {
+    void testNew_data() {
         TreeNode<String> treeNode = new DefaultTreeNode<>("test");
         assertThat(treeNode.getData()).isEqualTo("test");
         assertThat(treeNode.getParent()).isNull();
@@ -29,7 +29,7 @@ public class DefaultTreeNodeTest {
     }
 
     @Test
-    public void testNew_parent() {
+    void testNew_parent() {
         TreeNode<String> parentTreeNode = new DefaultTreeNode<>();
 
         TreeNode<String> treeNode = new DefaultTreeNode<>(parentTreeNode);
@@ -40,7 +40,7 @@ public class DefaultTreeNodeTest {
     }
 
     @Test
-    public void testNew_data_parent() {
+    void testNew_data_parent() {
         TreeNode<String> parentTreeNode = new DefaultTreeNode<>();
 
         TreeNode<String> treeNode = new DefaultTreeNode<>("test", parentTreeNode);
@@ -51,7 +51,7 @@ public class DefaultTreeNodeTest {
     }
 
     @Test
-    public void testSetParent() {
+    void testSetParent() {
         TreeNode<String> parentTreeNode1 = new DefaultTreeNode<>();
         TreeNode<String> parentTreeNode2 = new DefaultTreeNode<>();
         TreeNode<String> treeNode = new DefaultTreeNode<>();
@@ -71,7 +71,7 @@ public class DefaultTreeNodeTest {
         assertThat(treeNode.getParent()).isNull();
     }
 
-    public static class TestSource
+    static class TestSource
         implements TreeSource<String> {
         @Override
         public List<String> getRoots() {
@@ -97,7 +97,7 @@ public class DefaultTreeNodeTest {
     }
 
     @Test
-    public void testGenerate() {
+    void testGenerate() {
         List<TreeNode<String>> treeNodes = DefaultTreeNode.generate(new TestSource());
         assertThat(treeNodes).hasSize(1);
         assertThat(treeNodes.get(0).getData()).isEqualTo("root");

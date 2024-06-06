@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TreeMxTest {
-    public static class TestData
+class TreeMxTest {
+    static class TestData
         implements TreeData<String, TestData> {
         private String id;
 
@@ -43,7 +43,7 @@ public class TreeMxTest {
     }
 
     @Test
-    public void testBuildTree() {
+    void testBuildTree() {
         List<TestData> datas = new ArrayList<>();
         datas.add(new TestData("1", null));
         datas.add(new TestData("2", "1"));
@@ -58,7 +58,7 @@ public class TreeMxTest {
         assertThat(children.get(1).getId()).isEqualTo("3");
     }
 
-    public static class TestSource
+    static class TestSource
         implements TreeSource<TestData> {
         @Override
         public List<TestData> getRoots() {
@@ -79,7 +79,7 @@ public class TreeMxTest {
     }
 
     @Test
-    public void testGenerateTree() {
+    void testGenerateTree() {
         List<TestData> dataTrees = TreeMx.generateTree(new TestSource());
         assertThat(dataTrees).hasSize(1);
         assertThat(dataTrees.get(0).getId()).isEqualTo("1");

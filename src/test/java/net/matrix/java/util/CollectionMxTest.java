@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
-public class CollectionMxTest {
+class CollectionMxTest {
     @Test
-    public void testBuildList() {
+    void testBuildList() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("b", "y"));
@@ -28,7 +28,7 @@ public class CollectionMxTest {
     }
 
     @Test
-    public void testBuildSet() {
+    void testBuildSet() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("b", "y"));
@@ -39,7 +39,7 @@ public class CollectionMxTest {
     }
 
     @Test
-    public void testBuildMap() {
+    void testBuildMap() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("b", "y"));
@@ -50,7 +50,7 @@ public class CollectionMxTest {
     }
 
     @Test
-    public void testBuildMap_value() {
+    void testBuildMap_value() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("b", "y"));
@@ -61,7 +61,7 @@ public class CollectionMxTest {
     }
 
     @Test
-    public void testBuildListMap() {
+    void testBuildListMap() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("a", "y"));
@@ -73,7 +73,7 @@ public class CollectionMxTest {
     }
 
     @Test
-    public void testBuildListMap_value() {
+    void testBuildListMap_value() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("a", "y"));
@@ -85,7 +85,7 @@ public class CollectionMxTest {
     }
 
     @Test
-    public void testBuildSetMap() {
+    void testBuildSetMap() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("a", "y"));
@@ -97,7 +97,7 @@ public class CollectionMxTest {
     }
 
     @Test
-    public void testBuildSetMap_value() {
+    void testBuildSetMap_value() {
         List<TestBean3> items = new ArrayList<>();
         items.add(new TestBean3("a", "x"));
         items.add(new TestBean3("a", "y"));
@@ -108,7 +108,7 @@ public class CollectionMxTest {
         assertThat(map.get("a")).containsOnly("x", "y");
     }
 
-    public static class TestBean3 {
+    static class TestBean3 {
         private String x;
 
         private String y;

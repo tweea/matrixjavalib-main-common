@@ -15,17 +15,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HierarchicalConfigurationMxTest {
-    private HierarchicalConfiguration config;
+class HierarchicalConfigurationMxTest {
+    HierarchicalConfiguration config;
 
     @BeforeEach
-    public void beforeEach()
+    void beforeEach()
         throws ConfigurationException {
         config = new Configurations().xml("./bar.xml");
     }
 
     @Test
-    public void testBuildNameValueMap() {
+    void testBuildNameValueMap() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders.target(0)");
 
         Map<String, String> nameValueMap = HierarchicalConfigurationMx.buildNameValueMap(testConfig, "properties", "[@name]", "[@value]");
@@ -34,7 +34,7 @@ public class HierarchicalConfigurationMxTest {
     }
 
     @Test
-    public void testUpdateNameValueMap() {
+    void testUpdateNameValueMap() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders.target(0)", true);
         Map<String, String> nameValueMap = HierarchicalConfigurationMx.buildNameValueMap(testConfig, "properties", "[@name]", "[@value]");
         nameValueMap.put("hostname", "192.168.1.1");
@@ -50,7 +50,7 @@ public class HierarchicalConfigurationMxTest {
     }
 
     @Test
-    public void testBuildNameList() {
+    void testBuildNameList() {
         HierarchicalConfiguration testConfig = config.configurationAt("receivers.receiver(0)");
 
         List<String> names = HierarchicalConfigurationMx.buildNameList(testConfig, "properties", "[@name]");
@@ -59,7 +59,7 @@ public class HierarchicalConfigurationMxTest {
     }
 
     @Test
-    public void testForName() {
+    void testForName() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders");
 
         HierarchicalConfiguration subConfig = HierarchicalConfigurationMx.forName(testConfig, "target", "[@name]", "SysA");
@@ -67,7 +67,7 @@ public class HierarchicalConfigurationMxTest {
     }
 
     @Test
-    public void testForName2() {
+    void testForName2() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders");
 
         HierarchicalConfiguration subConfig = HierarchicalConfigurationMx.forName(testConfig, "target", "[@name]", "SysX");

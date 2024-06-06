@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ThreadMxTest {
+class ThreadMxTest {
     @Test
-    public void testSleep_millis() {
+    void testSleep_millis() {
         StopWatch stopWatch = new StopWatch();
 
         stopWatch.start();
@@ -24,7 +24,7 @@ public class ThreadMxTest {
     }
 
     @Test
-    public void testSleep_unit() {
+    void testSleep_unit() {
         StopWatch stopWatch = new StopWatch();
 
         stopWatch.start();
@@ -34,7 +34,7 @@ public class ThreadMxTest {
     }
 
     @Test
-    public void testSleep_duration() {
+    void testSleep_duration() {
         StopWatch stopWatch = new StopWatch();
 
         stopWatch.start();

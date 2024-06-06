@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LocaleMxTest {
+class LocaleMxTest {
     @Test
-    public void testCurrent() {
+    void testCurrent() {
         assertThat(LocaleMx.current()).isEqualTo(Locale.getDefault());
         assertThat(LocaleMx.current(Locale.Category.DISPLAY)).isEqualTo(Locale.getDefault(Locale.Category.DISPLAY));
 
@@ -30,7 +30,7 @@ public class LocaleMxTest {
     }
 
     @Test
-    public void testCurrent_category() {
+    void testCurrent_category() {
         assertThat(LocaleMx.current()).isEqualTo(Locale.getDefault());
         assertThat(LocaleMx.current(Locale.Category.DISPLAY)).isEqualTo(Locale.getDefault(Locale.Category.DISPLAY));
 

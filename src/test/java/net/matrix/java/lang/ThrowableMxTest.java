@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ThrowableMxTest {
+class ThrowableMxTest {
     @Test
-    public void testWrap() {
+    void testWrap() {
         Exception exception = new Exception("my exception");
 
         RuntimeException runtimeException = ThrowableMx.wrap(exception);
@@ -23,7 +23,7 @@ public class ThrowableMxTest {
     }
 
     @Test
-    public void testGetMessageWithRootCause() {
+    void testGetMessageWithRootCause() {
         IOException ioException = new IOException("my exception");
         IllegalStateException illegalStateException = new IllegalStateException(ioException);
         RuntimeException runtimeException = new RuntimeException(illegalStateException);
@@ -33,7 +33,7 @@ public class ThrowableMxTest {
     }
 
     @Test
-    public void testIsCausedBy() {
+    void testIsCausedBy() {
         IOException ioException = new IOException("my exception");
         IllegalStateException illegalStateException = new IllegalStateException(ioException);
         RuntimeException runtimeException = new RuntimeException(illegalStateException);

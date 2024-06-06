@@ -10,23 +10,23 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ExecutorServiceBuilderTest {
+class ExecutorServiceBuilderTest {
     @Test
-    public void testFixed() {
+    void testFixed() {
         ExecutorService executorService = new ExecutorServiceBuilder.Fixed().build();
         assertThat(executorService).isNotNull();
         executorService.shutdown();
     }
 
     @Test
-    public void testCached() {
+    void testCached() {
         ExecutorService executorService = new ExecutorServiceBuilder.Cached().build();
         assertThat(executorService).isNotNull();
         executorService.shutdown();
     }
 
     @Test
-    public void testScheduled() {
+    void testScheduled() {
         ExecutorService executorService = new ExecutorServiceBuilder.Scheduled().build();
         assertThat(executorService).isNotNull();
         executorService.shutdown();

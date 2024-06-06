@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PatternPoolTest {
+class PatternPoolTest {
     @Test
-    public void testOf() {
+    void testOf() {
         String regex = "a+";
         PatternPool pool = new PatternPool();
 
@@ -23,7 +23,7 @@ public class PatternPoolTest {
     }
 
     @Test
-    public void testClear() {
+    void testClear() {
         String regex = "a+";
         PatternPool pool = new PatternPool();
         Pattern pattern = pool.of(regex);

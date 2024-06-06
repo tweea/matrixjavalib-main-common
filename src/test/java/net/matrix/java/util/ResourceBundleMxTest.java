@@ -13,27 +13,27 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class ResourceBundleMxTest {
+class ResourceBundleMxTest {
     @Test
-    public void testGetBundle() {
+    void testGetBundle() {
         ResourceBundle bundle = ResourceBundleMx.getBundle("global");
         assertThat(bundle.getString("message")).isEqualTo("一双{0}");
     }
 
     @Test
-    public void testGetBundle_locale() {
+    void testGetBundle_locale() {
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.US);
         assertThat(bundle.getString("male")).isEqualTo("爷们");
     }
 
     @Test
-    public void testGetBundle_fallback() {
+    void testGetBundle_fallback() {
         ResourceBundle bundle = ResourceBundleMx.getBundle("fallback");
         assertThatExceptionOfType(MissingResourceException.class).isThrownBy(() -> bundle.getString("male"));
     }
 
     @Test
-    public void testGetObject() {
+    void testGetObject() {
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.US);
 
         assertThat((String) ResourceBundleMx.getObject(bundle, "male")).isEqualTo("爷们");
@@ -42,7 +42,7 @@ public class ResourceBundleMxTest {
     }
 
     @Test
-    public void testGetObject_defaultObject() {
+    void testGetObject_defaultObject() {
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.US);
 
         assertThat(ResourceBundleMx.getObject(bundle, "male", "AA")).isEqualTo("爷们");

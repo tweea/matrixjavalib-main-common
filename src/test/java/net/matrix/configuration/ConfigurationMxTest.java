@@ -14,17 +14,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConfigurationMxTest {
-    private HierarchicalConfiguration config;
+class ConfigurationMxTest {
+    HierarchicalConfiguration config;
 
     @BeforeEach
-    public void beforeEach()
+    void beforeEach()
         throws ConfigurationException {
         config = new Configurations().xml("./bar.xml");
     }
 
     @Test
-    public void testBuildMap() {
+    void testBuildMap() {
         HierarchicalConfiguration testConfig = config.configurationAt("senders.target(2).properties(0)");
 
         Map<String, String> configMap = ConfigurationMx.buildMap(testConfig);

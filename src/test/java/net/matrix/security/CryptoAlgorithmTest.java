@@ -8,44 +8,44 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CryptoAlgorithmTest {
+class CryptoAlgorithmTest {
     @Test
-    public void testRandom() {
+    void testRandom() {
         CryptoAlgorithm.Random random = CryptoAlgorithm.Random.DEFAULT;
 
         assertThat(CryptoAlgorithm.Random.forCode(random.algorithm)).isSameAs(random);
     }
 
     @Test
-    public void testDigest() {
+    void testDigest() {
         CryptoAlgorithm.Digest digest = CryptoAlgorithm.Digest.MD5;
 
         assertThat(CryptoAlgorithm.Digest.forCode(digest.algorithm)).isSameAs(digest);
     }
 
     @Test
-    public void testSymmetric() {
+    void testSymmetric() {
         CryptoAlgorithm.Symmetric symmetric = CryptoAlgorithm.Symmetric.SM4_ECB_NOPADDING;
 
         assertThat(CryptoAlgorithm.Symmetric.forCode(symmetric.transformation)).isSameAs(symmetric);
     }
 
     @Test
-    public void testMac() {
+    void testMac() {
         CryptoAlgorithm.Mac mac = CryptoAlgorithm.Mac.HMAC_MD5;
 
         assertThat(CryptoAlgorithm.Mac.forCode(mac.algorithm)).isSameAs(mac);
     }
 
     @Test
-    public void testAsymmetric() {
+    void testAsymmetric() {
         CryptoAlgorithm.Asymmetric asymmetric = CryptoAlgorithm.Asymmetric.SM2_NONE_NOPADDING;
 
         assertThat(CryptoAlgorithm.Asymmetric.forCode(asymmetric.transformation)).isSameAs(asymmetric);
     }
 
     @Test
-    public void testSign() {
+    void testSign() {
         CryptoAlgorithm.Sign sign = CryptoAlgorithm.Sign.SM3_SM2;
 
         assertThat(CryptoAlgorithm.Sign.forCode(sign.signAlgorithm)).isSameAs(sign);

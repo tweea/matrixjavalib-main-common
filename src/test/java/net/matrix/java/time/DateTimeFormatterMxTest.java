@@ -15,53 +15,53 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DateTimeFormatterMxTest {
-    public static final String ISO_INSTANT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
+class DateTimeFormatterMxTest {
+    static final String ISO_INSTANT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
 
-    public static final DateTimeFormatter ISO_INSTANT_FORMATTER = DateTimeFormatter.ISO_INSTANT;
+    static final DateTimeFormatter ISO_INSTANT_FORMATTER = DateTimeFormatter.ISO_INSTANT;
 
-    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
+    static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
 
-    public static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+    static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
 
-    public static final String ISO_TIME_FORMAT = "HH:mm:ss";
+    static final String ISO_TIME_FORMAT = "HH:mm:ss";
 
-    public static final DateTimeFormatter ISO_TIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_TIME;
+    static final DateTimeFormatter ISO_TIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_TIME;
 
-    public static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
-    public static final DateTimeFormatter ISO_DATETIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    static final DateTimeFormatter ISO_DATETIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     @Test
-    public void testOf() {
+    void testOf() {
         DateTimeFormatter formatter1 = DateTimeFormatterMx.of(ISO_DATE_FORMAT);
         DateTimeFormatter formatter2 = DateTimeFormatterMx.of(ISO_DATE_FORMAT);
         assertThat(formatter1).isSameAs(formatter2);
     }
 
     @Test
-    public void testOf_zoneId() {
+    void testOf_zoneId() {
         DateTimeFormatter formatter1 = DateTimeFormatterMx.of(ISO_DATE_FORMAT, ZoneId.of("+8"));
         DateTimeFormatter formatter2 = DateTimeFormatterMx.of(ISO_DATE_FORMAT, ZoneId.of("+8"));
         assertThat(formatter1).isSameAs(formatter2);
     }
 
     @Test
-    public void testOf_locale() {
+    void testOf_locale() {
         DateTimeFormatter formatter1 = DateTimeFormatterMx.of(ISO_DATE_FORMAT, Locale.CHINA);
         DateTimeFormatter formatter2 = DateTimeFormatterMx.of(ISO_DATE_FORMAT, Locale.CHINA);
         assertThat(formatter1).isSameAs(formatter2);
     }
 
     @Test
-    public void testOf_zoneId_locale() {
+    void testOf_zoneId_locale() {
         DateTimeFormatter formatter1 = DateTimeFormatterMx.of(ISO_DATE_FORMAT, ZoneId.of("+8"), Locale.CHINA);
         DateTimeFormatter formatter2 = DateTimeFormatterMx.of(ISO_DATE_FORMAT, ZoneId.of("+8"), Locale.CHINA);
         assertThat(formatter1).isSameAs(formatter2);
     }
 
     @Test
-    public void testFormat() {
+    void testFormat() {
         LocalDate date = LocalDate.of(2011, 1, 1);
         LocalDate nullDate = null;
 
@@ -73,7 +73,7 @@ public class DateTimeFormatterMxTest {
     }
 
     @Test
-    public void testParse() {
+    void testParse() {
         LocalDate date = LocalDate.of(2011, 12, 1);
 
         assertThat(DateTimeFormatterMx.parse("2011-12-01", ISO_DATE_FORMAT, LocalDate::from)).isEqualTo(date);
@@ -84,7 +84,7 @@ public class DateTimeFormatterMxTest {
     }
 
     @Test
-    public void testParseInstant() {
+    void testParseInstant() {
         LocalDateTime datetime = LocalDateTime.of(2011, 12, 1, 12, 13, 14);
 
         assertThat(LocalDateTime.ofInstant(DateTimeFormatterMx.parseInstant("2011-12-01T12:13:14Z", ISO_INSTANT_FORMAT), ZoneId.of("Z"))).isEqualTo(datetime);
@@ -96,7 +96,7 @@ public class DateTimeFormatterMxTest {
     }
 
     @Test
-    public void testParseLocalDate() {
+    void testParseLocalDate() {
         LocalDate date = LocalDate.of(2011, 12, 1);
 
         assertThat(DateTimeFormatterMx.parseLocalDate("2011-12-01", ISO_DATE_FORMAT)).isEqualTo(date);
@@ -107,7 +107,7 @@ public class DateTimeFormatterMxTest {
     }
 
     @Test
-    public void testParseLocalTime() {
+    void testParseLocalTime() {
         LocalTime time = LocalTime.of(12, 13, 14);
 
         assertThat(DateTimeFormatterMx.parseLocalTime("12:13:14", ISO_TIME_FORMAT)).isEqualTo(time);
@@ -118,7 +118,7 @@ public class DateTimeFormatterMxTest {
     }
 
     @Test
-    public void testParseLocalDateTime() {
+    void testParseLocalDateTime() {
         LocalDateTime datetime = LocalDateTime.of(2011, 12, 1, 12, 13, 14);
 
         assertThat(DateTimeFormatterMx.parseLocalDateTime("2011-12-01T12:13:14", ISO_DATETIME_FORMAT)).isEqualTo(datetime);

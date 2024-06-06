@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EnumerationIterableTest {
+class EnumerationIterableTest {
     @Test
-    public void testIterator() {
+    void testIterator() {
         Enumeration<String> enumeration = Collections.enumeration(Collections.singletonList("a"));
 
         EnumerationIterable<String> iterable = new EnumerationIterable<>(enumeration);

@@ -16,11 +16,11 @@ import org.springframework.core.io.Resource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ReloadableConfigurationContainerEventListenerTest {
-    private FieldSupport fieldSupport = FieldSupport.extraction();
+class ReloadableConfigurationContainerEventListenerTest {
+    FieldSupport fieldSupport = FieldSupport.extraction();
 
     @Test
-    public void testNew() {
+    void testNew() {
         TestContainer container = new TestContainer();
 
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
@@ -28,7 +28,7 @@ public class ReloadableConfigurationContainerEventListenerTest {
     }
 
     @Test
-    public void testConfigurationRequestEvent() {
+    void testConfigurationRequestEvent() {
         TestContainer container = new TestContainer();
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
         ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
@@ -39,7 +39,7 @@ public class ReloadableConfigurationContainerEventListenerTest {
     }
 
     @Test
-    public void testConfigurationCreatedEvent() {
+    void testConfigurationCreatedEvent() {
         TestContainer container = new TestContainer();
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
         ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
@@ -50,7 +50,7 @@ public class ReloadableConfigurationContainerEventListenerTest {
     }
 
     @Test
-    public void testConfigurationOtherEvent() {
+    void testConfigurationOtherEvent() {
         TestContainer container = new TestContainer();
         EventListener listener = new ReloadableConfigurationContainerEventListener(container);
         ConfigurationBuilder configurationBuilder = new BasicConfigurationBuilder<>(ImmutableConfiguration.class);
@@ -62,7 +62,7 @@ public class ReloadableConfigurationContainerEventListenerTest {
         assertThat(container.isReseted()).isFalse();
     }
 
-    public static class TestContainer
+    static class TestContainer
         implements ReloadableConfigurationContainer<Object> {
         private boolean isChecked = false;
 

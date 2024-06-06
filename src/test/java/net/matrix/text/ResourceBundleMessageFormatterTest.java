@@ -14,23 +14,23 @@ import net.matrix.java.util.ResourceBundleMx;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ResourceBundleMessageFormatterTest {
+class ResourceBundleMessageFormatterTest {
     @Test
-    public void testNew() {
+    void testNew() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
         assertThat(formatter.getBaseName()).isEqualTo("global");
         assertThat(formatter.getLocale()).isSameAs(Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Test
-    public void testNew_clazz() {
+    void testNew_clazz() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter(String.class);
         assertThat(formatter.getBaseName()).isEqualTo("java.lang.String");
         assertThat(formatter.getLocale()).isSameAs(Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Test
-    public void testUseLocale() {
+    void testUseLocale() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
 
         formatter.useLocale(Locale.US);
@@ -38,7 +38,7 @@ public class ResourceBundleMessageFormatterTest {
     }
 
     @Test
-    public void testUseCurrentLocale() {
+    void testUseCurrentLocale() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
 
         formatter.useCurrentLocale();
@@ -51,7 +51,7 @@ public class ResourceBundleMessageFormatterTest {
     }
 
     @Test
-    public void testGetResourceBundle() {
+    void testGetResourceBundle() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
 
         ResourceBundle bundle = formatter.getResourceBundle();
@@ -59,7 +59,7 @@ public class ResourceBundleMessageFormatterTest {
     }
 
     @Test
-    public void testGet() {
+    void testGet() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
 
         assertThat(formatter.get("message")).isEqualTo("一双{0}");
@@ -67,7 +67,7 @@ public class ResourceBundleMessageFormatterTest {
     }
 
     @Test
-    public void testFormat() {
+    void testFormat() {
         ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
 
         assertThat(formatter.format("message", "绣花鞋")).isEqualTo("一双绣花鞋");
@@ -75,7 +75,7 @@ public class ResourceBundleMessageFormatterTest {
     }
 
     @Test
-    public void testGet_bundle() {
+    void testGet_bundle() {
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
 
         assertThat(ResourceBundleMessageFormatter.get(bundle, "message")).isEqualTo("一双{0}");
@@ -83,7 +83,7 @@ public class ResourceBundleMessageFormatterTest {
     }
 
     @Test
-    public void testFormat_bundle() {
+    void testFormat_bundle() {
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
 
         assertThat(ResourceBundleMessageFormatter.format(bundle, "message", "绣花鞋")).isEqualTo("一双绣花鞋");

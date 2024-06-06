@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
-public class EnumMxTest {
+class EnumMxTest {
     enum TestEnum {
         A("a"), B("b");
 
@@ -23,7 +23,7 @@ public class EnumMxTest {
     }
 
     @Test
-    public void testBuildValueMap() {
+    void testBuildValueMap() {
         Map<String, TestEnum> map = EnumMx.buildValueMap(TestEnum.class, t -> t.v);
         assertThat(map).containsOnly(entry("a", TestEnum.A), entry("b", TestEnum.B));
     }
