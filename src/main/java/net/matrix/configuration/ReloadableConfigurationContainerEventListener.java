@@ -4,6 +4,9 @@
  */
 package net.matrix.configuration;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
+
 import org.apache.commons.configuration2.builder.ConfigurationBuilderEvent;
 import org.apache.commons.configuration2.builder.ConfigurationBuilderResultCreatedEvent;
 import org.apache.commons.configuration2.event.EventListener;
@@ -12,6 +15,7 @@ import org.apache.commons.configuration2.event.EventType;
 /**
  * 监听配置对象容器中配置对象构建器相关事件的事件监听器。
  */
+@Immutable
 public class ReloadableConfigurationContainerEventListener
     implements EventListener<ConfigurationBuilderEvent> {
     /**
@@ -25,7 +29,7 @@ public class ReloadableConfigurationContainerEventListener
      * @param container
      *     配置对象容器。
      */
-    public ReloadableConfigurationContainerEventListener(ReloadableConfigurationContainer container) {
+    public ReloadableConfigurationContainerEventListener(@Nonnull ReloadableConfigurationContainer container) {
         this.container = container;
     }
 

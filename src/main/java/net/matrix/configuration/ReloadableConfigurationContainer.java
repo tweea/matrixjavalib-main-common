@@ -4,6 +4,8 @@
  */
 package net.matrix.configuration;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.springframework.core.io.Resource;
 
@@ -25,7 +27,7 @@ public interface ReloadableConfigurationContainer<CONFIG>
      * @throws ConfigurationException
      *     加载失败。
      */
-    void load(Resource resource)
+    void load(@Nonnull Resource resource)
         throws ConfigurationException;
 
     /**
@@ -54,6 +56,7 @@ public interface ReloadableConfigurationContainer<CONFIG>
      * @throws ConfigurationException
      *     获取失败。
      */
+    @Nonnull
     CONFIG getConfig()
         throws ConfigurationException;
 }

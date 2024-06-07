@@ -4,6 +4,8 @@
  */
 package net.matrix.configuration;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 /**
@@ -18,6 +20,6 @@ public interface Configurable<CONFIG> {
      * @throws ConfigurationException
      *     配置失败。
      */
-    void configure(CONFIG config)
+    void configure(@Nonnull CONFIG config)
         throws ConfigurationException;
 }
