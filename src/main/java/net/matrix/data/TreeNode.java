@@ -6,6 +6,9 @@ package net.matrix.data;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 树型结构中的节点。
  */
@@ -15,6 +18,7 @@ public interface TreeNode<DATA> {
      * 
      * @return 数据。
      */
+    @Nonnull
     DATA getData();
 
     /**
@@ -23,13 +27,14 @@ public interface TreeNode<DATA> {
      * @param data
      *     数据。
      */
-    void setData(DATA data);
+    void setData(@Nonnull DATA data);
 
     /**
      * 获取上级节点。
      * 
      * @return 上级节点。
      */
+    @Nullable
     TreeNode<DATA> getParent();
 
     /**
@@ -38,7 +43,7 @@ public interface TreeNode<DATA> {
      * @param parent
      *     上级节点。
      */
-    void setParent(TreeNode<DATA> parent);
+    void setParent(@Nullable TreeNode<DATA> parent);
 
     /**
      * 是否有上级节点。
@@ -52,6 +57,7 @@ public interface TreeNode<DATA> {
      * 
      * @return 下级节点列表。
      */
+    @Nonnull
     List<TreeNode<DATA>> getChildren();
 
     /**

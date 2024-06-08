@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 树型结构中的节点的默认实现。
  */
@@ -18,24 +21,20 @@ public class DefaultTreeNode<DATA>
     /**
      * 节点承载的数据。
      */
+    @Nonnull
     private DATA data;
 
     /**
      * 上级节点。
      */
+    @Nullable
     private TreeNode<DATA> parent;
 
     /**
      * 下级节点列表。
      */
+    @Nonnull
     private final List<TreeNode<DATA>> children;
-
-    /**
-     * 构造器，没有数据和上级节点。
-     */
-    public DefaultTreeNode() {
-        this(null, null);
-    }
 
     /**
      * 构造器，初始化数据，没有上级节点。
@@ -43,18 +42,8 @@ public class DefaultTreeNode<DATA>
      * @param data
      *     数据。
      */
-    public DefaultTreeNode(DATA data) {
+    public DefaultTreeNode(@Nonnull DATA data) {
         this(data, null);
-    }
-
-    /**
-     * 构造器，没有数据，加入上级节点。
-     * 
-     * @param parent
-     *     上级节点。
-     */
-    public DefaultTreeNode(TreeNode<DATA> parent) {
-        this(null, parent);
     }
 
     /**
@@ -65,7 +54,7 @@ public class DefaultTreeNode<DATA>
      * @param parent
      *     上级节点。
      */
-    public DefaultTreeNode(DATA data, TreeNode<DATA> parent) {
+    public DefaultTreeNode(@Nonnull DATA data, @Nullable TreeNode<DATA> parent) {
         this.data = data;
         this.parent = parent;
         this.children = new ArrayList<>();
@@ -120,7 +109,8 @@ public class DefaultTreeNode<DATA>
      *     数据源。
      * @return 生成的树型结构。
      */
-    public static <DATA> List<TreeNode<DATA>> generate(TreeSource<DATA> source) {
+    @Nonnull
+    public static <DATA> List<TreeNode<DATA>> generate(@Nonnull TreeSource<DATA> source) {
         List<DATA> datas = source.getRoots();
         List<TreeNode<DATA>> treeNodes = new ArrayList<>(datas.size());
         for (DATA data : datas) {

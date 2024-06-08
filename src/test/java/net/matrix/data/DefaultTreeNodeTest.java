@@ -13,14 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class DefaultTreeNodeTest {
     @Test
-    void testNew() {
-        TreeNode<String> treeNode = new DefaultTreeNode<>();
-        assertThat(treeNode.getData()).isNull();
-        assertThat(treeNode.getParent()).isNull();
-        assertThat(treeNode.getChildren()).isEmpty();
-    }
-
-    @Test
     void testNew_data() {
         TreeNode<String> treeNode = new DefaultTreeNode<>("test");
         assertThat(treeNode.getData()).isEqualTo("test");
@@ -29,19 +21,8 @@ class DefaultTreeNodeTest {
     }
 
     @Test
-    void testNew_parent() {
-        TreeNode<String> parentTreeNode = new DefaultTreeNode<>();
-
-        TreeNode<String> treeNode = new DefaultTreeNode<>(parentTreeNode);
-        assertThat(treeNode.getData()).isNull();
-        assertThat(treeNode.getParent()).isSameAs(parentTreeNode);
-        assertThat(treeNode.getChildren()).isEmpty();
-        assertThat(parentTreeNode.getChildren()).containsOnly(treeNode);
-    }
-
-    @Test
     void testNew_data_parent() {
-        TreeNode<String> parentTreeNode = new DefaultTreeNode<>();
+        TreeNode<String> parentTreeNode = new DefaultTreeNode<>("parent");
 
         TreeNode<String> treeNode = new DefaultTreeNode<>("test", parentTreeNode);
         assertThat(treeNode.getData()).isEqualTo("test");
@@ -52,9 +33,9 @@ class DefaultTreeNodeTest {
 
     @Test
     void testSetParent() {
-        TreeNode<String> parentTreeNode1 = new DefaultTreeNode<>();
-        TreeNode<String> parentTreeNode2 = new DefaultTreeNode<>();
-        TreeNode<String> treeNode = new DefaultTreeNode<>();
+        TreeNode<String> parentTreeNode1 = new DefaultTreeNode<>("parent1");
+        TreeNode<String> parentTreeNode2 = new DefaultTreeNode<>("parent2");
+        TreeNode<String> treeNode = new DefaultTreeNode<>("test");
 
         treeNode.setParent(parentTreeNode1);
         assertThat(parentTreeNode1.getChildren()).containsOnly(treeNode);

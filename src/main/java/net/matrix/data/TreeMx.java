@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * 树型结构工具。
  */
+@ThreadSafe
 public final class TreeMx {
     /**
      * 阻止实例化。
@@ -33,8 +37,9 @@ public final class TreeMx {
      *     下级数据列表映射函数。
      * @return 树型结构的数据列表。
      */
-    public static <ID, DATA> List<DATA> buildTree(List<DATA> datas, Function<? super DATA, ? extends ID> idFunction,
-        Function<? super DATA, ? extends ID> parentIdFunction, Function<? super DATA, ? extends List<DATA>> childFunction) {
+    @Nonnull
+    public static <ID, DATA> List<DATA> buildTree(@Nonnull List<DATA> datas, @Nonnull Function<? super DATA, ? extends ID> idFunction,
+        @Nonnull Function<? super DATA, ? extends ID> parentIdFunction, @Nonnull Function<? super DATA, ? extends List<DATA>> childFunction) {
         Map<ID, DATA> dataMap = new HashMap<>();
         for (DATA data : datas) {
             dataMap.put(idFunction.apply(data), data);
@@ -64,7 +69,8 @@ public final class TreeMx {
      *     数据列表。
      * @return 树型结构的数据列表。
      */
-    public static <ID, DATA extends TreeData<ID, DATA>> List<DATA> buildTree(List<DATA> datas) {
+    @Nonnull
+    public static <ID, DATA extends TreeData<ID, DATA>> List<DATA> buildTree(@Nonnull List<DATA> datas) {
         return buildTree(datas, DATA::getId, DATA::getParentId, DATA::getChildren);
     }
 
@@ -77,7 +83,8 @@ public final class TreeMx {
      *     下级数据列表映射函数。
      * @return 生成的树型结构。
      */
-    public static <DATA> List<DATA> generateTree(TreeSource<DATA> source, Function<? super DATA, ? extends List<DATA>> childFunction) {
+    @Nonnull
+    public static <DATA> List<DATA> generateTree(@Nonnull TreeSource<DATA> source, @Nonnull Function<? super DATA, ? extends List<DATA>> childFunction) {
         List<DATA> datas = source.getRoots();
         for (DATA data : datas) {
             generateChildNode(source, childFunction, data);
@@ -110,7 +117,8 @@ public final class TreeMx {
      *     数据源。
      * @return 生成的树型结构。
      */
-    public static <ID, DATA extends TreeData<ID, DATA>> List<DATA> generateTree(TreeSource<DATA> source) {
+    @Nonnull
+    public static <ID, DATA extends TreeData<ID, DATA>> List<DATA> generateTree(@Nonnull TreeSource<DATA> source) {
         return generateTree(source, DATA::getChildren);
     }
 }

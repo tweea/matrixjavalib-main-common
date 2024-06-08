@@ -6,6 +6,9 @@ package net.matrix.data;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * 具有树型结构的数据。
  */
@@ -15,6 +18,7 @@ public interface TreeData<ID, DATA extends TreeData<ID, DATA>> {
      * 
      * @return 唯一标识。
      */
+    @Nonnull
     ID getId();
 
     /**
@@ -22,6 +26,7 @@ public interface TreeData<ID, DATA extends TreeData<ID, DATA>> {
      * 
      * @return 唯一标识。
      */
+    @Nullable
     ID getParentId();
 
     /**
@@ -36,6 +41,7 @@ public interface TreeData<ID, DATA extends TreeData<ID, DATA>> {
      * 
      * @return 下级数据列表。
      */
+    @Nonnull
     List<DATA> getChildren();
 
     /**

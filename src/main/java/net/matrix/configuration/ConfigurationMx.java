@@ -32,7 +32,8 @@ public final class ConfigurationMx {
      *     配置对象。
      * @return 映射关系。
      */
-    public static @Nonnull Map<String, String> buildMap(@Nonnull Configuration config) {
+    @Nonnull
+    public static Map<String, String> buildMap(@Nonnull Configuration config) {
         Map<String, String> map = Maps.newHashMapWithExpectedSize(config.size());
         for (String key : IteratorUtils.asIterable(config.getKeys())) {
             String value = config.getString(key);

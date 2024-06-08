@@ -40,7 +40,8 @@ public final class HierarchicalConfigurationMx {
      *     值配置键值。
      * @return 映射关系。
      */
-    public static @Nonnull Map<String, String> buildNameValueMap(@Nonnull HierarchicalConfiguration config, @Nonnull String subKey, @Nonnull String nameKey,
+    @Nonnull
+    public static Map<String, String> buildNameValueMap(@Nonnull HierarchicalConfiguration config, @Nonnull String subKey, @Nonnull String nameKey,
         @Nonnull String valueKey) {
         List<HierarchicalConfiguration> subConfigs = config.configurationsAt(subKey);
 
@@ -89,7 +90,8 @@ public final class HierarchicalConfigurationMx {
      *     名配置键值。
      * @return 名配置列表。
      */
-    public static @Nonnull List<String> buildNameList(@Nonnull HierarchicalConfiguration config, @Nonnull String subKey, @Nonnull String nameKey) {
+    @Nonnull
+    public static List<String> buildNameList(@Nonnull HierarchicalConfiguration config, @Nonnull String subKey, @Nonnull String nameKey) {
         List<HierarchicalConfiguration> subConfigs = config.configurationsAt(subKey);
 
         List<String> names = new ArrayList<>(subConfigs.size());
@@ -112,12 +114,13 @@ public final class HierarchicalConfigurationMx {
      *     名配置。
      * @return 子项配置。
      */
-    public static @Nullable HierarchicalConfiguration forName(@Nonnull HierarchicalConfiguration config, @Nonnull String subKey, @Nonnull String nameKey,
+    @Nullable
+    public static HierarchicalConfiguration forName(@Nonnull HierarchicalConfiguration config, @Nonnull String subKey, @Nonnull String nameKey,
         @Nonnull String nameValue) {
         List<HierarchicalConfiguration> subConfigs = config.configurationsAt(subKey);
         for (HierarchicalConfiguration subConfig : subConfigs) {
             String name = subConfig.getString(nameKey);
-            if (name.equals(nameValue)) {
+            if (nameValue.equals(name)) {
                 return subConfig;
             }
         }

@@ -19,6 +19,9 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -34,11 +37,13 @@ public class SeparatedStringList
     /**
      * 分隔符。
      */
+    @Nonnull
     private String delimiter;
 
     /**
      * 字符串列表。
      */
+    @Nonnull
     private List<String> strings;
 
     /**
@@ -55,7 +60,7 @@ public class SeparatedStringList
      * @param wholeString
      *     完整字符串。
      */
-    public SeparatedStringList(String wholeString) {
+    public SeparatedStringList(@Nullable String wholeString) {
         this(wholeString, DEFAULT_DELIMITER);
     }
 
@@ -67,8 +72,8 @@ public class SeparatedStringList
      * @param delimiter
      *     分隔符。
      */
-    public SeparatedStringList(String wholeString, String delimiter) {
-        this(StringUtils.splitByWholeSeparator(wholeString, delimiter), delimiter);
+    public SeparatedStringList(@Nullable String wholeString, @Nonnull String delimiter) {
+        this(StringUtils.splitByWholeSeparator(StringUtils.defaultString(wholeString), delimiter), delimiter);
     }
 
     /**
@@ -77,7 +82,7 @@ public class SeparatedStringList
      * @param separatedStrings
      *     字符串数组。
      */
-    public SeparatedStringList(String[] separatedStrings) {
+    public SeparatedStringList(@Nonnull String[] separatedStrings) {
         this(separatedStrings, DEFAULT_DELIMITER);
     }
 
@@ -89,7 +94,7 @@ public class SeparatedStringList
      * @param delimiter
      *     分隔符。
      */
-    public SeparatedStringList(String[] separatedStrings, String delimiter) {
+    public SeparatedStringList(@Nonnull String[] separatedStrings, @Nonnull String delimiter) {
         this.delimiter = delimiter;
         this.strings = new ArrayList<>(separatedStrings.length);
         for (String separatedString : separatedStrings) {
@@ -103,7 +108,7 @@ public class SeparatedStringList
      * @param separatedStrings
      *     字符串列表。
      */
-    public SeparatedStringList(List<String> separatedStrings) {
+    public SeparatedStringList(@Nonnull List<String> separatedStrings) {
         this(separatedStrings, DEFAULT_DELIMITER);
     }
 
@@ -115,7 +120,7 @@ public class SeparatedStringList
      * @param delimiter
      *     分隔符。
      */
-    public SeparatedStringList(List<String> separatedStrings, String delimiter) {
+    public SeparatedStringList(@Nonnull List<String> separatedStrings, @Nonnull String delimiter) {
         this.delimiter = delimiter;
         this.strings = new ArrayList<>(separatedStrings.size());
         for (String separatedString : separatedStrings) {
@@ -128,6 +133,7 @@ public class SeparatedStringList
      * 
      * @return 分隔符。
      */
+    @Nonnull
     public String getDelimiter() {
         return delimiter;
     }
@@ -138,7 +144,7 @@ public class SeparatedStringList
      * @param delimiter
      *     分隔符。
      */
-    public void setDelimiter(String delimiter) {
+    public void setDelimiter(@Nonnull String delimiter) {
         this.delimiter = delimiter;
     }
 

@@ -6,6 +6,8 @@ package net.matrix.data;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 /**
  * 具有树型结构的数据源。
  */
@@ -15,6 +17,7 @@ public interface TreeSource<DATA> {
      * 
      * @return 顶级数据列表。
      */
+    @Nonnull
     List<DATA> getRoots();
 
     /**
@@ -24,5 +27,6 @@ public interface TreeSource<DATA> {
      *     数据。
      * @return 下级数据列表。
      */
-    List<DATA> getChildren(DATA data);
+    @Nonnull
+    List<DATA> getChildren(@Nonnull DATA data);
 }
