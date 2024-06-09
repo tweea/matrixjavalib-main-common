@@ -7,6 +7,9 @@ package net.matrix.java.lang;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.commons.lang3.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,7 @@ import net.matrix.text.ResourceBundleMessageFormatter;
 /**
  * 线程工具。
  */
+@ThreadSafe
 public final class ThreadMx {
     /**
      * 日志记录器。
@@ -58,7 +62,7 @@ public final class ThreadMx {
      * @param unit
      *     时间单位。
      */
-    public static void sleep(long duration, TimeUnit unit) {
+    public static void sleep(long duration, @Nonnull TimeUnit unit) {
         try {
             Thread.sleep(unit.toMillis(duration));
         } catch (InterruptedException e) {
@@ -75,7 +79,7 @@ public final class ThreadMx {
      * @param duration
      *     等待时间。
      */
-    public static void sleep(Duration duration) {
+    public static void sleep(@Nonnull Duration duration) {
         try {
             ThreadUtils.sleep(duration);
         } catch (InterruptedException e) {

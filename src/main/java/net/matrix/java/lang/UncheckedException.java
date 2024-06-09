@@ -6,9 +6,14 @@ package net.matrix.java.lang;
 
 import java.util.Objects;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+
 /**
  * 包装检查异常的非检查异常。
  */
+@Immutable
 public class UncheckedException
     extends RuntimeException {
     private static final long serialVersionUID = 1L;
@@ -19,7 +24,7 @@ public class UncheckedException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。
      */
-    public UncheckedException(Throwable cause) {
+    public UncheckedException(@Nonnull Throwable cause) {
         super(cause.toString());
         initCause(getInitCause(cause));
     }
@@ -33,7 +38,7 @@ public class UncheckedException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。
      */
-    public UncheckedException(String message, Throwable cause) {
+    public UncheckedException(@Nullable String message, @Nonnull Throwable cause) {
         super(message);
         Objects.requireNonNull(cause);
         initCause(getInitCause(cause));
@@ -42,7 +47,8 @@ public class UncheckedException
     /**
      * 获取原因异常。
      */
-    protected Throwable getInitCause(Throwable cause) {
+    @Nonnull
+    protected Throwable getInitCause(@Nonnull Throwable cause) {
         return cause;
     }
 }

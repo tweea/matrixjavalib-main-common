@@ -4,13 +4,18 @@
  */
 package net.matrix.java.lang;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
+import com.google.common.collect.Maps;
 
 /**
  * 枚举工具。
  */
+@ThreadSafe
 public final class EnumMx {
     /**
      * 阻止实例化。
@@ -27,13 +32,14 @@ public final class EnumMx {
      *     键映射函数。
      * @return 映射关系。
      */
-    public static <K, E extends Enum<E>> Map<K, E> buildValueMap(Class<E> enumClass, Function<? super E, ? extends K> keyFunction) {
-        Map<K, E> map = new HashMap<>();
+    @Nonnull
+    public static <K, E extends Enum<E>> Map<K, E> buildValueMap(@Nonnull Class<E> enumClass, @Nonnull Function<? super E, ? extends K> keyFunction) {
+        E[] values = enumClass.getEnumConstants();
 
-        for (E value : enumClass.getEnumConstants()) {
+        Map<K, E> map = Maps.newHashMapWithExpectedSize(values.length);
+        for (E value : values) {
             map.put(keyFunction.apply(value), value);
         }
-
         return map;
     }
 }

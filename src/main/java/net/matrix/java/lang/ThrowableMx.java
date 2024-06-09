@@ -6,6 +6,9 @@ package net.matrix.java.lang;
 
 import java.lang.reflect.UndeclaredThrowableException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import net.matrix.text.ResourceBundleMessageFormatter;
@@ -13,6 +16,7 @@ import net.matrix.text.ResourceBundleMessageFormatter;
 /**
  * 异常工具。
  */
+@ThreadSafe
 public final class ThrowableMx {
     /**
      * 区域相关资源。
@@ -32,7 +36,8 @@ public final class ThrowableMx {
      *     异常。
      * @return 非检查异常。
      */
-    public static RuntimeException wrap(Throwable throwable) {
+    @Nonnull
+    public static RuntimeException wrap(@Nonnull Throwable throwable) {
         if (throwable instanceof Error) {
             throw (Error) throwable;
         }
@@ -49,7 +54,8 @@ public final class ThrowableMx {
      *     异常。
      * @return 组合的异常信息。
      */
-    public static String getMessageWithRootCause(Throwable throwable) {
+    @Nonnull
+    public static String getMessageWithRootCause(@Nonnull Throwable throwable) {
         Throwable rootCause = ExceptionUtils.getRootCause(throwable);
         if (rootCause == null || rootCause == throwable) {
             return RBMF.format("{0} 没有根源异常", ExceptionUtils.getMessage(throwable));
@@ -66,7 +72,7 @@ public final class ThrowableMx {
      * @param causeTypes
      *     原因异常类型。
      */
-    public static boolean isCausedBy(Throwable throwable, Class<? extends Throwable>... causeTypes) {
+    public static boolean isCausedBy(@Nonnull Throwable throwable, @Nonnull Class<? extends Throwable>... causeTypes) {
         for (Class<? extends Throwable> causeType : causeTypes) {
             if (ExceptionUtils.indexOfType(throwable, causeType) >= 0) {
                 return true;

@@ -6,6 +6,8 @@ package net.matrix.data.convert;
 
 import java.nio.charset.StandardCharsets;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.BinaryCodec;
@@ -141,7 +143,8 @@ public interface BinaryStringConverter {
      *     字节数组。
      * @return 字符串。
      */
-    String toString(byte[] binary);
+    @Nullable
+    String toString(@Nullable byte[] binary);
 
     /**
      * 字符串转换为字节数组。
@@ -150,5 +153,6 @@ public interface BinaryStringConverter {
      *     字符串。
      * @return 字节数组。
      */
-    byte[] toBinary(String string);
+    @Nullable
+    byte[] toBinary(@Nullable String string);
 }

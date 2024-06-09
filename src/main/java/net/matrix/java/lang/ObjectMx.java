@@ -9,9 +9,14 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * 对象工具。
  */
+@ThreadSafe
 public final class ObjectMx {
     /**
      * 阻止实例化。
@@ -27,7 +32,7 @@ public final class ObjectMx {
      * @param action
      *     操作。
      */
-    public static void ifNull(Object object, Runnable action) {
+    public static void ifNull(@Nullable Object object, @Nonnull Runnable action) {
         if (object == null) {
             action.run();
         }
@@ -41,7 +46,7 @@ public final class ObjectMx {
      * @param action
      *     操作。
      */
-    public static <T> void ifNotNull(T object, Consumer<? super T> action) {
+    public static <T> void ifNotNull(@Nullable T object, @Nonnull Consumer<? super T> action) {
         if (object != null) {
             action.accept(object);
         }
@@ -57,7 +62,7 @@ public final class ObjectMx {
      * @param elseAction
      *     另一操作。
      */
-    public static <T> void ifNullOrElse(T object, Runnable action, Consumer<? super T> elseAction) {
+    public static <T> void ifNullOrElse(@Nullable T object, @Nonnull Runnable action, @Nonnull Consumer<? super T> elseAction) {
         if (object == null) {
             action.run();
         } else {
@@ -73,7 +78,7 @@ public final class ObjectMx {
      * @param predicate
      *     断言。
      */
-    public static <T> boolean ifNullOrTest(T object, Predicate<? super T> predicate) {
+    public static <T> boolean ifNullOrTest(@Nullable T object, @Nonnull Predicate<? super T> predicate) {
         if (object == null) {
             return true;
         }
@@ -89,7 +94,7 @@ public final class ObjectMx {
      * @param predicate
      *     断言。
      */
-    public static <T> boolean ifNotNullAndTest(T object, Predicate<? super T> predicate) {
+    public static <T> boolean ifNotNullAndTest(@Nullable T object, @Nonnull Predicate<? super T> predicate) {
         if (object == null) {
             return false;
         }
@@ -105,7 +110,8 @@ public final class ObjectMx {
      * @param mapper
      *     映射操作。
      */
-    public static <T, U> U ifNotNullMap(T object, Function<? super T, ? extends U> mapper) {
+    @Nullable
+    public static <T, U> U ifNotNullMap(@Nullable T object, @Nonnull Function<? super T, ? extends U> mapper) {
         if (object == null) {
             return null;
         }
@@ -121,7 +127,8 @@ public final class ObjectMx {
      * @param exceptionSupplier
      *     异常。
      */
-    public static <T, X extends Throwable> T ifNullThrow(T object, Supplier<? extends X> exceptionSupplier)
+    @Nonnull
+    public static <T, X extends Throwable> T ifNullThrow(@Nullable T object, @Nonnull Supplier<? extends X> exceptionSupplier)
         throws X {
         if (object == null) {
             throw exceptionSupplier.get();
@@ -140,7 +147,8 @@ public final class ObjectMx {
      * @param object2
      *     对象二。
      */
-    public static <T> T ifElse(boolean predicate, T object1, T object2) {
+    @Nullable
+    public static <T> T ifElse(boolean predicate, @Nullable T object1, @Nullable T object2) {
         if (predicate) {
             return object1;
         } else {
@@ -158,7 +166,8 @@ public final class ObjectMx {
      * @param supplier2
      *     对象二。
      */
-    public static <T> T ifElseGet(boolean predicate, Supplier<? extends T> supplier1, Supplier<? extends T> supplier2) {
+    @Nullable
+    public static <T> T ifElseGet(boolean predicate, @Nonnull Supplier<? extends T> supplier1, @Nonnull Supplier<? extends T> supplier2) {
         if (predicate) {
             return supplier1.get();
         } else {

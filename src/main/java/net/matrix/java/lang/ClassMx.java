@@ -7,9 +7,14 @@ package net.matrix.java.lang;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * 类工具。
  */
+@ThreadSafe
 public final class ClassMx {
     /**
      * 阻止实例化。
@@ -32,7 +37,7 @@ public final class ClassMx {
      *     类。
      * @return 父类泛型参数数量。
      */
-    public static int getParameterizedTypeNumber(Class clazz) {
+    public static int getParameterizedTypeNumber(@Nonnull Class clazz) {
         Type superclassType = clazz.getGenericSuperclass();
         if (!(superclassType instanceof ParameterizedType)) {
             return 0;
@@ -61,7 +66,8 @@ public final class ClassMx {
      *     父类泛型参数索引，从 0 开始。
      * @return 父类泛型参数类型。
      */
-    public static Class getParameterizedType(Class clazz, int index) {
+    @Nullable
+    public static Class getParameterizedType(@Nonnull Class clazz, int index) {
         Type superclassType = clazz.getGenericSuperclass();
         if (!(superclassType instanceof ParameterizedType)) {
             return null;

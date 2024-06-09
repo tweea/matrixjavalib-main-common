@@ -8,12 +8,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * 字符串工具。
  */
+@ThreadSafe
 public final class StringMx {
     /**
      * 阻止实例化。
@@ -30,7 +35,8 @@ public final class StringMx {
      *     字符串键值对
      * @return 替换后的字符串
      */
-    public static String replaceEach(String text, Map<String, String> replacementMap) {
+    @Nullable
+    public static String replaceEach(@Nullable String text, @Nullable Map<String, String> replacementMap) {
         if (StringUtils.isEmpty(text) || MapUtils.isEmpty(replacementMap)) {
             return text;
         }
@@ -58,7 +64,8 @@ public final class StringMx {
      *     字符串键值对
      * @return 替换后的字符串
      */
-    public static String replaceEachRepeatedly(String text, Map<String, String> replacementMap) {
+    @Nullable
+    public static String replaceEachRepeatedly(@Nullable String text, @Nullable Map<String, String> replacementMap) {
         if (StringUtils.isEmpty(text) || MapUtils.isEmpty(replacementMap)) {
             return text;
         }
@@ -92,7 +99,11 @@ public final class StringMx {
      *     分隔符。
      * @return 字符串。
      */
-    public static String join(Iterable items, String prefix, String suffix, String delimiter) {
+    @Nonnull
+    public static String join(@Nonnull Iterable items, @Nullable String prefix, @Nullable String suffix, @Nullable String delimiter) {
+        prefix = StringUtils.defaultString(prefix);
+        suffix = StringUtils.defaultString(suffix);
+
         StringJoiner joiner = new StringJoiner(StringUtils.join(suffix, delimiter, prefix), prefix, suffix).setEmptyValue("");
         for (Object item : items) {
             joiner.add(Objects.toString(item, ""));
