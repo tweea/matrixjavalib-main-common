@@ -11,6 +11,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +26,7 @@ import net.matrix.text.ResourceBundleMessageFormatter;
 /**
  * 反射工具。
  */
+@ThreadSafe
 public final class ReflectionMx {
     /**
      * 区域相关资源。
@@ -56,7 +61,7 @@ public final class ReflectionMx {
      *     反射对象。
      * @return {@code accessible} 标识。
      */
-    public static boolean isAccessible(AccessibleObject accessibleObject) {
+    public static boolean isAccessible(@Nonnull AccessibleObject accessibleObject) {
         return accessibleObject.isAccessible();
     }
 
@@ -66,7 +71,7 @@ public final class ReflectionMx {
      * @param field
      *     字段。
      */
-    public static void makeAccessible(Field field) {
+    public static void makeAccessible(@Nonnull Field field) {
         if (isAccessible(field)) {
             return;
         }
@@ -86,7 +91,8 @@ public final class ReflectionMx {
      *     字段名。
      * @return 字段。
      */
-    public static Field getAccessibleField(Class<?> targetType, String name) {
+    @Nullable
+    public static Field getAccessibleField(@Nonnull Class<?> targetType, @Nonnull String name) {
         return FieldUtils.getField(targetType, name, true);
     }
 
@@ -99,7 +105,7 @@ public final class ReflectionMx {
      *     字段名。
      * @return 字段值。
      */
-    public static <T> T getFieldValue(Object target, String name) {
+    public static <T> T getFieldValue(@Nonnull Object target, @Nonnull String name) {
         try {
             return (T) FieldUtils.readField(target, name, true);
         } catch (IllegalAccessException e) {
@@ -116,7 +122,7 @@ public final class ReflectionMx {
      *     字段。
      * @return 字段值。
      */
-    public static <T> T getFieldValue(Object target, Field field) {
+    public static <T> T getFieldValue(@Nonnull Object target, @Nonnull Field field) {
         try {
             return (T) field.get(target);
         } catch (IllegalAccessException e) {
@@ -134,7 +140,7 @@ public final class ReflectionMx {
      * @param value
      *     字段值。
      */
-    public static void setFieldValue(Object target, String name, Object value) {
+    public static void setFieldValue(@Nonnull Object target, @Nonnull String name, Object value) {
         try {
             FieldUtils.writeField(target, name, value, true);
         } catch (IllegalAccessException e) {
@@ -152,7 +158,7 @@ public final class ReflectionMx {
      * @param value
      *     字段值。
      */
-    public static void setFieldValue(Object target, Field field, Object value) {
+    public static void setFieldValue(@Nonnull Object target, @Nonnull Field field, Object value) {
         try {
             field.set(target, value);
         } catch (IllegalAccessException e) {
@@ -166,7 +172,7 @@ public final class ReflectionMx {
      * @param constructor
      *     构造器。
      */
-    public static void makeAccessible(Constructor constructor) {
+    public static void makeAccessible(@Nonnull Constructor constructor) {
         if (isAccessible(constructor)) {
             return;
         }
@@ -182,7 +188,7 @@ public final class ReflectionMx {
      * @param method
      *     方法。
      */
-    public static void makeAccessible(Method method) {
+    public static void makeAccessible(@Nonnull Method method) {
         if (isAccessible(method)) {
             return;
         }
@@ -203,7 +209,8 @@ public final class ReflectionMx {
      *     参数类型。
      * @return 方法。
      */
-    public static Method getAccessibleMethod(Class<?> targetType, String name, Class<?>... parameterTypes) {
+    @Nullable
+    public static Method getAccessibleMethod(@Nonnull Class<?> targetType, @Nonnull String name, @Nonnull Class<?>... parameterTypes) {
         Method method = MethodUtils.getMatchingMethod(targetType, name, parameterTypes);
         if (method == null) {
             return null;
@@ -222,7 +229,8 @@ public final class ReflectionMx {
      *     方法名。
      * @return 方法。
      */
-    public static Method getAccessibleMethodByName(Class<?> targetType, String name) {
+    @Nullable
+    public static Method getAccessibleMethodByName(@Nonnull Class<?> targetType, @Nonnull String name) {
         for (Class<?> searchType = targetType; searchType != null; searchType = searchType.getSuperclass()) {
             Method[] methods = searchType.getDeclaredMethods();
             for (Method method : methods) {
@@ -247,7 +255,7 @@ public final class ReflectionMx {
      *     参数值。
      * @return 方法返回值。
      */
-    public static <T> T invokeMethod(Object target, String name, Object... parameterValues) {
+    public static <T> T invokeMethod(@Nonnull Object target, @Nonnull String name, Object... parameterValues) {
         parameterValues = ArrayUtils.nullToEmpty(parameterValues);
         Class<?>[] parameterTypes = ClassUtils.toClass(parameterValues);
         return invokeMethod(target, name, parameterTypes, parameterValues);
@@ -267,7 +275,7 @@ public final class ReflectionMx {
      *     参数值。
      * @return 方法返回值。
      */
-    public static <T> T invokeMethod(Object target, String name, Class<?>[] parameterTypes, Object[] parameterValues) {
+    public static <T> T invokeMethod(@Nonnull Object target, @Nonnull String name, @Nonnull Class<?>[] parameterTypes, Object[] parameterValues) {
         Class<?> targetType = target.getClass();
         Method method = getAccessibleMethod(targetType, name, parameterTypes);
         if (method == null) {
@@ -289,7 +297,7 @@ public final class ReflectionMx {
      *     参数值。
      * @return 方法返回值。
      */
-    public static <T> T invokeMethodByName(Object target, String name, Object... parameterValues) {
+    public static <T> T invokeMethodByName(@Nonnull Object target, @Nonnull String name, Object... parameterValues) {
         Class<?> targetType = target.getClass();
         Method method = getAccessibleMethodByName(targetType, name);
         if (method == null) {
@@ -310,7 +318,7 @@ public final class ReflectionMx {
      *     参数值。
      * @return 方法返回值。
      */
-    public static <T> T invokeMethod(Object target, Method method, Object... parameterValues) {
+    public static <T> T invokeMethod(@Nonnull Object target, @Nonnull Method method, Object... parameterValues) {
         try {
             return (T) method.invoke(target, parameterValues);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -327,7 +335,8 @@ public final class ReflectionMx {
      *     属性名。
      * @return 方法。
      */
-    public static Method getAccessibleGetterMethod(Class<?> targetType, String propertyName) {
+    @Nullable
+    public static Method getAccessibleGetterMethod(@Nonnull Class<?> targetType, @Nonnull String propertyName) {
         String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(propertyName);
         Method method = getAccessibleMethod(targetType, getterMethodName);
         if (method == null) {
@@ -348,7 +357,8 @@ public final class ReflectionMx {
      *     属性类型。
      * @return 方法。
      */
-    public static Method getAccessibleSetterMethod(Class<?> targetType, String propertyName, Class<?> parameterType) {
+    @Nullable
+    public static Method getAccessibleSetterMethod(@Nonnull Class<?> targetType, @Nonnull String propertyName, @Nonnull Class<?> parameterType) {
         String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(propertyName);
         return getAccessibleMethod(targetType, setterMethodName, parameterType);
     }
@@ -362,7 +372,7 @@ public final class ReflectionMx {
      *     属性名。
      * @return 属性值。
      */
-    public static <T> T invokeGetter(Object target, String propertyName) {
+    public static <T> T invokeGetter(@Nonnull Object target, @Nonnull String propertyName) {
         Class<?> targetType = target.getClass();
         Method method = getAccessibleGetterMethod(targetType, propertyName);
         if (method == null) {
@@ -384,7 +394,7 @@ public final class ReflectionMx {
      * @param propertyValue
      *     属性值
      */
-    public static void invokeSetter(Object target, String propertyName, Class<?> parameterType, Object propertyValue) {
+    public static void invokeSetter(@Nonnull Object target, @Nonnull String propertyName, @Nonnull Class<?> parameterType, Object propertyValue) {
         Class<?> targetType = target.getClass();
         Method method = getAccessibleSetterMethod(targetType, propertyName, parameterType);
         if (method == null) {

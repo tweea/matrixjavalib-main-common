@@ -6,11 +6,16 @@ package net.matrix.java.lang.reflect;
 
 import java.lang.reflect.InvocationTargetException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+
 import net.matrix.java.lang.UncheckedException;
 
 /**
  * 包装反射操作异常的非检查异常。
  */
+@Immutable
 public class UncheckedReflectiveOperationException
     extends UncheckedException {
     private static final long serialVersionUID = 1L;
@@ -21,7 +26,7 @@ public class UncheckedReflectiveOperationException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。
      */
-    public UncheckedReflectiveOperationException(ReflectiveOperationException cause) {
+    public UncheckedReflectiveOperationException(@Nonnull ReflectiveOperationException cause) {
         super(cause);
     }
 
@@ -34,7 +39,7 @@ public class UncheckedReflectiveOperationException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。
      */
-    public UncheckedReflectiveOperationException(String message, ReflectiveOperationException cause) {
+    public UncheckedReflectiveOperationException(@Nullable String message, @Nonnull ReflectiveOperationException cause) {
         super(message, cause);
     }
 
