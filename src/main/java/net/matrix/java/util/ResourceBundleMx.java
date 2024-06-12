@@ -10,6 +10,10 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +22,7 @@ import net.matrix.text.ResourceBundleMessageFormatter;
 /**
  * 区域相关资源工具。
  */
+@ThreadSafe
 public final class ResourceBundleMx {
     /**
      * 日志记录器。
@@ -60,7 +65,8 @@ public final class ResourceBundleMx {
      *     资源基础名称。
      * @return 资源。
      */
-    public static ResourceBundle getBundle(String baseName) {
+    @Nonnull
+    public static ResourceBundle getBundle(@Nonnull String baseName) {
         try {
             return ResourceBundle.getBundle(baseName, XMLPropertyResourceBundle.Control.INSTANCE);
         } catch (MissingResourceException e) {
@@ -88,7 +94,8 @@ public final class ResourceBundleMx {
      *     区域。
      * @return 资源。
      */
-    public static ResourceBundle getBundle(String baseName, Locale locale) {
+    @Nonnull
+    public static ResourceBundle getBundle(@Nonnull String baseName, @Nonnull Locale locale) {
         try {
             return ResourceBundle.getBundle(baseName, locale, XMLPropertyResourceBundle.Control.INSTANCE);
         } catch (MissingResourceException e) {
@@ -118,7 +125,8 @@ public final class ResourceBundleMx {
      *     类加载器。
      * @return 资源。
      */
-    public static ResourceBundle getBundle(String baseName, Locale locale, ClassLoader loader) {
+    @Nonnull
+    public static ResourceBundle getBundle(@Nonnull String baseName, @Nonnull Locale locale, @Nonnull ClassLoader loader) {
         try {
             return ResourceBundle.getBundle(baseName, locale, loader, XMLPropertyResourceBundle.Control.INSTANCE);
         } catch (MissingResourceException e) {
@@ -146,7 +154,8 @@ public final class ResourceBundleMx {
      *     键值。
      * @return 对象。
      */
-    public static <T> T getObject(ResourceBundle bundle, String key) {
+    @Nullable
+    public static <T> T getObject(@Nullable ResourceBundle bundle, @Nonnull String key) {
         return getObject(bundle, key, null);
     }
 
@@ -161,7 +170,8 @@ public final class ResourceBundleMx {
      *     默认对象。
      * @return 对象。
      */
-    public static <T> T getObject(ResourceBundle bundle, String key, T defaultObject) {
+    @Nullable
+    public static <T> T getObject(@Nullable ResourceBundle bundle, @Nonnull String key, @Nullable T defaultObject) {
         if (bundle == null) {
             return defaultObject;
         }

@@ -7,6 +7,8 @@ package net.matrix.java.util;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.collections4.iterators.EnumerationIterator;
 
 /**
@@ -17,6 +19,7 @@ public class EnumerationIterable<E>
     /**
      * 被转换的 {@link Enumeration}。
      */
+    @Nonnull
     private final Enumeration<? extends E> enumeration;
 
     /**
@@ -25,7 +28,7 @@ public class EnumerationIterable<E>
      * @param enumeration
      *     被转换的 {@link Enumeration}。
      */
-    public EnumerationIterable(Enumeration<? extends E> enumeration) {
+    public EnumerationIterable(@Nonnull Enumeration<? extends E> enumeration) {
         this.enumeration = enumeration;
     }
 

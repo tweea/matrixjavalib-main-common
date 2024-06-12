@@ -6,9 +6,14 @@ package net.matrix.java.util;
 
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * 区域工具。
  */
+@ThreadSafe
 public final class LocaleMx {
     /**
      * 线程相关的区域。
@@ -35,6 +40,7 @@ public final class LocaleMx {
      * 获取线程相关的区域。
      * 初始为系统默认区域。
      */
+    @Nonnull
     public static Locale current() {
         return CURRENT_HOLDER.get();
     }
@@ -46,7 +52,8 @@ public final class LocaleMx {
      * @param category
      *     区域的功能分类。
      */
-    public static Locale current(Locale.Category category) {
+    @Nonnull
+    public static Locale current(@Nonnull Locale.Category category) {
         switch (category) {
         case DISPLAY:
             return CURRENT_DISPLAY_HOLDER.get();
@@ -62,7 +69,7 @@ public final class LocaleMx {
      * 同时改变所有功能分类的区域。
      * 参数为 <code>null</code> 时重置为系统默认区域。
      */
-    public static void current(Locale locale) {
+    public static void current(@Nullable Locale locale) {
         if (locale == null) {
             CURRENT_HOLDER.remove();
             CURRENT_DISPLAY_HOLDER.remove();
@@ -81,7 +88,7 @@ public final class LocaleMx {
      * @param category
      *     区域的功能分类。
      */
-    public static void current(Locale.Category category, Locale locale) {
+    public static void current(@Nonnull Locale.Category category, @Nullable Locale locale) {
         switch (category) {
         case DISPLAY:
             if (locale == null) {

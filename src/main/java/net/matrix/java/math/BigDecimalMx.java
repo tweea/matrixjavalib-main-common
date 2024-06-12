@@ -6,9 +6,13 @@ package net.matrix.java.math;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * {@link BigDecimal} 工具。
  */
+@ThreadSafe
 public final class BigDecimalMx {
     /**
      * 阻止实例化。
@@ -25,7 +29,7 @@ public final class BigDecimalMx {
      *     另一个 {@link BigDecimal}。
      * @return 是否相等。
      */
-    public static boolean equals(BigDecimal a, BigDecimal b) {
+    public static boolean equals(@Nullable BigDecimal a, @Nullable BigDecimal b) {
         if (a == b) {
             return true;
         }

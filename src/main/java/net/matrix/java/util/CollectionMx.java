@@ -12,9 +12,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * 集合工具。
  */
+@ThreadSafe
 public final class CollectionMx {
     /**
      * 阻止实例化。
@@ -31,7 +35,8 @@ public final class CollectionMx {
      *     值映射函数。
      * @return 集合。
      */
-    public static <V, I> List<V> buildList(Iterable<I> items, Function<? super I, ? extends V> valueFunction) {
+    @Nonnull
+    public static <V, I> List<V> buildList(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends V> valueFunction) {
         List<V> list = new ArrayList<>();
 
         for (I item : items) {
@@ -50,7 +55,8 @@ public final class CollectionMx {
      *     值映射函数。
      * @return 集合。
      */
-    public static <V, I> Set<V> buildSet(Iterable<I> items, Function<? super I, ? extends V> valueFunction) {
+    @Nonnull
+    public static <V, I> Set<V> buildSet(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends V> valueFunction) {
         Set<V> set = new HashSet<>();
 
         for (I item : items) {
@@ -69,7 +75,8 @@ public final class CollectionMx {
      *     键映射函数。
      * @return 映射关系。
      */
-    public static <K, I> Map<K, I> buildMap(Iterable<I> items, Function<? super I, ? extends K> keyFunction) {
+    @Nonnull
+    public static <K, I> Map<K, I> buildMap(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends K> keyFunction) {
         Map<K, I> map = new HashMap<>();
 
         for (I item : items) {
@@ -90,8 +97,9 @@ public final class CollectionMx {
      *     值映射函数。
      * @return 映射关系。
      */
-    public static <K, V, I> Map<K, V> buildMap(Iterable<I> items, Function<? super I, ? extends K> keyFunction,
-        Function<? super I, ? extends V> valueFunction) {
+    @Nonnull
+    public static <K, V, I> Map<K, V> buildMap(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends K> keyFunction,
+        @Nonnull Function<? super I, ? extends V> valueFunction) {
         Map<K, V> map = new HashMap<>();
 
         for (I item : items) {
@@ -110,7 +118,8 @@ public final class CollectionMx {
      *     键映射函数。
      * @return 映射关系。
      */
-    public static <K, I> Map<K, List<I>> buildListMap(Iterable<I> items, Function<? super I, ? extends K> keyFunction) {
+    @Nonnull
+    public static <K, I> Map<K, List<I>> buildListMap(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends K> keyFunction) {
         Map<K, List<I>> map = new HashMap<>();
 
         for (I item : items) {
@@ -131,8 +140,9 @@ public final class CollectionMx {
      *     值映射函数。
      * @return 映射关系。
      */
-    public static <K, V, I> Map<K, List<V>> buildListMap(Iterable<I> items, Function<? super I, ? extends K> keyFunction,
-        Function<? super I, ? extends V> valueFunction) {
+    @Nonnull
+    public static <K, V, I> Map<K, List<V>> buildListMap(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends K> keyFunction,
+        @Nonnull Function<? super I, ? extends V> valueFunction) {
         Map<K, List<V>> map = new HashMap<>();
 
         for (I item : items) {
@@ -151,7 +161,8 @@ public final class CollectionMx {
      *     键映射函数。
      * @return 映射关系。
      */
-    public static <K, I> Map<K, Set<I>> buildSetMap(Iterable<I> items, Function<? super I, ? extends K> keyFunction) {
+    @Nonnull
+    public static <K, I> Map<K, Set<I>> buildSetMap(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends K> keyFunction) {
         Map<K, Set<I>> map = new HashMap<>();
 
         for (I item : items) {
@@ -172,8 +183,9 @@ public final class CollectionMx {
      *     值映射函数。
      * @return 映射关系。
      */
-    public static <K, V, I> Map<K, Set<V>> buildSetMap(Iterable<I> items, Function<? super I, ? extends K> keyFunction,
-        Function<? super I, ? extends V> valueFunction) {
+    @Nonnull
+    public static <K, V, I> Map<K, Set<V>> buildSetMap(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends K> keyFunction,
+        @Nonnull Function<? super I, ? extends V> valueFunction) {
         Map<K, Set<V>> map = new HashMap<>();
 
         for (I item : items) {

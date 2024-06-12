@@ -19,16 +19,21 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
+
 /**
  * 读取 XML 格式属性内容的 {@link ResourceBundle} 实现。
  * 
  * @see Properties#loadFromXML(InputStream)
  */
+@Immutable
 public class XMLPropertyResourceBundle
     extends ResourceBundle {
     /**
      * 属性内容。
      */
+    @Nonnull
     private final Map<String, Object> lookup;
 
     /**
@@ -39,7 +44,7 @@ public class XMLPropertyResourceBundle
      * @throws IOException
      *     出现输入输出错误。
      */
-    public XMLPropertyResourceBundle(InputStream stream)
+    public XMLPropertyResourceBundle(@Nonnull InputStream stream)
         throws IOException {
         Properties properties = new Properties();
         properties.loadFromXML(stream);

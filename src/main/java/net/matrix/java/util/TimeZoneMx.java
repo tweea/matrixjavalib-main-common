@@ -6,9 +6,14 @@ package net.matrix.java.util;
 
 import java.util.TimeZone;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * 时区工具。
  */
+@ThreadSafe
 public final class TimeZoneMx {
     /**
      * 线程相关的时区。
@@ -25,6 +30,7 @@ public final class TimeZoneMx {
      * 获取线程相关的时区。
      * 初始为系统默认时区。
      */
+    @Nonnull
     public static TimeZone current() {
         return CURRENT_HOLDER.get();
     }
@@ -33,7 +39,7 @@ public final class TimeZoneMx {
      * 设置线程相关的时区。
      * 参数为 <code>null</code> 时重置为系统默认时区。
      */
-    public static void current(TimeZone timeZone) {
+    public static void current(@Nullable TimeZone timeZone) {
         if (timeZone == null) {
             CURRENT_HOLDER.remove();
         } else {

@@ -16,12 +16,17 @@ import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * 日期时间格式化工具。
  */
+@ThreadSafe
 public final class DateTimeFormatterMx {
     /**
      * 缓存。
@@ -40,7 +45,8 @@ public final class DateTimeFormatterMx {
      * @param pattern
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      */
-    public static DateTimeFormatter of(String pattern) {
+    @Nonnull
+    public static DateTimeFormatter of(@Nonnull String pattern) {
         return CACHE.computeIfAbsent(new MultiKey(ArrayUtils.toArray(pattern), false), key -> DateTimeFormatter.ofPattern(pattern));
     }
 
@@ -52,7 +58,8 @@ public final class DateTimeFormatterMx {
      * @param zoneId
      *     时区。
      */
-    public static DateTimeFormatter of(String pattern, ZoneId zoneId) {
+    @Nonnull
+    public static DateTimeFormatter of(@Nonnull String pattern, @Nullable ZoneId zoneId) {
         return CACHE.computeIfAbsent(new MultiKey(pattern, zoneId), key -> DateTimeFormatter.ofPattern(pattern).withZone(zoneId));
     }
 
@@ -64,7 +71,8 @@ public final class DateTimeFormatterMx {
      * @param locale
      *     区域。
      */
-    public static DateTimeFormatter of(String pattern, Locale locale) {
+    @Nonnull
+    public static DateTimeFormatter of(@Nonnull String pattern, @Nonnull Locale locale) {
         return CACHE.computeIfAbsent(new MultiKey(pattern, locale), key -> DateTimeFormatter.ofPattern(pattern, locale));
     }
 
@@ -78,7 +86,8 @@ public final class DateTimeFormatterMx {
      * @param locale
      *     区域。
      */
-    public static DateTimeFormatter of(String pattern, ZoneId zoneId, Locale locale) {
+    @Nonnull
+    public static DateTimeFormatter of(@Nonnull String pattern, @Nullable ZoneId zoneId, @Nonnull Locale locale) {
         return CACHE.computeIfAbsent(new MultiKey(pattern, zoneId, locale), key -> DateTimeFormatter.ofPattern(pattern, locale).withZone(zoneId));
     }
 
@@ -91,7 +100,8 @@ public final class DateTimeFormatterMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 字符串。
      */
-    public static String format(TemporalAccessor temporal, String pattern) {
+    @Nullable
+    public static String format(@Nullable TemporalAccessor temporal, @Nonnull String pattern) {
         if (temporal == null) {
             return null;
         }
@@ -108,7 +118,8 @@ public final class DateTimeFormatterMx {
      *     格式化对象。
      * @return 字符串。
      */
-    public static String format(TemporalAccessor temporal, DateTimeFormatter formatter) {
+    @Nullable
+    public static String format(@Nullable TemporalAccessor temporal, @Nonnull DateTimeFormatter formatter) {
         if (temporal == null) {
             return null;
         }
@@ -127,7 +138,8 @@ public final class DateTimeFormatterMx {
      *     日期时间对象的类型。
      * @return 日期时间对象。
      */
-    public static <T> T parse(CharSequence text, String pattern, TemporalQuery<T> query) {
+    @Nullable
+    public static <T> T parse(@Nullable CharSequence text, @Nonnull String pattern, @Nonnull TemporalQuery<T> query) {
         if (text == null) {
             return null;
         }
@@ -146,7 +158,8 @@ public final class DateTimeFormatterMx {
      *     日期时间对象的类型。
      * @return 日期时间对象。
      */
-    public static <T> T parse(CharSequence text, DateTimeFormatter formatter, TemporalQuery<T> query) {
+    @Nullable
+    public static <T> T parse(@Nullable CharSequence text, @Nonnull DateTimeFormatter formatter, @Nonnull TemporalQuery<T> query) {
         if (text == null) {
             return null;
         }
@@ -163,7 +176,8 @@ public final class DateTimeFormatterMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 时刻对象。
      */
-    public static Instant parseInstant(CharSequence text, String pattern) {
+    @Nullable
+    public static Instant parseInstant(@Nullable CharSequence text, @Nonnull String pattern) {
         return parse(text, pattern, Instant::from);
     }
 
@@ -176,7 +190,8 @@ public final class DateTimeFormatterMx {
      *     格式化对象。
      * @return 时刻对象。
      */
-    public static Instant parseInstant(CharSequence text, DateTimeFormatter formatter) {
+    @Nullable
+    public static Instant parseInstant(@Nullable CharSequence text, @Nonnull DateTimeFormatter formatter) {
         return parse(text, formatter, Instant::from);
     }
 
@@ -189,7 +204,8 @@ public final class DateTimeFormatterMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 本地日期对象。
      */
-    public static LocalDate parseLocalDate(CharSequence text, String pattern) {
+    @Nullable
+    public static LocalDate parseLocalDate(@Nullable CharSequence text, @Nonnull String pattern) {
         return parse(text, pattern, LocalDate::from);
     }
 
@@ -202,7 +218,8 @@ public final class DateTimeFormatterMx {
      *     格式化对象。
      * @return 本地日期对象。
      */
-    public static LocalDate parseLocalDate(CharSequence text, DateTimeFormatter formatter) {
+    @Nullable
+    public static LocalDate parseLocalDate(@Nullable CharSequence text, @Nonnull DateTimeFormatter formatter) {
         return parse(text, formatter, LocalDate::from);
     }
 
@@ -215,7 +232,8 @@ public final class DateTimeFormatterMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 本地时间对象。
      */
-    public static LocalTime parseLocalTime(CharSequence text, String pattern) {
+    @Nullable
+    public static LocalTime parseLocalTime(@Nullable CharSequence text, @Nonnull String pattern) {
         return parse(text, pattern, LocalTime::from);
     }
 
@@ -228,7 +246,8 @@ public final class DateTimeFormatterMx {
      *     格式化对象。
      * @return 本地时间对象。
      */
-    public static LocalTime parseLocalTime(CharSequence text, DateTimeFormatter formatter) {
+    @Nullable
+    public static LocalTime parseLocalTime(@Nullable CharSequence text, @Nonnull DateTimeFormatter formatter) {
         return parse(text, formatter, LocalTime::from);
     }
 
@@ -241,7 +260,8 @@ public final class DateTimeFormatterMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 本地日期时间对象。
      */
-    public static LocalDateTime parseLocalDateTime(CharSequence text, String pattern) {
+    @Nullable
+    public static LocalDateTime parseLocalDateTime(@Nullable CharSequence text, @Nonnull String pattern) {
         return parse(text, pattern, LocalDateTime::from);
     }
 
@@ -254,7 +274,8 @@ public final class DateTimeFormatterMx {
      *     格式化对象。
      * @return 本地日期时间对象。
      */
-    public static LocalDateTime parseLocalDateTime(CharSequence text, DateTimeFormatter formatter) {
+    @Nullable
+    public static LocalDateTime parseLocalDateTime(@Nullable CharSequence text, @Nonnull DateTimeFormatter formatter) {
         return parse(text, formatter, LocalDateTime::from);
     }
 }

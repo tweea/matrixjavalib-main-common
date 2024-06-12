@@ -10,6 +10,9 @@ import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.matrix.java.lang.ObjectMx;
 
 /**
@@ -20,16 +23,19 @@ public class ResourceBundleKeyEnumeration
     /**
      * 本级键值集合。
      */
+    @Nonnull
     private final Set<String> set;
 
     /**
      * 本级键值集合对应迭代器。
      */
+    @Nonnull
     private final Iterator<String> iterator;
 
     /**
      * 上级键值集合对应枚举器。
      */
+    @Nullable
     private final Enumeration<String> enumeration;
 
     private String next;
@@ -42,7 +48,7 @@ public class ResourceBundleKeyEnumeration
      * @param parent
      *     上级。
      */
-    public ResourceBundleKeyEnumeration(Set<String> set, ResourceBundle parent) {
+    public ResourceBundleKeyEnumeration(@Nonnull Set<String> set, @Nullable ResourceBundle parent) {
         this.set = set;
         this.iterator = set.iterator();
         this.enumeration = ObjectMx.ifNotNullMap(parent, ResourceBundle::getKeys);

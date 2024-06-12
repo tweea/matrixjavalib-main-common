@@ -13,6 +13,9 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +24,7 @@ import net.matrix.text.ResourceBundleMessageFormatter;
 /**
  * 日期时间工具。
  */
+@ThreadSafe
 public final class DateTimeMx {
     /**
      * 日志记录器。
@@ -91,7 +95,8 @@ public final class DateTimeMx {
      *     表示日期时间的对象。
      * @return {@link Instant} 对象。
      */
-    public static Instant toInstant(Object object) {
+    @Nullable
+    public static Instant toInstant(@Nullable Object object) {
         if (object == null) {
             return null;
         }
@@ -118,7 +123,8 @@ public final class DateTimeMx {
      *     时区 ID，为 <code>null</code> 时使用系统默认时区 ID。
      * @return {@link LocalDate} 对象。
      */
-    public static LocalDate toLocalDate(Object object, ZoneId zoneId) {
+    @Nullable
+    public static LocalDate toLocalDate(@Nullable Object object, @Nullable ZoneId zoneId) {
         Instant instant = toInstant(object);
         if (instant == null) {
             return null;
@@ -140,7 +146,8 @@ public final class DateTimeMx {
      *     时区 ID，为 <code>null</code> 时使用系统默认时区 ID。
      * @return {@link LocalTime} 对象。
      */
-    public static LocalTime toLocalTime(Object object, ZoneId zoneId) {
+    @Nullable
+    public static LocalTime toLocalTime(@Nullable Object object, @Nullable ZoneId zoneId) {
         Instant instant = toInstant(object);
         if (instant == null) {
             return null;
@@ -162,7 +169,8 @@ public final class DateTimeMx {
      *     时区 ID，为 <code>null</code> 时使用系统默认时区 ID。
      * @return {@link LocalDateTime} 对象。
      */
-    public static LocalDateTime toLocalDateTime(Object object, ZoneId zoneId) {
+    @Nullable
+    public static LocalDateTime toLocalDateTime(@Nullable Object object, @Nullable ZoneId zoneId) {
         Instant instant = toInstant(object);
         if (instant == null) {
             return null;
@@ -201,7 +209,8 @@ public final class DateTimeMx {
      *     时区 ID，为 <code>null</code> 时使用系统默认时区 ID。
      * @return 毫秒数。
      */
-    public static Long toEpochMilli(Object object, ZoneId zoneId) {
+    @Nullable
+    public static Long toEpochMilli(@Nullable Object object, @Nullable ZoneId zoneId) {
         if (object == null) {
             return null;
         }
@@ -222,7 +231,8 @@ public final class DateTimeMx {
      *     时区 ID，为 <code>null</code> 时使用系统默认时区 ID。
      * @return {@link Date} 对象。
      */
-    public static Date toDate(Object object, ZoneId zoneId) {
+    @Nullable
+    public static Date toDate(@Nullable Object object, @Nullable ZoneId zoneId) {
         if (object == null) {
             return null;
         }
@@ -243,7 +253,8 @@ public final class DateTimeMx {
      *     时区 ID，为 <code>null</code> 时使用系统默认时区 ID。
      * @return {@link Calendar} 对象。
      */
-    public static Calendar toCalendar(Object object, ZoneId zoneId) {
+    @Nullable
+    public static Calendar toCalendar(@Nullable Object object, @Nullable ZoneId zoneId) {
         if (object == null) {
             return null;
         }
