@@ -28,6 +28,8 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -45,6 +47,7 @@ import org.bouncycastle.util.Arrays;
 /**
  * 加密算法工具。
  */
+@ThreadSafe
 public final class CryptoMx {
     /**
      * 随机数生成器。
@@ -70,7 +73,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 随机数生成器算法实例。
      */
-    public static SecureRandom getSecureRandom(String algorithm) {
+    @Nonnull
+    public static SecureRandom getSecureRandom(@Nonnull String algorithm) {
         if (CryptoAlgorithm.Random.forCode(algorithm) == CryptoAlgorithm.Random.SYSTEM) {
             return SYSTEM_SECURE_RANDOM;
         }
@@ -88,7 +92,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 随机数生成器算法实例。
      */
-    public static SecureRandom getSecureRandom(CryptoAlgorithm.Random algorithm) {
+    @Nonnull
+    public static SecureRandom getSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
         return getSecureRandom(algorithm.algorithm);
     }
 
@@ -100,7 +105,7 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void generateRandom(byte[] randomData, SecureRandom secureRandom) {
+    public static void generateRandom(@Nonnull byte[] randomData, @Nonnull SecureRandom secureRandom) {
         secureRandom.nextBytes(randomData);
     }
 
@@ -113,7 +118,8 @@ public final class CryptoMx {
      *     随机数生成器算法实例。
      * @return 随机数。
      */
-    public static byte[] generateRandom(int length, SecureRandom secureRandom) {
+    @Nonnull
+    public static byte[] generateRandom(int length, @Nonnull SecureRandom secureRandom) {
         byte[] randomData = new byte[length];
         generateRandom(randomData, secureRandom);
         return randomData;
@@ -127,7 +133,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 摘要算法实例。
      */
-    public static MessageDigest getMessageDigest(String algorithm) {
+    @Nonnull
+    public static MessageDigest getMessageDigest(@Nonnull String algorithm) {
         try {
             return MessageDigest.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -142,7 +149,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 摘要算法实例。
      */
-    public static MessageDigest getMessageDigest(CryptoAlgorithm.Digest algorithm) {
+    @Nonnull
+    public static MessageDigest getMessageDigest(@Nonnull CryptoAlgorithm.Digest algorithm) {
         return getMessageDigest(algorithm.algorithm);
     }
 
@@ -154,7 +162,7 @@ public final class CryptoMx {
      * @param digest
      *     摘要算法实例。
      */
-    public static void updateDigest(byte[] plainData, MessageDigest digest) {
+    public static void updateDigest(@Nonnull byte[] plainData, @Nonnull MessageDigest digest) {
         digest.update(plainData);
     }
 
@@ -167,7 +175,8 @@ public final class CryptoMx {
      *     摘要算法实例。
      * @return 摘要。
      */
-    public static byte[] digest(byte[] plainData, MessageDigest digest) {
+    @Nonnull
+    public static byte[] digest(@Nonnull byte[] plainData, @Nonnull MessageDigest digest) {
         updateDigest(plainData, digest);
         return digest.digest();
     }
@@ -183,7 +192,8 @@ public final class CryptoMx {
      *     摘要算法实例。
      * @return 摘要。
      */
-    public static byte[] digest(byte[] plainData, byte[] saltData, MessageDigest digest) {
+    @Nonnull
+    public static byte[] digest(@Nonnull byte[] plainData, @Nonnull byte[] saltData, @Nonnull MessageDigest digest) {
         updateDigest(saltData, digest);
         updateDigest(plainData, digest);
         return digest.digest();
@@ -199,7 +209,7 @@ public final class CryptoMx {
      * @throws IOException
      *     读取明文失败。
      */
-    public static void updateDigest(InputStream plainData, MessageDigest digest)
+    public static void updateDigest(@Nonnull InputStream plainData, @Nonnull MessageDigest digest)
         throws IOException {
         byte[] input = new byte[8 * 1024];
         int readLength = -1;
@@ -219,7 +229,8 @@ public final class CryptoMx {
      * @throws IOException
      *     读取明文失败。
      */
-    public static byte[] digest(InputStream plainData, MessageDigest digest)
+    @Nonnull
+    public static byte[] digest(@Nonnull InputStream plainData, @Nonnull MessageDigest digest)
         throws IOException {
         updateDigest(plainData, digest);
         return digest.digest();
@@ -238,7 +249,8 @@ public final class CryptoMx {
      * @throws IOException
      *     读取明文失败。
      */
-    public static byte[] digest(InputStream plainData, byte[] saltData, MessageDigest digest)
+    @Nonnull
+    public static byte[] digest(@Nonnull InputStream plainData, @Nonnull byte[] saltData, @Nonnull MessageDigest digest)
         throws IOException {
         updateDigest(saltData, digest);
         updateDigest(plainData, digest);
@@ -253,7 +265,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 加密算法参数生成器实例。
      */
-    public static AlgorithmParameterGenerator getAlgorithmParameterGenerator(String algorithm) {
+    @Nonnull
+    public static AlgorithmParameterGenerator getAlgorithmParameterGenerator(@Nonnull String algorithm) {
         try {
             return AlgorithmParameterGenerator.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -269,7 +282,7 @@ public final class CryptoMx {
      * @param size
      *     参数长度。
      */
-    public static void initAlgorithmParameterGenerator(AlgorithmParameterGenerator algorithmParameterGenerator, int size) {
+    public static void initAlgorithmParameterGenerator(@Nonnull AlgorithmParameterGenerator algorithmParameterGenerator, int size) {
         algorithmParameterGenerator.init(size);
     }
 
@@ -283,7 +296,8 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initAlgorithmParameterGenerator(AlgorithmParameterGenerator algorithmParameterGenerator, int size, SecureRandom secureRandom) {
+    public static void initAlgorithmParameterGenerator(@Nonnull AlgorithmParameterGenerator algorithmParameterGenerator, int size,
+        @Nonnull SecureRandom secureRandom) {
         algorithmParameterGenerator.init(size, secureRandom);
     }
 
@@ -294,7 +308,8 @@ public final class CryptoMx {
      *     加密算法参数生成器实例。
      * @return 加密算法参数实例。
      */
-    public static AlgorithmParameters generateAlgorithmParameter(AlgorithmParameterGenerator algorithmParameterGenerator) {
+    @Nonnull
+    public static AlgorithmParameters generateAlgorithmParameter(@Nonnull AlgorithmParameterGenerator algorithmParameterGenerator) {
         return algorithmParameterGenerator.generateParameters();
     }
 
@@ -305,7 +320,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 加密算法参数实例。
      */
-    public static AlgorithmParameters getAlgorithmParameter(String algorithm) {
+    @Nonnull
+    public static AlgorithmParameters getAlgorithmParameter(@Nonnull String algorithm) {
         try {
             return AlgorithmParameters.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -321,7 +337,7 @@ public final class CryptoMx {
      * @param paramData
      *     参数。
      */
-    public static void initAlgorithmParameter(AlgorithmParameters algorithmParameter, byte[] paramData) {
+    public static void initAlgorithmParameter(@Nonnull AlgorithmParameters algorithmParameter, @Nonnull byte[] paramData) {
         try {
             algorithmParameter.init(paramData);
         } catch (IOException e) {
@@ -337,7 +353,8 @@ public final class CryptoMx {
      * @return
      *     参数。
      */
-    public static byte[] encodeAlgorithmParameter(AlgorithmParameters algorithmParameter) {
+    @Nonnull
+    public static byte[] encodeAlgorithmParameter(@Nonnull AlgorithmParameters algorithmParameter) {
         try {
             return algorithmParameter.getEncoded();
         } catch (IOException e) {
@@ -352,7 +369,8 @@ public final class CryptoMx {
      *     算法变种名称。
      * @return 加密算法实例。
      */
-    public static Cipher getCipher(String transformation) {
+    @Nonnull
+    public static Cipher getCipher(@Nonnull String transformation) {
         try {
             return Cipher.getInstance(transformation, PROVIDER);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
@@ -368,7 +386,7 @@ public final class CryptoMx {
      * @param key
      *     秘钥。
      */
-    public static void initCipherForEncrypt(Cipher cipher, Key key) {
+    public static void initCipherForEncrypt(@Nonnull Cipher cipher, @Nonnull Key key) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, key);
         } catch (InvalidKeyException e) {
@@ -386,7 +404,7 @@ public final class CryptoMx {
      * @param algorithmParameter
      *     加密算法参数。
      */
-    public static void initCipherForEncrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter) {
+    public static void initCipherForEncrypt(@Nonnull Cipher cipher, @Nonnull Key key, @Nonnull AlgorithmParameters algorithmParameter) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, key, algorithmParameter);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
@@ -404,7 +422,7 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initCipherForEncrypt(Cipher cipher, Key key, SecureRandom secureRandom) {
+    public static void initCipherForEncrypt(@Nonnull Cipher cipher, @Nonnull Key key, @Nonnull SecureRandom secureRandom) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, key, secureRandom);
         } catch (InvalidKeyException e) {
@@ -424,7 +442,8 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initCipherForEncrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter, SecureRandom secureRandom) {
+    public static void initCipherForEncrypt(@Nonnull Cipher cipher, @Nonnull Key key, @Nonnull AlgorithmParameters algorithmParameter,
+        @Nonnull SecureRandom secureRandom) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, key, algorithmParameter, secureRandom);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
@@ -440,7 +459,7 @@ public final class CryptoMx {
      * @param key
      *     秘钥。
      */
-    public static void initCipherForDecrypt(Cipher cipher, Key key) {
+    public static void initCipherForDecrypt(@Nonnull Cipher cipher, @Nonnull Key key) {
         try {
             cipher.init(Cipher.DECRYPT_MODE, key);
         } catch (InvalidKeyException e) {
@@ -458,7 +477,7 @@ public final class CryptoMx {
      * @param algorithmParameter
      *     加密算法参数。
      */
-    public static void initCipherForDecrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter) {
+    public static void initCipherForDecrypt(@Nonnull Cipher cipher, @Nonnull Key key, @Nonnull AlgorithmParameters algorithmParameter) {
         try {
             cipher.init(Cipher.DECRYPT_MODE, key, algorithmParameter);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
@@ -476,7 +495,7 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initCipherForDecrypt(Cipher cipher, Key key, SecureRandom secureRandom) {
+    public static void initCipherForDecrypt(@Nonnull Cipher cipher, @Nonnull Key key, @Nonnull SecureRandom secureRandom) {
         try {
             cipher.init(Cipher.DECRYPT_MODE, key, secureRandom);
         } catch (InvalidKeyException e) {
@@ -496,7 +515,8 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initCipherForDecrypt(Cipher cipher, Key key, AlgorithmParameters algorithmParameter, SecureRandom secureRandom) {
+    public static void initCipherForDecrypt(@Nonnull Cipher cipher, @Nonnull Key key, @Nonnull AlgorithmParameters algorithmParameter,
+        @Nonnull SecureRandom secureRandom) {
         try {
             cipher.init(Cipher.DECRYPT_MODE, key, algorithmParameter, secureRandom);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
@@ -513,7 +533,8 @@ public final class CryptoMx {
      *     加密算法实例。
      * @return 密文。
      */
-    public static byte[] encrypt(byte[] plainData, Cipher cipher) {
+    @Nonnull
+    public static byte[] encrypt(@Nonnull byte[] plainData, @Nonnull Cipher cipher) {
         try {
             return cipher.doFinal(plainData);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
@@ -533,7 +554,7 @@ public final class CryptoMx {
      * @throws IOException
      *     读取明文失败。
      */
-    public static void encrypt(InputStream plainData, OutputStream cipherData, Cipher cipher)
+    public static void encrypt(@Nonnull InputStream plainData, @Nonnull OutputStream cipherData, @Nonnull Cipher cipher)
         throws IOException {
         try {
             byte[] input = new byte[8 * 1024];
@@ -563,7 +584,8 @@ public final class CryptoMx {
      *     加密算法实例。
      * @return 明文。
      */
-    public static byte[] decrypt(byte[] cipherData, Cipher cipher) {
+    @Nonnull
+    public static byte[] decrypt(@Nonnull byte[] cipherData, @Nonnull Cipher cipher) {
         try {
             return cipher.doFinal(cipherData);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
@@ -583,7 +605,7 @@ public final class CryptoMx {
      * @throws IOException
      *     读取密文失败。
      */
-    public static void decrypt(InputStream cipherData, OutputStream plainData, Cipher cipher)
+    public static void decrypt(@Nonnull InputStream cipherData, @Nonnull OutputStream plainData, @Nonnull Cipher cipher)
         throws IOException {
         try {
             byte[] input = new byte[8 * 1024];
@@ -612,7 +634,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 加密算法参数生成器实例。
      */
-    public static AlgorithmParameterGenerator getAlgorithmParameterGenerator(CryptoAlgorithm.Symmetric algorithm) {
+    @Nonnull
+    public static AlgorithmParameterGenerator getAlgorithmParameterGenerator(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
         return getAlgorithmParameterGenerator(algorithm.algorithm);
     }
 
@@ -648,7 +671,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 加密算法参数生成器实例构建器。
          */
-        public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(String algorithm) {
+        @Nonnull
+        public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(@Nonnull String algorithm) {
             SymmetricAlgorithmParameterGeneratorBuilder builder = new SymmetricAlgorithmParameterGeneratorBuilder();
             builder.algorithmParameterGenerator = getAlgorithmParameterGenerator(algorithm);
             return builder;
@@ -661,7 +685,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 加密算法参数生成器实例构建器。
          */
-        public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+        @Nonnull
+        public static SymmetricAlgorithmParameterGeneratorBuilder newBuilder(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
             SymmetricAlgorithmParameterGeneratorBuilder builder = new SymmetricAlgorithmParameterGeneratorBuilder();
             builder.algorithmParameterGenerator = getAlgorithmParameterGenerator(algorithm);
             return builder;
@@ -674,6 +699,7 @@ public final class CryptoMx {
          *     参数长度。
          * @return 加密算法参数生成器实例构建器。
          */
+        @Nonnull
         public SymmetricAlgorithmParameterGeneratorBuilder setSize(int size) {
             this.size = size;
             return this;
@@ -686,7 +712,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 加密算法参数生成器实例构建器。
          */
-        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -698,7 +725,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 加密算法参数生成器实例构建器。
          */
-        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -710,7 +738,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 加密算法参数生成器实例构建器。
          */
-        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public SymmetricAlgorithmParameterGeneratorBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -720,6 +749,7 @@ public final class CryptoMx {
          * 
          * @return 加密算法参数生成器实例。
          */
+        @Nonnull
         public AlgorithmParameterGenerator build() {
             if (size == 0) {
                 if (secureRandom != null) {
@@ -743,7 +773,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 加密算法参数实例。
      */
-    public static AlgorithmParameters getAlgorithmParameter(CryptoAlgorithm.Symmetric algorithm) {
+    @Nonnull
+    public static AlgorithmParameters getAlgorithmParameter(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
         return getAlgorithmParameter(algorithm.algorithm);
     }
 
@@ -774,7 +805,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 加密算法参数实例构建器。
          */
-        public static SymmetricAlgorithmParameterBuilder newBuilder(String algorithm) {
+        @Nonnull
+        public static SymmetricAlgorithmParameterBuilder newBuilder(@Nonnull String algorithm) {
             SymmetricAlgorithmParameterBuilder builder = new SymmetricAlgorithmParameterBuilder();
             builder.algorithmParameter = getAlgorithmParameter(algorithm);
             return builder;
@@ -787,7 +819,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 加密算法参数实例构建器。
          */
-        public static SymmetricAlgorithmParameterBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+        @Nonnull
+        public static SymmetricAlgorithmParameterBuilder newBuilder(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
             SymmetricAlgorithmParameterBuilder builder = new SymmetricAlgorithmParameterBuilder();
             builder.algorithmParameter = getAlgorithmParameter(algorithm);
             return builder;
@@ -800,7 +833,8 @@ public final class CryptoMx {
          *     参数。
          * @return 加密算法参数实例构建器。
          */
-        public SymmetricAlgorithmParameterBuilder setParam(byte[] paramData) {
+        @Nonnull
+        public SymmetricAlgorithmParameterBuilder setParam(@Nonnull byte[] paramData) {
             this.paramData = paramData;
             return this;
         }
@@ -810,6 +844,7 @@ public final class CryptoMx {
          * 
          * @return 加密算法参数实例。
          */
+        @Nonnull
         public AlgorithmParameters build() {
             initAlgorithmParameter(algorithmParameter, paramData);
             return algorithmParameter;
@@ -823,7 +858,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 秘钥生成器实例。
      */
-    public static KeyGenerator getKeyGenerator(String algorithm) {
+    @Nonnull
+    public static KeyGenerator getKeyGenerator(@Nonnull String algorithm) {
         try {
             return KeyGenerator.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -838,7 +874,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥生成器实例。
      */
-    public static KeyGenerator getKeyGenerator(CryptoAlgorithm.Symmetric algorithm) {
+    @Nonnull
+    public static KeyGenerator getKeyGenerator(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
         return getKeyGenerator(algorithm.algorithm);
     }
 
@@ -850,7 +887,7 @@ public final class CryptoMx {
      * @param keySize
      *     秘钥长度。
      */
-    public static void initKeyGenerator(KeyGenerator keyGenerator, int keySize) {
+    public static void initKeyGenerator(@Nonnull KeyGenerator keyGenerator, int keySize) {
         keyGenerator.init(keySize);
     }
 
@@ -862,7 +899,7 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initKeyGenerator(KeyGenerator keyGenerator, SecureRandom secureRandom) {
+    public static void initKeyGenerator(@Nonnull KeyGenerator keyGenerator, @Nonnull SecureRandom secureRandom) {
         keyGenerator.init(secureRandom);
     }
 
@@ -876,7 +913,7 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initKeyGenerator(KeyGenerator keyGenerator, int keySize, SecureRandom secureRandom) {
+    public static void initKeyGenerator(@Nonnull KeyGenerator keyGenerator, int keySize, @Nonnull SecureRandom secureRandom) {
         keyGenerator.init(keySize, secureRandom);
     }
 
@@ -912,7 +949,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥生成器实例构建器。
          */
-        public static SymmetricKeyGeneratorBuilder newBuilder(String algorithm) {
+        @Nonnull
+        public static SymmetricKeyGeneratorBuilder newBuilder(@Nonnull String algorithm) {
             SymmetricKeyGeneratorBuilder builder = new SymmetricKeyGeneratorBuilder();
             builder.keyGenerator = getKeyGenerator(algorithm);
             return builder;
@@ -925,7 +963,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
          */
-        public static SymmetricKeyGeneratorBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+        @Nonnull
+        public static SymmetricKeyGeneratorBuilder newBuilder(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
             SymmetricKeyGeneratorBuilder builder = new SymmetricKeyGeneratorBuilder();
             builder.keyGenerator = getKeyGenerator(algorithm);
             return builder;
@@ -938,6 +977,7 @@ public final class CryptoMx {
          *     秘钥长度。
          * @return 秘钥生成器实例构建器。
          */
+        @Nonnull
         public SymmetricKeyGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
             return this;
@@ -950,7 +990,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥生成器实例构建器。
          */
-        public SymmetricKeyGeneratorBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public SymmetricKeyGeneratorBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -962,7 +1003,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
          */
-        public SymmetricKeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public SymmetricKeyGeneratorBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -974,7 +1016,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 秘钥生成器实例构建器。
          */
-        public SymmetricKeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public SymmetricKeyGeneratorBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -984,6 +1027,7 @@ public final class CryptoMx {
          * 
          * @return 秘钥生成器实例。
          */
+        @Nonnull
         public KeyGenerator build() {
             if (keySize == 0) {
                 if (secureRandom != null) {
@@ -1007,7 +1051,8 @@ public final class CryptoMx {
      *     秘钥生成器实例。
      * @return 秘钥实例。
      */
-    public static SecretKey generateSecretKey(KeyGenerator keyGenerator) {
+    @Nonnull
+    public static SecretKey generateSecretKey(@Nonnull KeyGenerator keyGenerator) {
         return keyGenerator.generateKey();
     }
 
@@ -1020,7 +1065,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 秘钥实例。
      */
-    public static SecretKey getSecretKey(byte[] keyData, String algorithm) {
+    @Nonnull
+    public static SecretKey getSecretKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
         return new SecretKeySpec(keyData, algorithm);
     }
 
@@ -1033,7 +1079,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥实例。
      */
-    public static SecretKey getSecretKey(byte[] keyData, CryptoAlgorithm.Symmetric algorithm) {
+    @Nonnull
+    public static SecretKey getSecretKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Symmetric algorithm) {
         return getSecretKey(keyData, algorithm.algorithm);
     }
 
@@ -1044,7 +1091,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 加密算法实例。
      */
-    public static Cipher getCipher(CryptoAlgorithm.Symmetric algorithm) {
+    @Nonnull
+    public static Cipher getCipher(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
         return getCipher(algorithm.transformation);
     }
 
@@ -1085,7 +1133,8 @@ public final class CryptoMx {
          *     算法变种名称。
          * @return 对称加密算法实例构建器。
          */
-        public static SymmetricCipherBuilder newBuilder(String transformation) {
+        @Nonnull
+        public static SymmetricCipherBuilder newBuilder(@Nonnull String transformation) {
             SymmetricCipherBuilder builder = new SymmetricCipherBuilder();
             builder.cipher = getCipher(transformation);
             return builder;
@@ -1098,7 +1147,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 对称加密算法实例构建器。
          */
-        public static SymmetricCipherBuilder newBuilder(CryptoAlgorithm.Symmetric algorithm) {
+        @Nonnull
+        public static SymmetricCipherBuilder newBuilder(@Nonnull CryptoAlgorithm.Symmetric algorithm) {
             SymmetricCipherBuilder builder = new SymmetricCipherBuilder();
             builder.cipher = getCipher(algorithm);
             return builder;
@@ -1113,7 +1163,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 对称加密算法实例构建器。
          */
-        public SymmetricCipherBuilder setKey(byte[] keyData, String algorithm) {
+        @Nonnull
+        public SymmetricCipherBuilder setKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
             this.key = getSecretKey(keyData, algorithm);
             return this;
         }
@@ -1127,7 +1178,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 对称加密算法实例构建器。
          */
-        public SymmetricCipherBuilder setKey(byte[] keyData, CryptoAlgorithm.Symmetric algorithm) {
+        @Nonnull
+        public SymmetricCipherBuilder setKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Symmetric algorithm) {
             this.key = getSecretKey(keyData, algorithm);
             return this;
         }
@@ -1139,7 +1191,8 @@ public final class CryptoMx {
          *     秘钥。
          * @return 对称加密算法实例构建器。
          */
-        public SymmetricCipherBuilder setKey(SecretKey key) {
+        @Nonnull
+        public SymmetricCipherBuilder setKey(@Nonnull SecretKey key) {
             this.key = key;
             return this;
         }
@@ -1151,7 +1204,8 @@ public final class CryptoMx {
          *     加密算法参数。
          * @return 对称加密算法实例构建器。
          */
-        public SymmetricCipherBuilder setAlgorithmParameter(AlgorithmParameters algorithmParameter) {
+        @Nonnull
+        public SymmetricCipherBuilder setAlgorithmParameter(@Nonnull AlgorithmParameters algorithmParameter) {
             this.algorithmParameter = algorithmParameter;
             return this;
         }
@@ -1163,7 +1217,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 对称加密算法实例构建器。
          */
-        public SymmetricCipherBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public SymmetricCipherBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -1175,7 +1230,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 对称加密算法实例构建器。
          */
-        public SymmetricCipherBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public SymmetricCipherBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -1187,7 +1243,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 对称加密算法实例构建器。
          */
-        public SymmetricCipherBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public SymmetricCipherBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -1197,6 +1254,7 @@ public final class CryptoMx {
          * 
          * @return 对称加密算法实例。
          */
+        @Nonnull
         public Cipher buildForEncrypt() {
             if (algorithmParameter == null) {
                 if (secureRandom == null) {
@@ -1219,6 +1277,7 @@ public final class CryptoMx {
          * 
          * @return 对称加密算法实例。
          */
+        @Nonnull
         public Cipher buildForDecrypt() {
             if (algorithmParameter == null) {
                 if (secureRandom == null) {
@@ -1245,7 +1304,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥生成器实例。
      */
-    public static KeyGenerator getKeyGenerator(CryptoAlgorithm.Mac algorithm) {
+    @Nonnull
+    public static KeyGenerator getKeyGenerator(@Nonnull CryptoAlgorithm.Mac algorithm) {
         return getKeyGenerator(algorithm.algorithm);
     }
 
@@ -1281,7 +1341,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥生成器实例构建器。
          */
-        public static MacKeyGeneratorBuilder newBuilder(String algorithm) {
+        @Nonnull
+        public static MacKeyGeneratorBuilder newBuilder(@Nonnull String algorithm) {
             MacKeyGeneratorBuilder builder = new MacKeyGeneratorBuilder();
             builder.keyGenerator = getKeyGenerator(algorithm);
             return builder;
@@ -1294,7 +1355,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
          */
-        public static MacKeyGeneratorBuilder newBuilder(CryptoAlgorithm.Mac algorithm) {
+        @Nonnull
+        public static MacKeyGeneratorBuilder newBuilder(@Nonnull CryptoAlgorithm.Mac algorithm) {
             MacKeyGeneratorBuilder builder = new MacKeyGeneratorBuilder();
             builder.keyGenerator = getKeyGenerator(algorithm);
             return builder;
@@ -1307,6 +1369,7 @@ public final class CryptoMx {
          *     秘钥长度。
          * @return 秘钥生成器实例构建器。
          */
+        @Nonnull
         public MacKeyGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
             return this;
@@ -1319,7 +1382,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥生成器实例构建器。
          */
-        public MacKeyGeneratorBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public MacKeyGeneratorBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -1331,7 +1395,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
          */
-        public MacKeyGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public MacKeyGeneratorBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -1343,7 +1408,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 秘钥生成器实例构建器。
          */
-        public MacKeyGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public MacKeyGeneratorBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -1353,6 +1419,7 @@ public final class CryptoMx {
          * 
          * @return 秘钥生成器实例。
          */
+        @Nonnull
         public KeyGenerator build() {
             if (keySize == 0) {
                 if (secureRandom != null) {
@@ -1378,7 +1445,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥实例。
      */
-    public static SecretKey getSecretKey(byte[] keyData, CryptoAlgorithm.Mac algorithm) {
+    @Nonnull
+    public static SecretKey getSecretKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Mac algorithm) {
         return getSecretKey(keyData, algorithm.algorithm);
     }
 
@@ -1389,7 +1457,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 消息认证码算法实例。
      */
-    public static Mac getMac(String algorithm) {
+    @Nonnull
+    public static Mac getMac(@Nonnull String algorithm) {
         try {
             return Mac.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -1404,7 +1473,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 消息认证码算法实例。
      */
-    public static Mac getMac(CryptoAlgorithm.Mac algorithm) {
+    @Nonnull
+    public static Mac getMac(@Nonnull CryptoAlgorithm.Mac algorithm) {
         return getMac(algorithm.algorithm);
     }
 
@@ -1416,7 +1486,7 @@ public final class CryptoMx {
      * @param key
      *     秘钥。
      */
-    public static void initMac(Mac mac, Key key) {
+    public static void initMac(@Nonnull Mac mac, @Nonnull Key key) {
         try {
             mac.init(key);
         } catch (InvalidKeyException e) {
@@ -1451,7 +1521,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 消息认证码算法实例构建器。
          */
-        public static MacBuilder newBuilder(String algorithm) {
+        @Nonnull
+        public static MacBuilder newBuilder(@Nonnull String algorithm) {
             MacBuilder builder = new MacBuilder();
             builder.mac = getMac(algorithm);
             return builder;
@@ -1464,7 +1535,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 消息认证码算法实例构建器。
          */
-        public static MacBuilder newBuilder(CryptoAlgorithm.Mac algorithm) {
+        @Nonnull
+        public static MacBuilder newBuilder(@Nonnull CryptoAlgorithm.Mac algorithm) {
             MacBuilder builder = new MacBuilder();
             builder.mac = getMac(algorithm);
             return builder;
@@ -1479,7 +1551,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 消息认证码算法实例构建器。
          */
-        public MacBuilder setKey(byte[] keyData, String algorithm) {
+        @Nonnull
+        public MacBuilder setKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
             this.key = getSecretKey(keyData, algorithm);
             return this;
         }
@@ -1493,7 +1566,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 消息认证码算法实例构建器。
          */
-        public MacBuilder setKey(byte[] keyData, CryptoAlgorithm.Mac algorithm) {
+        @Nonnull
+        public MacBuilder setKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Mac algorithm) {
             this.key = getSecretKey(keyData, algorithm);
             return this;
         }
@@ -1505,7 +1579,8 @@ public final class CryptoMx {
          *     秘钥。
          * @return 消息认证码算法实例构建器。
          */
-        public MacBuilder setKey(SecretKey key) {
+        @Nonnull
+        public MacBuilder setKey(@Nonnull SecretKey key) {
             this.key = key;
             return this;
         }
@@ -1515,6 +1590,7 @@ public final class CryptoMx {
          * 
          * @return 消息认证码算法实例。
          */
+        @Nonnull
         public Mac build() {
             initMac(mac, key);
             return mac;
@@ -1530,7 +1606,8 @@ public final class CryptoMx {
      *     消息认证码算法实例。
      * @return 消息认证码。
      */
-    public static byte[] sign(byte[] plainData, Mac mac) {
+    @Nonnull
+    public static byte[] sign(@Nonnull byte[] plainData, @Nonnull Mac mac) {
         mac.update(plainData);
         return mac.doFinal();
     }
@@ -1546,7 +1623,8 @@ public final class CryptoMx {
      * @throws IOException
      *     读取数据失败。
      */
-    public static byte[] sign(InputStream plainData, Mac mac)
+    @Nonnull
+    public static byte[] sign(@Nonnull InputStream plainData, @Nonnull Mac mac)
         throws IOException {
         byte[] input = new byte[8 * 1024];
         int readLength = -1;
@@ -1567,7 +1645,7 @@ public final class CryptoMx {
      *     消息认证码算法实例。
      * @return 是否通过验证。
      */
-    public static boolean verify(byte[] plainData, byte[] signData, Mac mac) {
+    public static boolean verify(@Nonnull byte[] plainData, @Nonnull byte[] signData, @Nonnull Mac mac) {
         byte[] actualSignData = sign(plainData, mac);
         return Arrays.constantTimeAreEqual(actualSignData, signData);
     }
@@ -1585,7 +1663,7 @@ public final class CryptoMx {
      * @throws IOException
      *     读取数据失败。
      */
-    public static boolean verify(InputStream plainData, byte[] signData, Mac mac)
+    public static boolean verify(@Nonnull InputStream plainData, @Nonnull byte[] signData, @Nonnull Mac mac)
         throws IOException {
         byte[] actualSignData = sign(plainData, mac);
         return Arrays.constantTimeAreEqual(actualSignData, signData);
@@ -1599,7 +1677,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 秘钥对生成器实例。
      */
-    public static KeyPairGenerator getKeyPairGenerator(String algorithm) {
+    @Nonnull
+    public static KeyPairGenerator getKeyPairGenerator(@Nonnull String algorithm) {
         try {
             return KeyPairGenerator.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -1614,7 +1693,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥对生成器实例。
      */
-    public static KeyPairGenerator getKeyPairGenerator(CryptoAlgorithm.Asymmetric algorithm) {
+    @Nonnull
+    public static KeyPairGenerator getKeyPairGenerator(@Nonnull CryptoAlgorithm.Asymmetric algorithm) {
         return getKeyPairGenerator(algorithm.algorithm);
     }
 
@@ -1626,7 +1706,7 @@ public final class CryptoMx {
      * @param keySize
      *     秘钥长度。
      */
-    public static void initKeyPairGenerator(KeyPairGenerator keyPairGenerator, int keySize) {
+    public static void initKeyPairGenerator(@Nonnull KeyPairGenerator keyPairGenerator, int keySize) {
         keyPairGenerator.initialize(keySize);
     }
 
@@ -1640,7 +1720,7 @@ public final class CryptoMx {
      * @param secureRandom
      *     随机数生成器算法实例。
      */
-    public static void initKeyPairGenerator(KeyPairGenerator keyPairGenerator, int keySize, SecureRandom secureRandom) {
+    public static void initKeyPairGenerator(@Nonnull KeyPairGenerator keyPairGenerator, int keySize, @Nonnull SecureRandom secureRandom) {
         keyPairGenerator.initialize(keySize, secureRandom);
     }
 
@@ -1676,7 +1756,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
          */
-        public static AsymmetricKeyPairGeneratorBuilder newBuilder(String algorithm) {
+        @Nonnull
+        public static AsymmetricKeyPairGeneratorBuilder newBuilder(@Nonnull String algorithm) {
             AsymmetricKeyPairGeneratorBuilder builder = new AsymmetricKeyPairGeneratorBuilder();
             builder.keyPairGenerator = getKeyPairGenerator(algorithm);
             return builder;
@@ -1689,7 +1770,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
          */
-        public static AsymmetricKeyPairGeneratorBuilder newBuilder(CryptoAlgorithm.Asymmetric algorithm) {
+        @Nonnull
+        public static AsymmetricKeyPairGeneratorBuilder newBuilder(@Nonnull CryptoAlgorithm.Asymmetric algorithm) {
             AsymmetricKeyPairGeneratorBuilder builder = new AsymmetricKeyPairGeneratorBuilder();
             builder.keyPairGenerator = getKeyPairGenerator(algorithm);
             return builder;
@@ -1702,6 +1784,7 @@ public final class CryptoMx {
          *     秘钥长度。
          * @return 秘钥对生成器实例构建器。
          */
+        @Nonnull
         public AsymmetricKeyPairGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
             return this;
@@ -1714,7 +1797,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
          */
-        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -1726,7 +1810,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
          */
-        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -1738,7 +1823,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 秘钥对生成器实例构建器。
          */
-        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public AsymmetricKeyPairGeneratorBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -1748,6 +1834,7 @@ public final class CryptoMx {
          * 
          * @return 秘钥对生成器实例。
          */
+        @Nonnull
         public KeyPairGenerator build() {
             if (keySize == 0) {
                 if (secureRandom != null) {
@@ -1771,7 +1858,8 @@ public final class CryptoMx {
      *     秘钥对生成器实例。
      * @return 秘钥对实例。
      */
-    public static KeyPair generateKeyPair(KeyPairGenerator keyPairGenerator) {
+    @Nonnull
+    public static KeyPair generateKeyPair(@Nonnull KeyPairGenerator keyPairGenerator) {
         return keyPairGenerator.generateKeyPair();
     }
 
@@ -1782,7 +1870,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 秘钥工厂实例。
      */
-    public static KeyFactory getKeyFactory(String algorithm) {
+    @Nonnull
+    public static KeyFactory getKeyFactory(@Nonnull String algorithm) {
         try {
             return KeyFactory.getInstance(algorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -1797,7 +1886,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥工厂实例。
      */
-    public static KeyFactory getKeyFactory(CryptoAlgorithm.Asymmetric algorithm) {
+    @Nonnull
+    public static KeyFactory getKeyFactory(@Nonnull CryptoAlgorithm.Asymmetric algorithm) {
         return getKeyFactory(algorithm.algorithm);
     }
 
@@ -1810,7 +1900,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 私钥实例。
      */
-    public static PrivateKey getPrivateKey(byte[] keyData, String algorithm) {
+    @Nonnull
+    public static PrivateKey getPrivateKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
         KeyFactory keyFactory = getKeyFactory(algorithm);
         KeySpec keySpec = new PKCS8EncodedKeySpec(keyData);
         try {
@@ -1829,7 +1920,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 私钥实例。
      */
-    public static PrivateKey getPrivateKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
+    @Nonnull
+    public static PrivateKey getPrivateKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Asymmetric algorithm) {
         KeyFactory keyFactory = getKeyFactory(algorithm);
         KeySpec keySpec = new PKCS8EncodedKeySpec(keyData);
         try {
@@ -1848,7 +1940,8 @@ public final class CryptoMx {
      *     算法名称。
      * @return 公钥实例。
      */
-    public static PublicKey getPublicKey(byte[] keyData, String algorithm) {
+    @Nonnull
+    public static PublicKey getPublicKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
         KeyFactory keyFactory = getKeyFactory(algorithm);
         KeySpec keySpec = new X509EncodedKeySpec(keyData);
         try {
@@ -1867,7 +1960,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 公钥实例。
      */
-    public static PublicKey getPublicKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
+    @Nonnull
+    public static PublicKey getPublicKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Asymmetric algorithm) {
         KeyFactory keyFactory = getKeyFactory(algorithm);
         KeySpec keySpec = new X509EncodedKeySpec(keyData);
         try {
@@ -1884,7 +1978,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 加密算法实例。
      */
-    public static Cipher getCipher(CryptoAlgorithm.Asymmetric algorithm) {
+    @Nonnull
+    public static Cipher getCipher(@Nonnull CryptoAlgorithm.Asymmetric algorithm) {
         return getCipher(algorithm.transformation);
     }
 
@@ -1920,7 +2015,8 @@ public final class CryptoMx {
          *     算法变种名称。
          * @return 非对称加密算法实例构建器。
          */
-        public static AsymmetricCipherBuilder newBuilder(String transformation) {
+        @Nonnull
+        public static AsymmetricCipherBuilder newBuilder(@Nonnull String transformation) {
             AsymmetricCipherBuilder builder = new AsymmetricCipherBuilder();
             builder.cipher = getCipher(transformation);
             return builder;
@@ -1933,7 +2029,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 非对称加密算法实例构建器。
          */
-        public static AsymmetricCipherBuilder newBuilder(CryptoAlgorithm.Asymmetric algorithm) {
+        @Nonnull
+        public static AsymmetricCipherBuilder newBuilder(@Nonnull CryptoAlgorithm.Asymmetric algorithm) {
             AsymmetricCipherBuilder builder = new AsymmetricCipherBuilder();
             builder.cipher = getCipher(algorithm);
             return builder;
@@ -1948,7 +2045,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setPrivateKey(byte[] keyData, String algorithm) {
+        @Nonnull
+        public AsymmetricCipherBuilder setPrivateKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
             return this;
         }
@@ -1962,7 +2060,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setPrivateKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
+        @Nonnull
+        public AsymmetricCipherBuilder setPrivateKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Asymmetric algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
             return this;
         }
@@ -1974,7 +2073,8 @@ public final class CryptoMx {
          *     私钥。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setPrivateKey(PrivateKey key) {
+        @Nonnull
+        public AsymmetricCipherBuilder setPrivateKey(@Nonnull PrivateKey key) {
             this.key = key;
             return this;
         }
@@ -1988,7 +2088,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setPublicKey(byte[] keyData, String algorithm) {
+        @Nonnull
+        public AsymmetricCipherBuilder setPublicKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
             this.key = getPublicKey(keyData, algorithm);
             return this;
         }
@@ -2002,7 +2103,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setPublicKey(byte[] keyData, CryptoAlgorithm.Asymmetric algorithm) {
+        @Nonnull
+        public AsymmetricCipherBuilder setPublicKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Asymmetric algorithm) {
             this.key = getPublicKey(keyData, algorithm);
             return this;
         }
@@ -2014,7 +2116,8 @@ public final class CryptoMx {
          *     公钥。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setPublicKey(PublicKey key) {
+        @Nonnull
+        public AsymmetricCipherBuilder setPublicKey(@Nonnull PublicKey key) {
             this.key = key;
             return this;
         }
@@ -2026,7 +2129,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public AsymmetricCipherBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -2038,7 +2142,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public AsymmetricCipherBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -2050,7 +2155,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 非对称加密算法实例构建器。
          */
-        public AsymmetricCipherBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public AsymmetricCipherBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -2060,6 +2166,7 @@ public final class CryptoMx {
          * 
          * @return 非对称加密算法实例。
          */
+        @Nonnull
         public Cipher buildForEncrypt() {
             if (secureRandom == null) {
                 initCipherForEncrypt(cipher, key);
@@ -2074,6 +2181,7 @@ public final class CryptoMx {
          * 
          * @return 非对称加密算法实例。
          */
+        @Nonnull
         public Cipher buildForDecrypt() {
             if (secureRandom == null) {
                 initCipherForDecrypt(cipher, key);
@@ -2092,7 +2200,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥对生成器实例。
      */
-    public static KeyPairGenerator getKeyPairGenerator(CryptoAlgorithm.Sign algorithm) {
+    @Nonnull
+    public static KeyPairGenerator getKeyPairGenerator(@Nonnull CryptoAlgorithm.Sign algorithm) {
         return getKeyPairGenerator(algorithm.algorithm);
     }
 
@@ -2128,7 +2237,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
          */
-        public static SignKeyPairGeneratorBuilder newBuilder(String algorithm) {
+        @Nonnull
+        public static SignKeyPairGeneratorBuilder newBuilder(@Nonnull String algorithm) {
             SignKeyPairGeneratorBuilder builder = new SignKeyPairGeneratorBuilder();
             builder.keyPairGenerator = getKeyPairGenerator(algorithm);
             return builder;
@@ -2141,7 +2251,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
          */
-        public static SignKeyPairGeneratorBuilder newBuilder(CryptoAlgorithm.Sign algorithm) {
+        @Nonnull
+        public static SignKeyPairGeneratorBuilder newBuilder(@Nonnull CryptoAlgorithm.Sign algorithm) {
             SignKeyPairGeneratorBuilder builder = new SignKeyPairGeneratorBuilder();
             builder.keyPairGenerator = getKeyPairGenerator(algorithm);
             return builder;
@@ -2154,6 +2265,7 @@ public final class CryptoMx {
          *     秘钥长度。
          * @return 秘钥对生成器实例构建器。
          */
+        @Nonnull
         public SignKeyPairGeneratorBuilder setKeySize(int keySize) {
             this.keySize = keySize;
             return this;
@@ -2166,7 +2278,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
          */
-        public SignKeyPairGeneratorBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public SignKeyPairGeneratorBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -2178,7 +2291,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
          */
-        public SignKeyPairGeneratorBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public SignKeyPairGeneratorBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -2190,7 +2304,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 秘钥对生成器实例构建器。
          */
-        public SignKeyPairGeneratorBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public SignKeyPairGeneratorBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -2200,6 +2315,7 @@ public final class CryptoMx {
          * 
          * @return 秘钥对生成器实例。
          */
+        @Nonnull
         public KeyPairGenerator build() {
             if (keySize == 0) {
                 if (secureRandom != null) {
@@ -2223,7 +2339,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 秘钥工厂实例。
      */
-    public static KeyFactory getKeyFactory(CryptoAlgorithm.Sign algorithm) {
+    @Nonnull
+    public static KeyFactory getKeyFactory(@Nonnull CryptoAlgorithm.Sign algorithm) {
         return getKeyFactory(algorithm.algorithm);
     }
 
@@ -2236,7 +2353,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 私钥实例。
      */
-    public static PrivateKey getPrivateKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
+    @Nonnull
+    public static PrivateKey getPrivateKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Sign algorithm) {
         KeyFactory keyFactory = getKeyFactory(algorithm);
         KeySpec keySpec = new PKCS8EncodedKeySpec(keyData);
         try {
@@ -2255,7 +2373,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 公钥实例。
      */
-    public static PublicKey getPublicKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
+    @Nonnull
+    public static PublicKey getPublicKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Sign algorithm) {
         KeyFactory keyFactory = getKeyFactory(algorithm);
         KeySpec keySpec = new X509EncodedKeySpec(keyData);
         try {
@@ -2272,7 +2391,8 @@ public final class CryptoMx {
      *     签名算法名称。
      * @return 签名算法实例。
      */
-    public static Signature getSignature(String signAlgorithm) {
+    @Nonnull
+    public static Signature getSignature(@Nonnull String signAlgorithm) {
         try {
             return Signature.getInstance(signAlgorithm, PROVIDER);
         } catch (NoSuchAlgorithmException e) {
@@ -2287,7 +2407,8 @@ public final class CryptoMx {
      *     算法枚举值。
      * @return 签名算法实例。
      */
-    public static Signature getSignature(CryptoAlgorithm.Sign algorithm) {
+    @Nonnull
+    public static Signature getSignature(@Nonnull CryptoAlgorithm.Sign algorithm) {
         return getSignature(algorithm.signAlgorithm);
     }
 
@@ -2323,7 +2444,8 @@ public final class CryptoMx {
          *     签名算法名称。
          * @return 签名算法实例构建器。
          */
-        public static SignatureBuilder newBuilder(String signAlgorithm) {
+        @Nonnull
+        public static SignatureBuilder newBuilder(@Nonnull String signAlgorithm) {
             SignatureBuilder builder = new SignatureBuilder();
             builder.signature = getSignature(signAlgorithm);
             return builder;
@@ -2336,7 +2458,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 签名算法实例构建器。
          */
-        public static SignatureBuilder newBuilder(CryptoAlgorithm.Sign algorithm) {
+        @Nonnull
+        public static SignatureBuilder newBuilder(@Nonnull CryptoAlgorithm.Sign algorithm) {
             SignatureBuilder builder = new SignatureBuilder();
             builder.signature = getSignature(algorithm);
             return builder;
@@ -2351,7 +2474,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setPrivateKey(byte[] keyData, String algorithm) {
+        @Nonnull
+        public SignatureBuilder setPrivateKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
             return this;
         }
@@ -2365,7 +2489,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setPrivateKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
+        @Nonnull
+        public SignatureBuilder setPrivateKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Sign algorithm) {
             this.key = getPrivateKey(keyData, algorithm);
             return this;
         }
@@ -2377,7 +2502,8 @@ public final class CryptoMx {
          *     私钥。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setPrivateKey(PrivateKey key) {
+        @Nonnull
+        public SignatureBuilder setPrivateKey(@Nonnull PrivateKey key) {
             this.key = key;
             return this;
         }
@@ -2391,7 +2517,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setPublicKey(byte[] keyData, String algorithm) {
+        @Nonnull
+        public SignatureBuilder setPublicKey(@Nonnull byte[] keyData, @Nonnull String algorithm) {
             this.key = getPublicKey(keyData, algorithm);
             return this;
         }
@@ -2405,7 +2532,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setPublicKey(byte[] keyData, CryptoAlgorithm.Sign algorithm) {
+        @Nonnull
+        public SignatureBuilder setPublicKey(@Nonnull byte[] keyData, @Nonnull CryptoAlgorithm.Sign algorithm) {
             this.key = getPublicKey(keyData, algorithm);
             return this;
         }
@@ -2417,7 +2545,8 @@ public final class CryptoMx {
          *     公钥。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setPublicKey(PublicKey key) {
+        @Nonnull
+        public SignatureBuilder setPublicKey(@Nonnull PublicKey key) {
             this.key = key;
             return this;
         }
@@ -2429,7 +2558,8 @@ public final class CryptoMx {
          *     算法名称。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setSecureRandom(String algorithm) {
+        @Nonnull
+        public SignatureBuilder setSecureRandom(@Nonnull String algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -2441,7 +2571,8 @@ public final class CryptoMx {
          *     算法枚举值。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setSecureRandom(CryptoAlgorithm.Random algorithm) {
+        @Nonnull
+        public SignatureBuilder setSecureRandom(@Nonnull CryptoAlgorithm.Random algorithm) {
             this.secureRandom = getSecureRandom(algorithm);
             return this;
         }
@@ -2453,7 +2584,8 @@ public final class CryptoMx {
          *     随机数生成器算法实例。
          * @return 签名算法实例构建器。
          */
-        public SignatureBuilder setSecureRandom(SecureRandom secureRandom) {
+        @Nonnull
+        public SignatureBuilder setSecureRandom(@Nonnull SecureRandom secureRandom) {
             this.secureRandom = secureRandom;
             return this;
         }
@@ -2463,6 +2595,7 @@ public final class CryptoMx {
          * 
          * @return 签名算法实例。
          */
+        @Nonnull
         public Signature buildForSign() {
             if (secureRandom == null) {
                 try {
@@ -2485,6 +2618,7 @@ public final class CryptoMx {
          * 
          * @return 签名算法实例。
          */
+        @Nonnull
         public Signature buildForVerify() {
             if (secureRandom == null) {
                 try {
@@ -2508,7 +2642,8 @@ public final class CryptoMx {
      *     签名算法实例。
      * @return 签名。
      */
-    public static byte[] sign(byte[] plainData, Signature signature) {
+    @Nonnull
+    public static byte[] sign(@Nonnull byte[] plainData, @Nonnull Signature signature) {
         try {
             signature.update(plainData);
             return signature.sign();
@@ -2528,7 +2663,7 @@ public final class CryptoMx {
      *     签名算法实例。
      * @return 是否通过验证。
      */
-    public static boolean verify(byte[] plainData, byte[] signData, Signature signature) {
+    public static boolean verify(@Nonnull byte[] plainData, @Nonnull byte[] signData, @Nonnull Signature signature) {
         try {
             signature.update(plainData);
             return signature.verify(signData);

@@ -8,9 +8,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * {@link Pattern} 对象池，缓存编译后的正则表达式。
  */
+@ThreadSafe
 public class PatternPool {
     /**
      * 缓存。
@@ -24,7 +28,8 @@ public class PatternPool {
      *     正则表达式。
      * @return {@link Pattern} 对象。
      */
-    public Pattern of(String regex) {
+    @Nonnull
+    public Pattern of(@Nonnull String regex) {
         return pool.computeIfAbsent(regex, Pattern::compile);
     }
 

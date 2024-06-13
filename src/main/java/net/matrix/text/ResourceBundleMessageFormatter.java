@@ -8,6 +8,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.matrix.java.text.MessageFormatMx;
 import net.matrix.java.util.LocaleMx;
 import net.matrix.java.util.ResourceBundleMx;
@@ -19,11 +22,13 @@ public class ResourceBundleMessageFormatter {
     /**
      * 资源基础名称。
      */
+    @Nonnull
     private final String baseName;
 
     /**
      * 区域获取方式。
      */
+    @Nonnull
     private Supplier<Locale> localeSupplier;
 
     /**
@@ -32,7 +37,7 @@ public class ResourceBundleMessageFormatter {
      * @param baseName
      *     资源基础名称。
      */
-    public ResourceBundleMessageFormatter(String baseName) {
+    public ResourceBundleMessageFormatter(@Nonnull String baseName) {
         this.baseName = baseName;
         this.localeSupplier = () -> Locale.getDefault(Locale.Category.FORMAT);
     }
@@ -43,7 +48,7 @@ public class ResourceBundleMessageFormatter {
      * @param clazz
      *     类。
      */
-    public ResourceBundleMessageFormatter(Class clazz) {
+    public ResourceBundleMessageFormatter(@Nonnull Class clazz) {
         this(clazz.getName());
     }
 
@@ -54,7 +59,8 @@ public class ResourceBundleMessageFormatter {
      *     区域。
      * @return 自身。
      */
-    public ResourceBundleMessageFormatter useLocale(Locale locale) {
+    @Nonnull
+    public ResourceBundleMessageFormatter useLocale(@Nonnull Locale locale) {
         this.localeSupplier = () -> locale;
         return this;
     }
@@ -64,6 +70,7 @@ public class ResourceBundleMessageFormatter {
      * 
      * @return 自身。
      */
+    @Nonnull
     public ResourceBundleMessageFormatter useCurrentLocale() {
         this.localeSupplier = () -> LocaleMx.current(Locale.Category.FORMAT);
         return this;
@@ -72,6 +79,7 @@ public class ResourceBundleMessageFormatter {
     /**
      * 资源基础名称。
      */
+    @Nonnull
     public String getBaseName() {
         return baseName;
     }
@@ -79,6 +87,7 @@ public class ResourceBundleMessageFormatter {
     /**
      * 区域。
      */
+    @Nonnull
     public Locale getLocale() {
         return localeSupplier.get();
     }
@@ -86,6 +95,7 @@ public class ResourceBundleMessageFormatter {
     /**
      * 区域相关资源，使用调用方类加载器。
      */
+    @Nonnull
     public ResourceBundle getResourceBundle() {
         return ResourceBundleMx.getBundle(baseName, localeSupplier.get());
     }
@@ -96,7 +106,8 @@ public class ResourceBundleMessageFormatter {
      * @param loader
      *     类加载器。
      */
-    public ResourceBundle getResourceBundle(ClassLoader loader) {
+    @Nonnull
+    public ResourceBundle getResourceBundle(@Nonnull ClassLoader loader) {
         return ResourceBundleMx.getBundle(baseName, localeSupplier.get(), loader);
     }
 
@@ -107,7 +118,8 @@ public class ResourceBundleMessageFormatter {
      *     在区域相关资源中，消息对应的键值。
      * @return 消息。
      */
-    public String get(String key) {
+    @Nonnull
+    public String get(@Nonnull String key) {
         return get(getResourceBundle(), key);
     }
 
@@ -120,7 +132,8 @@ public class ResourceBundleMessageFormatter {
      *     在区域相关资源中，消息对应的键值。
      * @return 消息。
      */
-    public String get(ClassLoader loader, String key) {
+    @Nonnull
+    public String get(@Nonnull ClassLoader loader, @Nonnull String key) {
         return get(getResourceBundle(loader), key);
     }
 
@@ -133,7 +146,8 @@ public class ResourceBundleMessageFormatter {
      *     消息参数。
      * @return 格式化的消息。
      */
-    public String format(String key, Object... arguments) {
+    @Nonnull
+    public String format(@Nonnull String key, Object... arguments) {
         return format(getResourceBundle(), key, arguments);
     }
 
@@ -148,7 +162,8 @@ public class ResourceBundleMessageFormatter {
      *     消息参数。
      * @return 格式化的消息。
      */
-    public String format(ClassLoader loader, String key, Object... arguments) {
+    @Nonnull
+    public String format(@Nonnull ClassLoader loader, @Nonnull String key, Object... arguments) {
         return format(getResourceBundle(loader), key, arguments);
     }
 
@@ -161,7 +176,8 @@ public class ResourceBundleMessageFormatter {
      *     在区域相关资源中，消息对应的键值。
      * @return 消息。
      */
-    public static String get(ResourceBundle bundle, String key) {
+    @Nonnull
+    public static String get(@Nullable ResourceBundle bundle, @Nonnull String key) {
         return ResourceBundleMx.getObject(bundle, key, key);
     }
 
@@ -176,7 +192,8 @@ public class ResourceBundleMessageFormatter {
      *     消息参数。
      * @return 格式化的消息。
      */
-    public static String format(ResourceBundle bundle, String key, Object... arguments) {
+    @Nonnull
+    public static String format(@Nullable ResourceBundle bundle, @Nonnull String key, Object... arguments) {
         String pattern = ResourceBundleMx.getObject(bundle, key, key);
         return MessageFormatMx.format(pattern, bundle.getLocale(), arguments);
     }

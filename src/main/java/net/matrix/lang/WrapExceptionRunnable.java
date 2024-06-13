@@ -4,6 +4,9 @@
  */
 package net.matrix.lang;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +16,7 @@ import net.matrix.text.ResourceBundleMessageFormatter;
  * 不会抛出异常到线程池的 {@link Runnable}，防止用户没有捕捉异常导致中断线程池中的线程。
  * 主要用于包装无法控制实现的第三方包中的 {@link Runnable}。
  */
+@Immutable
 public class WrapExceptionRunnable
     implements Runnable {
     /**
@@ -28,6 +32,7 @@ public class WrapExceptionRunnable
     /**
      * 被包装的 {@link Runnable}。
      */
+    @Nonnull
     private final Runnable runnable;
 
     /**
@@ -36,7 +41,7 @@ public class WrapExceptionRunnable
      * @param runnable
      *     被包装的 {@link Runnable}。
      */
-    public WrapExceptionRunnable(Runnable runnable) {
+    public WrapExceptionRunnable(@Nonnull Runnable runnable) {
         this.runnable = runnable;
     }
 

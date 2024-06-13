@@ -12,9 +12,12 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * 使用 {@link ThreadLocal} 存储的 {@link Map}，一般作为静态变量使用。
  */
+@ThreadSafe
 public class ThreadLocalMap<K, V>
     implements Map<K, V> {
     private final ThreadLocal<Map<K, V>> internal = ThreadLocal.withInitial(HashMap::new);

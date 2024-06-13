@@ -17,6 +17,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 /**
@@ -37,6 +39,7 @@ public interface ExecutorServiceBuilder {
     /**
      * 创建线程池。
      */
+    @Nonnull
     ExecutorService build();
 
     /**

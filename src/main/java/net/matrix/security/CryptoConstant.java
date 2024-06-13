@@ -4,9 +4,12 @@
  */
 package net.matrix.security;
 
+import javax.annotation.concurrent.Immutable;
+
 /**
  * 加密算法常量。
  */
+@Immutable
 public final class CryptoConstant {
     // 随机数生成器算法
     public static final String SYSTEM = "";

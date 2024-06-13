@@ -6,9 +6,13 @@ package net.matrix.security;
 
 import java.security.GeneralSecurityException;
 
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+
 /**
  * 身份验证相关异常。
  */
+@Immutable
 public class AuthenticationException
     extends GeneralSecurityException {
     private static final long serialVersionUID = 1L;
@@ -26,7 +30,7 @@ public class AuthenticationException
      * @param message
      *     详细信息。详细信息可以通过 {@link #getMessage()} 方法获取。
      */
-    public AuthenticationException(String message) {
+    public AuthenticationException(@Nullable String message) {
         super(message);
     }
 
@@ -36,7 +40,7 @@ public class AuthenticationException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
-    public AuthenticationException(Throwable cause) {
+    public AuthenticationException(@Nullable Throwable cause) {
         super(cause);
     }
 
@@ -49,7 +53,7 @@ public class AuthenticationException
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。可以使用 <code>null</code> 值，指原因异常不存在或未知。
      */
-    public AuthenticationException(String message, Throwable cause) {
+    public AuthenticationException(@Nullable String message, @Nullable Throwable cause) {
         super(message, cause);
     }
 }

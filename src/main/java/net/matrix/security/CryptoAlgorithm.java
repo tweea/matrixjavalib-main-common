@@ -6,11 +6,14 @@ package net.matrix.security;
 
 import java.util.Map;
 
+import javax.annotation.concurrent.Immutable;
+
 import net.matrix.java.lang.EnumMx;
 
 /**
  * 加密算法枚举。
  */
+@Immutable
 public class CryptoAlgorithm {
     /**
      * 随机数生成器算法。
