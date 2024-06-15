@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
 
 import net.matrix.java.text.MessageFormatMx;
 import net.matrix.java.util.LocaleMx;
@@ -18,6 +19,7 @@ import net.matrix.java.util.ResourceBundleMx;
 /**
  * 使用区域相关资源的消息格式化工具。
  */
+@ThreadSafe
 public class ResourceBundleMessageFormatter {
     /**
      * 资源基础名称。
