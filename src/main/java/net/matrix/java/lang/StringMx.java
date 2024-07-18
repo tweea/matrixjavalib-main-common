@@ -27,6 +27,40 @@ public final class StringMx {
     }
 
     /**
+     * 判断两个字符串是否相等，将 <code>null</code>、空字符串视为相等。
+     * 
+     * @param text1
+     *     字符串一。
+     * @param text2
+     *     字符串二。
+     * @return 是否相等。
+     */
+    public static boolean equalsIfEmpty(@Nullable CharSequence text1, @Nullable CharSequence text2) {
+        if (StringUtils.isAllEmpty(text1, text2)) {
+            return true;
+        }
+
+        return StringUtils.equals(text1, text2);
+    }
+
+    /**
+     * 判断两个字符串是否相等，将 <code>null</code>、空字符串、空白字符视为相等。
+     * 
+     * @param text1
+     *     字符串一。
+     * @param text2
+     *     字符串二。
+     * @return 是否相等。
+     */
+    public static boolean equalsIfBlank(@Nullable CharSequence text1, @Nullable CharSequence text2) {
+        if (StringUtils.isAllBlank(text1, text2)) {
+            return true;
+        }
+
+        return StringUtils.equals(text1, text2);
+    }
+
+    /**
      * 在字符串中替换 {@link Map} 中的所有字符串键值对组合。
      * 
      * @param text

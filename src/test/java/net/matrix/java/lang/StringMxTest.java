@@ -15,6 +15,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class StringMxTest {
     @Test
+    void testEqualsIfEmpty() {
+        assertThat(StringMx.equalsIfEmpty(null, "")).isTrue();
+        assertThat(StringMx.equalsIfEmpty(null, "  \n")).isFalse();
+        assertThat(StringMx.equalsIfEmpty(null, "  n")).isFalse();
+    }
+
+    @Test
+    void testEqualsIfBlank() {
+        assertThat(StringMx.equalsIfBlank(null, "")).isTrue();
+        assertThat(StringMx.equalsIfBlank(null, "  \n")).isTrue();
+        assertThat(StringMx.equalsIfBlank(null, "  n")).isFalse();
+    }
+
+    @Test
     void testReplaceEach() {
         Map<String, String> replacementMap = new LinkedHashMap<>();
 

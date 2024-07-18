@@ -9,10 +9,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
@@ -193,5 +195,26 @@ public final class CollectionMx {
         }
 
         return map;
+    }
+
+    /**
+     * 从对象集合中查找符合特定值的第一个对象。
+     * 
+     * @param items
+     *     对象集合。
+     * @param valueFunction
+     *     值映射函数。
+     * @param value
+     *     值。
+     * @return 对象。
+     */
+    @Nullable
+    public static <V, I> I find(@Nonnull Iterable<I> items, @Nonnull Function<? super I, ? extends V> valueFunction, @Nullable V value) {
+        for (I item : items) {
+            if (Objects.equals(valueFunction.apply(item), value)) {
+                return item;
+            }
+        }
+        return null;
     }
 }

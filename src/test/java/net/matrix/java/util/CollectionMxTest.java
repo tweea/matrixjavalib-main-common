@@ -108,6 +108,17 @@ class CollectionMxTest {
         assertThat(map.get("a")).containsOnly("x", "y");
     }
 
+    @Test
+    void testFind() {
+        List<TestBean3> items = new ArrayList<>();
+        items.add(new TestBean3("a", "x"));
+        items.add(new TestBean3("b", "y"));
+
+        TestBean3 item = CollectionMx.find(items, TestBean3::getX, "a");
+        assertThat(item).isNotNull();
+        assertThat(item).isSameAs(items.get(0));
+    }
+
     static class TestBean3 {
         private String x;
 
