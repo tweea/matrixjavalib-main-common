@@ -69,17 +69,17 @@ class NumberMxTest {
     }
 
     @Test
-    void testParseNumber() {
-        assertThat(NumberMx.parseNumber(null)).isNull();
-        assertThat(NumberMx.parseNumber("  \n")).isNull();
-        assertThat(NumberMx.parseNumber("5")).isEqualTo(5);
-    }
-
-    @Test
     void testParseInteger() {
         assertThat(NumberMx.parseInteger(null)).isNull();
         assertThat(NumberMx.parseInteger("  \n")).isNull();
         assertThat(NumberMx.parseInteger("5")).isEqualTo(5);
+    }
+
+    @Test
+    void testParseInteger_defaultValue() {
+        assertThat(NumberMx.parseInteger(null, 1)).isEqualTo(1);
+        assertThat(NumberMx.parseInteger("  \n", 1)).isEqualTo(1);
+        assertThat(NumberMx.parseInteger("5", 1)).isEqualTo(5);
     }
 
     @Test
@@ -90,10 +90,24 @@ class NumberMxTest {
     }
 
     @Test
+    void testParseLong_defaultValue() {
+        assertThat(NumberMx.parseLong(null, 1L)).isEqualTo(1);
+        assertThat(NumberMx.parseLong("  \n", 1L)).isEqualTo(1);
+        assertThat(NumberMx.parseLong("5", 1L)).isEqualTo(5);
+    }
+
+    @Test
     void testParseFloat() {
         assertThat(NumberMx.parseFloat(null)).isNull();
         assertThat(NumberMx.parseFloat("  \n")).isNull();
         assertThat(NumberMx.parseFloat("5")).isEqualTo(5);
+    }
+
+    @Test
+    void testParseFloat_defaultValue() {
+        assertThat(NumberMx.parseFloat(null, 1F)).isEqualTo(1);
+        assertThat(NumberMx.parseFloat("  \n", 1F)).isEqualTo(1);
+        assertThat(NumberMx.parseFloat("5", 1F)).isEqualTo(5);
     }
 
     @Test
@@ -104,6 +118,13 @@ class NumberMxTest {
     }
 
     @Test
+    void testParseDouble_defaultValue() {
+        assertThat(NumberMx.parseDouble(null, 1D)).isEqualTo(1);
+        assertThat(NumberMx.parseDouble("  \n", 1D)).isEqualTo(1);
+        assertThat(NumberMx.parseDouble("5", 1D)).isEqualTo(5);
+    }
+
+    @Test
     void testParseBigInteger() {
         assertThat(NumberMx.parseBigInteger(null)).isNull();
         assertThat(NumberMx.parseBigInteger("  \n")).isNull();
@@ -111,10 +132,24 @@ class NumberMxTest {
     }
 
     @Test
+    void testParseBigInteger_defaultValue() {
+        assertThat(NumberMx.parseBigInteger(null, BigInteger.ONE)).isEqualTo(1);
+        assertThat(NumberMx.parseBigInteger("  \n", BigInteger.ONE)).isEqualTo(1);
+        assertThat(NumberMx.parseBigInteger("5", BigInteger.ONE)).isEqualTo(5);
+    }
+
+    @Test
     void testParseBigDecimal() {
         assertThat(NumberMx.parseBigDecimal(null)).isNull();
         assertThat(NumberMx.parseBigDecimal("  \n")).isNull();
         assertThat(NumberMx.parseBigDecimal("5")).isEqualTo("5");
+    }
+
+    @Test
+    void testParseBigDecimal_defaultValue() {
+        assertThat(NumberMx.parseBigDecimal(null, BigDecimal.ONE)).isEqualTo("1");
+        assertThat(NumberMx.parseBigDecimal("  \n", BigDecimal.ONE)).isEqualTo("1");
+        assertThat(NumberMx.parseBigDecimal("5", BigDecimal.ONE)).isEqualTo("5");
     }
 
     @Test

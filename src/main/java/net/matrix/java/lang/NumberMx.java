@@ -139,22 +139,6 @@ public final class NumberMx {
     }
 
     /**
-     * 解析字符串为 {@link Number} 类型。
-     * 
-     * @param string
-     *     字符串。
-     * @return {@link Number} 类型。
-     */
-    @Nullable
-    public static Number parseNumber(@Nullable String string) {
-        if (StringUtils.isBlank(string)) {
-            return null;
-        }
-
-        return NumberUtils.createNumber(string);
-    }
-
-    /**
      * 解析字符串为 {@link Integer} 类型。
      * 
      * @param string
@@ -163,8 +147,22 @@ public final class NumberMx {
      */
     @Nullable
     public static Integer parseInteger(@Nullable String string) {
+        return parseInteger(string, null);
+    }
+
+    /**
+     * 解析字符串为 {@link Integer} 类型。
+     * 
+     * @param string
+     *     字符串。
+     * @param defaultValue
+     *     默认值。
+     * @return {@link Integer} 类型。
+     */
+    @Nullable
+    public static Integer parseInteger(@Nullable String string, @Nullable Integer defaultValue) {
         if (StringUtils.isBlank(string)) {
-            return null;
+            return defaultValue;
         }
 
         return Integer.decode(string);
@@ -179,8 +177,22 @@ public final class NumberMx {
      */
     @Nullable
     public static Long parseLong(@Nullable String string) {
+        return parseLong(string, null);
+    }
+
+    /**
+     * 解析字符串为 {@link Long} 类型。
+     * 
+     * @param string
+     *     字符串。
+     * @param defaultValue
+     *     默认值。
+     * @return {@link Long} 类型。
+     */
+    @Nullable
+    public static Long parseLong(@Nullable String string, @Nullable Long defaultValue) {
         if (StringUtils.isBlank(string)) {
-            return null;
+            return defaultValue;
         }
 
         return Long.decode(string);
@@ -195,8 +207,22 @@ public final class NumberMx {
      */
     @Nullable
     public static Float parseFloat(@Nullable String string) {
+        return parseFloat(string, null);
+    }
+
+    /**
+     * 解析字符串为 {@link Float} 类型。
+     * 
+     * @param string
+     *     字符串。
+     * @param defaultValue
+     *     默认值。
+     * @return {@link Float} 类型。
+     */
+    @Nullable
+    public static Float parseFloat(@Nullable String string, @Nullable Float defaultValue) {
         if (StringUtils.isBlank(string)) {
-            return null;
+            return defaultValue;
         }
 
         return Float.valueOf(string);
@@ -211,8 +237,22 @@ public final class NumberMx {
      */
     @Nullable
     public static Double parseDouble(@Nullable String string) {
+        return parseDouble(string, null);
+    }
+
+    /**
+     * 解析字符串为 {@link Double} 类型。
+     * 
+     * @param string
+     *     字符串。
+     * @param defaultValue
+     *     默认值。
+     * @return {@link Double} 类型。
+     */
+    @Nullable
+    public static Double parseDouble(@Nullable String string, @Nullable Double defaultValue) {
         if (StringUtils.isBlank(string)) {
-            return null;
+            return defaultValue;
         }
 
         return Double.valueOf(string);
@@ -227,8 +267,22 @@ public final class NumberMx {
      */
     @Nullable
     public static BigInteger parseBigInteger(@Nullable String string) {
+        return parseBigInteger(string, null);
+    }
+
+    /**
+     * 解析字符串为 {@link BigInteger} 类型。
+     * 
+     * @param string
+     *     字符串。
+     * @param defaultValue
+     *     默认值。
+     * @return {@link BigInteger} 类型。
+     */
+    @Nullable
+    public static BigInteger parseBigInteger(@Nullable String string, @Nullable BigInteger defaultValue) {
         if (StringUtils.isBlank(string)) {
-            return null;
+            return defaultValue;
         }
 
         return NumberUtils.createBigInteger(string);
@@ -243,8 +297,22 @@ public final class NumberMx {
      */
     @Nullable
     public static BigDecimal parseBigDecimal(@Nullable String string) {
+        return parseBigDecimal(string, null);
+    }
+
+    /**
+     * 解析字符串为 {@link BigDecimal} 类型。
+     * 
+     * @param string
+     *     字符串。
+     * @param defaultValue
+     *     默认值。
+     * @return {@link BigDecimal} 类型。
+     */
+    @Nullable
+    public static BigDecimal parseBigDecimal(@Nullable String string, @Nullable BigDecimal defaultValue) {
         if (StringUtils.isBlank(string)) {
-            return null;
+            return defaultValue;
         }
 
         return new BigDecimal(string);
