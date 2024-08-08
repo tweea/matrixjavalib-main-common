@@ -17,6 +17,15 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class ObjectMxTest {
     @Test
+    void testEqualsAny() {
+        assertThat(ObjectMx.equalsAny(null)).isFalse();
+        assertThat(ObjectMx.equalsAny(null, "123")).isFalse();
+        assertThat(ObjectMx.equalsAny(null, (Object) null)).isTrue();
+        assertThat(ObjectMx.equalsAny("abc", "123")).isFalse();
+        assertThat(ObjectMx.equalsAny("abc", "123", "abc")).isTrue();
+    }
+
+    @Test
     void testIfNull() {
         Object object = new Object();
         MutableBoolean runned = new MutableBoolean();

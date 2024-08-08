@@ -4,6 +4,7 @@
  */
 package net.matrix.java.lang;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -22,6 +23,24 @@ public final class ObjectMx {
      * 阻止实例化。
      */
     private ObjectMx() {
+    }
+
+    /**
+     * 判断对象的值是否与任意参数对象的值相等。
+     * 
+     * @param object
+     *     对象。
+     * @param searchObjects
+     *     参数对象列表。
+     * @return 是否相等。
+     */
+    public static <T> boolean equalsAny(@Nullable T object, @Nonnull T... searchObjects) {
+        for (T searchObject : searchObjects) {
+            if (Objects.equals(object, searchObject)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
