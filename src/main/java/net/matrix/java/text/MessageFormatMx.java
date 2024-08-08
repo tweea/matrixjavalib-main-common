@@ -46,7 +46,7 @@ public final class MessageFormatMx {
      * @return 格式化的消息。
      */
     @Nonnull
-    public static String format(@Nonnull String pattern, Object... arguments) {
+    public static String format(@Nonnull String pattern, @Nonnull Object... arguments) {
         try {
             MessageFormat format = new MessageFormat(pattern);
             return format.format(arguments);
@@ -68,7 +68,7 @@ public final class MessageFormatMx {
      * @return 格式化的消息。
      */
     @Nonnull
-    public static String format(@Nonnull String pattern, @Nonnull Locale locale, Object... arguments) {
+    public static String format(@Nonnull String pattern, @Nonnull Locale locale, @Nonnull Object... arguments) {
         try {
             MessageFormat format = new MessageFormat(pattern, locale);
             return format.format(arguments);
@@ -88,7 +88,7 @@ public final class MessageFormatMx {
      * @return 格式化的消息。
      */
     @Nonnull
-    public static String formatFallback(@Nonnull String pattern, Object... arguments) {
+    public static String formatFallback(@Nonnull String pattern, @Nonnull Object... arguments) {
         String separator = RBMF.get("，");
 
         StringBuilder sb = new StringBuilder(pattern);

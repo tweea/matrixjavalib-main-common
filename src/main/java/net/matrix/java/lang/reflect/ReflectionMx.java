@@ -15,7 +15,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -255,8 +254,7 @@ public final class ReflectionMx {
      *     参数值。
      * @return 方法返回值。
      */
-    public static <T> T invokeMethod(@Nonnull Object target, @Nonnull String name, Object... parameterValues) {
-        parameterValues = ArrayUtils.nullToEmpty(parameterValues);
+    public static <T> T invokeMethod(@Nonnull Object target, @Nonnull String name, @Nonnull Object... parameterValues) {
         Class<?>[] parameterTypes = ClassUtils.toClass(parameterValues);
         return invokeMethod(target, name, parameterTypes, parameterValues);
     }
@@ -297,7 +295,7 @@ public final class ReflectionMx {
      *     参数值。
      * @return 方法返回值。
      */
-    public static <T> T invokeMethodByName(@Nonnull Object target, @Nonnull String name, Object... parameterValues) {
+    public static <T> T invokeMethodByName(@Nonnull Object target, @Nonnull String name, @Nonnull Object... parameterValues) {
         Class<?> targetType = target.getClass();
         Method method = getAccessibleMethodByName(targetType, name);
         if (method == null) {
@@ -318,7 +316,7 @@ public final class ReflectionMx {
      *     参数值。
      * @return 方法返回值。
      */
-    public static <T> T invokeMethod(@Nonnull Object target, @Nonnull Method method, Object... parameterValues) {
+    public static <T> T invokeMethod(@Nonnull Object target, @Nonnull Method method, @Nonnull Object... parameterValues) {
         try {
             return (T) method.invoke(target, parameterValues);
         } catch (IllegalAccessException | InvocationTargetException e) {

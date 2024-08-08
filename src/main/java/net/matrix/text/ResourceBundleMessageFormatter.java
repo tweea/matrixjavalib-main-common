@@ -149,7 +149,7 @@ public class ResourceBundleMessageFormatter {
      * @return 格式化的消息。
      */
     @Nonnull
-    public String format(@Nonnull String key, Object... arguments) {
+    public String format(@Nonnull String key, @Nonnull Object... arguments) {
         return format(getResourceBundle(), key, arguments);
     }
 
@@ -165,7 +165,7 @@ public class ResourceBundleMessageFormatter {
      * @return 格式化的消息。
      */
     @Nonnull
-    public String format(@Nonnull ClassLoader loader, @Nonnull String key, Object... arguments) {
+    public String format(@Nonnull ClassLoader loader, @Nonnull String key, @Nonnull Object... arguments) {
         return format(getResourceBundle(loader), key, arguments);
     }
 
@@ -195,7 +195,7 @@ public class ResourceBundleMessageFormatter {
      * @return 格式化的消息。
      */
     @Nonnull
-    public static String format(@Nullable ResourceBundle bundle, @Nonnull String key, Object... arguments) {
+    public static String format(@Nullable ResourceBundle bundle, @Nonnull String key, @Nonnull Object... arguments) {
         String pattern = ResourceBundleMx.getObject(bundle, key, key);
         return MessageFormatMx.format(pattern, bundle.getLocale(), arguments);
     }
