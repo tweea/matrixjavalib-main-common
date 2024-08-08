@@ -5,7 +5,9 @@
 package net.matrix.java.math;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -37,5 +39,27 @@ public final class BigDecimalMx {
             return false;
         }
         return a.compareTo(b) == 0;
+    }
+
+    /**
+     * 修约一个 {@link BigDecimal}。
+     * 
+     * @param value
+     *     一个 {@link BigDecimal}。
+     * @param scale
+     *     保留小数位数。
+     * @param mode
+     *     修约方式。
+     * @return 修约结果。
+     */
+    @Nullable
+    public static BigDecimal round(@Nullable BigDecimal value, int scale, @Nonnull RoundingMode mode) {
+        if (value == null) {
+            return null;
+        }
+        if (value.scale() == scale) {
+            return value;
+        }
+        return value.setScale(scale, mode);
     }
 }
