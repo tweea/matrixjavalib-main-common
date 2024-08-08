@@ -29,6 +29,12 @@ class StringMxTest {
     }
 
     @Test
+    void testEmptyIfNull() {
+        assertThat(StringMx.emptyIfNull(null)).isEqualTo("");
+        assertThat(StringMx.emptyIfNull("5")).isEqualTo("5");
+    }
+
+    @Test
     void testReplaceEach() {
         Map<String, String> replacementMap = new LinkedHashMap<>();
 

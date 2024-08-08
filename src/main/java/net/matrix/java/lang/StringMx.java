@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -58,6 +59,18 @@ public final class StringMx {
         }
 
         return StringUtils.equals(text1, text2);
+    }
+
+    /**
+     * 将字符串 <code>null</code> 值转换为空字符串。
+     * 
+     * @param text
+     *     字符串。
+     * @return 字符串。
+     */
+    @Nonnull
+    public static String emptyIfNull(@Nullable String text) {
+        return ObjectUtils.defaultIfNull(text, StringUtils.EMPTY);
     }
 
     /**
