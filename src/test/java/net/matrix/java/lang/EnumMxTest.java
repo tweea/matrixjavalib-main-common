@@ -27,4 +27,13 @@ class EnumMxTest {
         Map<String, TestEnum> map = EnumMx.buildValueMap(TestEnum.class, t -> t.v);
         assertThat(map).containsOnly(entry("a", TestEnum.A), entry("b", TestEnum.B));
     }
+
+    @Test
+    void testEqualsAny() {
+        assertThat(EnumMx.equalsAny(null)).isFalse();
+        assertThat(EnumMx.equalsAny(null, TestEnum.A)).isFalse();
+        assertThat(EnumMx.equalsAny(null, (TestEnum) null)).isTrue();
+        assertThat(EnumMx.equalsAny(TestEnum.A, TestEnum.B)).isFalse();
+        assertThat(EnumMx.equalsAny(TestEnum.A, TestEnum.A, TestEnum.B)).isTrue();
+    }
 }

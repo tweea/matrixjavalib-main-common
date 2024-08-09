@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import com.google.common.collect.Maps;
@@ -41,5 +42,23 @@ public final class EnumMx {
             map.put(keyFunction.apply(value), value);
         }
         return map;
+    }
+
+    /**
+     * 判断枚举值是否与任意参数枚举值相等。
+     * 
+     * @param value
+     *     枚举值。
+     * @param searchValues
+     *     参数枚举值列表。
+     * @return 是否相等。
+     */
+    public static <E extends Enum<E>> boolean equalsAny(@Nullable E value, @Nonnull E... searchValues) {
+        for (E searchValue : searchValues) {
+            if (value == searchValue) {
+                return true;
+            }
+        }
+        return false;
     }
 }
