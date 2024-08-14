@@ -7,6 +7,7 @@ package net.matrix.java.lang;
 import java.lang.reflect.UndeclaredThrowableException;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -79,5 +80,24 @@ public final class ThrowableMx {
             }
         }
         return false;
+    }
+
+    /**
+     * 查找异常的指定类型的原因异常。
+     * 
+     * @param throwable
+     *     异常。
+     * @param causeType
+     *     原因异常类型。
+     */
+    @Nullable
+    public static <T extends Throwable> T findCause(@Nonnull Throwable throwable, @Nonnull Class<T> causeType) {
+        while (throwable != null) {
+            if (causeType.isAssignableFrom(throwable.getClass())) {
+                return (T) throwable;
+            }
+            throwable = throwable.getCause();
+        }
+        return null;
     }
 }

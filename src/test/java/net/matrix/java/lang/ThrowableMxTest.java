@@ -43,4 +43,16 @@ class ThrowableMxTest {
         assertThat(ThrowableMx.isCausedBy(runtimeException, Exception.class)).isTrue();
         assertThat(ThrowableMx.isCausedBy(runtimeException, IllegalAccessException.class)).isFalse();
     }
+
+    @Test
+    void testFindCause() {
+        IOException ioException = new IOException("my exception");
+        IllegalStateException illegalStateException = new IllegalStateException(ioException);
+        RuntimeException runtimeException = new RuntimeException(illegalStateException);
+
+        assertThat(ThrowableMx.findCause(runtimeException, IOException.class)).isSameAs(ioException);
+        assertThat(ThrowableMx.findCause(runtimeException, IllegalStateException.class)).isSameAs(illegalStateException);
+        assertThat(ThrowableMx.findCause(runtimeException, Exception.class)).isSameAs(runtimeException);
+        assertThat(ThrowableMx.findCause(runtimeException, IllegalAccessException.class)).isNull();
+    }
 }
