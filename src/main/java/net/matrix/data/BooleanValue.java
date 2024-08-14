@@ -74,6 +74,7 @@ public class BooleanValue<V> {
      * 
      * @return 表示真的值。
      */
+    @Nonnull
     public V getTrueValue() {
         return trueValue;
     }
@@ -83,6 +84,7 @@ public class BooleanValue<V> {
      * 
      * @return 表示假的值。
      */
+    @Nonnull
     public V getFalseValue() {
         return falseValue;
     }
@@ -92,6 +94,7 @@ public class BooleanValue<V> {
      * 
      * @return 表示 <code>null</code> 的值。
      */
+    @Nullable
     public V getNullValue() {
         return nullValue;
     }
@@ -147,6 +150,7 @@ public class BooleanValue<V> {
      *     值类型。
      * @return 布尔类型。
      */
+    @Nullable
     public Boolean toBoolean(@Nullable V value) {
         if (value == null) {
             return null;
@@ -167,6 +171,7 @@ public class BooleanValue<V> {
      *     布尔类型。
      * @return 值类型。
      */
+    @Nullable
     public V toValue(@Nullable Boolean value) {
         if (value == null) {
             return nullValue;
