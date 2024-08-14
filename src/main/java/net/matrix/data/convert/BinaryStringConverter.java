@@ -20,7 +20,7 @@ public interface BinaryStringConverter {
     /**
      * 使用 UTF-8 编码。
      */
-    public static final BinaryStringConverter UTF8 = new BinaryStringConverter() {
+    BinaryStringConverter UTF8 = new BinaryStringConverter() {
         @Override
         public String toString(byte[] binary) {
             if (binary == null) {
@@ -43,7 +43,7 @@ public interface BinaryStringConverter {
     /**
      * 由 0 和 1 组成的字符串。
      */
-    public static final BinaryStringConverter BIT = new BinaryStringConverter() {
+    BinaryStringConverter BIT = new BinaryStringConverter() {
         @Override
         public String toString(byte[] binary) {
             if (binary == null) {
@@ -66,7 +66,7 @@ public interface BinaryStringConverter {
     /**
      * 十六进制字符串。
      */
-    public static final BinaryStringConverter HEX = new BinaryStringConverter() {
+    BinaryStringConverter HEX = new BinaryStringConverter() {
         @Override
         public String toString(byte[] binary) {
             if (binary == null) {
@@ -93,7 +93,7 @@ public interface BinaryStringConverter {
     /**
      * Base64 字符串。
      */
-    public static final BinaryStringConverter BASE64 = new BinaryStringConverter() {
+    BinaryStringConverter BASE64 = new BinaryStringConverter() {
         @Override
         public String toString(byte[] binary) {
             if (binary == null) {
@@ -116,7 +116,7 @@ public interface BinaryStringConverter {
     /**
      * URL 安全变体的 Base64 字符串。
      */
-    public static final BinaryStringConverter BASE64_URL_SAFE = new BinaryStringConverter() {
+    BinaryStringConverter BASE64_URL_SAFE = new BinaryStringConverter() {
         @Override
         public String toString(byte[] binary) {
             if (binary == null) {
