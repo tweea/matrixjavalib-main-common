@@ -20,7 +20,7 @@ class ThreadMxTest {
         stopWatch.start();
         ThreadMx.sleep(10L);
         stopWatch.stop();
-        assertThat(stopWatch.getTime()).isGreaterThanOrEqualTo(10L);
+        assertThat(stopWatch.getDuration()).isGreaterThanOrEqualTo(Duration.ofMillis(10L));
     }
 
     @Test
@@ -30,7 +30,7 @@ class ThreadMxTest {
         stopWatch.start();
         ThreadMx.sleep(10L, TimeUnit.MILLISECONDS);
         stopWatch.stop();
-        assertThat(stopWatch.getTime()).isGreaterThanOrEqualTo(10L);
+        assertThat(stopWatch.getDuration()).isGreaterThanOrEqualTo(Duration.ofMillis(10L));
     }
 
     @Test
@@ -40,6 +40,6 @@ class ThreadMxTest {
         stopWatch.start();
         ThreadMx.sleep(Duration.ofMillis(10L));
         stopWatch.stop();
-        assertThat(stopWatch.getTime()).isGreaterThanOrEqualTo(10L);
+        assertThat(stopWatch.getDuration()).isGreaterThanOrEqualTo(Duration.ofMillis(10L));
     }
 }
