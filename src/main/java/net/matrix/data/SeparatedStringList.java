@@ -233,7 +233,10 @@ public class SeparatedStringList
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SeparatedStringList)) {
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
             return false;
         }
         SeparatedStringList other = (SeparatedStringList) o;
