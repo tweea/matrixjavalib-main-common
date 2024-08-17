@@ -158,7 +158,7 @@ class ReflectionMxTest {
         assertThat(method.getName()).isEqualTo("privateMethod");
 
         // 方法名错
-        assertThat(ReflectionMx.getAccessibleMethodByName(TestBean.class, "notExistMethod"));
+        assertThat(ReflectionMx.getAccessibleMethodByName(TestBean.class, "notExistMethod")).isNull();
     }
 
     @Test

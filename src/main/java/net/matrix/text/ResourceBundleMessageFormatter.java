@@ -5,6 +5,7 @@
 package net.matrix.text;
 
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
@@ -179,7 +180,7 @@ public class ResourceBundleMessageFormatter {
      * @return 消息。
      */
     @Nonnull
-    public static String get(@Nullable ResourceBundle bundle, @Nonnull String key) {
+    public String get(@Nullable ResourceBundle bundle, @Nonnull String key) {
         return ResourceBundleMx.getObject(bundle, key, key);
     }
 
@@ -195,8 +196,9 @@ public class ResourceBundleMessageFormatter {
      * @return 格式化的消息。
      */
     @Nonnull
-    public static String format(@Nullable ResourceBundle bundle, @Nonnull String key, @Nonnull Object... arguments) {
+    public String format(@Nullable ResourceBundle bundle, @Nonnull String key, @Nonnull Object... arguments) {
         String pattern = ResourceBundleMx.getObject(bundle, key, key);
-        return MessageFormatMx.format(pattern, bundle.getLocale(), arguments);
+        Locale locale = Optional.ofNullable(bundle).map(ResourceBundle::getLocale).orElseGet(localeSupplier);
+        return MessageFormatMx.format(pattern, locale, arguments);
     }
 }

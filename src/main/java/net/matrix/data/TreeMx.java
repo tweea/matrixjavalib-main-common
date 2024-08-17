@@ -5,13 +5,14 @@
 package net.matrix.data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
+
+import net.matrix.java.util.CollectionMx;
 
 /**
  * 树型结构工具。
@@ -40,10 +41,7 @@ public final class TreeMx {
     @Nonnull
     public static <ID, DATA> List<DATA> buildTree(@Nonnull List<DATA> datas, @Nonnull Function<? super DATA, ? extends ID> idFunction,
         @Nonnull Function<? super DATA, ? extends ID> parentIdFunction, @Nonnull Function<? super DATA, ? extends List<DATA>> childFunction) {
-        Map<ID, DATA> dataMap = new HashMap<>();
-        for (DATA data : datas) {
-            dataMap.put(idFunction.apply(data), data);
-        }
+        Map<ID, DATA> dataMap = CollectionMx.buildMap(datas, idFunction);
 
         List<DATA> treeList = new ArrayList<>();
         for (DATA data : datas) {

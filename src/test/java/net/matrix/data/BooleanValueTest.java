@@ -74,7 +74,7 @@ class BooleanValueTest {
     void testToValue() {
         BooleanValue bv = new BooleanValue("1", "2", "3");
         assertThat(bv.toValue(null)).isEqualTo("3");
-        assertThat(bv.toValue(true)).isEqualTo("1");
-        assertThat(bv.toValue(false)).isEqualTo("2");
+        assertThat(bv.toValue(Boolean.TRUE)).isEqualTo("1");
+        assertThat(bv.toValue(Boolean.FALSE)).isEqualTo("2");
     }
 }

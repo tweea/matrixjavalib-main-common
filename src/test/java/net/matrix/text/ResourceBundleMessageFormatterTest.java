@@ -76,17 +76,19 @@ class ResourceBundleMessageFormatterTest {
 
     @Test
     void testGet_bundle() {
+        ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
 
-        assertThat(ResourceBundleMessageFormatter.get(bundle, "message")).isEqualTo("一双{0}");
-        assertThat(ResourceBundleMessageFormatter.get(bundle, "1")).isEqualTo("1");
+        assertThat(formatter.get(bundle, "message")).isEqualTo("一双{0}");
+        assertThat(formatter.get(bundle, "1")).isEqualTo("1");
     }
 
     @Test
     void testFormat_bundle() {
+        ResourceBundleMessageFormatter formatter = new ResourceBundleMessageFormatter("global");
         ResourceBundle bundle = ResourceBundleMx.getBundle("global", Locale.CHINA);
 
-        assertThat(ResourceBundleMessageFormatter.format(bundle, "message", "绣花鞋")).isEqualTo("一双绣花鞋");
-        assertThat(ResourceBundleMessageFormatter.format(bundle, "1, {0}, {1}", "2", 3)).isEqualTo("1, 2, 3");
+        assertThat(formatter.format(bundle, "message", "绣花鞋")).isEqualTo("一双绣花鞋");
+        assertThat(formatter.format(bundle, "1, {0}, {1}", "2", 3)).isEqualTo("1, 2, 3");
     }
 }

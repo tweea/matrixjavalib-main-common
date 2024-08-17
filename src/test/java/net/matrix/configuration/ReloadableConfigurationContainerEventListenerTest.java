@@ -96,7 +96,7 @@ class ReloadableConfigurationContainerEventListenerTest {
 
         @Override
         public Object getConfig() {
-            return null;
+            return new Object();
         }
 
         @Override
