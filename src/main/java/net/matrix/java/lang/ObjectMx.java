@@ -27,7 +27,7 @@ public final class ObjectMx {
 
     /**
      * 判断对象的值是否与任意参数对象的值相等。
-     * 
+     *
      * @param object
      *     对象。
      * @param searchObjects
@@ -45,7 +45,7 @@ public final class ObjectMx {
 
     /**
      * 如果对象的值是 <code>null</code>，执行指定的操作。
-     * 
+     *
      * @param object
      *     对象。
      * @param action
@@ -59,7 +59,7 @@ public final class ObjectMx {
 
     /**
      * 如果对象的值不是 <code>null</code>，执行指定的操作。
-     * 
+     *
      * @param object
      *     对象。
      * @param action
@@ -73,7 +73,7 @@ public final class ObjectMx {
 
     /**
      * 如果对象的值是 <code>null</code>，执行指定的操作，否则执行指定的另一操作。
-     * 
+     *
      * @param object
      *     对象。
      * @param action
@@ -91,7 +91,7 @@ public final class ObjectMx {
 
     /**
      * 如果对象的值是 <code>null</code>，返回真，否则返回指定的断言结果。
-     * 
+     *
      * @param object
      *     对象。
      * @param predicate
@@ -107,7 +107,7 @@ public final class ObjectMx {
 
     /**
      * 如果对象的值是 <code>null</code>，返回假，否则返回指定的断言结果。
-     * 
+     *
      * @param object
      *     对象。
      * @param predicate
@@ -123,7 +123,7 @@ public final class ObjectMx {
 
     /**
      * 如果对象的值不是 <code>null</code>，返回指定的映射操作结果，否则返回 <code>null</code>。
-     * 
+     *
      * @param object
      *     对象。
      * @param mapper
@@ -140,7 +140,7 @@ public final class ObjectMx {
 
     /**
      * 如果对象的值是 <code>null</code>，掷出指定的异常，否则返回对象。
-     * 
+     *
      * @param object
      *     对象。
      * @param exceptionSupplier
@@ -158,7 +158,7 @@ public final class ObjectMx {
 
     /**
      * 如果断言为真，返回对象一，否则返回对象二。
-     * 
+     *
      * @param predicate
      *     断言。
      * @param object1
@@ -177,7 +177,7 @@ public final class ObjectMx {
 
     /**
      * 如果断言为真，返回对象一，否则返回对象二。
-     * 
+     *
      * @param predicate
      *     断言。
      * @param supplier1

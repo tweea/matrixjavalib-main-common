@@ -30,7 +30,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link List} 形式集合。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param valueFunction
@@ -50,7 +50,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link Set} 形式集合。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param valueFunction
@@ -70,7 +70,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link Map} 形式映射关系，一个键对应一个值。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param keyFunction
@@ -90,7 +90,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link Map} 形式映射关系，一个键对应一个值。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param keyFunction
@@ -113,7 +113,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link Map} 形式映射关系，一个键对应多个值。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param keyFunction
@@ -133,7 +133,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link Map} 形式映射关系，一个键对应多个值。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param keyFunction
@@ -156,7 +156,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link Map} 形式映射关系，一个键对应多个值。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param keyFunction
@@ -176,7 +176,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合构造 {@link Map} 形式映射关系，一个键对应多个值。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param keyFunction
@@ -199,7 +199,7 @@ public final class CollectionMx {
 
     /**
      * 从对象集合中查找符合特定值的第一个对象。
-     * 
+     *
      * @param items
      *     对象集合。
      * @param valueFunction

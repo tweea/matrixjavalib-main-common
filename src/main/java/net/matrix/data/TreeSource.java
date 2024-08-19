@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 public interface TreeSource<DATA> {
     /**
      * 获取顶级数据列表。
-     * 
+     *
      * @return 顶级数据列表。
      */
     @Nonnull
@@ -22,7 +22,7 @@ public interface TreeSource<DATA> {
 
     /**
      * 获取下级数据列表。
-     * 
+     *
      * @param data
      *     数据。
      * @return 下级数据列表。

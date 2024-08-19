@@ -36,7 +36,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 构造器，使用系统默认区域。
-     * 
+     *
      * @param baseName
      *     资源基础名称。
      */
@@ -47,7 +47,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 构造器，使用类名作为资源基础名称，使用系统默认区域。
-     * 
+     *
      * @param clazz
      *     类。
      */
@@ -57,7 +57,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 使用特定区域。
-     * 
+     *
      * @param locale
      *     区域。
      * @return 自身。
@@ -70,7 +70,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 使用线程相关区域。
-     * 
+     *
      * @return 自身。
      */
     @Nonnull
@@ -105,7 +105,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 区域相关资源。
-     * 
+     *
      * @param loader
      *     类加载器。
      */
@@ -116,7 +116,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 获取消息，从区域相关资源加载，使用调用方类加载器。
-     * 
+     *
      * @param key
      *     在区域相关资源中，消息对应的键值。
      * @return 消息。
@@ -128,7 +128,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 获取消息，从区域相关资源加载。
-     * 
+     *
      * @param loader
      *     类加载器。
      * @param key
@@ -142,7 +142,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 格式化消息，从区域相关资源加载消息格式，使用调用方类加载器。
-     * 
+     *
      * @param key
      *     在区域相关资源中，消息格式对应的键值。
      * @param arguments
@@ -156,7 +156,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 格式化消息，从区域相关资源加载消息格式。
-     * 
+     *
      * @param loader
      *     类加载器。
      * @param key
@@ -172,7 +172,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 获取消息，从区域相关资源加载。
-     * 
+     *
      * @param bundle
      *     区域相关资源。
      * @param key
@@ -186,7 +186,7 @@ public class ResourceBundleMessageFormatter {
 
     /**
      * 格式化消息，从区域相关资源加载消息格式。
-     * 
+     *
      * @param bundle
      *     区域相关资源。
      * @param key

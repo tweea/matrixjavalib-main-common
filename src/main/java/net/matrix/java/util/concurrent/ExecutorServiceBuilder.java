@@ -25,7 +25,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
  * 创建线程池的工具。
  * 对比 JDK 中 {@link Executors} 的 newFixedThreadPool()、newCachedThreadPool()、newScheduledThreadPool()，提供更多有用的配置项。
  * 使用示例：
- * 
+ *
  * <pre>
  * ExecutorService executorService = new ExecutorServiceBuilder.Fixed().setPoolSize(10).build();
  * </pre>

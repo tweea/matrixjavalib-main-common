@@ -29,7 +29,7 @@ public final class HierarchicalConfigurationMx {
 
     /**
      * 将分层配置对象中特定子项包含的名值对内容转换为 {@link Map} 形式映射关系。
-     * 
+     *
      * @param config
      *     分层配置对象。
      * @param subKey
@@ -56,7 +56,7 @@ public final class HierarchicalConfigurationMx {
 
     /**
      * 使用 {@link Map} 形式映射关系更新分层配置对象中特定子项包含的名值对。
-     * 
+     *
      * @param config
      *     分层配置对象。
      * @param subKey
@@ -81,7 +81,7 @@ public final class HierarchicalConfigurationMx {
 
     /**
      * 列出分层配置对象中特定子项包含的名配置。
-     * 
+     *
      * @param config
      *     分层配置对象。
      * @param subKey
@@ -103,7 +103,7 @@ public final class HierarchicalConfigurationMx {
 
     /**
      * 从分层配置对象中特定子项中找出匹配特定名配置的子项配置。
-     * 
+     *
      * @param config
      *     分层配置对象。
      * @param subKey

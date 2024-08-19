@@ -38,7 +38,7 @@ public class DefaultTreeNode<DATA>
 
     /**
      * 构造器，初始化数据，没有上级节点。
-     * 
+     *
      * @param data
      *     数据。
      */
@@ -48,7 +48,7 @@ public class DefaultTreeNode<DATA>
 
     /**
      * 构造器，初始化数据，加入上级节点。
-     * 
+     *
      * @param data
      *     数据。
      * @param parent
@@ -104,7 +104,7 @@ public class DefaultTreeNode<DATA>
 
     /**
      * 从数据源生成树型结构。
-     * 
+     *
      * @param source
      *     数据源。
      * @return 生成的树型结构。
@@ -123,7 +123,7 @@ public class DefaultTreeNode<DATA>
 
     /**
      * 从数据源生成树型结构的下级节点。
-     * 
+     *
      * @param source
      *     数据源。
      * @param treeNode

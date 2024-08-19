@@ -24,7 +24,7 @@ public final class BigDecimalMx {
 
     /**
      * 判断两个 {@link BigDecimal} 是否相等。
-     * 
+     *
      * @param a
      *     一个 {@link BigDecimal}。
      * @param b
@@ -43,7 +43,7 @@ public final class BigDecimalMx {
 
     /**
      * 修约一个 {@link BigDecimal}。
-     * 
+     *
      * @param value
      *     一个 {@link BigDecimal}。
      * @param scale

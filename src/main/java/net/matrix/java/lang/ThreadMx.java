@@ -39,7 +39,7 @@ public final class ThreadMx {
 
     /**
      * 使当前执行线程睡眠等待指定时间，时间单位为毫秒，已捕捉并处理中断异常。
-     * 
+     *
      * @param durationInMillis
      *     等待毫秒数。
      */
@@ -56,7 +56,7 @@ public final class ThreadMx {
 
     /**
      * 使当前执行线程睡眠等待指定时间，已捕捉并处理中断异常。
-     * 
+     *
      * @param duration
      *     等待时间数。
      * @param unit
@@ -75,7 +75,7 @@ public final class ThreadMx {
 
     /**
      * 使当前执行线程睡眠等待指定时间，已捕捉并处理中断异常。
-     * 
+     *
      * @param duration
      *     等待时间。
      */

@@ -24,7 +24,7 @@ public final class ListMx {
 
     /**
      * 获取列表中的第一个元素。
-     * 
+     *
      * @param list
      *     列表。
      * @return 第一个元素。
@@ -40,7 +40,7 @@ public final class ListMx {
 
     /**
      * 获取列表中的最后一个元素。
-     * 
+     *
      * @param list
      *     列表。
      * @return 最后一个元素。
@@ -56,7 +56,7 @@ public final class ListMx {
 
     /**
      * 获取列表中的一个元素。
-     * 
+     *
      * @param list
      *     列表。
      * @param index

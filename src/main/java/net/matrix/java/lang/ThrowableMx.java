@@ -32,7 +32,7 @@ public final class ThrowableMx {
 
     /**
      * 将检查异常转换为非检查异常。
-     * 
+     *
      * @param throwable
      *     异常。
      * @return 非检查异常。
@@ -50,7 +50,7 @@ public final class ThrowableMx {
 
     /**
      * 获取异常信息与根源异常信息的组合信息。
-     * 
+     *
      * @param throwable
      *     异常。
      * @return 组合的异常信息。
@@ -67,7 +67,7 @@ public final class ThrowableMx {
 
     /**
      * 判断异常是否由指定类型的原因异常引起。
-     * 
+     *
      * @param throwable
      *     异常。
      * @param causeTypes
@@ -84,7 +84,7 @@ public final class ThrowableMx {
 
     /**
      * 查找异常的指定类型的原因异常。
-     * 
+     *
      * @param throwable
      *     异常。
      * @param causeType

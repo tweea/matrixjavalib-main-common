@@ -28,7 +28,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code int} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@code int} 类型。
@@ -39,7 +39,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code int} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -56,7 +56,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code long} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@code long} 类型。
@@ -67,7 +67,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code long} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -84,7 +84,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code float} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@code float} 类型。
@@ -95,7 +95,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code float} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -112,7 +112,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code double} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@code double} 类型。
@@ -123,7 +123,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@code double} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -140,7 +140,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Integer} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@link Integer} 类型。
@@ -152,7 +152,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Integer} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -170,7 +170,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Long} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@link Long} 类型。
@@ -182,7 +182,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Long} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -200,7 +200,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Float} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@link Float} 类型。
@@ -212,7 +212,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Float} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -230,7 +230,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Double} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@link Double} 类型。
@@ -242,7 +242,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link Double} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -260,7 +260,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link BigInteger} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@link BigInteger} 类型。
@@ -272,7 +272,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link BigInteger} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -290,7 +290,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link BigDecimal} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @return {@link BigDecimal} 类型。
@@ -302,7 +302,7 @@ public final class NumberMx {
 
     /**
      * 解析字符串为 {@link BigDecimal} 类型。
-     * 
+     *
      * @param string
      *     字符串。
      * @param defaultValue
@@ -320,7 +320,7 @@ public final class NumberMx {
 
     /**
      * 将 {@link Integer} 类型 <code>null</code> 值转换为 0。
-     * 
+     *
      * @param value
      *     数值。
      * @return {@link Integer} 类型。
@@ -332,7 +332,7 @@ public final class NumberMx {
 
     /**
      * 将 {@link Long} 类型 <code>null</code> 值转换为 0。
-     * 
+     *
      * @param value
      *     数值。
      * @return {@link Long} 类型。
@@ -344,7 +344,7 @@ public final class NumberMx {
 
     /**
      * 将 {@link Float} 类型 <code>null</code> 值转换为 0。
-     * 
+     *
      * @param value
      *     数值。
      * @return {@link Float} 类型。
@@ -356,7 +356,7 @@ public final class NumberMx {
 
     /**
      * 将 {@link Double} 类型 <code>null</code> 值转换为 0。
-     * 
+     *
      * @param value
      *     数值。
      * @return {@link Double} 类型。
@@ -368,7 +368,7 @@ public final class NumberMx {
 
     /**
      * 将 {@link BigInteger} 类型 <code>null</code> 值转换为 0。
-     * 
+     *
      * @param value
      *     数值。
      * @return {@link BigInteger} 类型。
@@ -380,7 +380,7 @@ public final class NumberMx {
 
     /**
      * 将 {@link BigDecimal} 类型 <code>null</code> 值转换为 0。
-     * 
+     *
      * @param value
      *     数值。
      * @return {@link BigDecimal} 类型。

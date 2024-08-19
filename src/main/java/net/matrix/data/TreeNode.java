@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 public interface TreeNode<DATA> {
     /**
      * 获取节点承载的数据。
-     * 
+     *
      * @return 数据。
      */
     @Nonnull
@@ -23,7 +23,7 @@ public interface TreeNode<DATA> {
 
     /**
      * 设置节点承载的数据。
-     * 
+     *
      * @param data
      *     数据。
      */
@@ -31,7 +31,7 @@ public interface TreeNode<DATA> {
 
     /**
      * 获取上级节点。
-     * 
+     *
      * @return 上级节点。
      */
     @Nullable
@@ -39,7 +39,7 @@ public interface TreeNode<DATA> {
 
     /**
      * 设置上级节点。
-     * 
+     *
      * @param parent
      *     上级节点。
      */
@@ -54,7 +54,7 @@ public interface TreeNode<DATA> {
 
     /**
      * 获取下级节点列表。
-     * 
+     *
      * @return 下级节点列表。
      */
     @Nonnull

@@ -48,7 +48,7 @@ public final class LocaleMx {
     /**
      * 获取线程相关的特定功能分类的区域。
      * 初始为系统默认区域。
-     * 
+     *
      * @param category
      *     区域的功能分类。
      */
@@ -84,7 +84,7 @@ public final class LocaleMx {
     /**
      * 设置线程相关的特定功能分类的区域。
      * 参数为 <code>null</code> 时重置为系统默认区域。
-     * 
+     *
      * @param category
      *     区域的功能分类。
      */

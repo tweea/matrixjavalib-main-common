@@ -144,7 +144,7 @@ public class XMLConfigurationContainer
 
     /**
      * 构建配置对象构建器参数。
-     * 
+     *
      * @return 配置对象构建器参数。
      */
     protected XMLBuilderParameters buildConfigBuilderParameters() {
@@ -158,7 +158,7 @@ public class XMLConfigurationContainer
     /**
      * 在解析配置内容时是否禁用分隔符。如果使用分隔符，配置内容中包含分隔符的内容会被解析为数组，否则解析为单个值。
      * 默认实现为使用分隔符。
-     * 
+     *
      * @return 是否禁用分隔符。
      */
     protected boolean isDelimiterParsingDisabled() {
@@ -168,7 +168,7 @@ public class XMLConfigurationContainer
     /**
      * 在解析配置内容时使用的分隔符。
      * 默认实现为英文逗号。
-     * 
+     *
      * @return 分隔符。
      */
     protected char getDelimiter() {

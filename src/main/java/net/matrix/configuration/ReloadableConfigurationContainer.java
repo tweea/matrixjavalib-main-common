@@ -13,7 +13,7 @@ import net.matrix.lang.Resettable;
 
 /**
  * 配置对象容器，用于从指定资源加载内容形成配置对象，支持重新加载。
- * 
+ *
  * @param <CONFIG>
  *     配置对象。
  */
@@ -21,7 +21,7 @@ public interface ReloadableConfigurationContainer<CONFIG>
     extends Resettable {
     /**
      * 从资源加载配置。
-     * 
+     *
      * @param resource
      *     资源。
      * @throws ConfigurationException
@@ -32,7 +32,7 @@ public interface ReloadableConfigurationContainer<CONFIG>
 
     /**
      * 重新加载配置。
-     * 
+     *
      * @throws ConfigurationException
      *     加载失败。
      */
@@ -51,7 +51,7 @@ public interface ReloadableConfigurationContainer<CONFIG>
 
     /**
      * 获取配置对象。
-     * 
+     *
      * @return 配置对象。
      * @throws ConfigurationException
      *     获取失败。

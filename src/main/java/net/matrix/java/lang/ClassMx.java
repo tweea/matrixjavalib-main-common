@@ -26,13 +26,13 @@ public final class ClassMx {
      * 获取类中声明的父类泛型参数数量。
      * 如无法找到，返回 0。
      * 如：
-     * 
+     *
      * <pre>
      * public UserDao extends HibernateDao&lt;User&gt;
-     * 
+     *
      * getParameterizedTypeNumber(UserDao.class) == 1
      * </pre>
-     * 
+     *
      * @param clazz
      *     类。
      * @return 父类泛型参数数量。
@@ -52,14 +52,14 @@ public final class ClassMx {
      * 如无法找到，返回 <code>null</code>。
      * 如无法判断，返回 Object.class。
      * 如：
-     * 
+     *
      * <pre>
      * public UserDao extends HibernateDao&lt;User, Long&gt;
-     * 
+     *
      * getParameterizedType(UserDao.class, 0) == User.class
      * getParameterizedType(UserDao.class, 1) == Long.class
      * </pre>
-     * 
+     *
      * @param clazz
      *     类。
      * @param index

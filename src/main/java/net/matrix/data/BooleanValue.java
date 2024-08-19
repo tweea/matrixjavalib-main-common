@@ -43,7 +43,7 @@ public class BooleanValue<V> {
 
     /**
      * 构造器。
-     * 
+     *
      * @param trueValue
      *     表示真的值。
      * @param falseValue
@@ -55,7 +55,7 @@ public class BooleanValue<V> {
 
     /**
      * 构造器。
-     * 
+     *
      * @param trueValue
      *     表示真的值。
      * @param falseValue
@@ -71,7 +71,7 @@ public class BooleanValue<V> {
 
     /**
      * 获取表示真的值。
-     * 
+     *
      * @return 表示真的值。
      */
     @Nonnull
@@ -81,7 +81,7 @@ public class BooleanValue<V> {
 
     /**
      * 获取表示假的值。
-     * 
+     *
      * @return 表示假的值。
      */
     @Nonnull
@@ -91,7 +91,7 @@ public class BooleanValue<V> {
 
     /**
      * 获取表示 <code>null</code> 的值。
-     * 
+     *
      * @return 表示 <code>null</code> 的值。
      */
     @Nullable
@@ -101,7 +101,7 @@ public class BooleanValue<V> {
 
     /**
      * 判断参数值是否等于表示真的值。
-     * 
+     *
      * @param value
      *     参数值。
      * @return 是否等于。
@@ -112,7 +112,7 @@ public class BooleanValue<V> {
 
     /**
      * 判断参数值是否等于表示真的值或 <code>null</code> 或表示 <code>null</code> 的值。
-     * 
+     *
      * @param value
      *     参数值。
      * @return 是否等于。
@@ -123,7 +123,7 @@ public class BooleanValue<V> {
 
     /**
      * 判断参数值是否等于表示假的值。
-     * 
+     *
      * @param value
      *     参数值。
      * @return 是否等于。
@@ -134,7 +134,7 @@ public class BooleanValue<V> {
 
     /**
      * 判断参数值是否等于表示假的值或 <code>null</code> 或表示 <code>null</code> 的值。
-     * 
+     *
      * @param value
      *     参数值。
      * @return 是否等于。
@@ -145,7 +145,7 @@ public class BooleanValue<V> {
 
     /**
      * 转换值类型为布尔类型。
-     * 
+     *
      * @param value
      *     值类型。
      * @return 布尔类型。
@@ -166,7 +166,7 @@ public class BooleanValue<V> {
 
     /**
      * 转换布尔类型为值类型。
-     * 
+     *
      * @param value
      *     布尔类型。
      * @return 值类型。

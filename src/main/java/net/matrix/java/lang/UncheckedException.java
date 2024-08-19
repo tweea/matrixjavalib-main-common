@@ -20,7 +20,7 @@ public class UncheckedException
 
     /**
      * 使用指定原因异常构造异常，详细信息指定为 <code>cause.toString()</code> （特别地指定原因异常的类和详细信息）。
-     * 
+     *
      * @param cause
      *     原因异常（使用 {@link #getCause()} 方法获取）。
      */
@@ -32,7 +32,7 @@ public class UncheckedException
     /**
      * 使用指定详细信息和原因异常构造异常。<br>
      * 注意与 <code>cause</code> 关联的详细信息<i>不会</i>自动出现在本异常的详细信息中。
-     * 
+     *
      * @param message
      *     详细信息。详细信息可以通过 {@link #getMessage()} 方法获取。
      * @param cause

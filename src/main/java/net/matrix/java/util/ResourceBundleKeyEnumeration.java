@@ -42,7 +42,7 @@ public class ResourceBundleKeyEnumeration
 
     /**
      * 构造器。
-     * 
+     *
      * @param set
      *     本级键值集合。
      * @param parent

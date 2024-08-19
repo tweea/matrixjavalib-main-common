@@ -24,7 +24,7 @@ public class EnumerationIterable<E>
 
     /**
      * 构造器。
-     * 
+     *
      * @param enumeration
      *     被转换的 {@link Enumeration}。
      */

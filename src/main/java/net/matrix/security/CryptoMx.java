@@ -68,7 +68,7 @@ public final class CryptoMx {
     // 随机数生成器算法
     /**
      * 获取随机数生成器算法实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 随机数生成器算法实例。
@@ -87,7 +87,7 @@ public final class CryptoMx {
 
     /**
      * 获取随机数生成器算法实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 随机数生成器算法实例。
@@ -99,7 +99,7 @@ public final class CryptoMx {
 
     /**
      * 生成随机数。
-     * 
+     *
      * @param randomData
      *     随机数。
      * @param secureRandom
@@ -111,7 +111,7 @@ public final class CryptoMx {
 
     /**
      * 生成随机数。
-     * 
+     *
      * @param length
      *     随机数长度。
      * @param secureRandom
@@ -128,7 +128,7 @@ public final class CryptoMx {
     // 摘要算法
     /**
      * 获取摘要算法实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 摘要算法实例。
@@ -144,7 +144,7 @@ public final class CryptoMx {
 
     /**
      * 获取摘要算法实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 摘要算法实例。
@@ -156,7 +156,7 @@ public final class CryptoMx {
 
     /**
      * 更新摘要。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param digest
@@ -168,7 +168,7 @@ public final class CryptoMx {
 
     /**
      * 计算摘要。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param digest
@@ -183,7 +183,7 @@ public final class CryptoMx {
 
     /**
      * 计算摘要。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param saltData
@@ -201,7 +201,7 @@ public final class CryptoMx {
 
     /**
      * 更新摘要。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param digest
@@ -220,7 +220,7 @@ public final class CryptoMx {
 
     /**
      * 计算摘要。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param digest
@@ -238,7 +238,7 @@ public final class CryptoMx {
 
     /**
      * 计算摘要。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param saltData
@@ -260,7 +260,7 @@ public final class CryptoMx {
     // 加密算法
     /**
      * 获取加密算法参数生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 加密算法参数生成器实例。
@@ -276,7 +276,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法参数生成器实例。
-     * 
+     *
      * @param algorithmParameterGenerator
      *     加密算法参数生成器实例。
      * @param size
@@ -288,7 +288,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法参数生成器实例。
-     * 
+     *
      * @param algorithmParameterGenerator
      *     加密算法参数生成器实例。
      * @param size
@@ -303,7 +303,7 @@ public final class CryptoMx {
 
     /**
      * 生成加密算法参数实例。
-     * 
+     *
      * @param algorithmParameterGenerator
      *     加密算法参数生成器实例。
      * @return 加密算法参数实例。
@@ -315,7 +315,7 @@ public final class CryptoMx {
 
     /**
      * 获取加密算法参数实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 加密算法参数实例。
@@ -331,7 +331,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法参数实例。
-     * 
+     *
      * @param algorithmParameter
      *     加密算法参数实例。
      * @param paramData
@@ -347,7 +347,7 @@ public final class CryptoMx {
 
     /**
      * 获取加密算法参数。
-     * 
+     *
      * @param algorithmParameter
      *     加密算法参数实例。
      * @return
@@ -364,7 +364,7 @@ public final class CryptoMx {
 
     /**
      * 获取加密算法实例。
-     * 
+     *
      * @param transformation
      *     算法变种名称。
      * @return 加密算法实例。
@@ -380,7 +380,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例加密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -396,7 +396,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例加密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -414,7 +414,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例加密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -432,7 +432,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例加密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -453,7 +453,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例解密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -469,7 +469,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例解密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -487,7 +487,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例解密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -505,7 +505,7 @@ public final class CryptoMx {
 
     /**
      * 初始化加密算法实例解密秘钥。
-     * 
+     *
      * @param cipher
      *     加密算法实例。
      * @param key
@@ -526,7 +526,7 @@ public final class CryptoMx {
 
     /**
      * 加密。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param cipher
@@ -544,7 +544,7 @@ public final class CryptoMx {
 
     /**
      * 加密。
-     * 
+     *
      * @param plainData
      *     明文。
      * @param cipherData
@@ -577,7 +577,7 @@ public final class CryptoMx {
 
     /**
      * 解密。
-     * 
+     *
      * @param cipherData
      *     密文。
      * @param cipher
@@ -595,7 +595,7 @@ public final class CryptoMx {
 
     /**
      * 解密。
-     * 
+     *
      * @param cipherData
      *     密文。
      * @param plainData
@@ -629,7 +629,7 @@ public final class CryptoMx {
     // 对称加密算法
     /**
      * 获取加密算法参数生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 加密算法参数生成器实例。
@@ -666,7 +666,7 @@ public final class CryptoMx {
 
         /**
          * 构造加密算法参数生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 加密算法参数生成器实例构建器。
@@ -680,7 +680,7 @@ public final class CryptoMx {
 
         /**
          * 构造加密算法参数生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 加密算法参数生成器实例构建器。
@@ -694,7 +694,7 @@ public final class CryptoMx {
 
         /**
          * 设置参数长度。
-         * 
+         *
          * @param size
          *     参数长度。
          * @return 加密算法参数生成器实例构建器。
@@ -707,7 +707,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 加密算法参数生成器实例构建器。
@@ -720,7 +720,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 加密算法参数生成器实例构建器。
@@ -733,7 +733,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 加密算法参数生成器实例构建器。
@@ -746,7 +746,7 @@ public final class CryptoMx {
 
         /**
          * 构建加密算法参数生成器实例。
-         * 
+         *
          * @return 加密算法参数生成器实例。
          */
         @Nonnull
@@ -768,7 +768,7 @@ public final class CryptoMx {
 
     /**
      * 获取加密算法参数实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 加密算法参数实例。
@@ -800,7 +800,7 @@ public final class CryptoMx {
 
         /**
          * 构造加密算法参数实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 加密算法参数实例构建器。
@@ -814,7 +814,7 @@ public final class CryptoMx {
 
         /**
          * 构造加密算法参数实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 加密算法参数实例构建器。
@@ -828,7 +828,7 @@ public final class CryptoMx {
 
         /**
          * 设置参数。
-         * 
+         *
          * @param paramData
          *     参数。
          * @return 加密算法参数实例构建器。
@@ -841,7 +841,7 @@ public final class CryptoMx {
 
         /**
          * 构建加密算法参数实例。
-         * 
+         *
          * @return 加密算法参数实例。
          */
         @Nonnull
@@ -853,7 +853,7 @@ public final class CryptoMx {
 
     /**
      * 获取对称加密算法秘钥生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 秘钥生成器实例。
@@ -869,7 +869,7 @@ public final class CryptoMx {
 
     /**
      * 获取对称加密算法秘钥生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 秘钥生成器实例。
@@ -881,7 +881,7 @@ public final class CryptoMx {
 
     /**
      * 初始化秘钥生成器实例。
-     * 
+     *
      * @param keyGenerator
      *     秘钥生成器实例。
      * @param keySize
@@ -893,7 +893,7 @@ public final class CryptoMx {
 
     /**
      * 初始化秘钥生成器实例。
-     * 
+     *
      * @param keyGenerator
      *     秘钥生成器实例。
      * @param secureRandom
@@ -905,7 +905,7 @@ public final class CryptoMx {
 
     /**
      * 初始化秘钥生成器实例。
-     * 
+     *
      * @param keyGenerator
      *     秘钥生成器实例。
      * @param keySize
@@ -944,7 +944,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥生成器实例构建器。
@@ -958,7 +958,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
@@ -972,7 +972,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥长度。
-         * 
+         *
          * @param keySize
          *     秘钥长度。
          * @return 秘钥生成器实例构建器。
@@ -985,7 +985,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥生成器实例构建器。
@@ -998,7 +998,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
@@ -1011,7 +1011,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 秘钥生成器实例构建器。
@@ -1024,7 +1024,7 @@ public final class CryptoMx {
 
         /**
          * 构建秘钥生成器实例。
-         * 
+         *
          * @return 秘钥生成器实例。
          */
         @Nonnull
@@ -1046,7 +1046,7 @@ public final class CryptoMx {
 
     /**
      * 生成对称加密算法秘钥实例。
-     * 
+     *
      * @param keyGenerator
      *     秘钥生成器实例。
      * @return 秘钥实例。
@@ -1058,7 +1058,7 @@ public final class CryptoMx {
 
     /**
      * 获取对称加密算法秘钥实例。
-     * 
+     *
      * @param keyData
      *     秘钥。
      * @param algorithm
@@ -1072,7 +1072,7 @@ public final class CryptoMx {
 
     /**
      * 获取对称加密算法秘钥实例。
-     * 
+     *
      * @param keyData
      *     秘钥。
      * @param algorithm
@@ -1086,7 +1086,7 @@ public final class CryptoMx {
 
     /**
      * 获取对称加密算法实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 加密算法实例。
@@ -1128,7 +1128,7 @@ public final class CryptoMx {
 
         /**
          * 构造对称加密算法实例构建器。
-         * 
+         *
          * @param transformation
          *     算法变种名称。
          * @return 对称加密算法实例构建器。
@@ -1142,7 +1142,7 @@ public final class CryptoMx {
 
         /**
          * 构造对称加密算法实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 对称加密算法实例构建器。
@@ -1156,7 +1156,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥。
-         * 
+         *
          * @param keyData
          *     秘钥。
          * @param algorithm
@@ -1171,7 +1171,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥。
-         * 
+         *
          * @param keyData
          *     秘钥。
          * @param algorithm
@@ -1186,7 +1186,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥。
-         * 
+         *
          * @param key
          *     秘钥。
          * @return 对称加密算法实例构建器。
@@ -1199,7 +1199,7 @@ public final class CryptoMx {
 
         /**
          * 设置加密算法参数。
-         * 
+         *
          * @param algorithmParameter
          *     加密算法参数。
          * @return 对称加密算法实例构建器。
@@ -1212,7 +1212,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 对称加密算法实例构建器。
@@ -1225,7 +1225,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 对称加密算法实例构建器。
@@ -1238,7 +1238,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 对称加密算法实例构建器。
@@ -1251,7 +1251,7 @@ public final class CryptoMx {
 
         /**
          * 构建对称加密算法实例。
-         * 
+         *
          * @return 对称加密算法实例。
          */
         @Nonnull
@@ -1274,7 +1274,7 @@ public final class CryptoMx {
 
         /**
          * 构建对称加密算法实例。
-         * 
+         *
          * @return 对称加密算法实例。
          */
         @Nonnull
@@ -1299,7 +1299,7 @@ public final class CryptoMx {
     // 消息认证码算法
     /**
      * 获取对称加密算法秘钥生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 秘钥生成器实例。
@@ -1336,7 +1336,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥生成器实例构建器。
@@ -1350,7 +1350,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
@@ -1364,7 +1364,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥长度。
-         * 
+         *
          * @param keySize
          *     秘钥长度。
          * @return 秘钥生成器实例构建器。
@@ -1377,7 +1377,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥生成器实例构建器。
@@ -1390,7 +1390,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥生成器实例构建器。
@@ -1403,7 +1403,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 秘钥生成器实例构建器。
@@ -1416,7 +1416,7 @@ public final class CryptoMx {
 
         /**
          * 构建秘钥生成器实例。
-         * 
+         *
          * @return 秘钥生成器实例。
          */
         @Nonnull
@@ -1438,7 +1438,7 @@ public final class CryptoMx {
 
     /**
      * 获取对称加密算法秘钥实例。
-     * 
+     *
      * @param keyData
      *     秘钥。
      * @param algorithm
@@ -1452,7 +1452,7 @@ public final class CryptoMx {
 
     /**
      * 获取消息认证码算法实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 消息认证码算法实例。
@@ -1468,7 +1468,7 @@ public final class CryptoMx {
 
     /**
      * 获取消息认证码算法实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 消息认证码算法实例。
@@ -1480,7 +1480,7 @@ public final class CryptoMx {
 
     /**
      * 初始化消息认证码算法实例秘钥。
-     * 
+     *
      * @param mac
      *     消息认证码算法实例。
      * @param key
@@ -1516,7 +1516,7 @@ public final class CryptoMx {
 
         /**
          * 构造消息认证码算法实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 消息认证码算法实例构建器。
@@ -1530,7 +1530,7 @@ public final class CryptoMx {
 
         /**
          * 构造消息认证码算法实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 消息认证码算法实例构建器。
@@ -1544,7 +1544,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥。
-         * 
+         *
          * @param keyData
          *     秘钥。
          * @param algorithm
@@ -1559,7 +1559,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥。
-         * 
+         *
          * @param keyData
          *     秘钥。
          * @param algorithm
@@ -1574,7 +1574,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥。
-         * 
+         *
          * @param key
          *     秘钥。
          * @return 消息认证码算法实例构建器。
@@ -1587,7 +1587,7 @@ public final class CryptoMx {
 
         /**
          * 构建消息认证码算法实例。
-         * 
+         *
          * @return 消息认证码算法实例。
          */
         @Nonnull
@@ -1599,7 +1599,7 @@ public final class CryptoMx {
 
     /**
      * 生成消息认证码。
-     * 
+     *
      * @param plainData
      *     数据。
      * @param mac
@@ -1614,7 +1614,7 @@ public final class CryptoMx {
 
     /**
      * 生成消息认证码。
-     * 
+     *
      * @param plainData
      *     数据。
      * @param mac
@@ -1636,7 +1636,7 @@ public final class CryptoMx {
 
     /**
      * 验证消息认证码。
-     * 
+     *
      * @param plainData
      *     数据。
      * @param signData
@@ -1652,7 +1652,7 @@ public final class CryptoMx {
 
     /**
      * 验证消息认证码。
-     * 
+     *
      * @param plainData
      *     数据。
      * @param signData
@@ -1672,7 +1672,7 @@ public final class CryptoMx {
     // 非对称加密算法
     /**
      * 获取非对称加密算法秘钥对生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 秘钥对生成器实例。
@@ -1688,7 +1688,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法秘钥对生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 秘钥对生成器实例。
@@ -1700,7 +1700,7 @@ public final class CryptoMx {
 
     /**
      * 初始化秘钥对生成器实例。
-     * 
+     *
      * @param keyPairGenerator
      *     秘钥对生成器实例。
      * @param keySize
@@ -1712,7 +1712,7 @@ public final class CryptoMx {
 
     /**
      * 初始化秘钥对生成器实例。
-     * 
+     *
      * @param keyPairGenerator
      *     秘钥对生成器实例。
      * @param keySize
@@ -1751,7 +1751,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥对生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
@@ -1765,7 +1765,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥对生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
@@ -1779,7 +1779,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥长度。
-         * 
+         *
          * @param keySize
          *     秘钥长度。
          * @return 秘钥对生成器实例构建器。
@@ -1792,7 +1792,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
@@ -1805,7 +1805,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
@@ -1818,7 +1818,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 秘钥对生成器实例构建器。
@@ -1831,7 +1831,7 @@ public final class CryptoMx {
 
         /**
          * 构建秘钥对生成器实例。
-         * 
+         *
          * @return 秘钥对生成器实例。
          */
         @Nonnull
@@ -1853,7 +1853,7 @@ public final class CryptoMx {
 
     /**
      * 生成非对称加密算法秘钥对实例。
-     * 
+     *
      * @param keyPairGenerator
      *     秘钥对生成器实例。
      * @return 秘钥对实例。
@@ -1865,7 +1865,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法秘钥工厂实例。
-     * 
+     *
      * @param algorithm
      *     算法名称。
      * @return 秘钥工厂实例。
@@ -1881,7 +1881,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法秘钥工厂实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 秘钥工厂实例。
@@ -1893,7 +1893,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法私钥实例。
-     * 
+     *
      * @param keyData
      *     私钥。
      * @param algorithm
@@ -1913,7 +1913,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法私钥实例。
-     * 
+     *
      * @param keyData
      *     私钥。
      * @param algorithm
@@ -1933,7 +1933,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法公钥实例。
-     * 
+     *
      * @param keyData
      *     公钥。
      * @param algorithm
@@ -1953,7 +1953,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法公钥实例。
-     * 
+     *
      * @param keyData
      *     公钥。
      * @param algorithm
@@ -1973,7 +1973,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 加密算法实例。
@@ -2010,7 +2010,7 @@ public final class CryptoMx {
 
         /**
          * 构造非对称加密算法实例构建器。
-         * 
+         *
          * @param transformation
          *     算法变种名称。
          * @return 非对称加密算法实例构建器。
@@ -2024,7 +2024,7 @@ public final class CryptoMx {
 
         /**
          * 构造非对称加密算法实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 非对称加密算法实例构建器。
@@ -2038,7 +2038,7 @@ public final class CryptoMx {
 
         /**
          * 设置私钥。
-         * 
+         *
          * @param keyData
          *     私钥。
          * @param algorithm
@@ -2053,7 +2053,7 @@ public final class CryptoMx {
 
         /**
          * 设置私钥。
-         * 
+         *
          * @param keyData
          *     私钥。
          * @param algorithm
@@ -2068,7 +2068,7 @@ public final class CryptoMx {
 
         /**
          * 设置私钥。
-         * 
+         *
          * @param key
          *     私钥。
          * @return 非对称加密算法实例构建器。
@@ -2081,7 +2081,7 @@ public final class CryptoMx {
 
         /**
          * 设置公钥。
-         * 
+         *
          * @param keyData
          *     公钥。
          * @param algorithm
@@ -2096,7 +2096,7 @@ public final class CryptoMx {
 
         /**
          * 设置公钥。
-         * 
+         *
          * @param keyData
          *     公钥。
          * @param algorithm
@@ -2111,7 +2111,7 @@ public final class CryptoMx {
 
         /**
          * 设置公钥。
-         * 
+         *
          * @param key
          *     公钥。
          * @return 非对称加密算法实例构建器。
@@ -2124,7 +2124,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 非对称加密算法实例构建器。
@@ -2137,7 +2137,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 非对称加密算法实例构建器。
@@ -2150,7 +2150,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 非对称加密算法实例构建器。
@@ -2163,7 +2163,7 @@ public final class CryptoMx {
 
         /**
          * 构建非对称加密算法实例。
-         * 
+         *
          * @return 非对称加密算法实例。
          */
         @Nonnull
@@ -2178,7 +2178,7 @@ public final class CryptoMx {
 
         /**
          * 构建非对称加密算法实例。
-         * 
+         *
          * @return 非对称加密算法实例。
          */
         @Nonnull
@@ -2195,7 +2195,7 @@ public final class CryptoMx {
     // 签名算法
     /**
      * 获取非对称加密算法秘钥对生成器实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 秘钥对生成器实例。
@@ -2232,7 +2232,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥对生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
@@ -2246,7 +2246,7 @@ public final class CryptoMx {
 
         /**
          * 构造秘钥对生成器实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
@@ -2260,7 +2260,7 @@ public final class CryptoMx {
 
         /**
          * 设置秘钥长度。
-         * 
+         *
          * @param keySize
          *     秘钥长度。
          * @return 秘钥对生成器实例构建器。
@@ -2273,7 +2273,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 秘钥对生成器实例构建器。
@@ -2286,7 +2286,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 秘钥对生成器实例构建器。
@@ -2299,7 +2299,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 秘钥对生成器实例构建器。
@@ -2312,7 +2312,7 @@ public final class CryptoMx {
 
         /**
          * 构建秘钥对生成器实例。
-         * 
+         *
          * @return 秘钥对生成器实例。
          */
         @Nonnull
@@ -2334,7 +2334,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法秘钥工厂实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 秘钥工厂实例。
@@ -2346,7 +2346,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法私钥实例。
-     * 
+     *
      * @param keyData
      *     私钥。
      * @param algorithm
@@ -2366,7 +2366,7 @@ public final class CryptoMx {
 
     /**
      * 获取非对称加密算法公钥实例。
-     * 
+     *
      * @param keyData
      *     公钥。
      * @param algorithm
@@ -2386,7 +2386,7 @@ public final class CryptoMx {
 
     /**
      * 获取签名算法实例。
-     * 
+     *
      * @param signAlgorithm
      *     签名算法名称。
      * @return 签名算法实例。
@@ -2402,7 +2402,7 @@ public final class CryptoMx {
 
     /**
      * 获取签名算法实例。
-     * 
+     *
      * @param algorithm
      *     算法枚举值。
      * @return 签名算法实例。
@@ -2439,7 +2439,7 @@ public final class CryptoMx {
 
         /**
          * 构造签名算法实例构建器。
-         * 
+         *
          * @param signAlgorithm
          *     签名算法名称。
          * @return 签名算法实例构建器。
@@ -2453,7 +2453,7 @@ public final class CryptoMx {
 
         /**
          * 构造签名算法实例构建器。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 签名算法实例构建器。
@@ -2467,7 +2467,7 @@ public final class CryptoMx {
 
         /**
          * 设置私钥。
-         * 
+         *
          * @param keyData
          *     私钥。
          * @param algorithm
@@ -2482,7 +2482,7 @@ public final class CryptoMx {
 
         /**
          * 设置私钥。
-         * 
+         *
          * @param keyData
          *     私钥。
          * @param algorithm
@@ -2497,7 +2497,7 @@ public final class CryptoMx {
 
         /**
          * 设置私钥。
-         * 
+         *
          * @param key
          *     私钥。
          * @return 签名算法实例构建器。
@@ -2510,7 +2510,7 @@ public final class CryptoMx {
 
         /**
          * 设置公钥。
-         * 
+         *
          * @param keyData
          *     公钥。
          * @param algorithm
@@ -2525,7 +2525,7 @@ public final class CryptoMx {
 
         /**
          * 设置公钥。
-         * 
+         *
          * @param keyData
          *     公钥。
          * @param algorithm
@@ -2540,7 +2540,7 @@ public final class CryptoMx {
 
         /**
          * 设置公钥。
-         * 
+         *
          * @param key
          *     公钥。
          * @return 签名算法实例构建器。
@@ -2553,7 +2553,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法名称。
          * @return 签名算法实例构建器。
@@ -2566,7 +2566,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param algorithm
          *     算法枚举值。
          * @return 签名算法实例构建器。
@@ -2579,7 +2579,7 @@ public final class CryptoMx {
 
         /**
          * 设置随机数生成器算法实例。
-         * 
+         *
          * @param secureRandom
          *     随机数生成器算法实例。
          * @return 签名算法实例构建器。
@@ -2592,7 +2592,7 @@ public final class CryptoMx {
 
         /**
          * 构建签名算法实例。
-         * 
+         *
          * @return 签名算法实例。
          */
         @Nonnull
@@ -2615,7 +2615,7 @@ public final class CryptoMx {
 
         /**
          * 构建签名算法实例。
-         * 
+         *
          * @return 签名算法实例。
          */
         @Nonnull
@@ -2635,7 +2635,7 @@ public final class CryptoMx {
 
     /**
      * 生成签名。
-     * 
+     *
      * @param plainData
      *     数据。
      * @param signature
@@ -2654,7 +2654,7 @@ public final class CryptoMx {
 
     /**
      * 验证签名。
-     * 
+     *
      * @param plainData
      *     数据。
      * @param signData

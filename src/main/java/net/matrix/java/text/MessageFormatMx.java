@@ -38,7 +38,7 @@ public final class MessageFormatMx {
 
     /**
      * 格式化消息。
-     * 
+     *
      * @param pattern
      *     消息格式。
      * @param arguments
@@ -58,7 +58,7 @@ public final class MessageFormatMx {
 
     /**
      * 格式化消息。
-     * 
+     *
      * @param pattern
      *     消息格式。
      * @param locale
@@ -80,7 +80,7 @@ public final class MessageFormatMx {
 
     /**
      * 格式化失败后，使用一般形式格式化消息。
-     * 
+     *
      * @param pattern
      *     消息格式。
      * @param arguments

@@ -26,7 +26,7 @@ public final class EnumMx {
 
     /**
      * 从枚举值集合构造 {@link Map} 形式映射关系，一个键对应一个值。
-     * 
+     *
      * @param enumClass
      *     枚举类型。
      * @param keyFunction
@@ -46,7 +46,7 @@ public final class EnumMx {
 
     /**
      * 判断枚举值是否与任意参数枚举值相等。
-     * 
+     *
      * @param value
      *     枚举值。
      * @param searchValues

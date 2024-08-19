@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 public interface TreeData<ID, DATA extends TreeData<ID, DATA>> {
     /**
      * 获取数据的唯一标识。
-     * 
+     *
      * @return 唯一标识。
      */
     @Nonnull
@@ -23,7 +23,7 @@ public interface TreeData<ID, DATA extends TreeData<ID, DATA>> {
 
     /**
      * 获取上级数据的唯一标识。
-     * 
+     *
      * @return 唯一标识。
      */
     @Nullable
@@ -38,7 +38,7 @@ public interface TreeData<ID, DATA extends TreeData<ID, DATA>> {
 
     /**
      * 获取下级数据列表。
-     * 
+     *
      * @return 下级数据列表。
      */
     @Nonnull

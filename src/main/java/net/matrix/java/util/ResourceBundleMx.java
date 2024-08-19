@@ -60,7 +60,7 @@ public final class ResourceBundleMx {
 
     /**
      * 使用系统默认区域和调用方类加载器加载资源。
-     * 
+     *
      * @param baseName
      *     资源基础名称。
      * @return 资源。
@@ -87,7 +87,7 @@ public final class ResourceBundleMx {
 
     /**
      * 使用调用方类加载器加载资源。
-     * 
+     *
      * @param baseName
      *     资源基础名称。
      * @param locale
@@ -116,7 +116,7 @@ public final class ResourceBundleMx {
 
     /**
      * 加载资源。
-     * 
+     *
      * @param baseName
      *     资源基础名称。
      * @param locale
@@ -147,7 +147,7 @@ public final class ResourceBundleMx {
 
     /**
      * 从资源中获取对象，如果失败返回 <code>null</code>。
-     * 
+     *
      * @param bundle
      *     资源。
      * @param key
@@ -161,7 +161,7 @@ public final class ResourceBundleMx {
 
     /**
      * 从资源中获取对象，如果失败返回默认对象。
-     * 
+     *
      * @param bundle
      *     资源。
      * @param key

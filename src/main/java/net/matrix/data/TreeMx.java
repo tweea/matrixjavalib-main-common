@@ -27,7 +27,7 @@ public final class TreeMx {
 
     /**
      * 构造树型结构。
-     * 
+     *
      * @param datas
      *     数据列表。
      * @param idFunction
@@ -62,7 +62,7 @@ public final class TreeMx {
 
     /**
      * 构造树型结构。
-     * 
+     *
      * @param datas
      *     数据列表。
      * @return 树型结构的数据列表。
@@ -74,7 +74,7 @@ public final class TreeMx {
 
     /**
      * 从数据源生成树型结构。
-     * 
+     *
      * @param source
      *     数据源。
      * @param childFunction
@@ -92,7 +92,7 @@ public final class TreeMx {
 
     /**
      * 从数据源生成树型结构的下级节点。
-     * 
+     *
      * @param source
      *     数据源。
      * @param childFunction
@@ -110,7 +110,7 @@ public final class TreeMx {
 
     /**
      * 从数据源生成树型结构。
-     * 
+     *
      * @param source
      *     数据源。
      * @return 生成的树型结构。

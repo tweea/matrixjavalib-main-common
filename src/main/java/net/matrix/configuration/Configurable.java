@@ -14,7 +14,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 public interface Configurable<CONFIG> {
     /**
      * 使用配置对象进行配置。
-     * 
+     *
      * @param config
      *     配置对象。
      * @throws ConfigurationException

@@ -24,7 +24,7 @@ import javax.annotation.concurrent.Immutable;
 
 /**
  * 读取 XML 格式属性内容的 {@link ResourceBundle} 实现。
- * 
+ *
  * @see Properties#loadFromXML(InputStream)
  */
 @Immutable
@@ -38,7 +38,7 @@ public class XMLPropertyResourceBundle
 
     /**
      * 从输入流读取属性内容。
-     * 
+     *
      * @param stream
      *     输入流。
      * @throws IOException

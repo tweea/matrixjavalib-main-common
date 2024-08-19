@@ -27,7 +27,7 @@ public final class ConfigurationMx {
 
     /**
      * 从配置对象内容构造 {@link Map} 形式映射关系。
-     * 
+     *
      * @param config
      *     配置对象。
      * @return 映射关系。

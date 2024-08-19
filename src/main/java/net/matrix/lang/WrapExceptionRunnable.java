@@ -37,7 +37,7 @@ public class WrapExceptionRunnable
 
     /**
      * 包装构造器。
-     * 
+     *
      * @param runnable
      *     被包装的 {@link Runnable}。
      */

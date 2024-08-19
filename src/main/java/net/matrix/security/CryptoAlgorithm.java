@@ -38,7 +38,7 @@ public class CryptoAlgorithm {
 
         /**
          * 算法名称转换为枚举值。
-         * 
+         *
          * @param code
          *     算法名称。
          * @return 枚举值。
@@ -79,7 +79,7 @@ public class CryptoAlgorithm {
 
         /**
          * 算法名称转换为枚举值。
-         * 
+         *
          * @param code
          *     算法名称。
          * @return 枚举值。
@@ -172,7 +172,7 @@ public class CryptoAlgorithm {
 
         /**
          * 算法变种名称转换为枚举值。
-         * 
+         *
          * @param code
          *     算法变种名称。
          * @return 枚举值。
@@ -213,7 +213,7 @@ public class CryptoAlgorithm {
 
         /**
          * 算法名称转换为枚举值。
-         * 
+         *
          * @param code
          *     算法名称。
          * @return 枚举值。
@@ -256,7 +256,7 @@ public class CryptoAlgorithm {
 
         /**
          * 算法变种名称转换为枚举值。
-         * 
+         *
          * @param code
          *     算法变种名称。
          * @return 枚举值。
@@ -324,7 +324,7 @@ public class CryptoAlgorithm {
 
         /**
          * 签名算法名称转换为枚举值。
-         * 
+         *
          * @param code
          *     签名算法名称。
          * @return 枚举值。

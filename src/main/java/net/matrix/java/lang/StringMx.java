@@ -29,7 +29,7 @@ public final class StringMx {
 
     /**
      * 判断两个字符串是否相等，将 <code>null</code>、空字符串视为相等。
-     * 
+     *
      * @param text1
      *     字符串一。
      * @param text2
@@ -46,7 +46,7 @@ public final class StringMx {
 
     /**
      * 判断两个字符串是否相等，将 <code>null</code>、空字符串、空白字符视为相等。
-     * 
+     *
      * @param text1
      *     字符串一。
      * @param text2
@@ -63,7 +63,7 @@ public final class StringMx {
 
     /**
      * 将字符串 <code>null</code> 值转换为空字符串。
-     * 
+     *
      * @param text
      *     字符串。
      * @return 字符串。
@@ -75,7 +75,7 @@ public final class StringMx {
 
     /**
      * 在字符串中替换 {@link Map} 中的所有字符串键值对组合。
-     * 
+     *
      * @param text
      *     替换前的字符串
      * @param replacementMap
@@ -104,7 +104,7 @@ public final class StringMx {
 
     /**
      * 在字符串中替换 {@link Map} 中的所有字符串键值对组合。
-     * 
+     *
      * @param text
      *     替换前的字符串
      * @param replacementMap
@@ -135,7 +135,7 @@ public final class StringMx {
      * 拼接对象集合为字符串，每个对象的前面加入前缀，后面加入后缀，两个对象间加入分隔符。
      * 如：
      * {mymessage},{youmessage}
-     * 
+     *
      * @param items
      *     对象集合。
      * @param prefix

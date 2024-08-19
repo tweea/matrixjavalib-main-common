@@ -56,7 +56,7 @@ public class SeparatedStringList
 
     /**
      * 构造器，使用默认的分隔符，字符串列表从完整字符串分隔获取。
-     * 
+     *
      * @param wholeString
      *     完整字符串。
      */
@@ -66,7 +66,7 @@ public class SeparatedStringList
 
     /**
      * 构造器，使用指定的分隔符，字符串列表从完整字符串分隔获取。
-     * 
+     *
      * @param wholeString
      *     完整字符串。
      * @param delimiter
@@ -78,7 +78,7 @@ public class SeparatedStringList
 
     /**
      * 构造器，使用默认的分隔符，字符串列表从字符串数组获取。
-     * 
+     *
      * @param separatedStrings
      *     字符串数组。
      */
@@ -88,7 +88,7 @@ public class SeparatedStringList
 
     /**
      * 构造器，使用指定的分隔符，字符串列表从字符串数组获取。
-     * 
+     *
      * @param separatedStrings
      *     字符串数组。
      * @param delimiter
@@ -104,7 +104,7 @@ public class SeparatedStringList
 
     /**
      * 构造器，使用默认的分隔符，字符串列表从字符串列表获取。
-     * 
+     *
      * @param separatedStrings
      *     字符串列表。
      */
@@ -114,7 +114,7 @@ public class SeparatedStringList
 
     /**
      * 构造器，使用指定的分隔符，字符串列表从字符串列表获取。
-     * 
+     *
      * @param separatedStrings
      *     字符串列表。
      * @param delimiter
@@ -130,7 +130,7 @@ public class SeparatedStringList
 
     /**
      * 获取分隔符。
-     * 
+     *
      * @return 分隔符。
      */
     @Nonnull
@@ -140,7 +140,7 @@ public class SeparatedStringList
 
     /**
      * 设置分隔符。
-     * 
+     *
      * @param delimiter
      *     分隔符。
      */

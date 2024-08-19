@@ -23,7 +23,7 @@ public class PatternPool {
 
     /**
      * 获取 {@link Pattern} 对象。
-     * 
+     *
      * @param regex
      *     正则表达式。
      * @return {@link Pattern} 对象。

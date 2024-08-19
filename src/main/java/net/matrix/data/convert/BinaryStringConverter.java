@@ -138,7 +138,7 @@ public interface BinaryStringConverter {
 
     /**
      * 字节数组转换为字符串。
-     * 
+     *
      * @param binary
      *     字节数组。
      * @return 字符串。
@@ -148,7 +148,7 @@ public interface BinaryStringConverter {
 
     /**
      * 字符串转换为字节数组。
-     * 
+     *
      * @param string
      *     字符串。
      * @return 字节数组。

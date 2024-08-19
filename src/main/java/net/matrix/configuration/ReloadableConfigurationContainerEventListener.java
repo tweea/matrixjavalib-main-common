@@ -25,7 +25,7 @@ public class ReloadableConfigurationContainerEventListener
 
     /**
      * 构造器，使用指定配置对象容器。
-     * 
+     *
      * @param container
      *     配置对象容器。
      */
