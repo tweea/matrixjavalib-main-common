@@ -4,6 +4,7 @@
  */
 package net.matrix.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -28,7 +29,9 @@ import org.apache.commons.lang3.StringUtils;
  * 由多个字符串组成的列表，可以使用分隔符连接成一个完整字符串。默认的分隔符是英文逗号“,”。
  */
 public class SeparatedStringList
-    implements List<String>, RandomAccess {
+    implements List<String>, RandomAccess, Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 默认的分隔符。
      */

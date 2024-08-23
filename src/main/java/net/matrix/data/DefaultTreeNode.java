@@ -4,7 +4,6 @@
  */
 package net.matrix.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +14,7 @@ import javax.annotation.Nullable;
  * 树型结构中的节点的默认实现。
  */
 public class DefaultTreeNode<DATA>
-    implements Serializable, TreeNode<DATA> {
-    private static final long serialVersionUID = 1L;
-
+    implements TreeNode<DATA> {
     /**
      * 节点承载的数据。
      */
