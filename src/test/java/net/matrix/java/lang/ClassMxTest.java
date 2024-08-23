@@ -21,7 +21,7 @@ class ClassMxTest {
 
     @Test
     void testGetParameterizedTypeNumber() {
-        assertThat(ClassMx.getParameterizedTypeNumber(A.class)).isEqualTo(0);
+        assertThat(ClassMx.getParameterizedTypeNumber(A.class)).isZero();
 
         assertThat(ClassMx.getParameterizedTypeNumber(B.class)).isEqualTo(2);
     }

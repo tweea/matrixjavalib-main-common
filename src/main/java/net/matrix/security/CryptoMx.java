@@ -642,7 +642,7 @@ public final class CryptoMx {
     /**
      * 对称加密算法参数生成器实例构建器。
      */
-    public static class SymmetricAlgorithmParameterGeneratorBuilder {
+    public static final class SymmetricAlgorithmParameterGeneratorBuilder {
         /**
          * 加密算法参数生成器实例。
          */
@@ -781,7 +781,7 @@ public final class CryptoMx {
     /**
      * 对称加密算法参数实例构建器。
      */
-    public static class SymmetricAlgorithmParameterBuilder {
+    public static final class SymmetricAlgorithmParameterBuilder {
         /**
          * 加密算法参数实例。
          */
@@ -920,7 +920,7 @@ public final class CryptoMx {
     /**
      * 秘钥生成器实例构建器。
      */
-    public static class SymmetricKeyGeneratorBuilder {
+    public static final class SymmetricKeyGeneratorBuilder {
         /**
          * 秘钥生成器实例。
          */
@@ -1099,7 +1099,7 @@ public final class CryptoMx {
     /**
      * 对称加密算法实例构建器。
      */
-    public static class SymmetricCipherBuilder {
+    public static final class SymmetricCipherBuilder {
         /**
          * 加密算法实例。
          */
@@ -1312,7 +1312,7 @@ public final class CryptoMx {
     /**
      * 秘钥生成器实例构建器。
      */
-    public static class MacKeyGeneratorBuilder {
+    public static final class MacKeyGeneratorBuilder {
         /**
          * 秘钥生成器实例。
          */
@@ -1497,7 +1497,7 @@ public final class CryptoMx {
     /**
      * 消息认证码算法实例构建器。
      */
-    public static class MacBuilder {
+    public static final class MacBuilder {
         /**
          * 消息认证码算法实例。
          */
@@ -1727,7 +1727,7 @@ public final class CryptoMx {
     /**
      * 秘钥对生成器实例构建器。
      */
-    public static class AsymmetricKeyPairGeneratorBuilder {
+    public static final class AsymmetricKeyPairGeneratorBuilder {
         /**
          * 秘钥对生成器实例。
          */
@@ -1986,7 +1986,7 @@ public final class CryptoMx {
     /**
      * 非对称加密算法实例构建器。
      */
-    public static class AsymmetricCipherBuilder {
+    public static final class AsymmetricCipherBuilder {
         /**
          * 加密算法实例。
          */
@@ -2069,13 +2069,13 @@ public final class CryptoMx {
         /**
          * 设置私钥。
          *
-         * @param key
+         * @param privateKey
          *     私钥。
          * @return 非对称加密算法实例构建器。
          */
         @Nonnull
-        public AsymmetricCipherBuilder setPrivateKey(@Nonnull PrivateKey key) {
-            this.key = key;
+        public AsymmetricCipherBuilder setPrivateKey(@Nonnull PrivateKey privateKey) {
+            this.key = privateKey;
             return this;
         }
 
@@ -2112,13 +2112,13 @@ public final class CryptoMx {
         /**
          * 设置公钥。
          *
-         * @param key
+         * @param publicKey
          *     公钥。
          * @return 非对称加密算法实例构建器。
          */
         @Nonnull
-        public AsymmetricCipherBuilder setPublicKey(@Nonnull PublicKey key) {
-            this.key = key;
+        public AsymmetricCipherBuilder setPublicKey(@Nonnull PublicKey publicKey) {
+            this.key = publicKey;
             return this;
         }
 
@@ -2208,7 +2208,7 @@ public final class CryptoMx {
     /**
      * 秘钥对生成器实例构建器。
      */
-    public static class SignKeyPairGeneratorBuilder {
+    public static final class SignKeyPairGeneratorBuilder {
         /**
          * 秘钥对生成器实例。
          */
@@ -2415,7 +2415,7 @@ public final class CryptoMx {
     /**
      * 签名算法实例构建器。
      */
-    public static class SignatureBuilder {
+    public static final class SignatureBuilder {
         /**
          * 签名算法实例。
          */
@@ -2498,13 +2498,13 @@ public final class CryptoMx {
         /**
          * 设置私钥。
          *
-         * @param key
+         * @param privateKey
          *     私钥。
          * @return 签名算法实例构建器。
          */
         @Nonnull
-        public SignatureBuilder setPrivateKey(@Nonnull PrivateKey key) {
-            this.key = key;
+        public SignatureBuilder setPrivateKey(@Nonnull PrivateKey privateKey) {
+            this.key = privateKey;
             return this;
         }
 
@@ -2541,13 +2541,13 @@ public final class CryptoMx {
         /**
          * 设置公钥。
          *
-         * @param key
+         * @param publicKey
          *     公钥。
          * @return 签名算法实例构建器。
          */
         @Nonnull
-        public SignatureBuilder setPublicKey(@Nonnull PublicKey key) {
-            this.key = key;
+        public SignatureBuilder setPublicKey(@Nonnull PublicKey publicKey) {
+            this.key = publicKey;
             return this;
         }
 

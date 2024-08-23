@@ -30,7 +30,7 @@ class StringMxTest {
 
     @Test
     void testEmptyIfNull() {
-        assertThat(StringMx.emptyIfNull(null)).isEqualTo("");
+        assertThat(StringMx.emptyIfNull(null)).isEmpty();
         assertThat(StringMx.emptyIfNull("5")).isEqualTo("5");
     }
 
@@ -40,7 +40,7 @@ class StringMxTest {
 
         replacementMap.put("a", "b");
         assertThat(StringMx.replaceEach(null, replacementMap)).isNull();
-        assertThat(StringMx.replaceEach("", replacementMap)).isEqualTo("");
+        assertThat(StringMx.replaceEach("", replacementMap)).isEmpty();
 
         replacementMap.clear();
         assertThat(StringMx.replaceEach("aba", null)).isEqualTo("aba");
@@ -75,7 +75,7 @@ class StringMxTest {
 
         replacementMap.put("a", "b");
         assertThat(StringMx.replaceEachRepeatedly(null, replacementMap)).isNull();
-        assertThat(StringMx.replaceEachRepeatedly("", replacementMap)).isEqualTo("");
+        assertThat(StringMx.replaceEachRepeatedly("", replacementMap)).isEmpty();
 
         replacementMap.clear();
         assertThat(StringMx.replaceEachRepeatedly("aba", null)).isEqualTo("aba");

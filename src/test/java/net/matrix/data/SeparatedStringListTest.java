@@ -24,7 +24,7 @@ class SeparatedStringListTest {
         SeparatedStringList list = new SeparatedStringList("a,bc,d");
         assertThat(list.getDelimiter()).isEqualTo(SeparatedStringList.DEFAULT_DELIMITER);
         assertThat(list).hasSize(3);
-        assertThat(list.toString()).isEqualTo("a,bc,d");
+        assertThat(list).hasToString("a,bc,d");
     }
 
     @Test
@@ -32,7 +32,7 @@ class SeparatedStringListTest {
         SeparatedStringList list = new SeparatedStringList("a=bc=d", "=");
         assertThat(list.getDelimiter()).isEqualTo("=");
         assertThat(list).hasSize(3);
-        assertThat(list.toString()).isEqualTo("a=bc=d");
+        assertThat(list).hasToString("a=bc=d");
     }
 
     @Test
@@ -42,7 +42,7 @@ class SeparatedStringListTest {
         });
         assertThat(list.getDelimiter()).isEqualTo(SeparatedStringList.DEFAULT_DELIMITER);
         assertThat(list).hasSize(3);
-        assertThat(list.toString()).isEqualTo("a,bc,d");
+        assertThat(list).hasToString("a,bc,d");
     }
 
     @Test
@@ -52,7 +52,7 @@ class SeparatedStringListTest {
         }, "+");
         assertThat(list.getDelimiter()).isEqualTo("+");
         assertThat(list).hasSize(3);
-        assertThat(list.toString()).isEqualTo("a+bc+d");
+        assertThat(list).hasToString("a+bc+d");
     }
 
     @Test
@@ -60,7 +60,7 @@ class SeparatedStringListTest {
         SeparatedStringList list = new SeparatedStringList(Arrays.asList("a", "bc", "d"));
         assertThat(list.getDelimiter()).isEqualTo(SeparatedStringList.DEFAULT_DELIMITER);
         assertThat(list).hasSize(3);
-        assertThat(list.toString()).isEqualTo("a,bc,d");
+        assertThat(list).hasToString("a,bc,d");
     }
 
     @Test
@@ -68,7 +68,7 @@ class SeparatedStringListTest {
         SeparatedStringList list = new SeparatedStringList(Arrays.asList("a", "bc", "d"), "-");
         assertThat(list.getDelimiter()).isEqualTo("-");
         assertThat(list).hasSize(3);
-        assertThat(list.toString()).isEqualTo("a-bc-d");
+        assertThat(list).hasToString("a-bc-d");
     }
 
     @Test
@@ -76,6 +76,6 @@ class SeparatedStringListTest {
         SeparatedStringList list = new SeparatedStringList(Arrays.asList("a", "bc", "d"), "-").subList(0, 2);
         assertThat(list.getDelimiter()).isEqualTo("-");
         assertThat(list).hasSize(2);
-        assertThat(list.toString()).isEqualTo("a-bc");
+        assertThat(list).hasToString("a-bc");
     }
 }

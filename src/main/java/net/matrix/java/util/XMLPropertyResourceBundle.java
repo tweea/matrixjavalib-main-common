@@ -84,7 +84,7 @@ public class XMLPropertyResourceBundle
          */
         public static final Control INSTANCE = new Control();
 
-        private Control() {
+        protected Control() {
         }
 
         @Override

@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ThreadLocalMapTest {
     @Test
-    void test()
+    void testPut()
         throws InterruptedException {
         Map<String, String> map = new ThreadLocalMap<>();
 
@@ -25,8 +25,8 @@ class ThreadLocalMapTest {
         });
         thread.start();
         ThreadUtils.join(thread, Duration.ofSeconds(1));
-        assertThat(map.size()).isEqualTo(1);
-        assertThat(map.isEmpty()).isFalse();
+        assertThat(map).hasSize(1);
+        assertThat(map).isNotEmpty();
         assertThat(map.containsKey("a")).isTrue();
         assertThat(map.containsKey("b")).isFalse();
         assertThat(map.containsValue("x")).isTrue();

@@ -94,7 +94,7 @@ public final class StringMx {
 
         int index = -1;
         for (Map.Entry<String, String> replacementEntry : replacementMap.entrySet()) {
-            index++;
+            ++index;
             searchList[index] = replacementEntry.getKey();
             replacementList[index] = replacementEntry.getValue();
         }
@@ -123,7 +123,7 @@ public final class StringMx {
 
         int index = -1;
         for (Map.Entry<String, String> replacementEntry : replacementMap.entrySet()) {
-            index++;
+            ++index;
             searchList[index] = replacementEntry.getKey();
             replacementList[index] = replacementEntry.getValue();
         }

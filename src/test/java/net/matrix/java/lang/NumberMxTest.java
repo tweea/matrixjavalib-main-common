@@ -14,8 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class NumberMxTest {
     @Test
     void testToInt() {
-        assertThat(NumberMx.toInt(null)).isEqualTo(0);
-        assertThat(NumberMx.toInt("  \n")).isEqualTo(0);
+        assertThat(NumberMx.toInt(null)).isZero();
+        assertThat(NumberMx.toInt("  \n")).isZero();
         assertThat(NumberMx.toInt("5")).isEqualTo(5);
     }
 
@@ -28,8 +28,8 @@ class NumberMxTest {
 
     @Test
     void testToLong() {
-        assertThat(NumberMx.toLong(null)).isEqualTo(0);
-        assertThat(NumberMx.toLong("  \n")).isEqualTo(0);
+        assertThat(NumberMx.toLong(null)).isZero();
+        assertThat(NumberMx.toLong("  \n")).isZero();
         assertThat(NumberMx.toLong("5")).isEqualTo(5);
     }
 
@@ -42,8 +42,8 @@ class NumberMxTest {
 
     @Test
     void testToFloat() {
-        assertThat(NumberMx.toFloat(null)).isEqualTo(0);
-        assertThat(NumberMx.toFloat("  \n")).isEqualTo(0);
+        assertThat(NumberMx.toFloat(null)).isZero();
+        assertThat(NumberMx.toFloat("  \n")).isZero();
         assertThat(NumberMx.toFloat("5")).isEqualTo(5);
     }
 
@@ -56,8 +56,8 @@ class NumberMxTest {
 
     @Test
     void testToDouble() {
-        assertThat(NumberMx.toDouble(null)).isEqualTo(0);
-        assertThat(NumberMx.toDouble("  \n")).isEqualTo(0);
+        assertThat(NumberMx.toDouble(null)).isZero();
+        assertThat(NumberMx.toDouble("  \n")).isZero();
         assertThat(NumberMx.toDouble("5")).isEqualTo(5);
     }
 
@@ -154,25 +154,25 @@ class NumberMxTest {
 
     @Test
     void testZeroIfNull_Integer() {
-        assertThat(NumberMx.zeroIfNull((Integer) null)).isEqualTo(0);
+        assertThat(NumberMx.zeroIfNull((Integer) null)).isZero();
         assertThat(NumberMx.zeroIfNull(5)).isEqualTo(5);
     }
 
     @Test
     void testZeroIfNull_Long() {
-        assertThat(NumberMx.zeroIfNull((Long) null)).isEqualTo(0);
+        assertThat(NumberMx.zeroIfNull((Long) null)).isZero();
         assertThat(NumberMx.zeroIfNull(5L)).isEqualTo(5);
     }
 
     @Test
     void testZeroIfNull_Float() {
-        assertThat(NumberMx.zeroIfNull((Float) null)).isEqualTo(0);
+        assertThat(NumberMx.zeroIfNull((Float) null)).isZero();
         assertThat(NumberMx.zeroIfNull(5F)).isEqualTo(5);
     }
 
     @Test
     void testZeroIfNull_Double() {
-        assertThat(NumberMx.zeroIfNull((Double) null)).isEqualTo(0);
+        assertThat(NumberMx.zeroIfNull((Double) null)).isZero();
         assertThat(NumberMx.zeroIfNull(5D)).isEqualTo(5);
     }
 
