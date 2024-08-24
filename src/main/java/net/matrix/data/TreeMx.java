@@ -68,7 +68,7 @@ public final class TreeMx {
      * @return 树型结构的数据列表。
      */
     @Nonnull
-    public static <ID, DATA extends TreeData<ID, DATA>> List<DATA> buildTree(@Nonnull List<DATA> datas) {
+    public static <DATA extends TreeData<?, DATA>> List<DATA> buildTree(@Nonnull List<DATA> datas) {
         return buildTree(datas, DATA::getId, DATA::getParentId, DATA::getChildren);
     }
 
@@ -116,7 +116,7 @@ public final class TreeMx {
      * @return 生成的树型结构。
      */
     @Nonnull
-    public static <ID, DATA extends TreeData<ID, DATA>> List<DATA> generateTree(@Nonnull TreeSource<DATA> source) {
+    public static <DATA extends TreeData<?, DATA>> List<DATA> generateTree(@Nonnull TreeSource<DATA> source) {
         return generateTree(source, DATA::getChildren);
     }
 }

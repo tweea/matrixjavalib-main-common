@@ -18,18 +18,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class ReflectionMxTest {
+    static class FieldV {
+        boolean v;
+
+        @Override
+        public String toString() {
+            return Boolean.toString(v);
+        }
+    }
+
     @Test
     void testMakeAccessible_field()
         throws ReflectiveOperationException {
-        Class targetType = (new Object() {
-            boolean v;
-
-            @Override
-            public String toString() {
-                return Boolean.toString(v);
-            }
-        }).getClass();
-        Field field = targetType.getDeclaredField("v");
+        Field field = FieldV.class.getDeclaredField("v");
 
         assertThat(ReflectionMx.isAccessible(field)).isFalse();
         ReflectionMx.makeAccessible(field);
@@ -102,22 +103,23 @@ class ReflectionMxTest {
         assertThat(ReflectionMx.isAccessible(constructor)).isTrue();
     }
 
+    static class MethodV {
+        boolean v;
+
+        boolean v() {
+            return v;
+        }
+
+        @Override
+        public String toString() {
+            return Boolean.toString(v());
+        }
+    }
+
     @Test
     void testMakeAccessible_method()
         throws ReflectiveOperationException {
-        Class targetType = (new Object() {
-            boolean v;
-
-            boolean v() {
-                return v;
-            }
-
-            @Override
-            public String toString() {
-                return Boolean.toString(v());
-            }
-        }).getClass();
-        Method method = targetType.getDeclaredMethod("v");
+        Method method = MethodV.class.getDeclaredMethod("v");
 
         assertThat(ReflectionMx.isAccessible(method)).isFalse();
         ReflectionMx.makeAccessible(method);

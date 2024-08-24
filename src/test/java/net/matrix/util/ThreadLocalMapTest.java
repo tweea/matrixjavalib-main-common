@@ -27,10 +27,10 @@ class ThreadLocalMapTest {
         ThreadUtils.join(thread, Duration.ofSeconds(1));
         assertThat(map).hasSize(1);
         assertThat(map).isNotEmpty();
-        assertThat(map.containsKey("a")).isTrue();
-        assertThat(map.containsKey("b")).isFalse();
-        assertThat(map.containsValue("x")).isTrue();
-        assertThat(map.containsValue("y")).isFalse();
-        assertThat(map.get("a")).isEqualTo("x");
+        assertThat(map).containsKey("a");
+        assertThat(map).doesNotContainKey("b");
+        assertThat(map).containsValue("x");
+        assertThat(map).doesNotContainValue("y");
+        assertThat(map).containsEntry("a", "x");
     }
 }
