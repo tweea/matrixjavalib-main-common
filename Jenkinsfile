@@ -17,7 +17,7 @@ pipeline {
 		stage('Compile') {
 			agent {
 				docker {
-					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-11'
+					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-17'
 					args "$DOCKER_HOSTS"
 					reuseNode true
 				}
@@ -29,7 +29,7 @@ pipeline {
 		stage('Test') {
 			agent {
 				docker {
-					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-11'
+					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-17'
 					args "$DOCKER_HOSTS"
 					reuseNode true
 				}
@@ -59,7 +59,7 @@ pipeline {
 		stage('Publish') {
 			agent {
 				docker {
-					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-11'
+					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-17'
 					args "$DOCKER_HOSTS"
 					reuseNode true
 				}
