@@ -4,7 +4,7 @@
 
     <!-- 基本属性 - 项目属性 -->
     <artifactId>mxlib-common-java11</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
 
     <!-- 基本属性 - 属性 -->
@@ -175,6 +175,6 @@
         <connection>scm:git:https://github.com/tweea/matrixjavalib-main-common.git</connection>
         <developerConnection>scm:git:https://github.com/tweea/matrixjavalib-main-common.git</developerConnection>
         <url>https://github.com/tweea/matrixjavalib-main-common</url>
-        <tag>HEAD</tag>
+        <tag>mxlib-common-java11-3.0.0</tag>
     </scm>
 </project>
