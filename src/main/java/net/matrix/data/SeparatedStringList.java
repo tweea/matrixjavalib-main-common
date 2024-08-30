@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
@@ -299,11 +298,6 @@ public class SeparatedStringList
     @Override
     public Spliterator<String> spliterator() {
         return strings.spliterator();
-    }
-
-    @Override
-    public <T> T[] toArray(IntFunction<T[]> generator) {
-        return strings.toArray(generator);
     }
 
     @Override
