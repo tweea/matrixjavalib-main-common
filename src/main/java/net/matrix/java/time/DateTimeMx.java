@@ -104,11 +104,11 @@ public final class DateTimeMx {
         if (object instanceof Long) {
             return Instant.ofEpochMilli((long) object);
         }
-        if (object instanceof Date) {
-            return ((Date) object).toInstant();
+        if (object instanceof Date date) {
+            return date.toInstant();
         }
-        if (object instanceof Calendar) {
-            return ((Calendar) object).toInstant();
+        if (object instanceof Calendar calendar) {
+            return calendar.toInstant();
         }
 
         throw new UnsupportedOperationException();
@@ -184,17 +184,17 @@ public final class DateTimeMx {
     }
 
     private static Instant toInstant(Object object, ZoneId zoneId) {
-        if (object instanceof Instant) {
-            return (Instant) object;
+        if (object instanceof Instant instant) {
+            return instant;
         }
-        if (object instanceof LocalDate) {
-            return ((LocalDate) object).atStartOfDay(zoneId).toInstant();
+        if (object instanceof LocalDate localDate) {
+            return localDate.atStartOfDay(zoneId).toInstant();
         }
-        if (object instanceof LocalTime) {
-            return ((LocalTime) object).atDate(LocalDate.now()).atZone(zoneId).toInstant();
+        if (object instanceof LocalTime localTime) {
+            return localTime.atDate(LocalDate.now()).atZone(zoneId).toInstant();
         }
-        if (object instanceof LocalDateTime) {
-            return ((LocalDateTime) object).atZone(zoneId).toInstant();
+        if (object instanceof LocalDateTime localDateTime) {
+            return localDateTime.atZone(zoneId).toInstant();
         }
 
         throw new UnsupportedOperationException();

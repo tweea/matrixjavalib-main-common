@@ -39,11 +39,11 @@ public final class ThrowableMx {
      */
     @Nonnull
     public static RuntimeException wrap(@Nonnull Throwable throwable) {
-        if (throwable instanceof Error) {
-            throw (Error) throwable;
+        if (throwable instanceof Error error) {
+            throw error;
         }
-        if (throwable instanceof RuntimeException) {
-            return (RuntimeException) throwable;
+        if (throwable instanceof RuntimeException runtimeException) {
+            return runtimeException;
         }
         return new UndeclaredThrowableException(throwable);
     }

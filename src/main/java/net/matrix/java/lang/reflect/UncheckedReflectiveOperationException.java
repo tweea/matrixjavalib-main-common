@@ -45,8 +45,8 @@ public class UncheckedReflectiveOperationException
 
     @Override
     protected Throwable getInitCause(Throwable cause) {
-        if (cause instanceof InvocationTargetException) {
-            return ((InvocationTargetException) cause).getTargetException();
+        if (cause instanceof InvocationTargetException invocationTargetException) {
+            return invocationTargetException.getTargetException();
         }
         return cause;
     }

@@ -54,14 +54,11 @@ public final class LocaleMx {
      */
     @Nonnull
     public static Locale current(@Nonnull Locale.Category category) {
-        switch (category) {
-        case DISPLAY:
-            return CURRENT_DISPLAY_HOLDER.get();
-        case FORMAT:
-            return CURRENT_FORMAT_HOLDER.get();
-        default:
-            throw new UnsupportedOperationException();
-        }
+        return switch (category) {
+        case DISPLAY -> CURRENT_DISPLAY_HOLDER.get();
+        case FORMAT -> CURRENT_FORMAT_HOLDER.get();
+        default -> throw new UnsupportedOperationException();
+        };
     }
 
     /**
