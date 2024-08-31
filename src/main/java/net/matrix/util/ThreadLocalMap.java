@@ -146,4 +146,9 @@ public class ThreadLocalMap<K, V>
     public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
         return internal.get().merge(key, value, remappingFunction);
     }
+
+    @Override
+    public String toString() {
+        return internal.get().toString();
+    }
 }

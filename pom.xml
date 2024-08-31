@@ -4,7 +4,7 @@
 
     <!-- 基本属性 - 项目属性 -->
     <artifactId>mxlib-common-java11</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <!-- 基本属性 - 属性 -->
