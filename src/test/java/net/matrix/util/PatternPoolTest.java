@@ -23,6 +23,17 @@ class PatternPoolTest {
     }
 
     @Test
+    void testOf_flags() {
+        String regex = "a+";
+        PatternPool pool = new PatternPool();
+
+        Pattern pattern = pool.of(regex, Pattern.CASE_INSENSITIVE);
+        assertThat(pool.of(regex, Pattern.CASE_INSENSITIVE)).isSameAs(pattern);
+        assertThat(pattern.matcher("AaA").matches()).isTrue();
+        assertThat(pattern.matcher("AaB").matches()).isFalse();
+    }
+
+    @Test
     void testClear() {
         String regex = "a+";
         PatternPool pool = new PatternPool();
