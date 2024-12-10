@@ -40,7 +40,7 @@ pipeline {
 		}
 		stage('Dependency-Check') {
 			steps {
-				sh "docker run --rm -i $DOCKER_HOSTS -v $WORKSPACE:/src:z -v $AGENT_CACHE/OWASP-Dependency-Check:/usr/share/dependency-check/data:z -u $AGENT_USER_ID nexus.tweea.net.cn:8003/owasp/dependency-check --scan /src --out /src --format XML --format HTML --format JSON --noupdate --disableOssIndex"
+				sh "docker run --rm -i $DOCKER_HOSTS -v $WORKSPACE:/src:z -v $AGENT_CACHE/OWASP-Dependency-Check:/usr/share/dependency-check/data:z -u $AGENT_USER_ID nexus.tweea.net.cn:8003/owasp/dependency-check --scan /src --out /src --format XML --format HTML --format JSON --noupdate --disableOssIndex --disableCentral"
 				dependencyCheckPublisher pattern: ''
 			}
 		}
