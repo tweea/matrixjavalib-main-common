@@ -17,7 +17,7 @@ pipeline {
 		stage('Compile') {
 			agent {
 				docker {
-					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-17'
+					image 'nexus.tweea.net.cn/docker-public/maven:3.9-eclipse-temurin-17'
 					args "$DOCKER_HOSTS"
 					reuseNode true
 				}
@@ -29,7 +29,7 @@ pipeline {
 		stage('Test') {
 			agent {
 				docker {
-					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-17'
+					image 'nexus.tweea.net.cn/docker-public/maven:3.9-eclipse-temurin-17'
 					args "$DOCKER_HOSTS"
 					reuseNode true
 				}
@@ -40,14 +40,14 @@ pipeline {
 		}
 		stage('Dependency-Check') {
 			steps {
-				sh "docker run --rm -i $DOCKER_HOSTS -v $WORKSPACE:/src:z -v $AGENT_CACHE/OWASP-Dependency-Check:/usr/share/dependency-check/data:z -u $AGENT_USER_ID nexus.tweea.net.cn:8003/owasp/dependency-check --scan /src --out /src --format XML --format HTML --format JSON --noupdate --disableOssIndex --disableCentral"
+				sh "docker run --rm -i $DOCKER_HOSTS -v $WORKSPACE:/src:z -v $AGENT_CACHE/OWASP-Dependency-Check:/usr/share/dependency-check/data:z -u $AGENT_USER_ID nexus.tweea.net.cn/docker-public/owasp/dependency-check --scan /src --out /src --format XML --format HTML --format JSON --noupdate --disableOssIndex --disableCentral"
 				dependencyCheckPublisher pattern: ''
 			}
 		}
 		stage('SonarQube') {
 			agent {
 				docker {
-					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-17'
+					image 'nexus.tweea.net.cn/docker-public/maven:3.9-eclipse-temurin-17'
 					args "$DOCKER_HOSTS"
 					reuseNode true
 				}
@@ -59,7 +59,7 @@ pipeline {
 		stage('Publish') {
 			agent {
 				docker {
-					image 'nexus.tweea.net.cn:8003/maven:3.9-eclipse-temurin-17'
+					image 'nexus.tweea.net.cn/docker-public/maven:3.9-eclipse-temurin-17'
 					args "$DOCKER_HOSTS"
 					reuseNode true
 				}
